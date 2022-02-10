@@ -38,7 +38,10 @@
 ### Model/Backend External API
 
 * Goals
-
+    * tell the front-end where the turtle is
+    * throwing errors for erroneous code
+    * tell the front-end orientation of the turtle
+    * turtle leaving a trail?
 * Contract
 
 * Services
@@ -46,7 +49,7 @@
 ### View/Frontend External API
 
 * Goals
-
+    * 
 * Contract
 
 * Services
@@ -54,7 +57,8 @@
 ### Model/Backend Internal API
 
 * Goals
-
+    * allow turtle simulation to be run
+    * create steps to make each command be broken down into small frame adjustments
 * Contract
 
 * Services
@@ -62,7 +66,7 @@
 ### View/Frontend Internal API
 
 * Goals
-
+    * CSS
 * Contract
 
 * Services
@@ -76,14 +80,13 @@ This class's purpose or value is to represent a customer's order:
 
 This class's purpose or value is to represent a customer's order:
 
-|Order| |
-|---|---|
-|boolean isInStock(OrderLine)         |OrderLine|
-|double getTotalPrice(OrderLine)      |Customer|
-|boolean isValidPayment (Customer)    | |
-|void deliverTo (OrderLine, Customer) | |
+| Turtle                        | |
+|--------------------------------------|---|
+| void updatePosition()                ||
+| setColor()                           |Customer|
 
-This class's purpose or value is to represent a customer's order:
+
+This class's purpose or value is to represent the turtle:
 
 ```java
 public class Order {
@@ -114,6 +117,11 @@ public class Something {
   public Order makeOrder(String structuredData)
 }
 ```
+
+| Points                | |
+|-----------------------|---|
+| void updatePosition() ||
+| setColor()            |Customer|
 
 ### Frontend Design CRCs
 
@@ -165,11 +173,13 @@ public class Something {
 
 * The user types 'fd 50' in the command window, sees the turtle move in the display window leaving a
   trail, and has the command added to the environment's history.
-
+  
 * The user types '50 fd' in the command window and sees an error message that the command was not
   formatted correctly.
-
+    * Class: ErrorDisplay 
+    * Method: displayError(Exception e)
 * The user types 'pu fd 50 pd fd 50' in the command window and sees the turtle move twice (once
   without a trail and once with a trail).
-
+    
 * The user changes the color of the environment's background.
+  * 
