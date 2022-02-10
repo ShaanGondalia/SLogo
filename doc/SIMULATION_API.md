@@ -28,10 +28,16 @@ steps simulation
 
 * Goals
 
+Allow Simulation to be extended to create new kinds of simulations and features
+
 * Contract
+
+anything related to a specific cell takes in i, j parameters
 
 * Services
 
+steps simulation
+accessing next state
 
 
 ## Wish Simulation API
