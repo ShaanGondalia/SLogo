@@ -29,6 +29,7 @@ The View is able to get the cell informaiton, edit that information and get a co
 ### Internal
 
 * Identified Classes/Methods
+  * 
 
 int nextState(int i, int j);
 returns next state of cell
@@ -37,10 +38,12 @@ step();
 steps simulation
 
 * Goals
+  * 
 
 Allow Simulation to be extended to create new kinds of simulations and features
 
 * Contract
+  * 
 
 anything related to a specific cell takes in i, j parameters
 
@@ -48,7 +51,6 @@ anything related to a specific cell takes in i, j parameters
 
 steps simulation
 accessing next state
-
 
 ## Wish Simulation API
 
@@ -69,8 +71,19 @@ accessing next state
 
 ### Internal
 
-* Goals
+* Goals 
+  * Simulation
+    * No internal api. Calls internal api of grid and cells when step() is called.
+  * Cells
+    * Expose the state of the cell to the grid
+    * Update a cell given some collection of neighbors
+  * Grid
+    * Update all cells by finding their neighbors
 
 * Contract
+  * The cell update method will always take a collection of neighboring cells
+  * The grid update method takes no parameters
+  * Initial status of the grid is given in a constructor.
 
 * Services
+  * Allows cells and the grid (internal) to be updated. Provides metadata about the cells and the grid that may be served by the external api of the simulation.
