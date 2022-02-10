@@ -20,6 +20,12 @@
 
 * Identified Classes/Methods
 
+int nextState(int i, int j);
+returns next state of cell
+
+step();
+steps simulation
+
 * Goals
 
 * Contract
