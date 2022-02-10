@@ -182,4 +182,4 @@ public class Something {
   without a trail and once with a trail).
     
 * The user changes the color of the environment's background.
-  * 
+  *  
