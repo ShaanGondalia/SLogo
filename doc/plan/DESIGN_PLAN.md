@@ -72,12 +72,81 @@ Front-end class.
 
 ## Test Plan
 
+### Specific Testing Strategies
+
+#### Small Classes
+
+We will be using small classes to make testing the entire functionality of classes as simple as
+possible. For instance, we will have a separate class for each command (each of which only has 2
+public methods and a constructor). We can write JUnit tests for each of these classes to verify that
+their behavior matches the expected behavior.
+
+#### Throwing Exceptions
+
+Methods will never return null if they fail. Instead, they will always throw an exception. This
+helps with negative testing, as we can check that the correct exceptions are thrown whenever an
+error occurs.
+
+### Project Feature Test Scenarios
+
+#### Turtle Model Updating
+
+* Updating the position of the turtle (simple xy translation)
+    * Use setPose() command to set the Pose of the turtle
+    * Can check that the position of the turtle was updated correctly via getPose()
+* Updating the bearing of the turtle
+    * Use setPose() command to set the Pose of the turtle
+    * Can check that the orientation of the turtle was updated correctly via getPose()
+* Negative - Set the position of the turtle to a value that is too high
+    * Use setPose() command to set the Pose of the turtle
+    * Check to see that setPose() throws a correct error stating that the position was too large.
+
+#### Command Parsing
+
+* Creating a simple FD 50 command from text input
+    * Use buildCommandTree() to build a command tree for the input.
+    * Make sure that the Tree only has one command and that it has the correct type.
+* Create a chain of Commands (FD FD 50)
+    * Use buildCommandTree() to build a command tree for the input.
+    * Check the size and shape of the command tree by traversing the tree. Check the types of each
+      command.
+* Attempt to parse an incorrect input (50 FD)
+    * Use buildCommandTree() to build a command tree for the input.
+    * Verify that buildCommandTree() throws the correct exception for an incorrectly formatted
+      command.
+
+#### Command Execution
+
+* Execute a forward command on a turtle
+    * Create the command through a constructor.
+    * Check the return value of the command
+    * Check the state of the turtle before and after the command has been executed.
+* Execute a command with an incorrect parameter.
+    * Check that a command throws an exception if incorrect parameters are passed in to its
+      constructor.
+* Execute a chain of commands on a turtle
+    * Check the state of the turtle after each command is executed. Make sure that the returned
+      values match the expected results.
+
+#### Turtle View updating
+
+* Updating the position of the turtle (simple xy translation)
+    * Use setPose() command to set the Pose of the turtle
+    * Verify the JavaFX components of the turtle view have been changed correctly.
+* Updating the bearing of the turtle
+    * Use setPose() command to set the Pose of the turtle
+    * Verify the JavaFX components of the turtle view have been changed correctly.
+* Negative - Set the position of the turtle outside the window
+    * Use setPose() command to set the Pose of the turtle
+    * Make sure that the view throws an exception if the turtle moves outside the window (or
+      corrects it somehow).
+
 ## Team Responsibilities
 
-* Team Member #1
+* Andy - View.
 
-* Team Member #2
+* Zack - View.
 
-* Team Member #3
+* Jake - Model. Working on command parsing and building the input tree.
 
-* Team Member #4
+* Shaan - Model. Working on creating the commands and creating the turtle model.
