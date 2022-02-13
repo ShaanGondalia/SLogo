@@ -19,6 +19,23 @@ the interface between the model and view elements.
 
 TODO: Insert UML Diagram here
 
+
+## User Interface
+
+The interface will be separated into separate windows, all of which will show up upon
+initialization. Each of the windows will represent something, aka. Commands, Variables, and
+TurtleView just to start.
+
+The user will interact only with the CommandWindow, as to keep things simple. Colors will mostly be
+gray, black, and white for the command and variable windows, while the turtle window will be more
+colorful as necessitated by the specifications. Attached is a wireframe.
+
+Erroneous situations will be reported through JavaFX alerts, as again to keep things simple. Such
+situations include bad functions, by showing an alert, and these errors will be handled by an Errors
+Front-end class.
+
+## Design Details
+
 The four APIs that were created are:
 
 #### External Model
@@ -44,7 +61,7 @@ The four APIs that were created are:
     * The CommandInterface will be extended by specific types of commands (such as TurtleCommands,
       TurtleQueries, etc.).
     * The methods of the CommandInterface are closed for modifications. Each command needs an
-      execute and returnValue method.
+      execute() and returnValue() method.
     * The CommandInterface is open for extension, as any command that executes will extend the
       CommandInterface.
 
@@ -52,23 +69,19 @@ The four APIs that were created are:
 
 #### Internal View
 
-## User Interface
-
-The interface will be separated into separate windows, all of which will show up upon
-initialization. Each of the windows will represent something, aka. Commands, Variables, and
-TurtleView just to start.
-
-The user will interact only with the CommandWindow, as to keep things simple. Colors will mostly be
-gray, black, and white for the command and variable windows, while the turtle window will be more
-colorful as necessitated by the specifications. Attached is a wireframe.
-
-Erroneous situations will be reported through JavaFX alerts, as again to keep things simple. Such
-situations include bad functions, by showing an alert, and these errors will be handled by an Errors
-Front-end class.
-
-## Design Details
-
 ## Design Considerations
+
+### Model and View representations of the Turtle
+
+We discussed how we should separate the model and view representations of the turtles. The current solution is to have a TurtleModel and TurtleView. The TurtleModel is the object that commands directly update (as that should happen only in the model). THe View is updated whenever the model is updated, calling an external api that returns data about the model. The TurtleModel also contains information that is only really relavant to the view, such as the visibility of the turtle. This is necessary for our solution because the command PenDown must operate on the TurtleModel (back-end representation of the turtle), so that state must be stored in the model somewhere.
+
+An alternative to this solution would be to allow commands to operate directly on the TurtleView as well. This would allow the removal of certain view-specific instance variables from the model. Ultimately, we did not choose this option as it adds too much complexity and potentially violates the Model View separation princple (Commands are part of the model, they should not interact with the View directly).
+
+### When to update the view
+
+Our current solution does not use threading, so we need to explicitly figure out when the view gets updated. The current solution is to have the controller update the view after each command in the command tree is executed.
+
+An alternate solution would be to update the view in the commands themselves. Once again, we thought that this solution added too much complexity and violated the MVC architecture.
 
 ## Test Plan
 
