@@ -19,7 +19,6 @@ the interface between the model and view elements.
 
 TODO: Insert UML Diagram here
 
-
 ## User Interface
 
 The interface will be separated into separate windows, all of which will show up upon
@@ -73,15 +72,28 @@ The four APIs that were created are:
 
 ### Model and View representations of the Turtle
 
-We discussed how we should separate the model and view representations of the turtles. The current solution is to have a TurtleModel and TurtleView. The TurtleModel is the object that commands directly update (as that should happen only in the model). THe View is updated whenever the model is updated, calling an external api that returns data about the model. The TurtleModel also contains information that is only really relavant to the view, such as the visibility of the turtle. This is necessary for our solution because the command PenDown must operate on the TurtleModel (back-end representation of the turtle), so that state must be stored in the model somewhere.
+We discussed how we should separate the model and view representations of the turtles. The current
+solution is to have a TurtleModel and TurtleView. The TurtleModel is the object that commands
+directly update (as that should happen only in the model). THe View is updated whenever the model is
+updated, calling an external api that returns data about the model. The TurtleModel also contains
+information that is only really relevant to the view, such as the visibility of the turtle. This is
+necessary for our solution because the command PenDown must operate on the TurtleModel (back-end
+representation of the turtle), so that state must be stored in the model somewhere.
 
-An alternative to this solution would be to allow commands to operate directly on the TurtleView as well. This would allow the removal of certain view-specific instance variables from the model. Ultimately, we did not choose this option as it adds too much complexity and potentially violates the Model View separation princple (Commands are part of the model, they should not interact with the View directly).
+An alternative to this solution would be to allow commands to operate directly on the TurtleView as
+well. This would allow the removal of certain view-specific instance variables from the model.
+Ultimately, we did not choose this option as it adds too much complexity and potentially violates
+the Model View separation principle (Commands are part of the model, they should not interact with
+the View directly).
 
 ### When to update the view
 
-Our current solution does not use threading, so we need to explicitly figure out when the view gets updated. The current solution is to have the controller update the view after each command in the command tree is executed.
+Our current solution does not use threading, so we need to explicitly figure out when the view gets
+updated. The current solution is to have the controller update the view after each command in the
+command tree is executed.
 
-An alternate solution would be to update the view in the commands themselves. Once again, we thought that this solution added too much complexity and violated the MVC architecture.
+An alternate solution would be to update the view in the commands themselves. Once again, we thought
+that this solution added too much complexity and violated the MVC architecture.
 
 ## Test Plan
 
@@ -160,6 +172,8 @@ error occurs.
 
 * Zack - View.
 
-* Jake - Model. Working on command parsing and building the input tree.
+* Jake - Model and Controller. Working on command parsing and building the input tree based on text
+  input
 
-* Shaan - Model. Working on creating the commands and creating the turtle model.
+* Shaan - Model. Working on creating the commands and creating the turtle model. Will create the
+  external api for grabbing information from the TurtleModel.
