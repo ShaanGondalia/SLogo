@@ -25,6 +25,7 @@ class TurtleView {
         Timeline animation = new Timeline();
         animation.setCycleCount(animation.size());
         animation.getKeyFrames().add(new KeyFrame(Duration.seconds(SECOND_DELAY), e -> step(SECOND_DELAY)));
+        animation.play();
     }
 
     private void step(double SECOND_DELAY) {
