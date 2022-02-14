@@ -57,7 +57,7 @@ public class Controller{
     postOrderTraversal(commands);
   }
 
-  private void postOrderTraversal(Tree<Command> commands){
+  private void executeCommands(Tree<Command> commands){
     // do post order traversal of tree, calling command.execute() whenever necessary
   }
 }

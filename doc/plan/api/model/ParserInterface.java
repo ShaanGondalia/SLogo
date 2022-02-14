@@ -13,4 +13,5 @@ public interface ParserInterface{
    * @throws Exception if the parser cannot interpret the string
    */
   public Tree<Command> buildCommandTree(String input) throws Exception;
+
 }
