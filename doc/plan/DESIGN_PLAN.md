@@ -66,7 +66,21 @@ The four APIs that were created are:
 
 #### External View
 
+* Provides an interfect for recieving new turtle positions and orientations (Pose objects)
+    * Queue<\Pose> generateAnimation(Pose t); 
+        * This generates a queue of incremental change poses from its own current pose and a desired outcome pose
+
+
 #### Internal View
+
+* Changes the view by updating the JavaFX scene to reflect a series of poses
+    * void animate(Queue<\Pose> cmds);
+        * This iterates pose by pose and calls an updateImage() method to change the state of the image on the screen
+    * void updateImage();
+        * This makes a singular incremental change to the turtle image and the change is reflected in the JavaFX scene
+    * step()
+        * a JavaFX Timeline method used as a timer to assist in animation
+
 
 ## Design Considerations
 
@@ -168,9 +182,10 @@ error occurs.
 
 ## Team Responsibilities
 
-* Andy - View.
+* Andy - View displays with JavaFX and helping with View API and parser if there is time
 
-* Zack - View.
+* Zack - View API turning requests from the backend into a series of smaller requests to be executed as an animation
+
 
 * Jake - Model and Controller. Working on command parsing and building the input tree based on text
   input
