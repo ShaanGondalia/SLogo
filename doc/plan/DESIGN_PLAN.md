@@ -17,7 +17,14 @@ the interface between the model and view elements.
 
 ## Overview
 
-TODO: Insert UML Diagram here
+In design 1, which is currently our preferred design, Commands perform the entire action on a
+back-end turtle, and then the view sees what has changed and animates the change at a certain rate.
+
+In design 2, Commands need to be stepped until they are complete, and so the front-end just gets
+updated at every step.
+
+![Design 1 UML](uml/design1.png)
+![Design 2 UML](uml/design2.png)
 
 ## User Interface
 
@@ -66,7 +73,7 @@ The four APIs that were created are:
 
 #### External View
 
-* Provides an interfect for recieving new turtle positions and orientations (Pose objects)
+* Provides an interface for receiving new turtle positions and orientations (Pose objects)
     * Queue<\Pose> generateAnimation(Pose t); 
         * This generates a queue of incremental change poses from its own current pose and a desired outcome pose
 

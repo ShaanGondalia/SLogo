@@ -8,5 +8,19 @@ public class API{
       Tree<Command> commands = parser.compileLine(line);
       executeCommands(commands); // from ShaanUseCases.java
   }
+}
 
-// user case 2: un
+// use case 2: rotate 45 degrees to the left
+
+public class LeftCommand implements CommandInterface;
+
+TurtleModel turtle = new Turtle();
+Command left45 = new LeftCommand(45, turtle);
+left45.execute();
+
+// use case 3: resolve variable name
+
+String variable = ":length"
+if (variable.substring(0, 1).equals(":")) {
+  double value = Compiler.resolveVariable(variable);
+}
