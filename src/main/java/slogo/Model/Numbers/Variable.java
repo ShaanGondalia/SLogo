@@ -1,8 +1,6 @@
 package slogo.Model.Numbers;
 
-import slogo.Model.Numbers.Number;
-
-public class Variable implements Number {
+public class Variable extends Value {
 
   private double myValue;
 
