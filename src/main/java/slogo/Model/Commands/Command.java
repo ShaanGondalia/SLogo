@@ -1,10 +1,10 @@
 package slogo.Model.Commands;
 
-import slogo.Model.Numbers.Constant;
+//import slogo.Model.Numbers.Constant;
 
 public interface Command {
 
-  public Constant execute();
+  public Double execute();
 
-  public Constant returnValue();
+  public Double returnValue();
 }

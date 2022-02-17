@@ -5,19 +5,19 @@ import slogo.Model.Numbers.Value;
 
 public class Sum implements Command {
 
-  Constant myValue;
+  final Double myValue;
 
-  public Sum(Value a, Value b) {
-    myValue = a.add(b);
+  public Sum(Double a, Double b) {
+    myValue = a + b;
   }
 
   @Override
-  public Constant execute() {
+  public Double execute() {
     return myValue;
   }
 
   @Override
-  public Constant returnValue() {
+  public Double returnValue() {
     return myValue;
   }
 }
