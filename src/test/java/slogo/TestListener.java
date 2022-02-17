@@ -14,6 +14,7 @@ public class TestListener implements PropertyChangeListener {
     lastChange = evt.getPropertyName();
     Pose pOld = ((TurtleStatus) evt.getOldValue()).pose();
     Pose pNew = ((TurtleStatus) evt.getNewValue()).pose();
+    System.out.println(evt.getNewValue());
     System.out.println(pOld);
     System.out.println(pNew);
   }
