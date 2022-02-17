@@ -15,6 +15,7 @@ public class Turtle extends Observable<TurtleStatus> {
     myBearing = 0;
     myHasPen = false;
     myVisibility = true;
+    myLastState = makeStatus();
   }
 
   public void setPose(Pose pose) {
