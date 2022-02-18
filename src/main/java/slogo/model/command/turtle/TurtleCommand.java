@@ -12,17 +12,23 @@ import slogo.model.command.Command;
 public abstract class TurtleCommand implements Command {
 
   private Turtle attachedTurtle;
-  private List<Double> myArgs;
 
   /**
    * Default constructor for all Turtle Commands (Forward, Back, etc.)
    *
-   * @param args the arguments for the command
    * @param turtle the Turtle that is attached to this command
    */
-  public TurtleCommand(List<Double> args, Turtle turtle) {
-    myArgs = args;
+  public TurtleCommand(Turtle turtle) {
     attachedTurtle = turtle;
+  }
+
+  /**
+   * Method for giving subclasses access to the attached Turtle
+   *
+   * @return the attached Turtle
+   */
+  protected Turtle getTurtle() {
+    return attachedTurtle;
   }
 
   /**
