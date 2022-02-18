@@ -1,5 +1,10 @@
 package slogo.Model;
 
+/**
+ * Class that encapsulates the turtle in the back-end. Contains internal API methods for updating and getting the status of the turtle. Depends on TurtleStatus.
+ *
+ * @author Jake Heller and Shaan Gondalia
+ */
 public class Turtle extends Observable<TurtleStatus> {
 
   private double myX;
@@ -9,6 +14,9 @@ public class Turtle extends Observable<TurtleStatus> {
   private boolean myVisibility;
   private TurtleStatus myLastState;
 
+  /**
+   * Create a new turtle that starts at the center of the screen. Initializes instance variables.
+   */
   public Turtle() {
     myX = 0;
     myY = 0;
@@ -16,6 +24,25 @@ public class Turtle extends Observable<TurtleStatus> {
     myHasPen = false;
     myVisibility = true;
     myLastState = makeStatus();
+  }
+
+  /**
+   * Moves the turtle a given distance in pixels (negative for backward), based on current bearing.
+   *
+   * @param distance the distance in pixels to move
+   */
+  public void move(double distance){
+    //TODO: Math to get the updated x and y locations
+    myX += distance;
+  }
+
+  /**
+   * Rotates the turtle Clockwise by a given number of degrees (negative for CCW).
+   *
+   * @param degrees the number of degrees to rotate
+   */
+  public void rotate(double degrees){
+    myBearing = (myBearing + degrees) % 360;
   }
 
   public void setPose(Pose pose) {
