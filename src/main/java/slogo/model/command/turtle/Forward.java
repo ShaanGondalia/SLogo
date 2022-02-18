@@ -23,7 +23,7 @@ public class Forward extends TurtleCommand {
 
   /**
    * Moves the attached turtle forward given the arguments
-   * @return
+   * @return the number of pixels the turtle will move
    */
   @Override
   public Double execute() {
@@ -31,6 +31,10 @@ public class Forward extends TurtleCommand {
     return pixels;
   }
 
+  /**
+   * Returns the number of pixels the turtle will move
+   * @return the number of pixels the turtle will move
+   */
   @Override
   public Double returnValue() {
     return pixels;
