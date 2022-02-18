@@ -1,4 +1,4 @@
-package slogo.Model.Numbers;
+package slogo.model.number;
 
 public class Variable extends Value {
 

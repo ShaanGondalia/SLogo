@@ -1,4 +1,4 @@
-package slogo.Model.Numbers;
+package slogo.model.number;
 
 public abstract class Value {
 

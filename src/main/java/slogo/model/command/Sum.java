@@ -1,7 +1,4 @@
-package slogo.Model.Commands;
-
-import slogo.Model.Numbers.Constant;
-import slogo.Model.Numbers.Value;
+package slogo.model.command;
 
 public class Sum implements Command {
 
