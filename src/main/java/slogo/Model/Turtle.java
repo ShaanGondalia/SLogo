@@ -32,8 +32,10 @@ public class Turtle extends Observable<TurtleStatus> {
    * @param distance the distance in pixels to move
    */
   public void move(double distance){
-    //TODO: Math to get the updated x and y locations
-    myX += distance;
+    double radians = Math.toRadians(myBearing);
+    myX += distance * Math.cos(radians);
+    myY += distance * Math.sin(radians);
+    change("Pose");
   }
 
   /**
@@ -43,6 +45,7 @@ public class Turtle extends Observable<TurtleStatus> {
    */
   public void rotate(double degrees){
     myBearing = (myBearing + degrees) % 360;
+    change("Pose");
   }
 
   public void setPose(Pose pose) {
