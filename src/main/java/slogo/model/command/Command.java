@@ -1,4 +1,4 @@
-package slogo.Model.Commands;
+package slogo.model.command;
 
 //import slogo.Model.Numbers.Constant;
 

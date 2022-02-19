@@ -1,13 +1,12 @@
 package slogo;
 
-import java.beans.PropertyChangeListener;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import slogo.Model.Numbers.Constant;
-import slogo.Model.Numbers.Value;
-import slogo.Model.Numbers.Variable;
-import slogo.Model.Pose;
-import slogo.Model.Turtle;
+import slogo.model.number.Constant;
+import slogo.model.number.Value;
+import slogo.model.number.Variable;
+import slogo.model.Pose;
+import slogo.model.Turtle;
 
 import static org.junit.jupiter.api.Assertions.*;
 

@@ -1,4 +1,4 @@
-package slogo.Model;
+package slogo.model;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
