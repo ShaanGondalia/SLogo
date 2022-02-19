@@ -2,17 +2,15 @@ package slogo.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Queue;
+import slogo.model.command.Command;
 import slogo.model.command.turtle.Forward;
+import slogo.model.exception.MissingArgumentException;
 
 public class ModelTester {
 
-  public static void main(String[] args){
-    Turtle t = new Turtle();
-    List<Double> fArgs = new ArrayList<>();
-    fArgs.add(50.0);
-    Forward f = new Forward(fArgs, t);
-    System.out.println(t.getPose().x());
-    f.execute();
-    System.out.println(t.getPose().x());
+  public static void main(String[] args) throws MissingArgumentException {
+    Compiler c = new Compiler();
+    Queue<Command> q = c.compile("fd 50 + fd 50 50");
   }
 }

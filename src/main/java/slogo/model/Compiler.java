@@ -68,10 +68,9 @@ public class Compiler {
         pendingCommands.pop();
         values.add(command.returnValue());
         if (pendingCommands.isEmpty()) {
-          values.empty();
+          values.clear();
         }
       }
-      System.out.printf("%s : %s\n", token, symbol);
     }
     return commandQueue;
   }
