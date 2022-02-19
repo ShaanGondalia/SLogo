@@ -87,27 +87,4 @@ public class Turtle extends Observable<TurtleStatus> {
     notifyListeners(property, myLastState, newState);
     myLastState = newState;
   }
-
-  /*
-  These methods are unnecessary if you always package pose info
-  into the pose
-
-  public void setX(double x) {
-    myX = x;
-    String property = "Pose";
-    change(property);
-  }
-
-  public void setY(double y) {
-    myY = y;
-    String property = "Pose";
-    change(property);
-  }
-
-  public void setAngle(double angle) {
-    myBearing = angle;
-    String property = "Pose";
-    change(property);
-  }
-   */
 }
