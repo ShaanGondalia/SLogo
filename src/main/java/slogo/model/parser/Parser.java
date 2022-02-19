@@ -5,8 +5,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map.Entry;
+import java.util.Queue;
 import java.util.ResourceBundle;
+import java.util.Scanner;
 import java.util.regex.Pattern;
+import slogo.model.command.Command;
 
 /**
  * Simple parser based on regular expressions that matches input strings to kinds of program elements.
@@ -17,7 +20,7 @@ public class Parser {
   public static final String NO_MATCH = "NO MATCH";
 
   // where to find resources specifically for this class
-  private static final String RESOURCES_PACKAGE = Parser.class.getPackageName() + ".languages.";
+  private static final String RESOURCES_PACKAGE = "slogo.languages.";
   // "types" and the regular expression patterns that recognize those types
   // note, it is a list because order matters (some patterns may be more generic)
   private List<Entry<String, Pattern>> mySymbols;

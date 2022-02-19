@@ -7,6 +7,7 @@ import slogo.model.number.Value;
 import slogo.model.number.Variable;
 import slogo.model.Pose;
 import slogo.model.Turtle;
+import slogo.model.parser.Parser;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -24,7 +25,13 @@ class MainTest {
     }
 
     @Test
-    void observerTest() {
+    void parserTest () {
+        Parser p = new Parser();
+        p.addPatterns("English");
+        p.addPatterns("Syntax");
+    }
+    @Test
+    void observerTest () {
         Turtle t = new Turtle();
         TestListener l = new TestListener();
         t.addListener(l);
