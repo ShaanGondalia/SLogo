@@ -68,18 +68,15 @@ public class Compiler {
         values.push(myVariables.get(token));
       }
 
-      String pendingCommand = pendingCommands.peek();
-      int numInputs = getNumInputs(pendingCommand);
-
-      if (numInputs == values.size()) {
+      while(!pendingCommands.isEmpty() && getNumInputs(pendingCommands.peek()) == values.size()){
         List<Double> args = new ArrayList<>();
-        for (int i = 0; i < numInputs; i++) {
+        String pendingCommand = pendingCommands.pop();
+        for (int i = 0; i < getNumInputs(pendingCommand); i++) {
           args.add(values.pop());
         }
         // Use reflection to create command
         Command command = getCommand(pendingCommand, turtle, args);
         commandQueue.add(command);
-        pendingCommands.pop();
         values.add(command.returnValue());
         if (pendingCommands.isEmpty()) {
           values.clear();
