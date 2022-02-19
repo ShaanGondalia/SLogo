@@ -3,6 +3,7 @@ package slogo.model.command.turtle;
 import java.util.List;
 import slogo.model.Turtle;
 import slogo.model.command.Command;
+import slogo.model.exception.MissingArgumentException;
 
 /**
  * Defines abstract class for any turtle command with an arbitrary number of args.
@@ -18,8 +19,10 @@ public abstract class TurtleCommand implements Command {
    *
    * @param turtle the Turtle that is attached to this command
    */
-  public TurtleCommand(Turtle turtle) {
+  public TurtleCommand(Turtle turtle, List<Double> args, int numArgs)
+      throws MissingArgumentException {
     attachedTurtle = turtle;
+    verifyArgs(args, numArgs);
   }
 
   /**
@@ -46,4 +49,11 @@ public abstract class TurtleCommand implements Command {
    */
   @Override
   public abstract Double returnValue();
+
+  //Verifies that the command received the correct number of arguments.
+  private void verifyArgs(List<Double> args, int numArgs) throws MissingArgumentException {
+    if(args.size() < numArgs){
+      throw new MissingArgumentException("NOT ENOUGH ARGS");
+    }
+  }
 }

@@ -3,6 +3,7 @@ package slogo.model.command.math;
 import java.util.List;
 import slogo.model.Turtle;
 import slogo.model.command.Command;
+import slogo.model.exception.MissingArgumentException;
 
 /**
  * Defines abstract class for any math operation with an arbitrary number of args.
@@ -10,6 +11,11 @@ import slogo.model.command.Command;
  * @author Shaan Gondalia
  */
 public abstract class MathOperation implements Command {
+
+  public MathOperation(Turtle turtle, List<Double> args, int numArgs)
+      throws MissingArgumentException {
+    verifyArgs(args, numArgs);
+  }
 
   /**
    * Abstract method for when an operation is executed.
@@ -28,5 +34,12 @@ public abstract class MathOperation implements Command {
    */
   @Override
   public abstract Double returnValue();
+
+  //Verifies that the command received the correct number of arguments.
+  private void verifyArgs(List<Double> args, int numArgs) throws MissingArgumentException {
+    if(args.size() < numArgs){
+      throw new MissingArgumentException("NOT ENOUGH ARGS");
+    }
+  }
 }
 
