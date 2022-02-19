@@ -1,4 +1,4 @@
-package slogo.model;
+package slogo.model.turtle;
 
 /**
  * Class that encapsulates the turtle in the back-end. Contains internal API methods for updating and getting the status of the turtle. Depends on TurtleStatus.

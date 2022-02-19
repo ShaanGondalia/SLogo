@@ -2,8 +2,8 @@ package slogo;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import slogo.model.Pose;
-import slogo.model.TurtleStatus;
+import slogo.model.turtle.Pose;
+import slogo.model.turtle.TurtleStatus;
 
 public class TestListener implements PropertyChangeListener {
 

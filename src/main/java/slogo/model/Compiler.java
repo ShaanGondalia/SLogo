@@ -14,6 +14,7 @@ import java.util.Stack;
 import slogo.model.command.Command;
 import slogo.model.exception.MissingArgumentException;
 import slogo.model.parser.Parser;
+import slogo.model.turtle.Turtle;
 
 public class Compiler {
 

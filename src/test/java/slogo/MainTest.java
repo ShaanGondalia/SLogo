@@ -5,8 +5,8 @@ import org.junit.jupiter.api.Test;
 import slogo.model.number.Constant;
 import slogo.model.number.Value;
 import slogo.model.number.Variable;
-import slogo.model.Pose;
-import slogo.model.Turtle;
+import slogo.model.turtle.Pose;
+import slogo.model.turtle.Turtle;
 import slogo.model.parser.Parser;
 
 import static org.junit.jupiter.api.Assertions.*;

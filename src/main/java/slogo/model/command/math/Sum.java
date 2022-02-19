@@ -1,7 +1,7 @@
 package slogo.model.command.math;
 
 import java.util.List;
-import slogo.model.Turtle;
+import slogo.model.turtle.Turtle;
 import slogo.model.exception.MissingArgumentException;
 
 /**
