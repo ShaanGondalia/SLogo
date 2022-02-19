@@ -16,7 +16,9 @@ public class XCor extends TurtleQuery{
   /**
    * Creates an XCOR command attached to the given Turtle.
    *
-   * @param turtle the Turtle that will be queried
+   * @param turtle the Turtle that is attached to this command
+   * @param args the arguments that the command takes
+   * @throws MissingArgumentException if the list of arguments does not contain enough arguments
    */
   public XCor(Turtle turtle, List<Double> args) throws MissingArgumentException {
     super(turtle, args, NUM_ARGS);

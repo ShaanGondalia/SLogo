@@ -16,7 +16,10 @@ public class Sum extends MathOperation {
 
   /**
    * Creates a sum command
-   * @param args the arguments for the command (single argument for sum)
+   *
+   * @param turtle the Turtle that is attached to this command
+   * @param args the arguments that the command takes
+   * @throws MissingArgumentException if the list of arguments does not contain enough arguments
    */
   public Sum(Turtle turtle, List<Double> args) throws MissingArgumentException {
     super(turtle, args, NUM_ARGS);

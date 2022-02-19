@@ -18,6 +18,9 @@ public abstract class TurtleCommand implements Command {
    * Default constructor for all Turtle Commands (Forward, Back, etc.)
    *
    * @param turtle the Turtle that is attached to this command
+   * @param args the arguments that the command takes
+   * @param numArgs the number of arguments that this command takes
+   * @throws MissingArgumentException if the list of arguments does not contain enough arguments
    */
   public TurtleCommand(Turtle turtle, List<Double> args, int numArgs)
       throws MissingArgumentException {
@@ -37,7 +40,7 @@ public abstract class TurtleCommand implements Command {
   /**
    * Abstract method for when a command is executed. Implemented by subclasses.
    *
-   * @return
+   * @return the value that is returned when the command is executed
    */
   @Override
   public abstract Double execute();

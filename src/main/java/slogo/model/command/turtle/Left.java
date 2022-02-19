@@ -11,13 +11,14 @@ import slogo.model.exception.MissingArgumentException;
  */
 public class Left extends TurtleCommand {
 
-  double degrees;
+  private final double degrees;
   private static final int NUM_ARGS = 1;
 
   /**
    * Creates a left command. Takes a single argument
    * @param args the arguments for the command (single argument for Left)
    * @param turtle the Turtle that will be rotated
+   * @throws MissingArgumentException if the list of arguments does not contain enough arguments
    */
   public Left(Turtle turtle, List<Double> args) throws MissingArgumentException {
     super(turtle, args, NUM_ARGS);

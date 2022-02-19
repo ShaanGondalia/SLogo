@@ -11,12 +11,13 @@ import slogo.model.exception.MissingArgumentException;
  */
 public class Forward extends TurtleCommand {
 
-  double pixels;
+  private final double pixels;
   private static final int NUM_ARGS = 1;
   /**
    * Creates a forward command
    * @param args the arguments for the command (single argument for FD)
    * @param turtle the Turtle that will be moved when the command is executed
+   * @throws MissingArgumentException if the list of arguments does not contain enough arguments
    */
   public Forward(Turtle turtle, List<Double> args) throws MissingArgumentException {
     super(turtle, args, NUM_ARGS);
