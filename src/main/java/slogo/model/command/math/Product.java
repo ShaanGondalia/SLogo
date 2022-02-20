@@ -1,8 +1,8 @@
 package slogo.model.command.math;
 
 import java.util.List;
-import slogo.model.turtle.Turtle;
 import slogo.model.exception.MissingArgumentException;
+import slogo.model.turtle.Turtle;
 
 /**
  * Class that represents a product (*) command. Depends on MathOperation and Turtle.
@@ -18,7 +18,7 @@ public class Product extends MathOperation {
    * Creates a product command
    *
    * @param turtle the Turtle that is attached to this command
-   * @param args the arguments that the command takes
+   * @param args   the arguments that the command takes
    * @throws MissingArgumentException if the list of arguments does not contain enough arguments
    */
   public Product(Turtle turtle, List<Double> args) throws MissingArgumentException {

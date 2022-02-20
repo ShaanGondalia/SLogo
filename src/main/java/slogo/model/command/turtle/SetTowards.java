@@ -1,8 +1,8 @@
 package slogo.model.command.turtle;
 
 import java.util.List;
-import slogo.model.turtle.Turtle;
 import slogo.model.exception.MissingArgumentException;
+import slogo.model.turtle.Turtle;
 
 /**
  * Class that represents a set towards command. Depends on TurtleCommand and Turtle.
@@ -15,9 +15,11 @@ public class SetTowards extends TurtleCommand {
   private final double y;
   private Double degrees;
   private static final int NUM_ARGS = 2;
+
   /**
    * Creates a set towards command
-   * @param args the arguments for the command (2 arguments for SetTowards)
+   *
+   * @param args   the arguments for the command (2 arguments for SetTowards)
    * @param turtle the Turtle that will be moved when the command is executed
    * @throws MissingArgumentException if the list of arguments does not contain enough arguments
    */
@@ -37,25 +39,45 @@ public class SetTowards extends TurtleCommand {
   public Double execute() {
     degrees = getDegreesToTurn();
     getTurtle().rotate(degrees);
-    return degrees;
+    return returnValue();
   }
 
   /**
    * Returns the number of degrees the turtle will rotate
+   *
    * @return the number of degrees the turtle will rotate
    */
   @Override
   public Double returnValue() {
-    return degrees;
+    return Math.abs(degrees);
   }
 
   // Gets the number of degrees the turtle has to turn
   // See: https://stackoverflow.com/questions/23692077/rotate-object-to-face-point
-  private Double getDegreesToTurn(){
+  private Double getDegreesToTurn() {
     double deltaX = x - getTurtle().getPose().x();
     double deltaY = y - getTurtle().getPose().y();
-    double rads = Math.atan((deltaX) / (deltaY));
+    double radsFromVertical = Math.atan((deltaX) / (deltaY));
+    double degreesFromVertical = Math.toDegrees(radsFromVertical);
 
-    return Math.toDegrees(rads) - getTurtle().getPose().bearing();
+    double newBearing = getNewBearing(degreesFromVertical, deltaX, deltaY);
+    double degreesToTurn = newBearing - getTurtle().getPose().bearing();
+
+    degreesToTurn = degreesToTurn > 180 ? 360 - degreesToTurn : degreesToTurn;
+
+    return degreesToTurn;
+  }
+
+  // Gets the new bearing of the turtle given the degrees from vertical and delta x and y
+  private Double getNewBearing(double degreesFromVertical, double deltaX, double deltaY) {
+    if (deltaX >= 0 && deltaY >= 0) { // quadrant 1
+      return degreesFromVertical;
+    } else if (deltaX < 0 && deltaY >= 0) { // quadrant 2
+      return 180 - degreesFromVertical;
+    } else if (deltaX < 0 && deltaY < 0) { // quadrant 3
+      return 180 + degreesFromVertical;
+    } else { // quadrant 4
+      return 360 - degreesFromVertical;
+    }
   }
 }

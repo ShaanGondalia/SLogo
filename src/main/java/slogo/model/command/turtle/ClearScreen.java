@@ -5,23 +5,26 @@ import slogo.model.exception.MissingArgumentException;
 import slogo.model.turtle.Turtle;
 
 /**
- * Class that represents a ShowTurtle (st) command. Depends on TurtleCommand and Turtle.
+ * Class that represents a ClearScreen (cs) command. Depends on TurtleCommand and Turtle.
  *
  * @author Shaan Gondalia
  */
-public class ShowTurtle extends TurtleCommand {
+public class ClearScreen extends TurtleCommand {
 
   private static final int NUM_ARGS = 0;
 
+  private double distance;
+
   /**
-   * Creates a show turtle command. Takes no arguments
+   * Creates a clear screen command. Takes no arguments
    *
-   * @param args   the arguments for the command (no arguments for ShowTurtle)
+   * @param args   the arguments for the command (no arguments for ClearScreen)
    * @param turtle the Turtle that will be rotated
    * @throws MissingArgumentException if the list of arguments does not contain enough arguments
    */
-  public ShowTurtle(Turtle turtle, List<Double> args) throws MissingArgumentException {
+  public ClearScreen(Turtle turtle, List<Double> args) throws MissingArgumentException {
     super(turtle, args, NUM_ARGS);
+    distance = 0;
   }
 
   /**
@@ -31,7 +34,11 @@ public class ShowTurtle extends TurtleCommand {
    */
   @Override
   public Double execute() {
-    getTurtle().setVisibility(true);
+    double x = getTurtle().getPose().x();
+    double y = getTurtle().getPose().y();
+    distance = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2));
+    getTurtle().goHome();
+    getTurtle().clear();
     return returnValue();
   }
 
@@ -42,6 +49,6 @@ public class ShowTurtle extends TurtleCommand {
    */
   @Override
   public Double returnValue() {
-    return 1.0;
+    return distance;
   }
 }

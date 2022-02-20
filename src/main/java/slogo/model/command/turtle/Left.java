@@ -1,8 +1,8 @@
 package slogo.model.command.turtle;
 
 import java.util.List;
-import slogo.model.turtle.Turtle;
 import slogo.model.exception.MissingArgumentException;
+import slogo.model.turtle.Turtle;
 
 /**
  * Class that represents a left (lt) command. Depends on TurtleCommand and Turtle.
@@ -16,7 +16,8 @@ public class Left extends TurtleCommand {
 
   /**
    * Creates a left command. Takes a single argument
-   * @param args the arguments for the command (single argument for Left)
+   *
+   * @param args   the arguments for the command (single argument for Left)
    * @param turtle the Turtle that will be rotated
    * @throws MissingArgumentException if the list of arguments does not contain enough arguments
    */
@@ -38,6 +39,7 @@ public class Left extends TurtleCommand {
 
   /**
    * Returns the number of degrees the turtle will rotate
+   *
    * @return the number of degrees the turtle will rotate
    */
   @Override
