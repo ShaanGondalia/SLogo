@@ -48,11 +48,29 @@ public class Turtle extends Observable<TurtleStatus> {
     change("Pose");
   }
 
+  /**
+   * Returns the turtle to its starting position
+   */
+  public void goHome() {
+    myX = 0;
+    myY = 0;
+    myBearing = 0;
+    change("Pose");
+  }
+
   public void setPose(Pose pose) {
     myX = pose.x();
     myY = pose.y();
     myBearing = pose.bearing();
     String property = "Pose";
+    change(property);
+  }
+
+  /**
+   * Clears the turtle's trails
+   */
+  public void clear() {
+    String property = "Clear";
     change(property);
   }
 
@@ -95,4 +113,5 @@ public class Turtle extends Observable<TurtleStatus> {
     notifyListeners(property, myLastState, newState);
     myLastState = newState;
   }
+
 }

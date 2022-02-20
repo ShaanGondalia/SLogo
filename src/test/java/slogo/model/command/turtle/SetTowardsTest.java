@@ -41,7 +41,6 @@ public class SetTowardsTest {
     args.add(X_POS);
     args.add(Y_POS);
     SetTowards c = new SetTowards(myTurtle, args);
-    assertEquals(45, c.returnValue(), EPSILON);
     assertEquals(45, c.execute(), EPSILON);
   }
 
@@ -51,7 +50,6 @@ public class SetTowardsTest {
     args.add(X_NEG);
     args.add(Y_NEG);
     SetTowards c = new SetTowards(myTurtle, args);
-    assertEquals(-135, c.returnValue(), EPSILON);
     assertEquals(-135, c.execute(), EPSILON);
   }
 
