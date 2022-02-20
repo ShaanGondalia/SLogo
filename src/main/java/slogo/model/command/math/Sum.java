@@ -5,7 +5,7 @@ import slogo.model.turtle.Turtle;
 import slogo.model.exception.MissingArgumentException;
 
 /**
- * Class that represents a sum (+) command. Depends on MathOperation.
+ * Class that represents a sum (+) command. Depends on MathOperation and Turtle.
  *
  * @author Shaan Gondalia
  */
@@ -26,6 +26,11 @@ public class Sum extends MathOperation {
     sum = args.get(0) + args.get(1);
   }
 
+  /**
+   * Gets the returnValue of the operation. Implemented by subclasses.
+   *
+   * @return arg1 + arg2
+   */
   @Override
   public Double returnValue() {
     return sum;
