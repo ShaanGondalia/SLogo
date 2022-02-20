@@ -30,16 +30,16 @@ public class XCorTest {
     List<Double> args = new ArrayList<>();
     args.add(ARG_1);
     XCor c = new XCor(myTurtle, args);
-    assertEquals(c.returnValue(), myTurtle.getPose().x());
-    assertEquals(c.execute(), myTurtle.getPose().x());
+    assertEquals(myTurtle.getPose().x(), c.returnValue());
+    assertEquals(myTurtle.getPose().x(), c.execute());
   }
 
   @Test
   void testCorrectArgs() throws MissingArgumentException {
     List<Double> args = new ArrayList<>();
     XCor c = new XCor(myTurtle, args);
-    assertEquals(c.returnValue(), myTurtle.getPose().x());
-    assertEquals(c.execute(), myTurtle.getPose().x());
+    assertEquals(myTurtle.getPose().x(), c.returnValue());
+    assertEquals(myTurtle.getPose().x(), c.execute());
   }
 
 }

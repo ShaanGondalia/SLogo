@@ -30,16 +30,16 @@ public class PiTest {
     List<Double> args = new ArrayList<>();
     args.add(ARG_1);
     Pi p = new Pi(myTurtle, args);
-    assertEquals(p.returnValue(), Math.PI);
-    assertEquals(p.execute(), Math.PI);
+    assertEquals(Math.PI, p.returnValue());
+    assertEquals(Math.PI, p.execute());
   }
 
   @Test
   void testCorrectArgs() throws MissingArgumentException {
     List<Double> args = new ArrayList<>();
     Pi p = new Pi(myTurtle, args);
-    assertEquals(p.returnValue(), Math.PI);
-    assertEquals(p.execute(), Math.PI);
+    assertEquals(Math.PI, p.returnValue());
+    assertEquals(Math.PI, p.execute());
   }
 
 }

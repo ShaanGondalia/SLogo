@@ -41,8 +41,8 @@ public class ProductTest {
     args.add(ARG_2);
     args.add(ARG_3);
     Product s = new Product(myTurtle, args);
-    assertEquals(s.returnValue(), ARG_1 * ARG_2);
-    assertEquals(s.execute(), ARG_1 * ARG_2);
+    assertEquals(ARG_1 * ARG_2, s.returnValue());
+    assertEquals(ARG_1 * ARG_2, s.execute());
   }
 
   @Test
@@ -51,8 +51,8 @@ public class ProductTest {
     args.add(ARG_1);
     args.add(ARG_2);
     Product s = new Product(myTurtle, args);
-    assertEquals(s.returnValue(), ARG_1 * ARG_2);
-    assertEquals(s.execute(), ARG_1 * ARG_2);
+    assertEquals(ARG_1 * ARG_2, s.returnValue());
+    assertEquals(ARG_1 * ARG_2, s.execute());
   }
 
 }
