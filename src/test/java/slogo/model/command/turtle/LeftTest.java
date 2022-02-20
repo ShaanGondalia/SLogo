@@ -1,11 +1,12 @@
 package slogo.model.command.turtle;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
-
 import slogo.model.exception.MissingArgumentException;
 import slogo.model.turtle.Turtle;
 
@@ -22,12 +23,12 @@ public class LeftTest {
   private Turtle myTurtle;
 
   @BeforeEach
-  void setUp(){
+  void setUp() {
     myTurtle = new Turtle();
   }
 
   @Test
-  void testNotEnoughArgs(){
+  void testNotEnoughArgs() {
     List<Double> args = new ArrayList<>();
     assertThrows(MissingArgumentException.class, () -> new Left(myTurtle, args));
   }

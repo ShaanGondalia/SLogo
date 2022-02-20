@@ -1,14 +1,9 @@
 package slogo.model.turtle;
 
-import java.util.ArrayList;
-import java.util.List;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
-
-import slogo.model.command.turtle.Left;
-import slogo.model.exception.MissingArgumentException;
-import slogo.model.turtle.Turtle;
 
 /**
  * Tests for Turtle class
@@ -25,7 +20,7 @@ public class TurtleTest {
   private Turtle myTurtle;
 
   @BeforeEach
-  void setUp(){
+  void setUp() {
     myTurtle = new Turtle();
   }
 
