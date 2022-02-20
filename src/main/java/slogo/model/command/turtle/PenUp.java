@@ -5,28 +5,28 @@ import slogo.model.turtle.Turtle;
 import slogo.model.exception.MissingArgumentException;
 
 /**
- * Class that represents a pendown (pd) command. Depends on TurtleCommand and Turtle.
+ * Class that represents a penup (pu) command. Depends on TurtleCommand and Turtle.
  *
  * @author Shaan Gondalia
  */
-public class PenDown extends TurtleCommand {
+public class PenUp extends TurtleCommand {
 
   private static final int NUM_ARGS = 0;
 
   /**
-   * Creates a pen down command. Takes no arguments
-   * @param args the arguments for the command (no arguments for PenDown)
+   * Creates a pen up command. Takes no arguments
+   * @param args the arguments for the command (no arguments for PenUp)
    * @param turtle the Turtle that will be rotated
    * @throws MissingArgumentException if the list of arguments does not contain enough arguments
    */
-  public PenDown(Turtle turtle, List<Double> args) throws MissingArgumentException {
+  public PenUp(Turtle turtle, List<Double> args) throws MissingArgumentException {
     super(turtle, args, NUM_ARGS);
   }
 
   /**
-   * Puts the attached turtle's pen down
+   * Puts the attached turtle's pen up
    *
-   * @return 1
+   * @return 0
    */
   @Override
   public Double execute() {
@@ -35,11 +35,11 @@ public class PenDown extends TurtleCommand {
   }
 
   /**
-   * Returns 1
-   * @return 1
+   * Returns 0
+   * @return 0
    */
   @Override
   public Double returnValue() {
-    return 1.0;
+    return 0.0;
   }
 }
