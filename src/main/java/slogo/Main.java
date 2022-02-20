@@ -10,7 +10,7 @@ import java.util.*;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import slogo.View.Displayable;
-import slogo.View.MainIDEView;
+import slogo.View.LanguageProbe;
 
 
 /**
@@ -72,12 +72,13 @@ public class Main extends Application {
 //        System.out.println(m.getExampleProgram("loops", "star"));
 //    }
 
-  private static final List<String> VIEWS_TO_CREATE = List.of("MainIDEView", "SplahView");
+  private static final List<String> VIEWS_TO_CREATE = List.of("MainIDEView", "SplashView");
 
   @Override
   public void start(Stage stage) {
+    LanguageProbe languageProbe = new LanguageProbe();
     for (String name : VIEWS_TO_CREATE) {
-      createViews(name).createStage();
+      createViews(name).createStage(languageProbe.languageToUse());
     }
   }
 

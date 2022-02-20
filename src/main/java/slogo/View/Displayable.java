@@ -7,6 +7,6 @@ package slogo.View;
  */
 public interface Displayable {
 
-  void createStage();
+  void createStage(String language);
 
 }
