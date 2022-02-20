@@ -45,6 +45,9 @@ public class Turtle extends Observable<TurtleStatus> {
    */
   public void rotate(double degrees){
     myBearing = (myBearing + degrees) % 360;
+    if (myBearing < 0) {
+      myBearing += 360;
+    }
     change("Pose");
   }
 

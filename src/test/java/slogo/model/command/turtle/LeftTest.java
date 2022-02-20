@@ -50,7 +50,7 @@ public class LeftTest {
     assertEquals(ARG_1, c.returnValue());
     double bearingBefore = myTurtle.getPose().bearing();
     assertEquals(ARG_1, c.execute());
-    assertEquals(bearingBefore - ARG_1, myTurtle.getPose().bearing());
+    assertEquals(bearingBefore - ARG_1 + 360, myTurtle.getPose().bearing());
   }
 
 }
