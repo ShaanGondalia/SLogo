@@ -13,9 +13,8 @@ public class SplashView implements Displayable {
 
   }
 
-  public String languageToUse(){
-    return "English";
+  public String styleSheetToUse(){
+    return "";
   }
-
 
 }
