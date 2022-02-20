@@ -35,7 +35,7 @@ public abstract class MathOperation implements Command {
   }
 
   /**
-   * Abstract method for that gets the returnValue of the operation. Implemented by subclasses.
+   * Abstract method that gets the returnValue of the operation. Implemented by subclasses.
    *
    * @return the return value of the operation
    */

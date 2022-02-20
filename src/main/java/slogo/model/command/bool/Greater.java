@@ -23,11 +23,14 @@ public class Greater extends BooleanOperation {
    */
   public Greater(Turtle turtle, List<Double> args) throws MissingArgumentException {
     super(turtle, args, NUM_ARGS);
-    System.out.println(args.get(0));
-    System.out.println(args.get(1));
     greater = args.get(0) > args.get(1) ? 1.0 : 0.0;
   }
 
+  /**
+   * Gets the return value of the greater operation.
+   *
+   * @return 1 if expr1 > expr2, 0 otherwise
+   */
   @Override
   public Double returnValue() {
     return greater;
