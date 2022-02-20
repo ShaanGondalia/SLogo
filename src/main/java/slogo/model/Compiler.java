@@ -83,6 +83,9 @@ public class Compiler {
         }
       }
     }
+    if (!pendingCommands.empty()){
+      throw new InputMismatchException(String.format("NOT ENOUGH INPUTS FOR %s", pendingCommands.peek()));
+    }
     return commandQueue;
   }
 
