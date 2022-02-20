@@ -1,13 +1,10 @@
 package slogo;
 
-import java.beans.PropertyChangeListener;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import slogo.Model.Numbers.Constant;
-import slogo.Model.Numbers.Value;
-import slogo.Model.Numbers.Variable;
-import slogo.Model.Pose;
-import slogo.Model.Turtle;
+import slogo.model.turtle.Pose;
+import slogo.model.turtle.Turtle;
+import slogo.model.parser.Parser;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -25,7 +22,13 @@ class MainTest {
     }
 
     @Test
-    void observerTest() {
+    void parserTest () {
+        Parser p = new Parser("English");
+        p.addPatterns("English");
+        p.addPatterns("Syntax");
+    }
+    @Test
+    void observerTest () {
         Turtle t = new Turtle();
         TestListener l = new TestListener();
         t.addListener(l);
@@ -33,15 +36,6 @@ class MainTest {
         t.setPose(new Pose(1, 1, 1));
 
         assertTrue("Pose".equals(l.getChange()));
-    }
-
-    @Test
-    void testNumbers () {
-        Value a = new Variable(5);
-        Value b = new Constant(6);
-
-        assertEquals(Math.round(a.getValue()), 5);
-        assertEquals(Math.round(b.getValue()), 6);
     }
 
     @Test
