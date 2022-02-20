@@ -66,6 +66,10 @@ public class Turtle extends Observable<TurtleStatus> {
     change(property);
   }
 
+  /**
+   * Sets the visibility of the turtle.
+   * @param visibility If true, the turtle is visible. If false, the turtle is invisible.
+   */
   public void setVisibility(boolean visibility) {
     myVisibility = visibility;
     String property = "Visibility";
