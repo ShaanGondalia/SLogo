@@ -30,16 +30,16 @@ public class PenDownTest {
     List<Double> args = new ArrayList<>();
     args.add(ARG_1);
     PenDown c = new PenDown(myTurtle, args);
-    assertEquals(c.returnValue(), 1.0);
-    assertEquals(c.execute(), 1.0);
+    assertEquals(1.0, c.returnValue());
+    assertEquals(1.0, c.execute());
   }
 
   @Test
   void testCorrectArgs() throws MissingArgumentException {
     List<Double> args = new ArrayList<>();
     PenDown c = new PenDown(myTurtle, args);
-    assertEquals(c.returnValue(), 1.0);
-    assertEquals(c.execute(), 1.0);
+    assertEquals(1.0, c.returnValue());
+    assertEquals(1.0, c.execute());
   }
 
 }

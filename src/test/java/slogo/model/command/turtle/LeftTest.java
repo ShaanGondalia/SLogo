@@ -38,8 +38,8 @@ public class LeftTest {
     args.add(ARG_1);
     args.add(ARG_2);
     Left c = new Left(myTurtle, args);
-    assertEquals(c.returnValue(), ARG_1);
-    assertEquals(c.execute(), ARG_1);
+    assertEquals(ARG_1, c.returnValue());
+    assertEquals(ARG_1, c.execute());
   }
 
   @Test
@@ -47,10 +47,10 @@ public class LeftTest {
     List<Double> args = new ArrayList<>();
     args.add(ARG_1);
     Left c = new Left(myTurtle, args);
-    assertEquals(c.returnValue(), ARG_1);
+    assertEquals(ARG_1, c.returnValue());
     double bearingBefore = myTurtle.getPose().bearing();
-    assertEquals(c.execute(), ARG_1);
-    assertEquals(myTurtle.getPose().bearing(), bearingBefore - ARG_1);
+    assertEquals(ARG_1, c.execute());
+    assertEquals(bearingBefore - ARG_1, myTurtle.getPose().bearing());
   }
 
 }

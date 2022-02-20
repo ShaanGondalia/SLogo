@@ -39,8 +39,8 @@ public class BackTest {
     args.add(ARG_1);
     args.add(ARG_2);
     Back c = new Back(myTurtle, args);
-    assertEquals(c.returnValue(), ARG_1);
-    assertEquals(c.execute(), ARG_1);
+    assertEquals(ARG_1, c.returnValue());
+    assertEquals(ARG_1, c.execute());
   }
 
   @Test
@@ -52,8 +52,8 @@ public class BackTest {
     double xBefore = myTurtle.getPose().x();
     double yBefore = myTurtle.getPose().y();
     assertEquals(c.execute(), ARG_1);
-    assertEquals(myTurtle.getPose().x(), xBefore);
-    assertEquals(myTurtle.getPose().y(), yBefore - ARG_1);
+    assertEquals(xBefore, myTurtle.getPose().x());
+    assertEquals(yBefore - ARG_1, myTurtle.getPose().y());
   }
 
 }
