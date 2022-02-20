@@ -27,10 +27,8 @@ public class MainIDEView implements Displayable {
     stage.show();
   }
 
-  @Override
-  public void showStage() {
+  private void createTextArea() {
 
   }
-
 
 }

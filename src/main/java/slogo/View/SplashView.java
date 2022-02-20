@@ -1,5 +1,7 @@
 package slogo.View;
 
+import java.util.ResourceBundle;
+
 /**
  * Screen to display the first time program is running up. Here, can select language / css and
  * anything else needed before initialization
@@ -13,8 +15,8 @@ public class SplashView implements Displayable {
 
   }
 
-  @Override
-  public void showStage() {
-
+  public ResourceBundle determineResourceBundle(){
+    return null;
   }
+
 }

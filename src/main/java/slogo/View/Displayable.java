@@ -9,5 +9,4 @@ public interface Displayable {
 
   void createStage();
 
-  void showStage();
 }

@@ -72,7 +72,7 @@ public class Main extends Application {
 //        System.out.println(m.getExampleProgram("loops", "star"));
 //    }
 
-  private static final List<String> VIEWS_TO_CREATE = List.of("MainIDEView", "SplashView");
+  private static final List<String> VIEWS_TO_CREATE = List.of("MainIDEView", "SplahView");
 
   @Override
   public void start(Stage stage) {
@@ -87,7 +87,7 @@ public class Main extends Application {
       Constructor ctor = clazz.getConstructor();
       return (Displayable) ctor.newInstance();
     } catch (Exception e) {
-      e.printStackTrace(); // TEMPORARY
+      Errors.showAndClose("Could not find class: " + name);
       throw new InputMismatchException();
     }
   }
