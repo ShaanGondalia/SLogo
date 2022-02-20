@@ -10,6 +10,7 @@ import java.util.ResourceBundle;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 import slogo.model.command.Command;
+import slogo.model.exception.SymbolNotFoundException;
 
 /**
  * Simple parser based on regular expressions that matches input strings to kinds of program elements.
@@ -48,14 +49,14 @@ public class Parser {
   /**
    * Returns type associated with given text or NO_MATCH none exists
    */
-  public String getSymbol (String text) {
+  public String getSymbol (String text) throws SymbolNotFoundException {
     for (Entry<String, Pattern> e : mySymbols) {
       if (match(text, e.getValue())) {
         return e.getKey();
       }
     }
     // perhaps this should throw an exception instead --- do not know context
-    return NO_MATCH;
+    throw new SymbolNotFoundException(String.format("Symbol %s Not Found", text));
   }
 
   /**
