@@ -7,17 +7,12 @@ import slogo.model.turtle.Turtle;
 
 public class ModelTester {
 
-  public static final String PROGRAM = "fd + fd 50 50";
+  public static final String PROGRAM = "CS PU HT TOWARDS 50 SUM 50 XCOR BK 100 PD FD * PI 100";
+  //public static final String PROGRAM = "+ 50 fd 75";
 
   public static void main(String[] args) throws Exception {
     Compiler c = new Compiler("English");
     Turtle turtle = new Turtle();
-    Queue<Command> q = c.compile(PROGRAM, turtle);
-    System.out.printf("x: %f, y: %f, b: %f\n", turtle.getPose().x(), turtle.getPose().y(), turtle.getPose().bearing());
-    while (!q.isEmpty()){
-      System.out.println(q.remove().execute());
-
-      System.out.printf("x: %f, y: %f, b: %f\n", turtle.getPose().x(), turtle.getPose().y(), turtle.getPose().bearing());
-    }
+    c.run(PROGRAM, turtle);
   }
 }

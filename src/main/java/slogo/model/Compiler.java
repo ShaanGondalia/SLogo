@@ -46,40 +46,45 @@ public class Compiler {
   }
 
   /**
-   * Compiles a program into a queue of executable commands.
+   * Compiles and runs a program.
    *
    * @param program the string input of the program
    * @param turtle the turtle to attach commands to
-   * @return a queue of executable commands
-   * @throws Exception if there is an issue compiling the program
+   * @throws Exception if there is an issue running the program
    */
-  public Queue<Command> compile(String program, Turtle turtle) throws Exception {
-    //Scanner scanner = new Scanner(input);
-    Queue<Command> commandQueue = new LinkedList<>();
+  public void run(String program, Turtle turtle) throws Exception {
 
     Stack<String> pendingCommands = new Stack<>();
     Stack<Double> values = new Stack<>();
+    Stack<Integer> valuesBefore = new Stack<>();
 
     for (String token : program.split(WHITESPACE)) {
       String symbol = myParser.getSymbol(token);
       if (parameterResources.containsKey(symbol)){
         pendingCommands.push(symbol);
+        valuesBefore.push(values.size());
       } else if(symbol.equals("Constant")) {
         values.push(Double.parseDouble(token));
       } else if(symbol.equals("Variable")) {
         values.push(myVariables.get(token));
       }
 
-      while(!pendingCommands.isEmpty() && getNumInputs(pendingCommands.peek()) == values.size()){
+      // LOGIC:
+      // After a command is added, we can only resolve the commands arguments once numInputs values have been added to the value stack.
+      // We must keep track of how many values have been added to the stack after each command has been added.
+      // We know the number of inputs each command requires, and we know the size of the values stack when each command is added.
+      // We can create another data structure that tracks this information, and use it to determine when
+
+      while(!pendingCommands.isEmpty() && getNumInputs(pendingCommands.peek()) <= values.size() - valuesBefore.peek()){
         List<Double> args = new ArrayList<>();
         String pendingCommand = pendingCommands.pop();
+        valuesBefore.pop();
         for (int i = 0; i < getNumInputs(pendingCommand); i++) {
           args.add(values.pop());
         }
         // Use reflection to create command
         Command command = getCommand(pendingCommand, turtle, args);
-        commandQueue.add(command);
-        values.add(command.returnValue());
+        values.add(command.execute());
         if (pendingCommands.isEmpty()) {
           values.clear();
         }
@@ -88,7 +93,6 @@ public class Compiler {
     if (!pendingCommands.empty()){
       throw new MissingArgumentException(String.format(exceptionResources.getString("MissingArgument"), pendingCommands.peek()));
     }
-    return commandQueue;
   }
 
   // Gets the number of inputs a given command takes.

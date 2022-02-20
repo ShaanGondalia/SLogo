@@ -20,7 +20,7 @@ public class CompilerTest {
   private static final String BASIC_PROGRAM = "fd 50";
   private static final String INCORRECT_PROGRAM = "fd + 50";
   private static final String UNKNOWN_PROGRAM = "xz' 50";
-  private static final String TWO_ARG_PROGRAM = "+ 50 50";
+  private static final String TWO_ARG_PROGRAM = "fd + 50 50";
   private static final String MULTI_PROGRAM = "fd + fd 50 50";
   private static final String COMPLEX_PROGRAM = "fd + fd 50 50 lt sum 45 45";
   private static final String LANGUAGE = "English";
@@ -36,36 +36,37 @@ public class CompilerTest {
 
   @Test
   void testIncorrect() {
-    assertThrows(MissingArgumentException.class, () -> compiler.compile(INCORRECT_PROGRAM, myTurtle));
+    assertThrows(MissingArgumentException.class, () -> compiler.run(INCORRECT_PROGRAM, myTurtle));
   }
 
   @Test
   void testBasic() throws Exception {
-    Queue<Command> q = compiler.compile(BASIC_PROGRAM, myTurtle);
-    assertEquals(1, q.size());
+    compiler.run(BASIC_PROGRAM, myTurtle);
+    assertEquals(50, myTurtle.getPose().y());
   }
 
   @Test
   void testTwoArg() throws Exception {
-    Queue<Command> q = compiler.compile(TWO_ARG_PROGRAM, myTurtle);
-    assertEquals(1, q.size());
+    compiler.run(TWO_ARG_PROGRAM, myTurtle);
+    assertEquals(100, myTurtle.getPose().y());
   }
 
   @Test
   void testMulti() throws Exception {
-    Queue<Command> q = compiler.compile(MULTI_PROGRAM, myTurtle);
-    assertEquals(3, q.size());
+    compiler.run(MULTI_PROGRAM, myTurtle);
+    assertEquals(150, myTurtle.getPose().y());
   }
 
   @Test
   void testComplex() throws Exception {
-    Queue<Command> q = compiler.compile(COMPLEX_PROGRAM, myTurtle);
-    assertEquals(5, q.size());
+    compiler.run(COMPLEX_PROGRAM, myTurtle);
+    assertEquals(150, myTurtle.getPose().y());
+    assertEquals(270, myTurtle.getPose().bearing());
   }
 
   @Test
   void testUnknown() throws Exception {
-    assertThrows(SymbolNotFoundException.class, () -> compiler.compile(UNKNOWN_PROGRAM, myTurtle));
+    assertThrows(SymbolNotFoundException.class, () -> compiler.run(UNKNOWN_PROGRAM, myTurtle));
   }
 
 }
