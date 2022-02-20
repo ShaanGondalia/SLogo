@@ -10,7 +10,7 @@ import javafx.scene.shape.LineTo;
 import javafx.scene.shape.MoveTo;
 import javafx.scene.shape.Path;
 import javafx.util.Duration;
-import slogo.Model.Pose;
+import slogo.model.turtle.Pose;
 import java.net.URL;
 
 public class TurtleView {
