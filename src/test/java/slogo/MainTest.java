@@ -2,9 +2,6 @@ package slogo;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import slogo.model.number.Constant;
-import slogo.model.number.Value;
-import slogo.model.number.Variable;
 import slogo.model.turtle.Pose;
 import slogo.model.turtle.Turtle;
 import slogo.model.parser.Parser;
@@ -39,15 +36,6 @@ class MainTest {
         t.setPose(new Pose(1, 1, 1));
 
         assertTrue("Pose".equals(l.getChange()));
-    }
-
-    @Test
-    void testNumbers () {
-        Value a = new Variable(5);
-        Value b = new Constant(6);
-
-        assertEquals(Math.round(a.getValue()), 5);
-        assertEquals(Math.round(b.getValue()), 6);
     }
 
     @Test

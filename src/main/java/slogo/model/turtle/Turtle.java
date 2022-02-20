@@ -33,8 +33,8 @@ public class Turtle extends Observable<TurtleStatus> {
    */
   public void move(double distance){
     double radians = Math.toRadians(myBearing);
-    myX += distance * Math.cos(radians);
-    myY += distance * Math.sin(radians);
+    myX += distance * Math.sin(-radians);
+    myY += distance * Math.cos(-radians);
     change("Pose");
   }
 
