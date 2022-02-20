@@ -22,16 +22,20 @@ public class Parser {
 
   // where to find resources specifically for this class
   private static final String RESOURCES_PACKAGE = "slogo.languages.";
+  private static final String EXCEPTION_RESOURCES = "model.exception.";
   // "types" and the regular expression patterns that recognize those types
   // note, it is a list because order matters (some patterns may be more generic)
   private List<Entry<String, Pattern>> mySymbols;
+
+  private ResourceBundle exceptionResources;
 
 
   /**
    * Create an empty parser
    */
-  public Parser () {
+  public Parser (String language) {
     reset();
+    exceptionResources = ResourceBundle.getBundle(EXCEPTION_RESOURCES + language);
   }
 
   /**
@@ -56,7 +60,7 @@ public class Parser {
       }
     }
     // perhaps this should throw an exception instead --- do not know context
-    throw new SymbolNotFoundException(String.format("Symbol %s Not Found", text));
+    throw new SymbolNotFoundException(String.format(exceptionResources.getString("SymbolNotFound"), text));
   }
 
   /**

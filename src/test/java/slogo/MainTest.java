@@ -23,7 +23,7 @@ class MainTest {
 
     @Test
     void parserTest () {
-        Parser p = new Parser();
+        Parser p = new Parser("English");
         p.addPatterns("English");
         p.addPatterns("Syntax");
     }

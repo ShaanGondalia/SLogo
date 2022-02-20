@@ -26,18 +26,20 @@ public class Compiler {
   public static final String WHITESPACE = "\\s+";
   private static final String PARAMETER_RESOURCES = "model.Parameter";
   private static final String REFLECTION_RESOURCES = "model.Reflection";
-  private final static String ERROR_MESSAGE = "Property %s is not a %s: %s";
+  private static final String EXCEPTION_RESOURCES = "model.exception.";
 
   private Parser myParser;
   private Map<String, Double> myVariables;
   private final ResourceBundle parameterResources = ResourceBundle.getBundle(PARAMETER_RESOURCES);
   private final ResourceBundle reflectionResources = ResourceBundle.getBundle(REFLECTION_RESOURCES);
+  private final ResourceBundle exceptionResources;
 
   /**
    * Creates an instance of a compiler for the given language.
    */
   public Compiler (String language) {
-    myParser = new Parser();
+    exceptionResources = ResourceBundle.getBundle(EXCEPTION_RESOURCES + language);
+    myParser = new Parser(language);
     myParser.addPatterns(language);
     myParser.addPatterns("Syntax");
     myVariables = new HashMap<>();
@@ -84,7 +86,7 @@ public class Compiler {
       }
     }
     if (!pendingCommands.empty()){
-      throw new MissingArgumentException(String.format("NOT ENOUGH INPUTS FOR %s", pendingCommands.peek()));
+      throw new MissingArgumentException(String.format(exceptionResources.getString("MissingArgument"), pendingCommands.peek()));
     }
     return commandQueue;
   }
@@ -106,7 +108,7 @@ public class Compiler {
     }
     catch (ClassNotFoundException | InvocationTargetException | NoSuchMethodException |
         InstantiationException | IllegalAccessException e) {
-      throw new InputMismatchException(String.format(ERROR_MESSAGE, symbol, "command", command));
+      throw new InputMismatchException(String.format(exceptionResources.getString("InputMismatch"), symbol, command));
     }
 
   }
