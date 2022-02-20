@@ -1,8 +1,5 @@
 package slogo.model;
 
-import java.util.Queue;
-import slogo.model.command.Command;
-
 import slogo.model.turtle.Turtle;
 
 public class ModelTester {

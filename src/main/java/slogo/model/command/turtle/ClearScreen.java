@@ -1,8 +1,8 @@
 package slogo.model.command.turtle;
 
 import java.util.List;
-import slogo.model.turtle.Turtle;
 import slogo.model.exception.MissingArgumentException;
+import slogo.model.turtle.Turtle;
 
 /**
  * Class that represents a ClearScreen (cs) command. Depends on TurtleCommand and Turtle.
@@ -17,7 +17,8 @@ public class ClearScreen extends TurtleCommand {
 
   /**
    * Creates a clear screen command. Takes no arguments
-   * @param args the arguments for the command (no arguments for ClearScreen)
+   *
+   * @param args   the arguments for the command (no arguments for ClearScreen)
    * @param turtle the Turtle that will be rotated
    * @throws MissingArgumentException if the list of arguments does not contain enough arguments
    */
@@ -43,6 +44,7 @@ public class ClearScreen extends TurtleCommand {
 
   /**
    * Returns 1
+   *
    * @return 1
    */
   @Override

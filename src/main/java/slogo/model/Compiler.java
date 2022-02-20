@@ -5,10 +5,8 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.InputMismatchException;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Queue;
 import java.util.ResourceBundle;
 import java.util.Stack;
 import slogo.model.command.Command;
@@ -17,7 +15,8 @@ import slogo.model.parser.Parser;
 import slogo.model.turtle.Turtle;
 
 /**
- * Compiles user input into a queue of commands that can be executed. Depends on Turtle, Parser, and Command.
+ * Compiles user input into a queue of commands that can be executed. Depends on Turtle, Parser, and
+ * Command.
  *
  * @author Jake Heller and Shaan Gondalia
  */
@@ -37,7 +36,7 @@ public class Compiler {
   /**
    * Creates an instance of a compiler for the given language.
    */
-  public Compiler (String language) {
+  public Compiler(String language) {
     exceptionResources = ResourceBundle.getBundle(EXCEPTION_RESOURCES + language);
     myParser = new Parser(language);
     myParser.addPatterns(language);
@@ -49,7 +48,7 @@ public class Compiler {
    * Compiles and runs a program.
    *
    * @param program the string input of the program
-   * @param turtle the turtle to attach commands to
+   * @param turtle  the turtle to attach commands to
    * @throws Exception if there is an issue running the program
    */
   public void run(String program, Turtle turtle) throws Exception {
@@ -60,12 +59,12 @@ public class Compiler {
 
     for (String token : program.split(WHITESPACE)) {
       String symbol = myParser.getSymbol(token);
-      if (parameterResources.containsKey(symbol)){
+      if (parameterResources.containsKey(symbol)) {
         pendingCommands.push(symbol);
         valuesBefore.push(values.size());
-      } else if(symbol.equals("Constant")) {
+      } else if (symbol.equals("Constant")) {
         values.push(Double.parseDouble(token));
-      } else if(symbol.equals("Variable")) {
+      } else if (symbol.equals("Variable")) {
         values.push(myVariables.get(token));
       }
 
@@ -75,7 +74,8 @@ public class Compiler {
       // We know the number of inputs each command requires, and we know the size of the values stack when each command is added.
       // We can create another data structure that tracks this information, and use it to determine when
 
-      while(!pendingCommands.isEmpty() && getNumInputs(pendingCommands.peek()) <= values.size() - valuesBefore.peek()){
+      while (!pendingCommands.isEmpty()
+          && getNumInputs(pendingCommands.peek()) <= values.size() - valuesBefore.peek()) {
         List<Double> args = new ArrayList<>();
         String pendingCommand = pendingCommands.pop();
         valuesBefore.pop();
@@ -90,8 +90,9 @@ public class Compiler {
         }
       }
     }
-    if (!pendingCommands.empty()){
-      throw new MissingArgumentException(String.format(exceptionResources.getString("MissingArgument"), pendingCommands.peek()));
+    if (!pendingCommands.empty()) {
+      throw new MissingArgumentException(
+          String.format(exceptionResources.getString("MissingArgument"), pendingCommands.peek()));
     }
   }
 
@@ -101,18 +102,18 @@ public class Compiler {
   }
 
   // Returns an instance of a command using reflection
-  private Command getCommand(String symbol, Turtle turtle, List<Double> args){
+  private Command getCommand(String symbol, Turtle turtle, List<Double> args) {
     String command = reflectionResources.getString(symbol).trim();
     try {
       // convert string into Java object that represents that Java class
       Class<?> clazz = Class.forName(command);
       // use reflection to find the appropriate constructor of that class to call to create a new instance
       Constructor<?> ctor = clazz.getDeclaredConstructor(Turtle.class, List.class);
-      return (Command)ctor.newInstance(turtle, args);
-    }
-    catch (ClassNotFoundException | InvocationTargetException | NoSuchMethodException |
+      return (Command) ctor.newInstance(turtle, args);
+    } catch (ClassNotFoundException | InvocationTargetException | NoSuchMethodException |
         InstantiationException | IllegalAccessException e) {
-      throw new InputMismatchException(String.format(exceptionResources.getString("InputMismatch"), symbol, command));
+      throw new InputMismatchException(
+          String.format(exceptionResources.getString("InputMismatch"), symbol, command));
     }
 
   }

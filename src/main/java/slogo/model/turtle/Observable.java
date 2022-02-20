@@ -8,21 +8,24 @@ import java.util.List;
 
 /**
  * Example of managing listeners so other classes do not have to do it themselves.
- *
- * Note, this is the heart of an interactive system: notify all abstractions that have registered interest.
- *
- * This level is generic even though the bean classes it uses are not (they pass around simple Object classes).
+ * <p>
+ * Note, this is the heart of an interactive system: notify all abstractions that have registered
+ * interest.
+ * <p>
+ * This level is generic even though the bean classes it uses are not (they pass around simple
+ * Object classes).
  *
  * @author Robert C. Duvall
  */
 public class Observable<T> {
+
   private List<PropertyChangeListener> myListeners;
 
-  public Observable () {
+  public Observable() {
     myListeners = new ArrayList<>();
   }
 
-  public void addListener (PropertyChangeListener listener) {
+  public void addListener(PropertyChangeListener listener) {
     if (listener != null) {
       myListeners.add(listener);
     }
@@ -30,7 +33,7 @@ public class Observable<T> {
   }
 
   // control access to only allow subclasses to call it
-  protected void notifyListeners (String property, T oldValue, T newValue) {
+  protected void notifyListeners(String property, T oldValue, T newValue) {
     for (PropertyChangeListener l : myListeners) {
       l.propertyChange(new PropertyChangeEvent(this, property, oldValue, newValue));
     }

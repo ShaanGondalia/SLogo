@@ -1,8 +1,8 @@
 package slogo.model.command.turtle;
 
 import java.util.List;
-import slogo.model.turtle.Turtle;
 import slogo.model.exception.MissingArgumentException;
+import slogo.model.turtle.Turtle;
 
 /**
  * Class that represents a ShowTurtle (st) command. Depends on TurtleCommand and Turtle.
@@ -15,7 +15,8 @@ public class ShowTurtle extends TurtleCommand {
 
   /**
    * Creates a show turtle command. Takes no arguments
-   * @param args the arguments for the command (no arguments for ShowTurtle)
+   *
+   * @param args   the arguments for the command (no arguments for ShowTurtle)
    * @param turtle the Turtle that will be rotated
    * @throws MissingArgumentException if the list of arguments does not contain enough arguments
    */
@@ -36,6 +37,7 @@ public class ShowTurtle extends TurtleCommand {
 
   /**
    * Returns 1
+   *
    * @return 1
    */
   @Override
