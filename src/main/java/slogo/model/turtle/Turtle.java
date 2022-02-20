@@ -1,5 +1,10 @@
-package slogo.Model;
+package slogo.model.turtle;
 
+/**
+ * Class that encapsulates the turtle in the back-end. Contains internal API methods for updating and getting the status of the turtle. Depends on TurtleStatus.
+ *
+ * @author Jake Heller and Shaan Gondalia
+ */
 public class Turtle extends Observable<TurtleStatus> {
 
   private double myX;
@@ -9,6 +14,9 @@ public class Turtle extends Observable<TurtleStatus> {
   private boolean myVisibility;
   private TurtleStatus myLastState;
 
+  /**
+   * Create a new turtle that starts at the center of the screen. Initializes instance variables.
+   */
   public Turtle() {
     myX = 0;
     myY = 0;
@@ -16,6 +24,28 @@ public class Turtle extends Observable<TurtleStatus> {
     myHasPen = false;
     myVisibility = true;
     myLastState = makeStatus();
+  }
+
+  /**
+   * Moves the turtle a given distance in pixels (negative for backward), based on current bearing.
+   *
+   * @param distance the distance in pixels to move
+   */
+  public void move(double distance){
+    double radians = Math.toRadians(myBearing);
+    myX += distance * Math.sin(-radians);
+    myY += distance * Math.cos(-radians);
+    change("Pose");
+  }
+
+  /**
+   * Rotates the turtle Clockwise by a given number of degrees (negative for CCW).
+   *
+   * @param degrees the number of degrees to rotate
+   */
+  public void rotate(double degrees){
+    myBearing = (myBearing + degrees) % 360;
+    change("Pose");
   }
 
   public void setPose(Pose pose) {
@@ -26,12 +56,20 @@ public class Turtle extends Observable<TurtleStatus> {
     change(property);
   }
 
+  /**
+   * Sets the status of the turtle's pen.
+   * @param hasPen If true, the pen is down. If false, the pen is up.
+   */
   public void setPen(boolean hasPen) {
     myHasPen = hasPen;
     String property = "Pen";
     change(property);
   }
 
+  /**
+   * Sets the visibility of the turtle.
+   * @param visibility If true, the turtle is visible. If false, the turtle is invisible.
+   */
   public void setVisibility(boolean visibility) {
     myVisibility = visibility;
     String property = "Visibility";
@@ -57,27 +95,4 @@ public class Turtle extends Observable<TurtleStatus> {
     notifyListeners(property, myLastState, newState);
     myLastState = newState;
   }
-
-  /*
-  These methods are unnecessary if you always package pose info
-  into the pose
-
-  public void setX(double x) {
-    myX = x;
-    String property = "Pose";
-    change(property);
-  }
-
-  public void setY(double y) {
-    myY = y;
-    String property = "Pose";
-    change(property);
-  }
-
-  public void setAngle(double angle) {
-    myBearing = angle;
-    String property = "Pose";
-    change(property);
-  }
-   */
 }
