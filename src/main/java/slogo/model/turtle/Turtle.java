@@ -56,6 +56,10 @@ public class Turtle extends Observable<TurtleStatus> {
     change(property);
   }
 
+  /**
+   * Sets the status of the turtle's pen.
+   * @param hasPen If true, the pen is down. If false, the pen is up.
+   */
   public void setPen(boolean hasPen) {
     myHasPen = hasPen;
     String property = "Pen";
