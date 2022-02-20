@@ -37,7 +37,7 @@ public class SetTowards extends TurtleCommand {
   public Double execute() {
     degrees = getDegreesToTurn();
     getTurtle().rotate(degrees);
-    return degrees;
+    return returnValue();
   }
 
   /**
@@ -46,7 +46,7 @@ public class SetTowards extends TurtleCommand {
    */
   @Override
   public Double returnValue() {
-    return degrees;
+    return Math.abs(degrees);
   }
 
   // Gets the number of degrees the turtle has to turn
@@ -54,8 +54,27 @@ public class SetTowards extends TurtleCommand {
   private Double getDegreesToTurn(){
     double deltaX = x - getTurtle().getPose().x();
     double deltaY = y - getTurtle().getPose().y();
-    double rads = Math.atan((deltaX) / (deltaY));
+    double radsFromVertical = Math.atan((deltaX) / (deltaY));
+    double degreesFromVertical = Math.toDegrees(radsFromVertical);
 
-    return Math.toDegrees(rads) - getTurtle().getPose().bearing();
+    double newBearing = getNewBearing(degreesFromVertical, deltaX, deltaY);
+    double degreesToTurn = newBearing - getTurtle().getPose().bearing();
+
+    degreesToTurn = degreesToTurn > 180 ? 360 - degreesToTurn : degreesToTurn;
+
+    return degreesToTurn;
+  }
+
+  // Gets the new bearing of the turtle given the degrees from vertical and delta x and y
+  private Double getNewBearing(double degreesFromVertical, double deltaX, double deltaY) {
+    if (deltaX >= 0 && deltaY >= 0) { // quadrant 1
+      return degreesFromVertical;
+    } else if (deltaX < 0 && deltaY >= 0) { // quadrant 2
+      return 180 - degreesFromVertical;
+    } else if (deltaX < 0 && deltaY < 0) { // quadrant 3
+      return 180 + degreesFromVertical;
+    } else { // quadrant 4
+      return 360 - degreesFromVertical;
+    }
   }
 }

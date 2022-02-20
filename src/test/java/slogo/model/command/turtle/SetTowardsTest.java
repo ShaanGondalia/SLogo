@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 import slogo.model.exception.MissingArgumentException;
+import slogo.model.turtle.Pose;
 import slogo.model.turtle.Turtle;
 
 /**
@@ -50,7 +51,29 @@ public class SetTowardsTest {
     args.add(X_NEG);
     args.add(Y_NEG);
     SetTowards c = new SetTowards(myTurtle, args);
-    assertEquals(-135, c.execute(), EPSILON);
+    assertEquals(135, c.execute(), EPSILON);
+  }
+
+  @Test
+  void testRotateFirstQuadrantAlreadyRotated() throws MissingArgumentException {
+    List<Double> args = new ArrayList<>();
+    args.add(X_POS);
+    args.add(Y_POS);
+    Pose pose = new Pose(0,0, 60);
+    myTurtle.setPose(pose);
+    SetTowards c = new SetTowards(myTurtle, args);
+    assertEquals(15, c.execute(), EPSILON);
+  }
+
+  @Test
+  void testRotateThirdQuadrantAlreadyRotated() throws MissingArgumentException {
+    List<Double> args = new ArrayList<>();
+    args.add(X_NEG);
+    args.add(Y_NEG);
+    Pose pose = new Pose(0,0, 60);
+    myTurtle.setPose(pose);
+    SetTowards c = new SetTowards(myTurtle, args);
+    assertEquals(165, c.execute(), EPSILON);
   }
 
 }
