@@ -68,4 +68,10 @@ public class CompilerTest {
     assertThrows(SymbolNotFoundException.class, () -> compiler.compile(UNKNOWN_PROGRAM, myTurtle));
   }
 
+  @Test
+  void testParameterOrder() throws Exception {
+    String program = "sum 50 fd";
+    assertThrows(MissingArgumentException.class, () -> compiler.compile(program, myTurtle));
+  }
+
 }
