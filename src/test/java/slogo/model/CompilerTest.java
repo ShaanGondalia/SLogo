@@ -71,7 +71,7 @@ public class CompilerTest {
   @Test
   void testParameterOrder() throws Exception {
     String program = "sum 50 fd";
-    assertThrows(MissingArgumentException.class, () -> compiler.compile(program, myTurtle));
+    assertThrows(MissingArgumentException.class, () -> compiler.run(program, myTurtle));
   }
 
 }
