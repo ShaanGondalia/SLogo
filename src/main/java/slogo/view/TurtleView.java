@@ -1,10 +1,13 @@
 package slogo.view;
 
+import java.net.URL;
 import javafx.animation.Animation;
 import javafx.animation.PathTransition;
 import javafx.animation.RotateTransition;
 import javafx.animation.SequentialTransition;
 import javafx.scene.Node;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.LineTo;
 import javafx.scene.shape.MoveTo;
@@ -22,25 +25,35 @@ import slogo.model.turtle.TurtleStatus;
 
 public class TurtleView implements PropertyChangeListener  {
     private static double SIZE = 20;
+    private static double CENTER = TurtleWindowView.HEIGHT / 2;
 
-    private Rectangle turtleNode; // for now
-    private double timeInSeconds = 10; //Hard coded for now
+    private ImageView turtleNode; // for now
+    private double timeInSeconds = 5; //Hard coded for now
     private Queue<PropertyChangeEvent> changeQueue = new LinkedList<>();
 
     public TurtleView() {
-//        URL url = getClass().getResource("View/img/turtle.png");
-//        turtleNode = new ImageView(url.toString());
-        turtleNode = new Rectangle(SIZE, SIZE);
-        turtleNode.setFill(Color.RED);
+        Image image = new Image(getClass().getResourceAsStream("/view/img/turtle.png"));
+        turtleNode = new ImageView(image);
+//        turtleNode = new Rectangle(SIZE, SIZE);
+//        turtleNode.setFill(Color.RED);
+        turtleNode.setX(CENTER);
+        turtleNode.setY(CENTER);
+
     }
 
     private Animation makeAnimation(Pose oldPose, Pose newPose) {
         Path path = new Path();
-        path.getElements().add(new MoveTo(oldPose.x(), oldPose.y()));
-        path.getElements().add(new LineTo(newPose.x(), newPose.y()));
 
-        RotateTransition rt = new RotateTransition(Duration.seconds(timeInSeconds), turtleNode);
-        rt.setByAngle(newPose.bearing() - oldPose.bearing());
+        double deltaR = newPose.bearing() - oldPose.bearing();
+        path.getElements().add(new MoveTo(oldPose.x() + CENTER, oldPose.y() + CENTER));
+        path.getElements().add(new LineTo(newPose.x() + CENTER, newPose.y() + CENTER));
+
+        double timeS = timeInSeconds;
+        if (Math.abs(deltaR) < 0.1){
+            timeS = 0;
+        }
+        RotateTransition rt = new RotateTransition(Duration.seconds(timeS), turtleNode);
+        rt.setByAngle(deltaR);
 
         PathTransition pt = new PathTransition(Duration.seconds(timeInSeconds), path, turtleNode);
 

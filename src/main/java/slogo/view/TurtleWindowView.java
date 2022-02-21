@@ -3,6 +3,7 @@ package slogo.view;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import slogo.controller.Controller;
 import slogo.model.turtle.Pose;
 import slogo.model.turtle.Turtle;
 
@@ -15,7 +16,7 @@ public class TurtleWindowView implements Displayable {
   private Pane myPane;
 
   @Override
-  public void createStage(String language) {
+  public void createStage(String language, Controller c) {
     Stage stage = new Stage();
     myPane = new Pane();
     myPane.setId(ROOT_ID);
@@ -24,11 +25,9 @@ public class TurtleWindowView implements Displayable {
     stage.setScene(scene);
     stage.show();
 
-    Turtle t = new Turtle();
     TurtleView tv = new TurtleView();
-    t.addListener(tv);
     myPane.getChildren().add(tv.getTurtleNode());
-
-    t.setPose(new Pose(200, 200, 1));
+    c.addTurtle(tv);
+//    t.setPose(new Pose(200, 200, 1));
   }
 }

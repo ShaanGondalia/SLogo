@@ -9,6 +9,7 @@ import java.nio.file.Paths;
 import java.util.*;
 import javafx.application.Application;
 import javafx.stage.Stage;
+import slogo.controller.Controller;
 import slogo.view.Displayable;
 import slogo.view.LanguageProbe;
 
@@ -76,9 +77,11 @@ public class Main extends Application {
 
   @Override
   public void start(Stage stage) {
+
     LanguageProbe languageProbe = new LanguageProbe();
+    Controller c = new Controller(languageProbe.languageToUse());
     for (String name : VIEWS_TO_CREATE) {
-      createViews(name).createStage(languageProbe.languageToUse());
+      createViews(name).createStage(languageProbe.languageToUse(), c);
     }
   }
 

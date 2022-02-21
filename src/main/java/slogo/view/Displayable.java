@@ -1,5 +1,7 @@
 package slogo.view;
 
+import slogo.controller.Controller;
+
 /**
  * Common shared interface to display a new stage
  *
@@ -7,6 +9,6 @@ package slogo.view;
  */
 public interface Displayable {
 
-  void createStage(String language);
+  void createStage(String language, Controller c);
 
 }

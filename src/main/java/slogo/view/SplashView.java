@@ -1,5 +1,7 @@
 package slogo.view;
 
+import slogo.controller.Controller;
+
 /**
  * Screen to display the first time program is running up. Here, can select language / css and
  * anything else needed before initialization
@@ -9,7 +11,7 @@ package slogo.view;
 public class SplashView implements Displayable {
 
   @Override
-  public void createStage(String language) {
+  public void createStage(String language, Controller c) {
 
   }
 

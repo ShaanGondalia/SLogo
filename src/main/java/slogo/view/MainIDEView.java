@@ -9,6 +9,8 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.TilePane;
 import javafx.stage.Stage;
 import slogo.Errors;
+import slogo.controller.Controller;
+import slogo.model.Compiler;
 
 /**
  * Creates the central window to display where the user can type in text commands
@@ -26,9 +28,10 @@ public class MainIDEView implements Displayable {
   private BorderPane myPane;
   private TilePane myButtons;
   private TextArea myCommandArea;
+  private Controller myController;
 
   @Override
-  public void createStage(String language) {
+  public void createStage(String language, Controller c) {
     Stage stage = new Stage();
     myPane = new BorderPane();
     myPane.setId(ROOT_ID);
@@ -44,6 +47,8 @@ public class MainIDEView implements Displayable {
     for (String button : BUTTONS){
       createButton(button);
     }
+    myController = c;
+
   }
 
   private void createTextArea() {
@@ -78,6 +83,11 @@ public class MainIDEView implements Displayable {
   }
 
   private void run() {
-
+    try{
+      myController.runText(getRawCommandText());
+    }
+    catch (Exception e){
+      Errors.showAndClose(e.getMessage());
+    }
   }
 }
