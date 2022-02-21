@@ -1,4 +1,4 @@
-package slogo.View;
+package slogo.view;
 
 import javafx.stage.Stage;
 

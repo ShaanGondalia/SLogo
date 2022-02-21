@@ -1,4 +1,4 @@
-package slogo.View;
+package slogo.view;
 
 import java.lang.reflect.Method;
 import java.util.List;
@@ -67,7 +67,7 @@ public class MainIDEView implements Displayable {
     b.setText(button);
     b.setOnAction((e) -> {
       try {
-        Class<?> c = Class.forName("slogo.View.MainIDEView");
+        Class<?> c = Class.forName("slogo.view.MainIDEView");
         Method m = c.getDeclaredMethod(button);
         m.invoke(this);
       } catch (Exception ex){

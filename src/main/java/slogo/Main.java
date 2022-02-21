@@ -9,9 +9,8 @@ import java.nio.file.Paths;
 import java.util.*;
 import javafx.application.Application;
 import javafx.stage.Stage;
-import slogo.View.Displayable;
-import slogo.View.LanguageProbe;
-import slogo.model.turtle.Turtle;
+import slogo.view.Displayable;
+import slogo.view.LanguageProbe;
 
 
 /**
@@ -85,7 +84,7 @@ public class Main extends Application {
 
   private Displayable createViews(String name) {
     try {
-      Class<?> clazz = Class.forName("slogo.View." + name);
+      Class<?> clazz = Class.forName("slogo.view." + name);
       Constructor ctor = clazz.getConstructor();
       return (Displayable) ctor.newInstance();
     } catch (Exception e) {

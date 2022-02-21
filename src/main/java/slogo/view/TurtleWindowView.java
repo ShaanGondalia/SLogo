@@ -1,7 +1,6 @@
-package slogo.View;
+package slogo.view;
 
 import javafx.scene.Scene;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import slogo.model.turtle.Pose;

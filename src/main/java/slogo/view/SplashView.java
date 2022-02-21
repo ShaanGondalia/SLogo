@@ -1,4 +1,4 @@
-package slogo.View;
+package slogo.view;
 
 /**
  * Screen to display the first time program is running up. Here, can select language / css and
