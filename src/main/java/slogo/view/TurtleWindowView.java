@@ -24,10 +24,9 @@ public class TurtleWindowView implements Displayable {
     stage.setTitle(TITLE);
     stage.setScene(scene);
     stage.show();
+  }
 
-    TurtleView tv = new TurtleView();
-    myPane.getChildren().add(tv.getTurtleNode());
-    c.addTurtle(tv);
-//    t.setPose(new Pose(200, 200, 1));
+  public void addTurtleView(TurtleView tv) {
+      myPane.getChildren().add(tv.getTurtleNode());
   }
 }
