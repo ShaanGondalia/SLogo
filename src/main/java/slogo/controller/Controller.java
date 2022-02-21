@@ -21,7 +21,8 @@ public class Controller {
     myCompiler.run(program, myTurtles);
   }
 
-  public void addTurtle(Turtle turtle, PropertyChangeListener turtleView) {
+  public void addTurtle(PropertyChangeListener turtleView) {
+    Turtle turtle = new Turtle();
     myTurtles.add(turtle);
     turtle.addListener(turtleView);
   }
