@@ -52,8 +52,12 @@ public class RightTest {
     Right c = new Right(myTurtle, args);
     assertEquals(ARG_1, c.returnValue());
     double bearingBefore = myTurtle.getPose().bearing();
+    double xBefore = myTurtle.getPose().x();
+    double yBefore = myTurtle.getPose().y();
     assertEquals(ARG_1, c.execute());
     assertEquals(bearingBefore + ARG_1, myTurtle.getPose().bearing());
+    assertEquals(xBefore, myTurtle.getPose().x(), Main.TOLERANCE);
+    assertEquals(yBefore, myTurtle.getPose().y(), Main.TOLERANCE);
   }
 
   @Test
