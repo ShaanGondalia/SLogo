@@ -17,7 +17,7 @@ public class MainIDEView implements Displayable {
   private static final int HEIGHT = 800;
   private static final int WIDTH = 1000;
   private static final String ROOT_ID = "root";
-  private static final List<String> BUTTONS = List.of("Run");
+  private static final List<String> BUTTONS = List.of("run");
 
   private BorderPane myPane;
   private TextArea myCommandArea;
@@ -54,5 +54,7 @@ public class MainIDEView implements Displayable {
   private void createButton(String button) {
 
   }
+  private void run(){
 
+  }
 }
