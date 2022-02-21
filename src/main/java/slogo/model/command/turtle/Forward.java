@@ -1,8 +1,8 @@
 package slogo.model.command.turtle;
 
 import java.util.List;
-import slogo.model.turtle.Turtle;
 import slogo.model.exception.MissingArgumentException;
+import slogo.model.turtle.Turtle;
 
 /**
  * Class that represents a forward (fd) command. Depends on TurtleCommand and Turtle.
@@ -13,9 +13,11 @@ public class Forward extends TurtleCommand {
 
   private final double pixels;
   private static final int NUM_ARGS = 1;
+
   /**
    * Creates a forward command
-   * @param args the arguments for the command (single argument for FD)
+   *
+   * @param args   the arguments for the command (single argument for FD)
    * @param turtle the Turtle that will be moved when the command is executed
    * @throws MissingArgumentException if the list of arguments does not contain enough arguments
    */
@@ -26,6 +28,7 @@ public class Forward extends TurtleCommand {
 
   /**
    * Moves the attached turtle forward given the arguments
+   *
    * @return the number of pixels the turtle will move
    */
   @Override
@@ -36,6 +39,7 @@ public class Forward extends TurtleCommand {
 
   /**
    * Returns the number of pixels the turtle will move
+   *
    * @return the number of pixels the turtle will move
    */
   @Override
