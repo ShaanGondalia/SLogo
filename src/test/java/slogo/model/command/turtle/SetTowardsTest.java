@@ -1,12 +1,14 @@
 package slogo.model.command.turtle;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
-
 import slogo.model.exception.MissingArgumentException;
+import slogo.model.turtle.Pose;
 import slogo.model.turtle.Turtle;
 
 /**
@@ -25,12 +27,12 @@ public class SetTowardsTest {
   private Turtle myTurtle;
 
   @BeforeEach
-  void setUp(){
+  void setUp() {
     myTurtle = new Turtle();
   }
 
   @Test
-  void testNotEnoughArgs(){
+  void testNotEnoughArgs() {
     List<Double> args = new ArrayList<>();
     assertThrows(MissingArgumentException.class, () -> new SetTowards(myTurtle, args));
   }
@@ -41,7 +43,6 @@ public class SetTowardsTest {
     args.add(X_POS);
     args.add(Y_POS);
     SetTowards c = new SetTowards(myTurtle, args);
-    assertEquals(45, c.returnValue(), EPSILON);
     assertEquals(45, c.execute(), EPSILON);
   }
 
@@ -51,8 +52,29 @@ public class SetTowardsTest {
     args.add(X_NEG);
     args.add(Y_NEG);
     SetTowards c = new SetTowards(myTurtle, args);
-    assertEquals(-135, c.returnValue(), EPSILON);
-    assertEquals(-135, c.execute(), EPSILON);
+    assertEquals(135, c.execute(), EPSILON);
+  }
+
+  @Test
+  void testRotateFirstQuadrantAlreadyRotated() throws MissingArgumentException {
+    List<Double> args = new ArrayList<>();
+    args.add(X_POS);
+    args.add(Y_POS);
+    Pose pose = new Pose(0, 0, 60);
+    myTurtle.setPose(pose);
+    SetTowards c = new SetTowards(myTurtle, args);
+    assertEquals(15, c.execute(), EPSILON);
+  }
+
+  @Test
+  void testRotateThirdQuadrantAlreadyRotated() throws MissingArgumentException {
+    List<Double> args = new ArrayList<>();
+    args.add(X_NEG);
+    args.add(Y_NEG);
+    Pose pose = new Pose(0, 0, 60);
+    myTurtle.setPose(pose);
+    SetTowards c = new SetTowards(myTurtle, args);
+    assertEquals(165, c.execute(), EPSILON);
   }
 
 }

@@ -7,12 +7,12 @@ package slogo.model.exception;
  */
 public class SymbolNotFoundException extends Exception {
 
-    /**
-     * Creates custom exception with given error message
-     *
-     * @param errorMessage the error message to display
-     */
-    public SymbolNotFoundException(String errorMessage) {
-      super(errorMessage);
-    }
+  /**
+   * Creates custom exception with given error message
+   *
+   * @param errorMessage the error message to display
+   */
+  public SymbolNotFoundException(String errorMessage) {
+    super(errorMessage);
+  }
 }

@@ -1,15 +1,15 @@
 package slogo.model.command.query;
 
 import java.util.List;
-import slogo.model.turtle.Turtle;
 import slogo.model.exception.MissingArgumentException;
+import slogo.model.turtle.Turtle;
 
 /**
  * Class that represents a XCOR query. Depends on TurtleQuery and Turtle.
  *
  * @author Shaan Gondalia
  */
-public class XCor extends TurtleQuery{
+public class XCor extends TurtleQuery {
 
   private static final int NUM_ARGS = 0;
 
@@ -17,7 +17,7 @@ public class XCor extends TurtleQuery{
    * Creates an XCOR command attached to the given Turtle.
    *
    * @param turtle the Turtle that is attached to this command
-   * @param args the arguments that the command takes
+   * @param args   the arguments that the command takes
    * @throws MissingArgumentException if the list of arguments does not contain enough arguments
    */
   public XCor(Turtle turtle, List<Double> args) throws MissingArgumentException {
@@ -26,6 +26,7 @@ public class XCor extends TurtleQuery{
 
   /**
    * Returns the x coordinate of the queried
+   *
    * @return the x coordinate of the queried turtle
    */
   @Override

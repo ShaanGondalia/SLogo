@@ -1,7 +1,8 @@
 package slogo.model.turtle;
 
 /**
- * Class that encapsulates the turtle in the back-end. Contains internal API methods for updating and getting the status of the turtle. Depends on TurtleStatus.
+ * Class that encapsulates the turtle in the back-end. Contains internal API methods for updating
+ * and getting the status of the turtle. Depends on TurtleStatus.
  *
  * @author Jake Heller and Shaan Gondalia
  */
@@ -31,7 +32,7 @@ public class Turtle extends Observable<TurtleStatus> {
    *
    * @param distance the distance in pixels to move
    */
-  public void move(double distance){
+  public void move(double distance) {
     double radians = Math.toRadians(myBearing);
     myX += distance * Math.sin(-radians);
     myY += distance * Math.cos(-radians);
@@ -43,8 +44,21 @@ public class Turtle extends Observable<TurtleStatus> {
    *
    * @param degrees the number of degrees to rotate
    */
-  public void rotate(double degrees){
+  public void rotate(double degrees) {
     myBearing = (myBearing + degrees) % 360;
+    if (myBearing < 0) {
+      myBearing += 360;
+    }
+    change("Pose");
+  }
+
+  /**
+   * Returns the turtle to its starting position
+   */
+  public void goHome() {
+    myX = 0;
+    myY = 0;
+    myBearing = 0;
     change("Pose");
   }
 
@@ -57,7 +71,16 @@ public class Turtle extends Observable<TurtleStatus> {
   }
 
   /**
+   * Clears the turtle's trails
+   */
+  public void clear() {
+    String property = "Clear";
+    change(property);
+  }
+
+  /**
    * Sets the status of the turtle's pen.
+   *
    * @param hasPen If true, the pen is down. If false, the pen is up.
    */
   public void setPen(boolean hasPen) {
@@ -68,6 +91,7 @@ public class Turtle extends Observable<TurtleStatus> {
 
   /**
    * Sets the visibility of the turtle.
+   *
    * @param visibility If true, the turtle is visible. If false, the turtle is invisible.
    */
   public void setVisibility(boolean visibility) {
@@ -95,4 +119,5 @@ public class Turtle extends Observable<TurtleStatus> {
     notifyListeners(property, myLastState, newState);
     myLastState = newState;
   }
+
 }
