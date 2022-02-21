@@ -11,6 +11,7 @@ import java.util.ResourceBundle;
 import java.util.Stack;
 import slogo.model.command.Command;
 import slogo.model.exception.MissingArgumentException;
+import slogo.model.exception.SymbolNotFoundException;
 import slogo.model.parser.Parser;
 import slogo.model.turtle.Turtle;
 
@@ -29,6 +30,8 @@ public class Compiler {
 
   private Parser myParser;
   private Map<String, Double> myVariables;
+  private Map<String, Command> myUserCommands;
+
   private final ResourceBundle parameterResources = ResourceBundle.getBundle(PARAMETER_RESOURCES);
   private final ResourceBundle reflectionResources = ResourceBundle.getBundle(REFLECTION_RESOURCES);
   private final ResourceBundle exceptionResources;
@@ -42,6 +45,7 @@ public class Compiler {
     myParser.addPatterns(language);
     myParser.addPatterns("Syntax");
     myVariables = new HashMap<>();
+    myUserCommands = new HashMap<>();
   }
 
   /**
@@ -62,6 +66,7 @@ public class Compiler {
 
     for (String token : program.split(WHITESPACE)) {
       String symbol = myParser.getSymbol(token);
+
       if (parameterResources.containsKey(symbol)) {
         pendingCommands.push(symbol);
         valuesBefore.push(values.size());
@@ -69,7 +74,13 @@ public class Compiler {
         values.push(Double.parseDouble(token));
       } else if (symbol.equals("Variable")) {
         values.push(myVariables.get(token));
+      } else if (symbol.equals("UserCommand")) {
+        if (!myUserCommands.containsKey(token)) {
+          throw new SymbolNotFoundException(
+              String.format(exceptionResources.getString("SymbolNotFound"), token));
+        }
       }
+
 
       // LOGIC:
       // After a command is added, we can only resolve the commands arguments once numInputs values have been added to the value stack.
