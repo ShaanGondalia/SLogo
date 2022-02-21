@@ -3,7 +3,7 @@ package slogo.controller;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.List;
-import slogo.View.TurtleView;
+import slogo.view.TurtleView;
 import slogo.model.Compiler;
 import slogo.model.turtle.Turtle;
 
@@ -12,8 +12,8 @@ public class Controller {
   slogo.model.Compiler myCompiler;
   List<Turtle> myTurtles;
 
-  public Controller(Compiler c) {
-    myCompiler = c;
+  public Controller(String lan) {
+    myCompiler = new Compiler(lan);
     myTurtles = new ArrayList<>();
   }
 

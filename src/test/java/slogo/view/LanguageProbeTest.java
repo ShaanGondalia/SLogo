@@ -1,6 +1,4 @@
-package slogo.View;
-
-import static org.junit.jupiter.api.Assertions.*;
+package slogo.view;
 
 import org.junit.jupiter.api.Test;
 import util.DukeApplicationTest;

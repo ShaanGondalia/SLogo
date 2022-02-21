@@ -11,6 +11,7 @@ public class ModelTester {
 
   public static void main(String[] args) throws Exception {
     Compiler c = new Compiler("English");
+
     List<Turtle> turtles = new ArrayList<>();
     turtles.add(new Turtle());
     c.run(PROGRAM, turtles);
