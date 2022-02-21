@@ -5,9 +5,13 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.ArrayList;
 import java.util.List;
+import javafx.scene.transform.Rotate;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import slogo.Main;
+import slogo.model.command.Command;
 import slogo.model.exception.MissingArgumentException;
+import slogo.model.turtle.Pose;
 import slogo.model.turtle.Turtle;
 
 /**
@@ -51,9 +55,26 @@ public class ForwardTest {
     assertEquals(c.returnValue(), ARG_1);
     double xBefore = myTurtle.getPose().x();
     double yBefore = myTurtle.getPose().y();
-    assertEquals(c.execute(), ARG_1);
-    assertEquals(xBefore, myTurtle.getPose().x());
-    assertEquals(yBefore + ARG_1, myTurtle.getPose().y());
+    assertEquals(ARG_1, c.execute(), Main.TOLERANCE);
+    assertEquals(xBefore, myTurtle.getPose().x(), Main.TOLERANCE);
+    assertEquals(yBefore + ARG_1, myTurtle.getPose().y(), Main.TOLERANCE);
+  }
+
+  @Test
+  void testForward2() throws MissingArgumentException {
+    List<Double> rotateArgs = new ArrayList<>();
+    rotateArgs.add(45.0);
+    Command rotate = new Right(myTurtle, rotateArgs);
+    rotate.execute();
+
+    List<Double> forwardArgs = new ArrayList<>();
+    forwardArgs.add(2.0);
+    Command forward = new Forward(myTurtle, forwardArgs);
+    forward.execute();
+    Pose pose = myTurtle.getPose();
+    double answer = Math.sqrt(2);
+    // String msg = String.format("Expected %f and got %f", answer, pose.x());
+    assertEquals(answer, pose.x(), Main.TOLERANCE);
   }
 
 }

@@ -13,6 +13,7 @@ import static org.junit.jupiter.api.Assertions.*;
  * Feel free to completely change this code or delete it entirely. 
  */
 class MainTest {
+
     private Main m;
 
     // create new instance of test object before each test is run
@@ -27,6 +28,7 @@ class MainTest {
         p.addPatterns("English");
         p.addPatterns("Syntax");
     }
+
     @Test
     void observerTest () {
         Turtle t = new Turtle();

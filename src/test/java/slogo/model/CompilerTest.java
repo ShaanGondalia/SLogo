@@ -20,7 +20,7 @@ public class CompilerTest {
 
   private static final String BASIC_PROGRAM = "fd 50";
   private static final String INCORRECT_PROGRAM = "fd + 50";
-  private static final String UNKNOWN_PROGRAM = "xz' 50";
+  private static final String UNKNOWN_PROGRAM = "xz 50";
   private static final String TWO_ARG_PROGRAM = "fd + 50 50";
   private static final String MULTI_PROGRAM = "fd + fd 50 50";
   private static final String COMPLEX_PROGRAM = "fd + fd 50 50 lt sum 45 45";

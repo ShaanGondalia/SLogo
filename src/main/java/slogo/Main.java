@@ -25,6 +25,7 @@ public class Main extends Application {
   private static final String LANGUAGE_RESOURCE_PATH = "/slogo/languages/";
   private static final String EXAMPLE_PROGRAMS_PATH = "/examples";
 
+  public static double TOLERANCE = 0.01;
   /**
    * Get command in a given language.
    */
