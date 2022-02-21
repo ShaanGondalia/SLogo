@@ -6,9 +6,13 @@ import javafx.animation.RotateTransition;
 import javafx.animation.SequentialTransition;
 import javafx.scene.Node;
 import javafx.scene.image.ImageView;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
+import javafx.scene.shape.Circle;
 import javafx.scene.shape.LineTo;
 import javafx.scene.shape.MoveTo;
 import javafx.scene.shape.Path;
+import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 
 import java.beans.PropertyChangeEvent;
@@ -21,14 +25,17 @@ import slogo.model.turtle.Pose;
 import slogo.model.turtle.TurtleStatus;
 
 public class TurtleView implements PropertyChangeListener  {
+    private static double SIZE = 20;
 
-    private Node turtleNode;
-    private double timeInSeconds = 1; //Hard coded for now
+    private Rectangle turtleNode; // for now
+    private double timeInSeconds = 10; //Hard coded for now
     private Queue<PropertyChangeEvent> changeQueue = new LinkedList<>();
 
     public TurtleView() {
-        URL url = getClass().getResource("View/img/turtle.png");
-        turtleNode = new ImageView(url.toString());
+//        URL url = getClass().getResource("View/img/turtle.png");
+//        turtleNode = new ImageView(url.toString());
+        turtleNode = new Rectangle(SIZE, SIZE);
+        turtleNode.setFill(Color.RED);
     }
 
     private Animation makeAnimation(Pose oldPose, Pose newPose) {

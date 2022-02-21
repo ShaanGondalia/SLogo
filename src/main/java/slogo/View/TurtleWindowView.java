@@ -4,6 +4,8 @@ import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import slogo.model.turtle.Pose;
+import slogo.model.turtle.Turtle;
 
 public class TurtleWindowView implements Displayable {
   private static final String TITLE = "SLOGO TEAM 3 - Turtle Window";
@@ -12,6 +14,7 @@ public class TurtleWindowView implements Displayable {
   public static final String ROOT_ID = "turtleWindowRoot";
 
   private Pane myPane;
+
   @Override
   public void createStage(String language) {
     Stage stage = new Stage();
@@ -21,5 +24,12 @@ public class TurtleWindowView implements Displayable {
     stage.setTitle(TITLE);
     stage.setScene(scene);
     stage.show();
+
+    Turtle t = new Turtle();
+    TurtleView tv = new TurtleView();
+    t.addListener(tv);
+    myPane.getChildren().add(tv.getTurtleNode());
+
+    t.setPose(new Pose(200, 200, 1));
   }
 }

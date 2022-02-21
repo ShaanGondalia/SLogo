@@ -6,6 +6,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.TilePane;
 import javafx.stage.Stage;
 import slogo.Errors;
 
@@ -23,6 +24,7 @@ public class MainIDEView implements Displayable {
   private static final List<String> BUTTONS = List.of("run");
 
   private BorderPane myPane;
+  private TilePane myButtons;
   private TextArea myCommandArea;
 
   @Override
@@ -36,6 +38,9 @@ public class MainIDEView implements Displayable {
     stage.show();
 
     createTextArea();
+    myButtons = new TilePane();
+    myPane.setBottom(myButtons);
+
     for (String button : BUTTONS){
       createButton(button);
     }
@@ -69,6 +74,7 @@ public class MainIDEView implements Displayable {
         Errors.showAndClose(ex.getMessage());
       }
     });
+    myButtons.getChildren().add(b);
   }
 
   private void run() {

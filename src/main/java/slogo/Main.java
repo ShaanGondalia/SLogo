@@ -11,6 +11,7 @@ import javafx.application.Application;
 import javafx.stage.Stage;
 import slogo.View.Displayable;
 import slogo.View.LanguageProbe;
+import slogo.model.turtle.Turtle;
 
 
 /**
