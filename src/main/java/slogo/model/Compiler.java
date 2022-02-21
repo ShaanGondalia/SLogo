@@ -48,10 +48,13 @@ public class Compiler {
    * Compiles and runs a program.
    *
    * @param program the string input of the program
-   * @param turtle  the turtle to attach commands to
+   * @param turtles  list of turtles to attach commands to
    * @throws Exception if there is an issue running the program
    */
-  public void run(String program, Turtle turtle) throws Exception {
+  public void run(String program, List<Turtle> turtles) throws Exception {
+
+    // will be changed when we can have multiple turtles
+    Turtle turtle = turtles.get(0);
 
     Stack<String> pendingCommands = new Stack<>();
     Stack<Double> values = new Stack<>();
