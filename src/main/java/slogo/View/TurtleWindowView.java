@@ -7,8 +7,8 @@ import javafx.stage.Stage;
 
 public class TurtleWindowView implements Displayable {
   private static final String TITLE = "SLOGO TEAM 3 - Turtle Window";
-  private static final int HEIGHT = 400;
-  private static final int WIDTH = 400;
+  public static final int HEIGHT = 400;
+  public static final int WIDTH = 400;
   public static final String ROOT_ID = "turtleWindowRoot";
 
   private Pane myPane;

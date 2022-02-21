@@ -1,10 +1,13 @@
 package slogo.View;
 
+import java.lang.reflect.Method;
 import java.util.List;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
+import slogo.Errors;
 
 /**
  * Creates the central window to display where the user can type in text commands
@@ -33,6 +36,9 @@ public class MainIDEView implements Displayable {
     stage.show();
 
     createTextArea();
+    for (String button : BUTTONS){
+      createButton(button);
+    }
   }
 
   private void createTextArea() {
@@ -52,9 +58,20 @@ public class MainIDEView implements Displayable {
   }
 
   private void createButton(String button) {
-
+    Button b = new Button();
+    b.setText(button);
+    b.setOnAction((e) -> {
+      try {
+        Class<?> c = Class.forName("slogo.View.MainIDEView");
+        Method m = c.getDeclaredMethod(button);
+        m.invoke(this);
+      } catch (Exception ex){
+        Errors.showAndClose(ex.getMessage());
+      }
+    });
   }
-  private void run(){
+
+  private void run() {
 
   }
 }
