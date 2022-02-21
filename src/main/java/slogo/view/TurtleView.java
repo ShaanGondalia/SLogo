@@ -21,39 +21,40 @@ import slogo.model.turtle.Pose;
 import slogo.model.turtle.TurtleStatus;
 
 public class TurtleView implements PropertyChangeListener  {
-    private static double SIZE = 20;
-    private static double CENTER = TurtleWindowView.HEIGHT / 2;
+
+    private static double centerX = TurtleWindowView.WIDTH / 2;
+    private static double centerY = TurtleWindowView.HEIGHT / 2;
+    private static Matrix ctm = new Matrix(1, 0, centerX, 0, -1, centerY);
 
     private ImageView turtleNode;
-    private double timeInSeconds = 2; //Hard coded for now
     private Queue<Animation> animationQueue = new LinkedList<>();
     private Animation currentAnimation = null;
+    private double timeInSeconds = 1; //Hard coded for now
 
     public TurtleView() {
-        Image image = new Image(getClass().getResourceAsStream("/view/img/turtle.png"));
-        turtleNode = new ImageView(image);
-        turtleNode.setX(CENTER);
-        turtleNode.setY(CENTER);
-
+        turtleNode = new ImageView(new Image(getClass().getResourceAsStream("/view/img/turtle.png")));
+        turtleNode.setX(centerX - (turtleNode.getFitWidth()/2));
+        turtleNode.setY(centerY - (turtleNode.getFitHeight()/2));
     }
 
     private Animation makeAnimation(Pose oldPose, Pose newPose) {
+        Coordinate start = ctm.mapPoint(new Coordinate(oldPose.x(), oldPose.y()));
+        Coordinate end = ctm.mapPoint(new Coordinate(newPose.x(), newPose.y()));
         Path path = new Path();
-        path.getElements().add(new MoveTo(oldPose.x() + CENTER, oldPose.y() + CENTER));
-        path.getElements().add(new LineTo(newPose.x() + CENTER, newPose.y() + CENTER));
+        path.getElements().add(new MoveTo(start.x(), start.y()));
+        path.getElements().add(new LineTo(end.x(), end.y()));
 
         double deltaR = newPose.bearing() - oldPose.bearing();
-        double rotationTime = timeInSeconds;
-        if (Math.abs(deltaR) < 0.1) rotationTime = 0;
-        RotateTransition rt = new RotateTransition(Duration.seconds(rotationTime), turtleNode);
+        RotateTransition rt = new RotateTransition(Duration.seconds(timeInSeconds), turtleNode);
         rt.setByAngle(deltaR);
 
         double deltaS = normSquared(oldPose, newPose);
-        double pathTime = timeInSeconds;
-        if (Math.abs(deltaS) < 0.1) pathTime = 0;
-        PathTransition pt = new PathTransition(Duration.seconds(pathTime), path, turtleNode);
+        PathTransition pt = new PathTransition(Duration.seconds(timeInSeconds), path, turtleNode);
 
-        return new SequentialTransition(turtleNode, rt, pt);
+        SequentialTransition st;
+        if (Math.abs(deltaR) > 0.1)  st = new SequentialTransition(turtleNode, rt);
+        else st = new SequentialTransition(turtleNode, pt);
+        return st;
     }
 
     private double normSquared(Pose oldPose, Pose newPose) {
