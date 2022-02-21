@@ -10,6 +10,6 @@ public class ModelTester {
   public static void main(String[] args) throws Exception {
     Compiler c = new Compiler("English");
     Turtle turtle = new Turtle();
-    c.run(PROGRAM, turtle);
+    //c.run(PROGRAM);
   }
 }
