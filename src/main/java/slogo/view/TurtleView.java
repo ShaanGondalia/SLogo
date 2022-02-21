@@ -1,6 +1,5 @@
 package slogo.view;
 
-import java.net.URL;
 import javafx.animation.Animation;
 import javafx.animation.PathTransition;
 import javafx.animation.RotateTransition;
@@ -8,11 +7,9 @@ import javafx.animation.SequentialTransition;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.paint.Color;
 import javafx.scene.shape.LineTo;
 import javafx.scene.shape.MoveTo;
 import javafx.scene.shape.Path;
-import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 
 import java.beans.PropertyChangeEvent;
@@ -27,15 +24,14 @@ public class TurtleView implements PropertyChangeListener  {
     private static double SIZE = 20;
     private static double CENTER = TurtleWindowView.HEIGHT / 2;
 
-    private ImageView turtleNode; // for now
-    private double timeInSeconds = 5; //Hard coded for now
-    private Queue<PropertyChangeEvent> changeQueue = new LinkedList<>();
+    private ImageView turtleNode;
+    private double timeInSeconds = 2; //Hard coded for now
+    private Queue<Animation> animationQueue = new LinkedList<>();
+    private Animation currentAnimation = null;
 
     public TurtleView() {
         Image image = new Image(getClass().getResourceAsStream("/view/img/turtle.png"));
         turtleNode = new ImageView(image);
-//        turtleNode = new Rectangle(SIZE, SIZE);
-//        turtleNode.setFill(Color.RED);
         turtleNode.setX(CENTER);
         turtleNode.setY(CENTER);
 
@@ -43,21 +39,34 @@ public class TurtleView implements PropertyChangeListener  {
 
     private Animation makeAnimation(Pose oldPose, Pose newPose) {
         Path path = new Path();
-
-        double deltaR = newPose.bearing() - oldPose.bearing();
         path.getElements().add(new MoveTo(oldPose.x() + CENTER, oldPose.y() + CENTER));
         path.getElements().add(new LineTo(newPose.x() + CENTER, newPose.y() + CENTER));
 
-        double timeS = timeInSeconds;
-        if (Math.abs(deltaR) < 0.1){
-            timeS = 0;
-        }
-        RotateTransition rt = new RotateTransition(Duration.seconds(timeS), turtleNode);
+        double deltaR = newPose.bearing() - oldPose.bearing();
+        double rotationTime = timeInSeconds;
+        if (Math.abs(deltaR) < 0.1) rotationTime = 0;
+        RotateTransition rt = new RotateTransition(Duration.seconds(rotationTime), turtleNode);
         rt.setByAngle(deltaR);
 
-        PathTransition pt = new PathTransition(Duration.seconds(timeInSeconds), path, turtleNode);
+        double deltaS = normSquared(oldPose, newPose);
+        double pathTime = timeInSeconds;
+        if (Math.abs(deltaS) < 0.1) pathTime = 0;
+        PathTransition pt = new PathTransition(Duration.seconds(pathTime), path, turtleNode);
 
         return new SequentialTransition(turtleNode, rt, pt);
+    }
+
+    private double normSquared(Pose oldPose, Pose newPose) {
+        return (Math.pow(oldPose.x() - newPose.x(), 2.0) + Math.pow(oldPose.y() - newPose.y(), 2.0));
+    }
+
+    private void handleAnimationQueue() {
+        animationQueue.remove();
+        if (animationQueue.size() > 0) {
+            currentAnimation = animationQueue.peek();
+            currentAnimation.play();
+        }
+        currentAnimation = null;
     }
 
     /**
@@ -66,10 +75,15 @@ public class TurtleView implements PropertyChangeListener  {
      */
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        //changeQueue.add(evt);
         TurtleStatus oldT = (TurtleStatus) evt.getOldValue();
         TurtleStatus newT = (TurtleStatus) evt.getNewValue();
-        makeAnimation(oldT.pose(), newT.pose()).play();
+        Animation anim = makeAnimation(oldT.pose(), newT.pose());
+        anim.setOnFinished(finish -> handleAnimationQueue());
+        animationQueue.add(anim);
+        if (currentAnimation == null) {
+            currentAnimation = anim;
+            anim.play();
+        }
     }
 
     public Node getTurtleNode() {
