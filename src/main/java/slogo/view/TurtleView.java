@@ -56,9 +56,9 @@ public class TurtleView implements PropertyChangeListener  {
         double deltaS = normSquared(oldPose, newPose);
         PathTransition pt = new PathTransition(Duration.seconds(timeInSeconds), path, turtleNode);
 
-        SequentialTransition st;
-        if (Math.abs(deltaR) > 0.1)  st = new SequentialTransition(turtleNode, rt);
-        else st = new SequentialTransition(turtleNode, pt);
+        SequentialTransition st = new SequentialTransition(turtleNode);
+        if (Math.abs(deltaR) > 0.1) st.getChildren().add(rt);
+        else st.getChildren().add(pt);
         return st;
     }
 
@@ -72,7 +72,7 @@ public class TurtleView implements PropertyChangeListener  {
             currentAnimation = animationQueue.peek();
             currentAnimation.play();
         }
-        currentAnimation = null;
+        else currentAnimation = null;
     }
 
     /**
