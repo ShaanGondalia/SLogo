@@ -21,4 +21,9 @@ public class Errors {
     Platform.exit();
     System.exit(0);
   }
+
+  public static void showError(String message) {
+    Alert alert = new Alert(AlertType.ERROR, message);
+    alert.showAndWait();
+  }
 }

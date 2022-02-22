@@ -26,6 +26,7 @@ public class TurtleView implements PropertyChangeListener  {
     private static double centerY = TurtleWindowView.HEIGHT / 2;
     private static Matrix ctm = new Matrix(1, 0, centerX, 0, -1, centerY);
 
+    private Coordinate origin = ctm.mapPoint(new Coordinate(0, 0));
     private ImageView turtleNode;
     private Queue<Animation> animationQueue = new LinkedList<>();
     private Animation currentAnimation = null;
@@ -33,12 +34,16 @@ public class TurtleView implements PropertyChangeListener  {
 
     public TurtleView() {
         turtleNode = new ImageView(new Image(getClass().getResourceAsStream("/view/img/turtle.png")));
-        turtleNode.setX(centerX - (turtleNode.getFitWidth()/2));
-        turtleNode.setY(centerY - (turtleNode.getFitHeight()/2));
+//        turtleNode.setX(centerX - (turtleNode.getFitWidth()/2));
+//        turtleNode.setY(centerY - (turtleNode.getFitHeight()/2));
+        turtleNode.setX(origin.x());
+        turtleNode.setY(origin.y());
+        System.out.printf("Origin: (%f, %f)\n", origin.x(), origin.y());
     }
 
     private Animation makeAnimation(Pose oldPose, Pose newPose) {
         Coordinate start = ctm.mapPoint(new Coordinate(oldPose.x(), oldPose.y()));
+        System.out.printf("Start: (%f, %f)\n", start.x(), start.y());
         Coordinate end = ctm.mapPoint(new Coordinate(newPose.x(), newPose.y()));
         Path path = new Path();
         path.getElements().add(new MoveTo(start.x(), start.y()));
