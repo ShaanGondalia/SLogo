@@ -20,8 +20,8 @@ import slogo.model.Compiler;
 public class MainIDEView implements Displayable {
 
   private static final String TITLE = "SLOGO TEAM 3";
-  private static final int HEIGHT = 800;
-  private static final int WIDTH = 1000;
+  private static final int HEIGHT = 200;
+  private static final int WIDTH = 300;
   private static final String ROOT_ID = "root";
   private static final List<String> BUTTONS = List.of("run");
 
@@ -76,7 +76,7 @@ public class MainIDEView implements Displayable {
         Method m = c.getDeclaredMethod(button);
         m.invoke(this);
       } catch (Exception ex){
-        Errors.showAndClose(ex.getMessage());
+        Errors.showError(ex.getMessage());
       }
     });
     myButtons.getChildren().add(b);
@@ -87,7 +87,7 @@ public class MainIDEView implements Displayable {
       myController.runText(getRawCommandText());
     }
     catch (Exception e){
-      Errors.showAndClose(e.getMessage());
+      Errors.showError(e.getMessage());
     }
   }
 }
