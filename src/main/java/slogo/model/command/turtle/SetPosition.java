@@ -18,14 +18,14 @@ public class SetPosition extends TurtleCommand{
 
   private static final int NUM_ARGS = 2;
 
-  private Value myDistance;
-  private double myX;
-  private double myY;
+  private final Value myDistance;
+  private final Value myX;
+  private final Value myY;
 
   public SetPosition(Turtle turtle, List<Value> args) throws MissingArgumentException {
     super(turtle, args, NUM_ARGS);
-    myX = args.get(0).getVal();
-    myY = args.get(1).getVal();
+    myX = args.get(0);
+    myY = args.get(1);
     myDistance = new Value();
   }
 
@@ -39,14 +39,14 @@ public class SetPosition extends TurtleCommand{
     Pose initialPose = getTurtle().getPose();
     double initialBearing = initialPose.bearing();
 
-    setTowards(myX, myY).execute();
+    setTowards(myX.getVal(), myY.getVal()).execute();
 
-    Pose nextPose = new Pose(myX, myY, getTurtle().getPose().bearing());
+    Pose nextPose = new Pose(myX.getVal(), myY.getVal(), getTurtle().getPose().bearing());
     getTurtle().setPose(nextPose);
 
     setBearing(initialBearing).execute();
 
-    myDistance.setVal(distance(initialPose.x(), initialPose.y(), myX, myY));
+    myDistance.setVal(distance(initialPose.x(), initialPose.y(), myX.getVal(), myY.getVal()));
     return returnValue();
   }
 
@@ -75,8 +75,7 @@ public class SetPosition extends TurtleCommand{
   }
 
   public double distance(double x1, double y1, double x2, double y2) {
-    double distance = Math.sqrt(Math.pow(x2-x1, 2) + Math.pow(y2-y1, 2));
-    return distance;
+    return Math.sqrt(Math.pow(x2-x1, 2) + Math.pow(y2-y1, 2));
   }
 
 }

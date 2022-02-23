@@ -43,8 +43,8 @@ public class ProductTest {
     args.add(new Value(ARG_2));
     args.add(new Value(ARG_3));
     Product s = new Product(myTurtle, args);
-    assertEquals(ARG_1 * ARG_2, s.returnValue().getVal());
     assertEquals(ARG_1 * ARG_2, s.execute().getVal());
+    assertEquals(ARG_1 * ARG_2, s.returnValue().getVal());
   }
 
   @Test
@@ -53,8 +53,8 @@ public class ProductTest {
     args.add(new Value(ARG_1));
     args.add(new Value(ARG_2));
     Product s = new Product(myTurtle, args);
-    assertEquals(ARG_1 * ARG_2, s.returnValue().getVal());
     assertEquals(ARG_1 * ARG_2, s.execute().getVal());
+    assertEquals(ARG_1 * ARG_2, s.returnValue().getVal());
   }
 
 }

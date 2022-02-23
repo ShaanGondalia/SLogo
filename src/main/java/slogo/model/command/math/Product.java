@@ -12,7 +12,9 @@ import slogo.model.turtle.Turtle;
  */
 public class Product extends MathOperation {
 
-  private final Value product;
+  private final Value arg1;
+  private final Value arg2;
+  private Value product;
   private static final int NUM_ARGS = 2;
 
   /**
@@ -24,7 +26,20 @@ public class Product extends MathOperation {
    */
   public Product(Turtle turtle, List<Value> args) throws MissingArgumentException {
     super(turtle, args, NUM_ARGS);
-    product = new Value(args.get(0).getVal() * args.get(1).getVal());
+    product = new Value();
+    arg1 = args.get(0);
+    arg2 = args.get(1);
+  }
+
+  /**
+   * Calculates the product of the two arguments
+   *
+   * @return the product of the two arguments
+   */
+  @Override
+  public Value execute() {
+    product.setVal(arg1.getVal() * arg2.getVal());
+    return returnValue();
   }
 
   /**

@@ -24,7 +24,7 @@ public class Left extends TurtleCommand {
    */
   public Left(Turtle turtle, List<Value> args) throws MissingArgumentException {
     super(turtle, args, NUM_ARGS);
-    degrees = new Value(args.get(0).getVal());
+    degrees = args.get(0);
   }
 
   /**

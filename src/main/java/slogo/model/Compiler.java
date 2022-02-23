@@ -77,6 +77,9 @@ public class Compiler {
       } else if (symbol.equals("Constant")) {
         values.push(new Value(Double.parseDouble(token)));
       } else if (symbol.equals("Variable")) {
+        if (!myVariables.containsKey(token)) {
+          myVariables.put(token, new Value());
+        }
         values.push(myVariables.get(token));
       } else if (symbol.equals("UserCommand")) {
         if (!myUserCommands.containsKey(token)) {
@@ -84,7 +87,6 @@ public class Compiler {
               String.format(exceptionResources.getString("SymbolNotFound"), token));
         }
       }
-
 
       // LOGIC:
       // After a command is added, we can only resolve the commands arguments once numInputs values have been added to the value stack.
@@ -98,7 +100,8 @@ public class Compiler {
         String pendingCommand = pendingCommands.pop();
         valuesBefore.pop();
         for (int i = 0; i < getNumInputs(pendingCommand); i++) {
-          args.add(values.pop());
+          args.add(0, values.pop()); // add element to start of args
+          //System.out.printf("%s: %f\n", args.get(i), args.get(i).getVal());
         }
         // Use reflection to create command
         Command command = getCommand(pendingCommand, turtle, args);
