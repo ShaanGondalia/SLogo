@@ -43,10 +43,14 @@ public class MakeUserInstruction extends ControlCommand {
 
   @Override
   public Value execute() throws MissingArgumentException {
+    if (myActualParameters == null) {
+      throw new MissingArgumentException("No arguments specified");
+    }
     for (Command c : myMethodBody) {
       c.execute();
     }
     copyToActual();
+    myActualParameters = null;
     return returnValue();
   }
 
