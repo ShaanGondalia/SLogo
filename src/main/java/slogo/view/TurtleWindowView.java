@@ -4,8 +4,6 @@ import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import slogo.controller.Controller;
-import slogo.model.turtle.Pose;
-import slogo.model.turtle.Turtle;
 
 public class TurtleWindowView implements Displayable {
   private static final String TITLE = "SLOGO TEAM 3 - Turtle Window";
