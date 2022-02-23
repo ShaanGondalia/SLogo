@@ -8,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class TurtleWindowViewTest {
 
-    LanguageProbe languageProbe;
+    LanguageSplash languageSplash;
     Controller c;
     TurtleWindowView window;
     TurtleView tv;

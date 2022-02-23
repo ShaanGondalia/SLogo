@@ -7,8 +7,8 @@ import slogo.controller.Controller;
  *
  * @author Andy S. He
  */
-public interface Displayable {
+public abstract class Displayable {
 
-  void createStage(String language, Controller c);
+  public abstract void createStage(String language, Controller c);
 
 }

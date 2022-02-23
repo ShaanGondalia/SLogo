@@ -9,7 +9,6 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.TilePane;
 import javafx.stage.Stage;
 import slogo.Errors;
-import slogo.controller.Controller;
 
 /**
  * Screen to display the first time program is running up. Here, can select language / css and
@@ -17,7 +16,7 @@ import slogo.controller.Controller;
  *
  * @author Andy S. He
  */
-public class SplashView implements Displayable {
+public class CSSSplash extends Splashable {
   private static final String TITLE = "Choose CSS";
   private static final Dimension SIZE = new Dimension(200,200);
   private static final String CSS_RESOURCE_ENDING = "CSS";
@@ -26,8 +25,8 @@ public class SplashView implements Displayable {
   private ResourceBundle myResources;
   private Stage myStage;
   private String style;
-  @Override
-  public void createStage(String language, Controller c) {
+
+  public void createStage(String language) {
     myResources = ResourceBundle.getBundle(MainIDEView.RESOURCE_PREFIX + language + CSS_RESOURCE_ENDING);
     myStage = new Stage();
     Scene scene = new Scene(makeOptions(), SIZE.width, SIZE.height);

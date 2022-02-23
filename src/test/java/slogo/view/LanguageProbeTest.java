@@ -9,8 +9,8 @@ class LanguageProbeTest extends DukeApplicationTest {
 
   @Test
   void languageToUse() {
-    LanguageProbe languageProbe = new LanguageProbe();
+    LanguageSplash languageSplash = new LanguageSplash();
     clickOn(lookup("English").query());
-    assertTrue(languageProbe.toString().equals("English"));
+    assertTrue(languageSplash.toString().equals("English"));
   }
 }

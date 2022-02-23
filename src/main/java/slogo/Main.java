@@ -11,7 +11,10 @@ import javafx.application.Application;
 import javafx.stage.Stage;
 import slogo.controller.Controller;
 import slogo.view.Displayable;
-import slogo.view.LanguageProbe;
+import slogo.view.LanguageSplash;
+import slogo.view.MainIDEView;
+import slogo.view.CSSSplash;
+import slogo.view.Splashable;
 import slogo.view.TurtleView;
 import slogo.view.TurtleWindowView;
 
@@ -84,13 +87,19 @@ public class Main extends Application {
   @Override
   public void start(Stage stage) throws ClassNotFoundException {
 
-    LanguageProbe languageProbe = new LanguageProbe();
+    Splashable languageProbe = new LanguageSplash();
     Controller c = new Controller(languageProbe.toString());
+
+    Splashable splashView = new CSSSplash();
+    Displayable mainIDEView = new MainIDEView();
+    TurtleWindowView turtle = new TurtleWindowView();
+
     for (String name : VIEWS_TO_CREATE) {
       Displayable d = createViews(name);
       turtleWindowView = d;
       d.createStage(languageProbe.toString(), c);
     }
+
     // THIS IS THE PROCEDURE FOR ADDING NEW TURTLES
     TurtleView tv = new TurtleView();
     c.addTurtle(tv);

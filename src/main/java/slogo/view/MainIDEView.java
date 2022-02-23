@@ -17,7 +17,7 @@ import slogo.controller.Controller;
  *
  * @author Andy S. He
  */
-public class MainIDEView implements Displayable {
+public class MainIDEView extends Displayable {
 
   private static final String TITLE = "SLOGO TEAM 3";
   private static final int HEIGHT = 200;
@@ -52,7 +52,6 @@ public class MainIDEView implements Displayable {
       createButton(button);
     }
     myController = c;
-
 
   }
 

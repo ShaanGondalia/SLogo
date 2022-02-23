@@ -5,7 +5,7 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import slogo.controller.Controller;
 
-public class TurtleWindowView implements Displayable {
+public class TurtleWindowView extends Displayable {
   private static final String TITLE = "SLOGO TEAM 3 - Turtle Window";
   public static final int HEIGHT = 400;
   public static final int WIDTH = 400;

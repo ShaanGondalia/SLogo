@@ -1,7 +1,6 @@
 package slogo.view;
 
 import java.awt.Dimension;
-import java.util.List;
 import java.util.ResourceBundle;
 import java.util.Set;
 import javafx.geometry.Pos;
@@ -16,7 +15,7 @@ import slogo.Errors;
  *
  * @author Andy S He
  */
-public class LanguageProbe {
+public class LanguageSplash extends Splashable {
 
   private static final String TITLE = "Language Probe";
   private static final Dimension SIZE = new Dimension(400, 400);
@@ -29,7 +28,7 @@ public class LanguageProbe {
   private final Stage myStage;
   private String language;
 
-  public LanguageProbe() {
+  public LanguageSplash() {
     myLanguages = ResourceBundle.getBundle(RESOURCE_LANGUAGES);
 
     myStage = new Stage();

@@ -7,23 +7,23 @@ import util.DukeApplicationTest;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-class SplashViewTest extends DukeApplicationTest {
+class CSSSplashTest extends DukeApplicationTest {
 
-  LanguageProbe languageProbe;
+  LanguageSplash languageSplash;
   Controller c;
-  SplashView window;
+  CSSSplash window;
   TurtleView tv;
 
   @BeforeEach
   void setUp() {
-    languageProbe = new LanguageProbe();
-    c = new Controller(languageProbe.toString());
-    window = new SplashView();
+    languageSplash = new LanguageSplash();
+    c = new Controller(languageSplash.toString());
+    window = new CSSSplash();
   }
 
   @Test
   void createStage() {
-    window.createStage("English", c);
+    window.createStage("English");
     assertTrue(true);
   }
 
