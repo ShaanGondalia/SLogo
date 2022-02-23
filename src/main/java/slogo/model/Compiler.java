@@ -100,7 +100,7 @@ public class Compiler {
         String pendingCommand = pendingCommands.pop();
         valuesBefore.pop();
         for (int i = 0; i < getNumInputs(pendingCommand); i++) {
-          args.add(values.pop());
+          args.add(0, values.pop()); // add element to start of args
           //System.out.printf("%s: %f\n", args.get(i), args.get(i).getVal());
         }
         // Use reflection to create command

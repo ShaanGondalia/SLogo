@@ -38,7 +38,7 @@ public class Product extends MathOperation {
    */
   @Override
   public Value execute() {
-    product.setVal(arg1.getVal() + arg2.getVal());
+    product.setVal(arg1.getVal() * arg2.getVal());
     return returnValue();
   }
 

@@ -53,6 +53,7 @@ public class GreaterTest {
     args.add(new Value(ARG_2));
     Greater s = new Greater(myTurtle, args);
     assertEquals(0.0, s.returnValue().getVal());
+    assertEquals(0.0, s.execute().getVal());
   }
 
   @Test

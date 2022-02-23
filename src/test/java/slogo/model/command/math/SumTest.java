@@ -43,6 +43,7 @@ public class SumTest {
     args.add(new Value(ARG_2));
     args.add(new Value(ARG_3));
     Sum s = new Sum(myTurtle, args);
+    s.execute();
     assertEquals(ARG_1 + ARG_2, s.returnValue().getVal());
     assertEquals(ARG_1 + ARG_2, s.execute().getVal());
   }
@@ -53,6 +54,7 @@ public class SumTest {
     args.add(new Value(ARG_1));
     args.add(new Value(ARG_2));
     Sum s = new Sum(myTurtle, args);
+    s.execute();
     assertEquals(ARG_1 + ARG_2, s.returnValue().getVal());
     assertEquals(ARG_1 + ARG_2, s.execute().getVal());
   }

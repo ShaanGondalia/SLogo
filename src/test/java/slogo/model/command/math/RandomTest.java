@@ -40,6 +40,7 @@ public class RandomTest {
     args.add(new Value(ARG_1));
     args.add(new Value(ARG_2));
     Random r = new Random(myTurtle, args);
+    r.execute();
     assertTrue(r.returnValue().getVal() < ARG_1 && r.returnValue().getVal() >= 0);
   }
 
@@ -48,6 +49,7 @@ public class RandomTest {
     List<Value> args = new ArrayList<>();
     args.add(new Value(ARG_1));
     Random r = new Random(myTurtle, args);
+    r.execute();
     assertTrue(r.returnValue().getVal() < ARG_1 && r.returnValue().getVal() >= 0);
   }
 
