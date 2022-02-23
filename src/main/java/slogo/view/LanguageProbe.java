@@ -38,7 +38,6 @@ public class LanguageProbe {
     catch(Exception e){
       Errors.showAndClose(e.getMessage());
     }
-
   }
 
   private TilePane makeOptions() {

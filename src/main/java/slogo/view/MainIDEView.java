@@ -89,5 +89,6 @@ public class MainIDEView implements Displayable {
     catch (Exception e){
       Errors.showError(e.getMessage());
     }
+    myCommandArea.clear();
   }
 }
