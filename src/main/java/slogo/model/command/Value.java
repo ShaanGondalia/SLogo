@@ -2,7 +2,7 @@ package slogo.model.command;
 
 /**
  * Mutable class that wraps a double. Represents any value that can be passed to a SLogo command.
- * Required because Double is immutable.
+ * Required because Value is immutable.
  * Has no Dependencies.
  *
  * @author Shaan Gondalia
