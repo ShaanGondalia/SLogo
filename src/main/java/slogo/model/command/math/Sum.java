@@ -12,7 +12,9 @@ import slogo.model.turtle.Turtle;
  */
 public class Sum extends MathOperation {
 
-  private final Value sum;
+  private final Value arg1;
+  private final Value arg2;
+  private Value sum;
   private static final int NUM_ARGS = 2;
 
   /**
@@ -24,7 +26,20 @@ public class Sum extends MathOperation {
    */
   public Sum(Turtle turtle, List<Value> args) throws MissingArgumentException {
     super(turtle, args, NUM_ARGS);
-    sum = new Value(args.get(0).getVal() + args.get(1).getVal());
+    sum = new Value();
+    arg1 = args.get(0);
+    arg2 = args.get(1);
+  }
+
+  /**
+   * Calculates the sum of the two arguments
+   *
+   * @return the sum of the two arguments
+   */
+  @Override
+  public Value execute() {
+    sum.setVal(arg1.getVal() + arg2.getVal());
+    return returnValue();
   }
 
   /**
