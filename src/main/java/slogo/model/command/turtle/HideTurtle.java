@@ -1,6 +1,7 @@
 package slogo.model.command.turtle;
 
 import java.util.List;
+import slogo.model.command.Value;
 import slogo.model.exception.MissingArgumentException;
 import slogo.model.turtle.Turtle;
 
@@ -20,7 +21,7 @@ public class HideTurtle extends TurtleCommand {
    * @param turtle the Turtle that will be rotated
    * @throws MissingArgumentException if the list of arguments does not contain enough arguments
    */
-  public HideTurtle(Turtle turtle, List<Double> args) throws MissingArgumentException {
+  public HideTurtle(Turtle turtle, List<Value> args) throws MissingArgumentException {
     super(turtle, args, NUM_ARGS);
   }
 
@@ -30,7 +31,7 @@ public class HideTurtle extends TurtleCommand {
    * @return 0
    */
   @Override
-  public Double execute() {
+  public Value execute() {
     getTurtle().setVisibility(false);
     return returnValue();
   }
@@ -41,7 +42,7 @@ public class HideTurtle extends TurtleCommand {
    * @return 0
    */
   @Override
-  public Double returnValue() {
-    return 0.0;
+  public Value returnValue() {
+    return new Value(0);
   }
 }

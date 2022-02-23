@@ -3,6 +3,7 @@ package slogo.model.command.turtle;
 import java.util.ArrayList;
 import java.util.List;
 import slogo.model.command.Command;
+import slogo.model.command.Value;
 import slogo.model.exception.MissingArgumentException;
 import slogo.model.turtle.Pose;
 import slogo.model.turtle.Turtle;
@@ -17,14 +18,15 @@ public class SetPosition extends TurtleCommand{
 
   private static final int NUM_ARGS = 2;
 
-  private double myDistance;
+  private Value myDistance;
   private double myX;
   private double myY;
 
-  public SetPosition(Turtle turtle, List<Double> args) throws MissingArgumentException {
+  public SetPosition(Turtle turtle, List<Value> args) throws MissingArgumentException {
     super(turtle, args, NUM_ARGS);
-    myX = args.get(0);
-    myY = args.get(1);
+    myX = args.get(0).getVal();
+    myY = args.get(1).getVal();
+    myDistance = new Value();
   }
 
   /**
@@ -33,7 +35,7 @@ public class SetPosition extends TurtleCommand{
    * @throws MissingArgumentException if less than 2 arguments given
    */
   @Override
-  public Double execute() throws MissingArgumentException {
+  public Value execute() throws MissingArgumentException {
     Pose initialPose = getTurtle().getPose();
     double initialBearing = initialPose.bearing();
 
@@ -44,8 +46,8 @@ public class SetPosition extends TurtleCommand{
 
     setBearing(initialBearing).execute();
 
-    myDistance = distance(initialPose.x(), initialPose.y(), myX, myY);
-    return myDistance;
+    myDistance.setVal(distance(initialPose.x(), initialPose.y(), myX, myY));
+    return returnValue();
   }
 
   /**
@@ -53,21 +55,21 @@ public class SetPosition extends TurtleCommand{
    * @return distance travelled
    */
   @Override
-  public Double returnValue() {
+  public Value returnValue() {
     return myDistance;
   }
 
   public Command setTowards(double x, double y) throws MissingArgumentException {
-    List<Double> args = new ArrayList<>();
-    args.add(x);
-    args.add(y);
+    List<Value> args = new ArrayList<>();
+    args.add(new Value(x));
+    args.add(new Value(y));
 
     return new SetTowards(getTurtle(), args);
   }
 
   public Command setBearing(double bearing) throws MissingArgumentException {
-    List<Double> args = new ArrayList<>();
-    args.add(bearing);
+    List<Value> args = new ArrayList<>();
+    args.add(new Value(bearing));
 
     return new SetHeading(getTurtle(), args);
   }
