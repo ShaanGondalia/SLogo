@@ -18,7 +18,7 @@ public class Controller {
   }
 
   public void runText(String program) throws Exception {
-    myCompiler.run(program, myTurtles);
+    myCompiler.compile(program, myTurtles);
   }
 
   public void addTurtle(PropertyChangeListener turtleView) {
