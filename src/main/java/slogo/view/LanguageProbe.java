@@ -1,7 +1,9 @@
 package slogo.view;
 
 import java.awt.Dimension;
+import java.util.List;
 import java.util.ResourceBundle;
+import java.util.Set;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -19,6 +21,8 @@ public class LanguageProbe {
   private static final String TITLE = "Language Probe";
   private static final Dimension SIZE = new Dimension(400, 400);
   private static final String RESOURCE_LANGUAGES = "slogo.languages.LangaugeOptions";
+
+  private static final Set<String> IMPLEMENTED = Set.of("English");
 
   private final ResourceBundle myLanguages;
   private final Stage myStage;
@@ -42,7 +46,9 @@ public class LanguageProbe {
   private TilePane makeOptions() {
     TilePane root = new TilePane();
     for (String key : myLanguages.keySet()) {
-      makeOption(root, key);
+      if (IMPLEMENTED.contains(key)){
+        makeOption(root, key);
+      }
     }
     root.setAlignment(Pos.CENTER);
     return root;
