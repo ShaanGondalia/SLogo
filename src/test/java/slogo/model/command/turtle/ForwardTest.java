@@ -5,11 +5,11 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.ArrayList;
 import java.util.List;
-import javafx.scene.transform.Rotate;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import slogo.Main;
 import slogo.model.command.Command;
+import slogo.model.command.Value;
 import slogo.model.exception.MissingArgumentException;
 import slogo.model.turtle.Pose;
 import slogo.model.turtle.Turtle;
@@ -33,42 +33,42 @@ public class ForwardTest {
 
   @Test
   void testNotEnoughArgs() {
-    List<Double> args = new ArrayList<>();
+    List<Value> args = new ArrayList<>();
     assertThrows(MissingArgumentException.class, () -> new Forward(myTurtle, args));
   }
 
   @Test
   void testTooManyArgs() throws MissingArgumentException {
-    List<Double> args = new ArrayList<>();
-    args.add(ARG_1);
-    args.add(ARG_2);
+    List<Value> args = new ArrayList<>();
+    args.add(new Value(ARG_1));
+    args.add(new Value(ARG_2));
     Forward c = new Forward(myTurtle, args);
-    assertEquals(ARG_1, c.returnValue());
-    assertEquals(ARG_1, c.execute());
+    assertEquals(ARG_1, c.returnValue().getVal());
+    assertEquals(ARG_1, c.execute().getVal());
   }
 
   @Test
   void testCorrectArgs() throws MissingArgumentException {
-    List<Double> args = new ArrayList<>();
-    args.add(ARG_1);
+    List<Value> args = new ArrayList<>();
+    args.add(new Value(ARG_1));
     Forward c = new Forward(myTurtle, args);
-    assertEquals(c.returnValue(), ARG_1);
+    assertEquals(ARG_1, c.returnValue().getVal(), Main.TOLERANCE);
     double xBefore = myTurtle.getPose().x();
     double yBefore = myTurtle.getPose().y();
-    assertEquals(ARG_1, c.execute(), Main.TOLERANCE);
+    assertEquals(ARG_1, c.execute().getVal(), Main.TOLERANCE);
     assertEquals(xBefore, myTurtle.getPose().x(), Main.TOLERANCE);
     assertEquals(yBefore + ARG_1, myTurtle.getPose().y(), Main.TOLERANCE);
   }
 
   @Test
   void testForward2() throws MissingArgumentException {
-    List<Double> rotateArgs = new ArrayList<>();
-    rotateArgs.add(45.0);
+    List<Value> rotateArgs = new ArrayList<>();
+    rotateArgs.add(new Value(45.0));
     Command rotate = new Right(myTurtle, rotateArgs);
     rotate.execute();
 
-    List<Double> forwardArgs = new ArrayList<>();
-    forwardArgs.add(2.0);
+    List<Value> forwardArgs = new ArrayList<>();
+    forwardArgs.add(new Value(2.0));
     Command forward = new Forward(myTurtle, forwardArgs);
     forward.execute();
     Pose pose = myTurtle.getPose();

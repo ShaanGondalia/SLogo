@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import slogo.model.command.Value;
 import slogo.model.exception.MissingArgumentException;
 import slogo.model.turtle.Pose;
 import slogo.model.turtle.Turtle;
@@ -33,48 +34,48 @@ public class SetTowardsTest {
 
   @Test
   void testNotEnoughArgs() {
-    List<Double> args = new ArrayList<>();
+    List<Value> args = new ArrayList<>();
     assertThrows(MissingArgumentException.class, () -> new SetTowards(myTurtle, args));
   }
 
   @Test
   void testRotateFirstQuadrant() throws MissingArgumentException {
-    List<Double> args = new ArrayList<>();
-    args.add(X_POS);
-    args.add(Y_POS);
+    List<Value> args = new ArrayList<>();
+    args.add(new Value(X_POS));
+    args.add(new Value(Y_POS));
     SetTowards c = new SetTowards(myTurtle, args);
-    assertEquals(45, c.execute(), EPSILON);
+    assertEquals(45, c.execute().getVal(), EPSILON);
   }
 
   @Test
   void testRotateThirdQuadrant() throws MissingArgumentException {
-    List<Double> args = new ArrayList<>();
-    args.add(X_NEG);
-    args.add(Y_NEG);
+    List<Value> args = new ArrayList<>();
+    args.add(new Value(X_NEG));
+    args.add(new Value(Y_NEG));
     SetTowards c = new SetTowards(myTurtle, args);
-    assertEquals(135, c.execute(), EPSILON);
+    assertEquals(135, c.execute().getVal(), EPSILON);
   }
 
   @Test
   void testRotateFirstQuadrantAlreadyRotated() throws MissingArgumentException {
-    List<Double> args = new ArrayList<>();
-    args.add(X_POS);
-    args.add(Y_POS);
+    List<Value> args = new ArrayList<>();
+    args.add(new Value(X_POS));
+    args.add(new Value(Y_POS));
     Pose pose = new Pose(0, 0, 60);
     myTurtle.setPose(pose);
     SetTowards c = new SetTowards(myTurtle, args);
-    assertEquals(15, c.execute(), EPSILON);
+    assertEquals(15, c.execute().getVal(), EPSILON);
   }
 
   @Test
   void testRotateThirdQuadrantAlreadyRotated() throws MissingArgumentException {
-    List<Double> args = new ArrayList<>();
-    args.add(X_NEG);
-    args.add(Y_NEG);
+    List<Value> args = new ArrayList<>();
+    args.add(new Value(X_NEG));
+    args.add(new Value(Y_NEG));
     Pose pose = new Pose(0, 0, 60);
     myTurtle.setPose(pose);
     SetTowards c = new SetTowards(myTurtle, args);
-    assertEquals(165, c.execute(), EPSILON);
+    assertEquals(165, c.execute().getVal(), EPSILON);
   }
 
 }

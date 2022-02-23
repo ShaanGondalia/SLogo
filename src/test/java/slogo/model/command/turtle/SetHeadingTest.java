@@ -7,8 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import slogo.Main;
 import slogo.model.command.Command;
+import slogo.model.command.Value;
 import slogo.model.exception.MissingArgumentException;
 import slogo.model.turtle.Turtle;
 
@@ -31,28 +31,28 @@ public class SetHeadingTest {
 
   @Test
   void testNotEnoughArgs() {
-    List<Double> args = new ArrayList<>();
+    List<Value> args = new ArrayList<>();
     assertThrows(MissingArgumentException.class, () -> new SetHeading(myTurtle, args));
   }
 
   @Test
   void testTooManyArgs() throws MissingArgumentException {
-    List<Double> args = new ArrayList<>();
-    args.add(ARG_1);
-    args.add(ARG_2);
+    List<Value> args = new ArrayList<>();
+    args.add(new Value(ARG_1));
+    args.add(new Value(ARG_2));
     Command c = new SetHeading(myTurtle, args);
-    assertEquals(ARG_1, c.execute());
-    assertEquals(ARG_1, c.returnValue());
+    assertEquals(ARG_1, c.execute().getVal());
+    assertEquals(ARG_1, c.returnValue().getVal());
   }
 
   @Test
   void testHeadingSimple() throws MissingArgumentException {
-    List<Double> args = new ArrayList<>();
+    List<Value> args = new ArrayList<>();
     double arg = -15.0;
-    args.add(arg);
+    args.add(new Value(arg));
     Command c = new SetHeading(myTurtle, args);
-    assertEquals(arg, c.execute());
-    assertEquals(arg, c.returnValue());
+    assertEquals(arg, c.execute().getVal());
+    assertEquals(arg, c.returnValue().getVal());
   }
 
 
