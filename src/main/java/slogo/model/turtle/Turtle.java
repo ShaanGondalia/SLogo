@@ -46,11 +46,15 @@ public class Turtle extends Observable<TurtleStatus> {
    * @param degrees the number of degrees to rotate
    */
   public void rotate(double degrees) {
+    // needs to make sure difference from last bearing has same sign as input
+    myBearing = myBearing + degrees;
+    change("Pose");
+    // "silently" change bearing and myLastState
     myBearing = (myBearing + degrees) % 360;
     if (myBearing < 0) {
       myBearing += 360;
     }
-    change("Pose");
+    myLastState = makeStatus();
   }
 
   /**
