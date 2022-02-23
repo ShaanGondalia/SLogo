@@ -2,6 +2,7 @@ package slogo.model.command.bool;
 
 import java.util.List;
 import slogo.model.command.Command;
+import slogo.model.command.Value;
 import slogo.model.exception.MissingArgumentException;
 import slogo.model.turtle.Turtle;
 
@@ -20,7 +21,7 @@ public abstract class BooleanOperation implements Command {
    * @param numArgs the number of arguments that this command takes
    * @throws MissingArgumentException if the list of arguments does not contain enough arguments
    */
-  public BooleanOperation(Turtle turtle, List<Double> args, int numArgs)
+  public BooleanOperation(Turtle turtle, List<Value> args, int numArgs)
       throws MissingArgumentException {
     verifyArgs(args, numArgs);
   }
@@ -31,7 +32,7 @@ public abstract class BooleanOperation implements Command {
    * @return the return value of the operation. An operation does not have anything to execute.
    */
   @Override
-  public Double execute() {
+  public Value execute() {
     return returnValue();
   }
 
@@ -41,10 +42,10 @@ public abstract class BooleanOperation implements Command {
    * @return the return value of the operation
    */
   @Override
-  public abstract Double returnValue();
+  public abstract Value returnValue();
 
   //Verifies that the command received the correct number of arguments.
-  private void verifyArgs(List<Double> args, int numArgs) throws MissingArgumentException {
+  private void verifyArgs(List<Value> args, int numArgs) throws MissingArgumentException {
     if (args.size() < numArgs) {
       throw new MissingArgumentException("NOT ENOUGH ARGS");
     }

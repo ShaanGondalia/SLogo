@@ -1,6 +1,7 @@
 package slogo.model.command.bool;
 
 import java.util.List;
+import slogo.model.command.Value;
 import slogo.model.exception.MissingArgumentException;
 import slogo.model.turtle.Turtle;
 
@@ -11,7 +12,7 @@ import slogo.model.turtle.Turtle;
  */
 public class Greater extends BooleanOperation {
 
-  private final Double greater;
+  private final Value greater;
   private static final int NUM_ARGS = 2;
 
   /**
@@ -21,9 +22,9 @@ public class Greater extends BooleanOperation {
    * @param args   the arguments that the command takes
    * @throws MissingArgumentException if the list of arguments does not contain enough arguments
    */
-  public Greater(Turtle turtle, List<Double> args) throws MissingArgumentException {
+  public Greater(Turtle turtle, List<Value> args) throws MissingArgumentException {
     super(turtle, args, NUM_ARGS);
-    greater = args.get(0) > args.get(1) ? 1.0 : 0.0;
+    greater = new Value(args.get(0).getVal() > args.get(1).getVal() ? 1 : 0);
   }
 
   /**
@@ -32,7 +33,7 @@ public class Greater extends BooleanOperation {
    * @return 1 if expr1 > expr2, 0 otherwise
    */
   @Override
-  public Double returnValue() {
+  public Value returnValue() {
     return greater;
   }
 }
