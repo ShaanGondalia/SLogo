@@ -18,12 +18,11 @@ class CSSSplashTest extends DukeApplicationTest {
   void setUp() {
     languageSplash = new LanguageSplash();
     c = new Controller(languageSplash.toString());
-    window = new CSSSplash();
+    window = new CSSSplash(languageSplash.toString());
   }
 
   @Test
   void createStage() {
-    window.createStage("English");
     assertTrue(true);
   }
 

@@ -8,6 +8,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.TilePane;
 import javafx.stage.Stage;
+import javax.swing.text.html.CSS;
 import slogo.Errors;
 
 /**
@@ -26,7 +27,7 @@ public class CSSSplash extends Splash {
   private Stage myStage;
   private String style;
 
-  public void createStage(String language) {
+  public CSSSplash(String language){
     myResources = ResourceBundle.getBundle(MainIDEView.RESOURCE_PREFIX + language + CSS_RESOURCE_ENDING);
     myStage = new Stage();
     Scene scene = new Scene(makeOptions(), SIZE.width, SIZE.height);

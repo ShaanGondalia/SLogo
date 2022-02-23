@@ -86,8 +86,8 @@ public class Main extends Application {
     Splash languageProbe = new LanguageSplash();
 
     Controller c = new Controller(languageProbe.toString());
-    Splash splashView = new CSSSplash();
-    Display mainIDEView = new MainIDEView();
+    Splash splashView = new CSSSplash(languageProbe.toString());
+    Display mainIDEView = new MainIDEView(languageProbe.toString(), c);
     TurtleWindowView turtleWindowView = new TurtleWindowView();
 
     // THIS IS THE PROCEDURE FOR ADDING NEW TURTLES
@@ -96,14 +96,4 @@ public class Main extends Application {
     turtleWindowView.addTurtleView(tv);
   }
 
-  private Display createViews(String name) {
-    try {
-      Class<?> clazz = Class.forName("slogo.view." + name);
-      Constructor ctor = clazz.getConstructor();
-      return (Display) ctor.newInstance();
-    } catch (Exception e) {
-      Errors.showAndClose("Could not find class: " + name);
-      throw new InputMismatchException();
-    }
-  }
 }

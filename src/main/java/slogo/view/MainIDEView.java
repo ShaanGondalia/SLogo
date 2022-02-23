@@ -33,7 +33,7 @@ public class MainIDEView extends Display {
   private Controller myController;
   private ResourceBundle myResources;
 
-  public void createStage(String language, Controller c) {
+  public MainIDEView(String language, Controller c){
     myResources = ResourceBundle.getBundle(RESOURCE_PREFIX + language + BUTTON_RESOURCE_ENDING);
     Stage stage = new Stage();
     myPane = new BorderPane();
@@ -51,7 +51,6 @@ public class MainIDEView extends Display {
       createButton(button);
     }
     myController = c;
-
   }
 
   private void createTextArea() {

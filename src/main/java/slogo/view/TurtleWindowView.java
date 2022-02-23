@@ -13,7 +13,7 @@ public class TurtleWindowView extends Display {
 
   private Pane myPane;
 
-  public void createStage() {
+  public TurtleWindowView(){
     Stage stage = new Stage();
     myPane = new Pane();
     myPane.setId(ROOT_ID);
@@ -22,6 +22,7 @@ public class TurtleWindowView extends Display {
     stage.setScene(scene);
     stage.show();
   }
+
 
   public void addTurtleView(TurtleView tv) {
       myPane.getChildren().add(tv.getTurtleNode());

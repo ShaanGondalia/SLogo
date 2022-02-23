@@ -22,7 +22,6 @@ class TurtleWindowViewTest {
 
     @Test
     void createStage() {
-        window.createStage();
         assertTrue(true);
     }
 
