@@ -1,6 +1,7 @@
 package slogo.model.command.math;
 
 import java.util.List;
+import slogo.model.command.Value;
 import slogo.model.exception.MissingArgumentException;
 import slogo.model.turtle.Turtle;
 
@@ -11,7 +12,7 @@ import slogo.model.turtle.Turtle;
  */
 public class Product extends MathOperation {
 
-  private final Double product;
+  private final Value product;
   private static final int NUM_ARGS = 2;
 
   /**
@@ -21,9 +22,9 @@ public class Product extends MathOperation {
    * @param args   the arguments that the command takes
    * @throws MissingArgumentException if the list of arguments does not contain enough arguments
    */
-  public Product(Turtle turtle, List<Double> args) throws MissingArgumentException {
+  public Product(Turtle turtle, List<Value> args) throws MissingArgumentException {
     super(turtle, args, NUM_ARGS);
-    product = args.get(0) * args.get(1);
+    product = new Value(args.get(0).getVal() * args.get(1).getVal());
   }
 
   /**
@@ -32,7 +33,7 @@ public class Product extends MathOperation {
    * @return arg1 * arg2
    */
   @Override
-  public Double returnValue() {
+  public Value returnValue() {
     return product;
   }
 }
