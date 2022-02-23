@@ -12,8 +12,8 @@ import slogo.model.turtle.Turtle;
  */
 public class SetTowards extends TurtleCommand {
 
-  private final double x;
-  private final double y;
+  private final Value x;
+  private final Value y;
   private double degrees;
   private Value degreesAbs;
   private static final int NUM_ARGS = 2;
@@ -28,8 +28,8 @@ public class SetTowards extends TurtleCommand {
   public SetTowards(Turtle turtle, List<Value> args) throws MissingArgumentException {
     super(turtle, args, NUM_ARGS);
     degrees = 0.0;
-    x = args.get(0).getVal();
-    y = args.get(1).getVal();
+    x = args.get(0);
+    y = args.get(1);
     degreesAbs = new Value();
   }
 
@@ -59,8 +59,8 @@ public class SetTowards extends TurtleCommand {
   // Gets the number of degrees the turtle has to turn
   // See: https://stackoverflow.com/questions/23692077/rotate-object-to-face-point
   private double getDegreesToTurn() {
-    double deltaX = x - getTurtle().getPose().x();
-    double deltaY = y - getTurtle().getPose().y();
+    double deltaX = x.getVal() - getTurtle().getPose().x();
+    double deltaY = y.getVal() - getTurtle().getPose().y();
     double radsFromVertical = Math.atan((deltaX) / (deltaY));
     double degreesFromVertical = Math.toDegrees(radsFromVertical);
 

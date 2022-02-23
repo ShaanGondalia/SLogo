@@ -24,7 +24,7 @@ public class Backward extends TurtleCommand {
    */
   public Backward(Turtle turtle, List<Value> args) throws MissingArgumentException {
     super(turtle, args, NUM_ARGS);
-    pixels = new Value(args.get(0).getVal());
+    pixels = args.get(0);
   }
 
   /**

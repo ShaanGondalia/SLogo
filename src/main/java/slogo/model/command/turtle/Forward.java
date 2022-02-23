@@ -24,7 +24,7 @@ public class Forward extends TurtleCommand {
    */
   public Forward(Turtle turtle, List<Value> args) throws MissingArgumentException {
     super(turtle, args, NUM_ARGS);
-    pixels = new Value(args.get(0).getVal());
+    pixels = args.get(0);
   }
 
   /**
@@ -35,7 +35,7 @@ public class Forward extends TurtleCommand {
   @Override
   public Value execute() {
     getTurtle().move(pixels.getVal());
-    return pixels;
+    return returnValue();
   }
 
   /**

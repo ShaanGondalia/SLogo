@@ -25,7 +25,7 @@ public class ClearScreen extends TurtleCommand {
    */
   public ClearScreen(Turtle turtle, List<Value> args) throws MissingArgumentException {
     super(turtle, args, NUM_ARGS);
-    distance = new Value(0);
+    distance = new Value();
   }
 
   /**
