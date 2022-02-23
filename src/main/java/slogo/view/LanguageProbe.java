@@ -21,6 +21,7 @@ public class LanguageProbe {
   private static final String TITLE = "Language Probe";
   private static final Dimension SIZE = new Dimension(400, 400);
   private static final String RESOURCE_LANGUAGES = "slogo.languages.LangaugeOptions";
+  private static final String ERROR_MESSAGE = "Language not Implemented. Choose out of the following: ";
 
   private static final Set<String> IMPLEMENTED = Set.of("English");
 
@@ -37,8 +38,7 @@ public class LanguageProbe {
     myStage.setScene(scene);
     try {
       myStage.showAndWait();
-    }
-    catch(Exception e){
+    } catch (Exception e) {
       Errors.showAndClose(e.getMessage());
     }
   }
@@ -46,9 +46,7 @@ public class LanguageProbe {
   private TilePane makeOptions() {
     TilePane root = new TilePane();
     for (String key : myLanguages.keySet()) {
-      if (IMPLEMENTED.contains(key)){
-        makeOption(root, key);
-      }
+      makeOption(root, key);
     }
     root.setAlignment(Pos.CENTER);
     return root;
@@ -57,16 +55,19 @@ public class LanguageProbe {
   private void makeOption(TilePane root, String key) {
     Button b = new Button();
     b.setText(myLanguages.getString(key));
-    b.setOnAction(e -> {
+    b.setOnAction(IMPLEMENTED.contains(key) ? e -> {
       language = key;
       myStage.close();
-    });
+    }
+        : e -> Errors.showError(ERROR_MESSAGE + IMPLEMENTED));
     b.setId(key);
     root.getChildren().add(b);
   }
 
+
   /**
    * Gets the language that the program will be run in
+   *
    * @return language
    */
   @Override
