@@ -21,7 +21,7 @@ class TurtleViewTest {
         //languageProbe = new LanguageProbe();
         c = new Controller("English");
         window = new TurtleWindowView();
-        window.createStage("English", c);
+        window.createStage();
         tv = new TurtleView();
         window.addTurtleView(tv);
         c.addTurtle(tv);

@@ -22,7 +22,7 @@ class TurtleWindowViewTest {
 
     @Test
     void createStage() {
-        window.createStage("English", c);
+        window.createStage();
         assertTrue(true);
     }
 

@@ -17,7 +17,7 @@ import slogo.controller.Controller;
  *
  * @author Andy S. He
  */
-public class MainIDEView extends Displayable {
+public class MainIDEView extends Display {
 
   private static final String TITLE = "SLOGO TEAM 3";
   private static final int HEIGHT = 200;
@@ -33,7 +33,6 @@ public class MainIDEView extends Displayable {
   private Controller myController;
   private ResourceBundle myResources;
 
-  @Override
   public void createStage(String language, Controller c) {
     myResources = ResourceBundle.getBundle(RESOURCE_PREFIX + language + BUTTON_RESOURCE_ENDING);
     Stage stage = new Stage();

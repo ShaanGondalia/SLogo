@@ -16,7 +16,7 @@ import slogo.Errors;
  *
  * @author Andy S. He
  */
-public class CSSSplash extends Splashable {
+public class CSSSplash extends Splash {
   private static final String TITLE = "Choose CSS";
   private static final Dimension SIZE = new Dimension(200,200);
   private static final String CSS_RESOURCE_ENDING = "CSS";

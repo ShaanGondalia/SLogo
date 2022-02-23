@@ -15,7 +15,7 @@ import slogo.Errors;
  *
  * @author Andy S He
  */
-public class LanguageSplash extends Splashable {
+public class LanguageSplash extends Splash {
 
   private static final String TITLE = "Language Probe";
   private static final Dimension SIZE = new Dimension(400, 400);
