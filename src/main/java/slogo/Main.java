@@ -77,7 +77,7 @@ public class Main extends Application {
 //        System.out.println(m.getExampleProgram("loops", "star"));
 //    }
 
-  private static final List<String> VIEWS_TO_CREATE = List.of("MainIDEView", "SplashView",
+  private static final List<String> VIEWS_TO_CREATE = List.of("SplashView", "MainIDEView",
       "TurtleWindowView");
   private static Displayable turtleWindowView;
 

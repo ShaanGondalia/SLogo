@@ -28,7 +28,6 @@ public class LanguageProbe {
     myLanguages = ResourceBundle.getBundle(RESOURCE_LANGUAGES);
 
     myStage = new Stage();
-
     Scene scene = new Scene(makeOptions(), SIZE.width, SIZE.height);
     myStage.setTitle(TITLE);
     myStage.setScene(scene);

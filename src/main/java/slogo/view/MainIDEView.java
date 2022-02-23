@@ -11,7 +11,6 @@ import javafx.scene.layout.TilePane;
 import javafx.stage.Stage;
 import slogo.Errors;
 import slogo.controller.Controller;
-import slogo.model.Compiler;
 
 /**
  * Creates the central window to display where the user can type in text commands
@@ -25,8 +24,9 @@ public class MainIDEView implements Displayable {
   private static final int WIDTH = 300;
   private static final String ROOT_ID = "root";
   private static final List<String> BUTTONS = List.of("run","close","help","set_image", "set_bk_color", "set_pen_color");
-  private static final String RESOURCE_ENDING = "Buttons";
-  private static final String RESOURCE_PREFIX = "view.";
+  private static final String BUTTON_RESOURCE_ENDING = "Buttons";
+  public static final String RESOURCE_PREFIX = "view.";
+
   private BorderPane myPane;
   private TilePane myButtons;
   private TextArea myCommandArea;
@@ -35,7 +35,7 @@ public class MainIDEView implements Displayable {
 
   @Override
   public void createStage(String language, Controller c) {
-    myResources = ResourceBundle.getBundle(RESOURCE_PREFIX + language + RESOURCE_ENDING);
+    myResources = ResourceBundle.getBundle(RESOURCE_PREFIX + language + BUTTON_RESOURCE_ENDING);
     Stage stage = new Stage();
     myPane = new BorderPane();
     myPane.setId(ROOT_ID);
