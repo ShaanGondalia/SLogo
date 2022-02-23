@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import slogo.Main;
+import slogo.model.command.Command;
 import slogo.model.exception.MissingArgumentException;
 import slogo.model.turtle.Turtle;
 
@@ -50,8 +52,22 @@ public class RightTest {
     Right c = new Right(myTurtle, args);
     assertEquals(ARG_1, c.returnValue());
     double bearingBefore = myTurtle.getPose().bearing();
+    double xBefore = myTurtle.getPose().x();
+    double yBefore = myTurtle.getPose().y();
     assertEquals(ARG_1, c.execute());
     assertEquals(bearingBefore + ARG_1, myTurtle.getPose().bearing());
+    assertEquals(xBefore, myTurtle.getPose().x(), Main.TOLERANCE);
+    assertEquals(yBefore, myTurtle.getPose().y(), Main.TOLERANCE);
+  }
+
+  @Test
+  void testRight1() throws MissingArgumentException {
+    List<Double> args = new ArrayList<>();
+    args.add(45.0);
+    Command right = new Right(myTurtle, args);
+    double answer = 45.0;
+    assertEquals(45.0, right.execute(), Main.TOLERANCE);
+    assertEquals(answer, myTurtle.getPose().bearing(), Main.TOLERANCE);
   }
 
 }

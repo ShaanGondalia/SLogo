@@ -43,7 +43,7 @@ public abstract class TurtleCommand implements Command {
    * @return the value that is returned when the command is executed
    */
   @Override
-  public abstract Double execute();
+  public abstract Double execute() throws MissingArgumentException;
 
   /**
    * Abstract method for that gets the returnValue of the command. Implemented by subclasses.

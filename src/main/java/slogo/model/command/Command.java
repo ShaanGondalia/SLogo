@@ -1,5 +1,7 @@
 package slogo.model.command;
 
+import slogo.model.exception.MissingArgumentException;
+
 /**
  * Generic interface for all commands. Has no dependencies.
  *
@@ -12,7 +14,7 @@ public interface Command {
    *
    * @return the value that the command returns when executed
    */
-  public Double execute();
+  public Double execute() throws MissingArgumentException;
 
   /**
    * Returns the return value of a command without executing it

@@ -1,5 +1,7 @@
 package slogo.model;
 
+import java.util.ArrayList;
+import java.util.List;
 import slogo.model.turtle.Turtle;
 
 public class ModelTester {
@@ -9,7 +11,9 @@ public class ModelTester {
 
   public static void main(String[] args) throws Exception {
     Compiler c = new Compiler("English");
-    Turtle turtle = new Turtle();
-    //c.run(PROGRAM);
+
+    List<Turtle> turtles = new ArrayList<>();
+    turtles.add(new Turtle());
+    c.run(PROGRAM, turtles);
   }
 }

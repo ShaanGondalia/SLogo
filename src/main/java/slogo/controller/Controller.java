@@ -26,4 +26,8 @@ public class Controller {
     myTurtles.add(turtle);
     turtle.addListener(turtleView);
   }
+
+  public List<Turtle> getTurtles() {
+    return myTurtles;
+  }
 }

@@ -58,7 +58,6 @@ public class Parser {
         return e.getKey();
       }
     }
-    // perhaps this should throw an exception instead --- do not know context
     throw new SymbolNotFoundException(
         String.format(exceptionResources.getString("SymbolNotFound"), text));
   }
