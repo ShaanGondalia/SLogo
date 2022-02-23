@@ -7,28 +7,27 @@ import util.DukeApplicationTest;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-class SplashViewTest extends DukeApplicationTest {
+class CSSSplashTest extends DukeApplicationTest {
 
-  LanguageProbe languageProbe;
+  LanguageSplash languageSplash;
   Controller c;
-  SplashView window;
+  CSSSplash window;
   TurtleView tv;
 
   @BeforeEach
   void setUp() {
-    languageProbe = new LanguageProbe();
-    c = new Controller(languageProbe.languageToUse());
-    window = new SplashView();
+    languageSplash = new LanguageSplash();
+    c = new Controller(languageSplash.toString());
+    window = new CSSSplash(languageSplash.toString());
   }
 
   @Test
   void createStage() {
-    window.createStage("English", c);
     assertTrue(true);
   }
 
   @Test
   void styleSheetToUse() {
-    assertTrue(window.styleSheetToUse().equals(""));
+    assertTrue(window.toString().equals(""));
   }
 }

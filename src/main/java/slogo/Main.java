@@ -10,9 +10,11 @@ import java.util.*;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import slogo.controller.Controller;
-import slogo.model.turtle.Turtle;
-import slogo.view.Displayable;
-import slogo.view.LanguageProbe;
+import slogo.view.Display;
+import slogo.view.LanguageSplash;
+import slogo.view.MainIDEView;
+import slogo.view.CSSSplash;
+import slogo.view.Splash;
 import slogo.view.TurtleView;
 import slogo.view.TurtleWindowView;
 
@@ -26,6 +28,7 @@ public class Main extends Application {
   private static final String EXAMPLE_PROGRAMS_PATH = "/examples";
 
   public static double TOLERANCE = 0.01;
+
   /**
    * Get command in a given language.
    */
@@ -77,33 +80,20 @@ public class Main extends Application {
 //        System.out.println(m.getExampleProgram("loops", "star"));
 //    }
 
-  private static final List<String> VIEWS_TO_CREATE = List.of("MainIDEView", "SplashView", "TurtleWindowView");
-  private static Displayable turtleWindowView;
-
   @Override
   public void start(Stage stage) throws ClassNotFoundException {
 
-    LanguageProbe languageProbe = new LanguageProbe();
-    Controller c = new Controller(languageProbe.languageToUse());
-    for (String name : VIEWS_TO_CREATE) {
-      Displayable d = createViews(name);
-      turtleWindowView = d;
-      d.createStage(languageProbe.languageToUse(), c);
-    }
+    Splash languageProbe = new LanguageSplash();
+
+    Controller c = new Controller(languageProbe.toString());
+    Splash splashView = new CSSSplash(languageProbe.toString());
+    Display mainIDEView = new MainIDEView(languageProbe.toString(), c);
+    TurtleWindowView turtleWindowView = new TurtleWindowView();
+
     // THIS IS THE PROCEDURE FOR ADDING NEW TURTLES
     TurtleView tv = new TurtleView();
     c.addTurtle(tv);
-    ((TurtleWindowView)turtleWindowView).addTurtleView(tv);
+    turtleWindowView.addTurtleView(tv);
   }
 
-  private Displayable createViews(String name) {
-    try {
-      Class<?> clazz = Class.forName("slogo.view." + name);
-      Constructor ctor = clazz.getConstructor();
-      return (Displayable) ctor.newInstance();
-    } catch (Exception e) {
-      Errors.showAndClose("Could not find class: " + name);
-      throw new InputMismatchException();
-    }
-  }
 }

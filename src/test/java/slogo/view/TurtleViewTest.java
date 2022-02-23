@@ -6,13 +6,12 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import slogo.controller.Controller;
 import slogo.model.turtle.Pose;
-import slogo.model.turtle.Turtle;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class TurtleViewTest {
 
-    LanguageProbe languageProbe;
+    LanguageSplash languageSplash;
     Controller c;
     TurtleWindowView window;
     TurtleView tv;
@@ -22,7 +21,6 @@ class TurtleViewTest {
         //languageProbe = new LanguageProbe();
         c = new Controller("English");
         window = new TurtleWindowView();
-        window.createStage("English", c);
         tv = new TurtleView();
         window.addTurtleView(tv);
         c.addTurtle(tv);
