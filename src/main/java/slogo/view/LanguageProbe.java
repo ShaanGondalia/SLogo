@@ -56,6 +56,7 @@ public class LanguageProbe {
       language = key;
       myStage.close();
     });
+    b.setId(key);
     root.getChildren().add(b);
   }
 
