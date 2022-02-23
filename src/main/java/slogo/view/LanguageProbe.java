@@ -60,6 +60,10 @@ public class LanguageProbe {
     root.getChildren().add(b);
   }
 
+  /**
+   * Gets the language that the program will be run in
+   * @return language
+   */
   @Override
   public String toString() {
     return language;

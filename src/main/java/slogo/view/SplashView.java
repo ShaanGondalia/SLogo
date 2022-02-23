@@ -15,7 +15,8 @@ public class SplashView implements Displayable {
 
   }
 
-  public String styleSheetToUse(){
+  @Override
+  public String toString() {
     return "";
   }
 

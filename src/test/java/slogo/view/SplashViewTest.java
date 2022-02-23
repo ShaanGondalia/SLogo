@@ -29,6 +29,6 @@ class SplashViewTest extends DukeApplicationTest {
 
   @Test
   void styleSheetToUse() {
-    assertTrue(window.styleSheetToUse().equals(""));
+    assertTrue(window.toString().equals(""));
   }
 }

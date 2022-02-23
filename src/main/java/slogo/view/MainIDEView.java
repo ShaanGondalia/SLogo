@@ -2,6 +2,7 @@ package slogo.view;
 
 import java.lang.reflect.Method;
 import java.util.List;
+import java.util.ResourceBundle;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
@@ -24,14 +25,17 @@ public class MainIDEView implements Displayable {
   private static final int WIDTH = 300;
   private static final String ROOT_ID = "root";
   private static final List<String> BUTTONS = List.of("run","close","help","set_image", "set_bk_color", "set_pen_color");
-
+  private static final String RESOURCE_ENDING = "Buttons";
+  private static final String RESOURCE_PREFIX = "view.";
   private BorderPane myPane;
   private TilePane myButtons;
   private TextArea myCommandArea;
   private Controller myController;
+  private ResourceBundle myResources;
 
   @Override
   public void createStage(String language, Controller c) {
+    myResources = ResourceBundle.getBundle(RESOURCE_PREFIX + language + RESOURCE_ENDING);
     Stage stage = new Stage();
     myPane = new BorderPane();
     myPane.setId(ROOT_ID);
@@ -48,6 +52,7 @@ public class MainIDEView implements Displayable {
       createButton(button);
     }
     myController = c;
+
 
   }
 
@@ -69,14 +74,14 @@ public class MainIDEView implements Displayable {
 
   private void createButton(String button) {
     Button b = new Button();
-    b.setText(button);
+    b.setText(myResources.getString(button));
     b.setOnAction((e) -> {
       try {
         Class<?> c = Class.forName("slogo.view.MainIDEView");
         Method m = c.getDeclaredMethod(button);
         m.invoke(this);
       } catch (Exception ex){
-        Errors.showError(ex.getMessage());
+        Errors.showAndClose("internal error");
       }
     });
     myButtons.getChildren().add(b);
