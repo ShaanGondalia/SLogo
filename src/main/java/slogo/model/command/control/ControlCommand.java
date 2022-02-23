@@ -30,9 +30,7 @@ public abstract class ControlCommand implements Command {
    * @return the return value of the command.
    */
   @Override
-  public Value execute() {
-    return returnValue();
-  }
+  public abstract Value execute() throws MissingArgumentException;
 
   /**
    * Abstract method that gets the returnValue of the command. Implemented by subclasses.
