@@ -3,6 +3,7 @@ package slogo.model;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.Deque;
 import java.util.HashMap;
 import java.util.InputMismatchException;
 import java.util.LinkedList;
@@ -58,8 +59,8 @@ public class Compiler {
    * @param turtles  list of turtles to attach commands to
    * @throws Exception if there is an issue running the program
    */
-  public Queue<Command> compile(String program, List<Turtle> turtles) throws Exception {
-    Queue<Command> commandQueue = new LinkedList<>();
+  public Deque<Command> compile(String program, List<Turtle> turtles) throws Exception {
+    Deque<Command> commandQueue = new LinkedList<>();
 
     // will be changed when we can have multiple turtles
     Turtle turtle = turtles.get(0);
@@ -106,7 +107,7 @@ public class Compiler {
         // Use reflection to create command
         Command command = getCommand(pendingCommand, turtle, args);
         values.add(command.returnValue());
-        commandQueue.add(command);
+        commandQueue.push(command);
         if (pendingCommands.isEmpty()) {
           values.clear();
         }

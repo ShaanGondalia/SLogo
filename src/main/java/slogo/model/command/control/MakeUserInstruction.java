@@ -1,5 +1,6 @@
 package slogo.model.command.control;
 
+import java.util.Deque;
 import java.util.List;
 import slogo.model.command.Command;
 import slogo.model.command.Value;
@@ -10,11 +11,11 @@ public class MakeUserInstruction extends ControlCommand {
 
   private List<Value> myFormalParameters;
   private List<Value> myActualParameters;
-  private List<Command> myMethodBody;
+  private Deque<Command> myMethodBody;
 
   private Value myReturnValue;
 
-  public MakeUserInstruction(Turtle turtle, List<Value> variables, List<Command> body)
+  public MakeUserInstruction(Turtle turtle, List<Value> variables, Deque<Command> body)
       throws MissingArgumentException {
     super(turtle, variables, variables.size());
     myFormalParameters = variables;
@@ -56,6 +57,6 @@ public class MakeUserInstruction extends ControlCommand {
 
   @Override
   public Value returnValue() {
-    return myMethodBody.get(myMethodBody.size() - 1).returnValue();
+    return myMethodBody.peekLast().returnValue();
   }
 }

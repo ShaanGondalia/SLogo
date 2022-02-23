@@ -2,6 +2,7 @@ package slogo.controller;
 
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
+import java.util.Deque;
 import java.util.List;
 import java.util.Queue;
 import slogo.model.command.Command;
@@ -20,9 +21,8 @@ public class Controller {
   }
 
   public void runText(String program) throws Exception {
-    Queue<Command> commands = myCompiler.compile(program, myTurtles);
-    while (!commands.isEmpty()) {
-      Command c = commands.remove();
+    Deque<Command> commands = myCompiler.compile(program, myTurtles);
+    for (Command c : commands) {
       c.execute();
     }
   }
