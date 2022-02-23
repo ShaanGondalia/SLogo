@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import slogo.model.command.Value;
 import slogo.model.exception.MissingArgumentException;
 import slogo.model.turtle.Turtle;
 
@@ -30,30 +31,30 @@ public class ProductTest {
 
   @Test
   void testNotEnoughArgs() {
-    List<Double> args = new ArrayList<>();
-    args.add(ARG_1);
+    List<Value> args = new ArrayList<>();
+    args.add(new Value(ARG_1));
     assertThrows(MissingArgumentException.class, () -> new Product(myTurtle, args));
   }
 
   @Test
   void testTooManyArgs() throws MissingArgumentException {
-    List<Double> args = new ArrayList<>();
-    args.add(ARG_1);
-    args.add(ARG_2);
-    args.add(ARG_3);
+    List<Value> args = new ArrayList<>();
+    args.add(new Value(ARG_1));
+    args.add(new Value(ARG_2));
+    args.add(new Value(ARG_3));
     Product s = new Product(myTurtle, args);
-    assertEquals(ARG_1 * ARG_2, s.returnValue());
-    assertEquals(ARG_1 * ARG_2, s.execute());
+    assertEquals(ARG_1 * ARG_2, s.returnValue().getVal());
+    assertEquals(ARG_1 * ARG_2, s.execute().getVal());
   }
 
   @Test
   void testCorrectArgs() throws MissingArgumentException {
-    List<Double> args = new ArrayList<>();
-    args.add(ARG_1);
-    args.add(ARG_2);
+    List<Value> args = new ArrayList<>();
+    args.add(new Value(ARG_1));
+    args.add(new Value(ARG_2));
     Product s = new Product(myTurtle, args);
-    assertEquals(ARG_1 * ARG_2, s.returnValue());
-    assertEquals(ARG_1 * ARG_2, s.execute());
+    assertEquals(ARG_1 * ARG_2, s.returnValue().getVal());
+    assertEquals(ARG_1 * ARG_2, s.execute().getVal());
   }
 
 }

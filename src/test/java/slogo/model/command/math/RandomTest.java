@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import slogo.model.command.Value;
 import slogo.model.exception.MissingArgumentException;
 import slogo.model.turtle.Turtle;
 
@@ -29,25 +30,25 @@ public class RandomTest {
 
   @Test
   void testNotEnoughArgs() {
-    List<Double> args = new ArrayList<>();
+    List<Value> args = new ArrayList<>();
     assertThrows(MissingArgumentException.class, () -> new Random(myTurtle, args));
   }
 
   @Test
   void testTooManyArgs() throws MissingArgumentException {
-    List<Double> args = new ArrayList<>();
-    args.add(ARG_1);
-    args.add(ARG_2);
+    List<Value> args = new ArrayList<>();
+    args.add(new Value(ARG_1));
+    args.add(new Value(ARG_2));
     Random r = new Random(myTurtle, args);
-    assertTrue(r.returnValue() < ARG_1 && r.returnValue() >= 0);
+    assertTrue(r.returnValue().getVal() < ARG_1 && r.returnValue().getVal() >= 0);
   }
 
   @Test
   void testCorrectArgs() throws MissingArgumentException {
-    List<Double> args = new ArrayList<>();
-    args.add(ARG_1);
+    List<Value> args = new ArrayList<>();
+    args.add(new Value(ARG_1));
     Random r = new Random(myTurtle, args);
-    assertTrue(r.returnValue() < ARG_1 && r.returnValue() >= 0);
+    assertTrue(r.returnValue().getVal() < ARG_1 && r.returnValue().getVal() >= 0);
   }
 
 }
