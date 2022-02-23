@@ -26,4 +26,9 @@ public class Errors {
     Alert alert = new Alert(AlertType.ERROR, message);
     alert.showAndWait();
   }
+
+  public static void justClose(){
+    Platform.exit();
+    System.exit(0);
+  }
 }
