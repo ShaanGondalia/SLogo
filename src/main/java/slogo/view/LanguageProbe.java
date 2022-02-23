@@ -1,5 +1,6 @@
 package slogo.view;
 
+import java.awt.Dimension;
 import javafx.stage.Stage;
 
 /**
@@ -9,14 +10,15 @@ import javafx.stage.Stage;
  */
 public class LanguageProbe {
   private static final String TITLE = "Language Probe";
-  private static final int HEIGHT = 400;
-  private static final int WIDTH = 400;
+  private static final Dimension SIZE = new Dimension(400,400);
 
   public LanguageProbe(){
     Stage stage = new Stage();
   }
 
-  public String languageToUse(){
+  @Override
+  public String toString(){
     return "English";
   }
+
 }

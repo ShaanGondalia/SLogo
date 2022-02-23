@@ -17,7 +17,7 @@ class SplashViewTest extends DukeApplicationTest {
   @BeforeEach
   void setUp() {
     languageProbe = new LanguageProbe();
-    c = new Controller(languageProbe.languageToUse());
+    c = new Controller(languageProbe.toString());
     window = new SplashView();
   }
 
