@@ -50,7 +50,7 @@ public class Turtle extends Observable<TurtleStatus> {
     myBearing = myBearing + degrees;
     change("Pose");
     // "silently" change bearing and myLastState
-    myBearing = (myBearing + degrees) % 360;
+    myBearing = myBearing % 360;
     if (myBearing < 0) {
       myBearing += 360;
     }

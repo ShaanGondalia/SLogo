@@ -43,8 +43,9 @@ public class ForwardTest {
     args.add(new Value(ARG_1));
     args.add(new Value(ARG_2));
     Forward c = new Forward(myTurtle, args);
-    assertEquals(ARG_1, c.returnValue().getVal());
+    Value returnVal = c.returnValue();
     assertEquals(ARG_1, c.execute().getVal());
+    assertEquals(ARG_1, returnVal.getVal());
   }
 
   @Test
@@ -52,11 +53,12 @@ public class ForwardTest {
     List<Value> args = new ArrayList<>();
     args.add(new Value(ARG_1));
     Forward c = new Forward(myTurtle, args);
-    assertEquals(ARG_1, c.returnValue().getVal(), Main.TOLERANCE);
+
     double xBefore = myTurtle.getPose().x();
     double yBefore = myTurtle.getPose().y();
     assertEquals(ARG_1, c.execute().getVal(), Main.TOLERANCE);
     assertEquals(xBefore, myTurtle.getPose().x(), Main.TOLERANCE);
+    assertEquals(ARG_1, c.returnValue().getVal(), Main.TOLERANCE);
     assertEquals(yBefore + ARG_1, myTurtle.getPose().y(), Main.TOLERANCE);
   }
 
@@ -68,11 +70,13 @@ public class ForwardTest {
     rotate.execute();
 
     List<Value> forwardArgs = new ArrayList<>();
-    forwardArgs.add(new Value(2.0));
+
+    double fdAmount = 10;
+    forwardArgs.add(new Value(fdAmount));
     Command forward = new Forward(myTurtle, forwardArgs);
     forward.execute();
     Pose pose = myTurtle.getPose();
-    double answer = Math.sqrt(2);
+    double answer = Math.sqrt(Math.pow(fdAmount, 2) / 2.0);
     // String msg = String.format("Expected %f and got %f", answer, pose.x());
     assertEquals(answer, pose.x(), Main.TOLERANCE);
   }

@@ -53,8 +53,18 @@ public class SetTowardsTest {
     args.add(new Value(X_NEG));
     args.add(new Value(Y_NEG));
     SetTowards c = new SetTowards(myTurtle, args);
-    assertEquals(135, c.execute().getVal(), EPSILON);
+    assertEquals(225, c.execute().getVal(), EPSILON);
   }
+
+  @Test
+  void testRotateFourthQuadrant() throws MissingArgumentException {
+    List<Value> args = new ArrayList<>();
+    args.add(new Value(X_NEG));
+    args.add(new Value(Y_NEG));
+    SetTowards c = new SetTowards(myTurtle, args);
+    assertEquals(315, c.execute().getVal(), EPSILON);
+  }
+
 
   @Test
   void testRotateFirstQuadrantAlreadyRotated() throws MissingArgumentException {

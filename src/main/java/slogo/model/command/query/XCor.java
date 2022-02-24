@@ -31,7 +31,8 @@ public class XCor extends TurtleQuery {
    * @return the x coordinate of the queried turtle
    */
   @Override
-  public Value returnValue() {
-    return new Value(getTurtle().getPose().x());
+  public Value execute() throws MissingArgumentException {
+    setReturnValue(getTurtle().getPose().x());
+    return returnValue();
   }
 }

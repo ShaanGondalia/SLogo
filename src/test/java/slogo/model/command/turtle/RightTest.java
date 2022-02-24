@@ -42,8 +42,8 @@ public class RightTest {
     args.add(new Value(ARG_1));
     args.add(new Value(ARG_2));
     Right c = new Right(myTurtle, args);
-    assertEquals(ARG_1, c.returnValue().getVal());
     assertEquals(ARG_1, c.execute().getVal());
+    assertEquals(ARG_1, c.returnValue().getVal());
   }
 
   @Test
@@ -51,7 +51,7 @@ public class RightTest {
     List<Value> args = new ArrayList<>();
     args.add(new Value(ARG_1));
     Right c = new Right(myTurtle, args);
-    assertEquals(ARG_1, c.returnValue().getVal());
+    //assertEquals(ARG_1, c.returnValue().getVal());
     double bearingBefore = myTurtle.getPose().bearing();
     double xBefore = myTurtle.getPose().x();
     double yBefore = myTurtle.getPose().y();
@@ -64,11 +64,15 @@ public class RightTest {
   @Test
   void testRight1() throws MissingArgumentException {
     List<Value> args = new ArrayList<>();
-    args.add(new Value(45));
+    double degreesToTurn = 45;
+    args.add(new Value(degreesToTurn));
     Command right = new Right(myTurtle, args);
-    double answer = 45;
-    assertEquals(45, right.execute().getVal(), Main.TOLERANCE);
-    assertEquals(answer, myTurtle.getPose().bearing(), Main.TOLERANCE);
+
+    // sanity check
+    assertEquals( 0, myTurtle.getPose().bearing(), Main.TOLERANCE);
+    right.execute();
+    //assertEquals(degreesToTurn, right.execute().getVal(), Main.TOLERANCE);
+    assertEquals(degreesToTurn, myTurtle.getPose().bearing(), Main.TOLERANCE);
   }
 
 }

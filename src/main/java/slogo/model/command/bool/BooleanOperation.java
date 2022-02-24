@@ -1,6 +1,7 @@
 package slogo.model.command.bool;
 
 import java.util.List;
+import slogo.model.command.AbstractCommand;
 import slogo.model.command.Command;
 import slogo.model.command.Value;
 import slogo.model.exception.MissingArgumentException;
@@ -11,7 +12,7 @@ import slogo.model.turtle.Turtle;
  *
  * @author Shaan Gondalia
  */
-public abstract class BooleanOperation implements Command {
+public abstract class BooleanOperation extends AbstractCommand {
 
   /**
    * Default constructor for generic Boolean Operation
@@ -23,26 +24,9 @@ public abstract class BooleanOperation implements Command {
    */
   public BooleanOperation(Turtle turtle, List<Value> args, int numArgs)
       throws MissingArgumentException {
+    super();
     verifyArgs(args, numArgs);
   }
-
-  /**
-   * Abstract method for when an operation is executed.
-   *
-   * @return the return value of the operation. An operation does not have anything to execute.
-   */
-  @Override
-  public Value execute() {
-    return returnValue();
-  }
-
-  /**
-   * Abstract method that gets the returnValue of the operation. Implemented by subclasses.
-   *
-   * @return the return value of the operation
-   */
-  @Override
-  public abstract Value returnValue();
 
   //Verifies that the command received the correct number of arguments.
   private void verifyArgs(List<Value> args, int numArgs) throws MissingArgumentException {

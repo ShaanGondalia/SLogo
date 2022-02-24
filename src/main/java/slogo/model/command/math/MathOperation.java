@@ -1,6 +1,7 @@
 package slogo.model.command.math;
 
 import java.util.List;
+import slogo.model.command.AbstractCommand;
 import slogo.model.command.Command;
 import slogo.model.command.Value;
 import slogo.model.exception.MissingArgumentException;
@@ -11,7 +12,7 @@ import slogo.model.turtle.Turtle;
  *
  * @author Shaan Gondalia
  */
-public abstract class MathOperation implements Command {
+public abstract class MathOperation extends AbstractCommand {
 
   /**
    * @param turtle  the Turtle that is attached to this command
@@ -21,6 +22,7 @@ public abstract class MathOperation implements Command {
    */
   public MathOperation(Turtle turtle, List<Value> args, int numArgs)
       throws MissingArgumentException {
+    super();
     verifyArgs(args, numArgs);
   }
 

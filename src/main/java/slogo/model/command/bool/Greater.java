@@ -14,7 +14,6 @@ public class Greater extends BooleanOperation {
 
   private final Value arg1;
   private final Value arg2;
-  private final Value greater;
   private static final int NUM_ARGS = 2;
 
   /**
@@ -26,7 +25,6 @@ public class Greater extends BooleanOperation {
    */
   public Greater(Turtle turtle, List<Value> args) throws MissingArgumentException {
     super(turtle, args, NUM_ARGS);
-    greater = new Value();
     arg1 = args.get(0);
     arg2 = args.get(1);
   }
@@ -38,17 +36,7 @@ public class Greater extends BooleanOperation {
    */
   @Override
   public Value execute() {
-    greater.setVal(arg1.getVal() > arg2.getVal() ? 1 : 0);
+    setReturnValue(arg1.getVal() > arg2.getVal() ? 1.0 : 0.0);
     return returnValue();
-  }
-
-  /**
-   * Gets the return value of the greater operation.
-   *
-   * @return 1 if expr1 > expr2, 0 otherwise
-   */
-  @Override
-  public Value returnValue() {
-    return greater;
   }
 }
