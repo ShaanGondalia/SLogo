@@ -24,7 +24,7 @@ public class LanguageSplash extends Splash {
   private static final String SPLASH_TYPE = "Language";
   private static final Set<String> IMPLEMENTED = Set.of("English");
 
-  private final ResourceBundle myLanguages;
+  private ResourceBundle myLanguages;
   private Stage myStage;
 
   /**
@@ -38,6 +38,19 @@ public class LanguageSplash extends Splash {
         DEFAULT_SPLASH_CSS);
     try {
       myStage.showAndWait();
+    } catch (Exception e) {
+      Errors.showAndClose(e.getMessage());
+    }
+  }
+
+  public LanguageSplash(Stage stage){
+    myLanguages = ResourceBundle.getBundle(RESOURCE_LANGUAGES);
+    myStage = stage;
+    myStage = createStage(myStage, TITLE, SIZE,
+        makeOptions(new OptionGenerator(myStage, myLanguages, SPLASH_TYPE, IMPLEMENTED)),
+        DEFAULT_SPLASH_CSS);
+    try {
+      myStage.show();
     } catch (Exception e) {
       Errors.showAndClose(e.getMessage());
     }

@@ -44,6 +44,7 @@ public abstract class Splash extends Display {
     }
         : e -> Errors.showError(gen.splashType() + ERROR_MESSAGE + gen.implemented()));
     b.setId(key);
+    System.out.println(key);
     root.getChildren().add(b);
   }
 
