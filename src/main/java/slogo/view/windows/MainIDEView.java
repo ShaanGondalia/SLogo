@@ -105,7 +105,7 @@ public class MainIDEView extends Display {
       Errors.showError(e.getMessage());
     }
 
-    myHistory.setText(myHistory.getText() + getRawCommandText());
+    myHistory.setText(myHistory.getText() + "\n" + getRawCommandText());
     myHistoryPane.setContent(myHistory);
 
     myCommandArea.clear();
