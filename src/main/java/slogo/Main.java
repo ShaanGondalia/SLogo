@@ -86,8 +86,8 @@ public class Main extends Application {
 
     Controller c = new Controller(languageProbe.toString());
     Splash splashView = new CSSSplash(languageProbe.toString());
-    Display mainIDEView = new MainIDEView(languageProbe.toString(), c);
-    TurtleWindowView turtleWindowView = new TurtleWindowView();
+    Display mainIDEView = new MainIDEView(languageProbe.toString(), c, splashView.toString());
+    TurtleWindowView turtleWindowView = new TurtleWindowView(splashView.toString());
 
     // THIS IS THE PROCEDURE FOR ADDING NEW TURTLES
     TurtleView tv = new TurtleView();

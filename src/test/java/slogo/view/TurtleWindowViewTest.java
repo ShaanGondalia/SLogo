@@ -20,7 +20,7 @@ class TurtleWindowViewTest {
     void setUp() {
         //languageProbe = new LanguageProbe();
         c = new Controller("English");
-        window = new TurtleWindowView();
+        window = new TurtleWindowView("light");
     }
 
     @Test

@@ -1,0 +1,26 @@
+.root {
+  fx-background-color: black;
+}
+
+.text-area .content {
+  -fx-background-color: black;
+}
+
+.button {
+  -fx-border-width: 1;
+  -fx-border-color: white;
+  -fx-background-color: black;
+  -fx-font-size: 13;
+  -fx-text-fill: #fd5d5d;
+}
+
+#button_sec {
+  -fx-background-color: black;
+}
+
+.text-area {
+  -fx-font-family: "Comic Sans MS";
+  -fx-highlight-fill: #fd5d5d;
+  -fx-highlight-text-fill: #fd5d5d;
+  -fx-text-fill: #fd5d5d;
+}

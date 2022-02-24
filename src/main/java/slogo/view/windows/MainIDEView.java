@@ -1,5 +1,6 @@
 package slogo.view.windows;
 
+import java.awt.Dimension;
 import java.lang.reflect.Method;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -20,10 +21,11 @@ import slogo.controller.Controller;
 public class MainIDEView extends Display {
 
   private static final String TITLE = "SLOGO TEAM 3";
-  private static final int HEIGHT = 200;
-  private static final int WIDTH = 300;
+  private static final Dimension MAIN_SIZE = new Dimension(300, 200);
   private static final String ROOT_ID = "root";
-  private static final List<String> BUTTONS = List.of("run","close","help","set_image", "set_bk_color", "set_pen_color");
+  private static final String BUTTON_SECTION_ID = "button_sec";
+  private static final List<String> BUTTONS = List.of("run", "close", "help", "set_image",
+      "set_bk_color", "set_pen_color");
   private static final String BUTTON_RESOURCE_ENDING = "Buttons";
   public static final String RESOURCE_PREFIX = "view.";
 
@@ -33,21 +35,21 @@ public class MainIDEView extends Display {
   private Controller myController;
   private ResourceBundle myResources;
 
-  public MainIDEView(String language, Controller c){
+  public MainIDEView(String language, Controller c, String css) {
     myResources = ResourceBundle.getBundle(RESOURCE_PREFIX + language + BUTTON_RESOURCE_ENDING);
-    Stage stage = new Stage();
+
     myPane = new BorderPane();
     myPane.setId(ROOT_ID);
-    Scene scene = new Scene(myPane, WIDTH, HEIGHT);
-    stage.setTitle(TITLE);
-    stage.setScene(scene);
+    Stage stage = createStage(TITLE, MAIN_SIZE, myPane, css);
     stage.show();
 
     createTextArea();
+
     myButtons = new TilePane();
+    myButtons.setId(BUTTON_SECTION_ID);
     myPane.setBottom(myButtons);
 
-    for (String button : BUTTONS){
+    for (String button : BUTTONS) {
       createButton(button);
     }
     myController = c;
@@ -77,7 +79,7 @@ public class MainIDEView extends Display {
         Class<?> c = Class.forName("slogo.view.windows.MainIDEView");
         Method m = c.getDeclaredMethod(button);
         m.invoke(this);
-      } catch (Exception ex){
+      } catch (Exception ex) {
         Errors.showAndClose("internal error");
       }
     });
@@ -85,32 +87,31 @@ public class MainIDEView extends Display {
   }
 
   private void run() {
-    try{
+    try {
       myController.runText(getRawCommandText());
-    }
-    catch (Exception e){
+    } catch (Exception e) {
       Errors.showError(e.getMessage());
     }
     myCommandArea.clear();
   }
 
-  private void close(){
+  private void close() {
     Errors.justClose();
   }
 
-  private void set_image(){
+  private void set_image() {
 
   }
 
-  private void set_bk_color(){
+  private void set_bk_color() {
 
   }
 
-  private void set_pen_color(){
+  private void set_pen_color() {
 
   }
 
-  private void help(){
+  private void help() {
 
   }
 
