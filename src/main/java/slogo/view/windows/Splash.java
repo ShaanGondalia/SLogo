@@ -1,5 +1,7 @@
 package slogo.view.windows;
 
+import javafx.scene.layout.TilePane;
+import slogo.view.util.OptionGenerator;
 import slogo.view.windows.Display;
 
 import javafx.stage.Stage;
@@ -9,5 +11,11 @@ import javafx.stage.Stage;
  * @author Andy S. He
  */
 public abstract class Splash extends Display {
+
+  private TilePane makeOptions(OptionGenerator gen){
+    return null;
+  }
+  @Override
+  public abstract String toString();
 
 }
