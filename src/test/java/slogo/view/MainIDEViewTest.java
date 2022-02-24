@@ -1,15 +1,15 @@
 package slogo.view;
 
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 import slogo.controller.Controller;
+import slogo.view.windows.LanguageSplash;
 import util.DukeApplicationTest;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class MainIDEViewTest extends DukeApplicationTest {
 
-  LanguageProbe languageProbe;
+  LanguageSplash languageSplash;
   Controller c;
   MainIDEViewTest window;
 

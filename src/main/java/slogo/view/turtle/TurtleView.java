@@ -1,4 +1,4 @@
-package slogo.view;
+package slogo.view.turtle;
 
 import javafx.animation.Animation;
 import javafx.animation.PathTransition;
@@ -19,6 +19,9 @@ import java.util.Queue;
 
 import slogo.model.turtle.Pose;
 import slogo.model.turtle.TurtleStatus;
+import slogo.view.util.Coordinate;
+import slogo.view.util.Matrix;
+import slogo.view.windows.TurtleWindowView;
 
 public class TurtleView implements PropertyChangeListener  {
 

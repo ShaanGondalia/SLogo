@@ -4,9 +4,11 @@ import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.Deque;
 import java.util.List;
+
 import java.util.Queue;
 import slogo.model.command.Command;
-import slogo.view.TurtleView;
+import slogo.view.turtle.TurtleView;
+
 import slogo.model.Compiler;
 import slogo.model.turtle.Turtle;
 
