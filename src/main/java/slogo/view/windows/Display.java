@@ -12,11 +12,16 @@ import slogo.controller.Controller;
  * @author Andy S. He
  */
 public abstract class Display {
-  protected Stage createStage(String title, Dimension size, Pane root){
-    Stage stage = new Stage();
+
+  protected Stage createStage(Stage stage, String title, Dimension size, Pane root) {
     Scene scene = new Scene(root, size.width, size.height);
     stage.setScene(scene);
     stage.setTitle(title);
     return stage;
+  }
+
+  protected Stage createStage(String title, Dimension size, Pane root) {
+    Stage stage = new Stage();
+    return createStage(stage, title, size, root);
   }
 }
