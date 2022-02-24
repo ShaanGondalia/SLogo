@@ -8,7 +8,4 @@ import javafx.stage.Stage;
  */
 public abstract class Splash extends Display{
 
-  private void show(Stage stage){
-    stage.showAndWait();
-  }
 }

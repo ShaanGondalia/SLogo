@@ -29,10 +29,7 @@ public class CSSSplash extends Splash {
 
   public CSSSplash(String language){
     myResources = ResourceBundle.getBundle(MainIDEView.RESOURCE_PREFIX + language + CSS_RESOURCE_ENDING);
-    myStage = new Stage();
-    Scene scene = new Scene(makeOptions(), SIZE.width, SIZE.height);
-    myStage.setTitle(TITLE);
-    myStage.setScene(scene);
+    myStage = createStage(TITLE, SIZE, makeOptions());
     try {
       myStage.showAndWait();
     }

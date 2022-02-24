@@ -1,5 +1,6 @@
 package slogo.view;
 
+import java.awt.Dimension;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
@@ -9,17 +10,17 @@ public class TurtleWindowView extends Display {
   private static final String TITLE = "SLOGO TEAM 3 - Turtle Window";
   public static final int HEIGHT = 400;
   public static final int WIDTH = 400;
+  private static final Dimension SIZE = new Dimension(400,400);
   public static final String ROOT_ID = "turtleWindowRoot";
 
   private Pane myPane;
 
   public TurtleWindowView(){
-    Stage stage = new Stage();
+
     myPane = new Pane();
     myPane.setId(ROOT_ID);
-    Scene scene = new Scene(myPane, WIDTH, HEIGHT);
-    stage.setTitle(TITLE);
-    stage.setScene(scene);
+
+    Stage stage = createStage(TITLE, SIZE, myPane);
     stage.show();
   }
 

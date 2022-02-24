@@ -4,7 +4,6 @@ import java.awt.Dimension;
 import java.util.ResourceBundle;
 import java.util.Set;
 import javafx.geometry.Pos;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.TilePane;
 import javafx.stage.Stage;
@@ -31,10 +30,7 @@ public class LanguageSplash extends Splash {
   public LanguageSplash() {
     myLanguages = ResourceBundle.getBundle(RESOURCE_LANGUAGES);
 
-    myStage = new Stage();
-    Scene scene = new Scene(makeOptions(), SIZE.width, SIZE.height);
-    myStage.setTitle(TITLE);
-    myStage.setScene(scene);
+    myStage = createStage(TITLE, SIZE, makeOptions());
     try {
       myStage.showAndWait();
     } catch (Exception e) {
