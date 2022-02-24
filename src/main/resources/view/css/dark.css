@@ -1,14 +1,26 @@
-.root{
+.root {
   fx-background-color: black;
 }
 
-.text-area .content{
+.text-area .content {
+  -fx-background-color: black;
+}
+
+.button {
+  -fx-border-width: 1;
+  -fx-border-color: white;
+  -fx-background-color: black;
+  -fx-font-size: 13;
+  -fx-text-fill: #fd5d5d;
+}
+
+#button_sec {
   -fx-background-color: black;
 }
 
 .text-area {
-  -fx-font-family: Consolas;
-  -fx-highlight-fill: #00ff00;
-  -fx-highlight-text-fill: #000000;
-  -fx-text-fill: #00ff00;
+  -fx-font-family: "Comic Sans MS";
+  -fx-highlight-fill: #fd5d5d;
+  -fx-highlight-text-fill: #fd5d5d;
+  -fx-text-fill: #fd5d5d;
 }

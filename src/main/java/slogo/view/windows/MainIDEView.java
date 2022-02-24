@@ -23,6 +23,7 @@ public class MainIDEView extends Display {
   private static final String TITLE = "SLOGO TEAM 3";
   private static final Dimension MAIN_SIZE = new Dimension(300, 200);
   private static final String ROOT_ID = "root";
+  private static final String BUTTON_SECTION_ID = "button_sec";
   private static final List<String> BUTTONS = List.of("run", "close", "help", "set_image",
       "set_bk_color", "set_pen_color");
   private static final String BUTTON_RESOURCE_ENDING = "Buttons";
@@ -45,6 +46,7 @@ public class MainIDEView extends Display {
     createTextArea();
 
     myButtons = new TilePane();
+    myButtons.setId(BUTTON_SECTION_ID);
     myPane.setBottom(myButtons);
 
     for (String button : BUTTONS) {
