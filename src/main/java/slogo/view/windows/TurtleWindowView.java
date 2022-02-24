@@ -15,12 +15,12 @@ public class TurtleWindowView extends Display {
 
   private Pane myPane;
 
-  public TurtleWindowView(){
+  public TurtleWindowView(String css){
 
     myPane = new Pane();
     myPane.setId(ROOT_ID);
 
-    Stage stage = createStage(TITLE, SIZE, myPane);
+    Stage stage = createStage(TITLE, SIZE, myPane, css);
     stage.show();
   }
 

@@ -18,7 +18,7 @@ public abstract class Splash extends Display {
 
   private String value;
   private static final String ERROR_MESSAGE = " not Implemented. Choose out of the following: ";
-
+  public static final String DEFAULT_SPLASH_CSS = "splash";
   /**
    * Makes the buttons to select from using a Record that contains all the relevant information
    *

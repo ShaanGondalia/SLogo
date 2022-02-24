@@ -13,8 +13,8 @@ import slogo.view.util.OptionGenerator;
 /**
  * Used to probe what language the whole program will be in
  *
- * @see OptionGenerator
  * @author Andy S He
+ * @see OptionGenerator
  */
 public class LanguageSplash extends Splash {
 
@@ -34,7 +34,8 @@ public class LanguageSplash extends Splash {
     myLanguages = ResourceBundle.getBundle(RESOURCE_LANGUAGES);
     myStage = new Stage();
     myStage = createStage(myStage, TITLE, SIZE,
-        makeOptions(new OptionGenerator(myStage, myLanguages, SPLASH_TYPE, IMPLEMENTED)));
+        makeOptions(new OptionGenerator(myStage, myLanguages, SPLASH_TYPE, IMPLEMENTED)),
+        DEFAULT_SPLASH_CSS);
     try {
       myStage.showAndWait();
     } catch (Exception e) {
