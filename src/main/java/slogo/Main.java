@@ -83,10 +83,11 @@ public class Main extends Application {
   public void start(Stage stage) throws ClassNotFoundException {
 
     Splash languageProbe = new LanguageSplash();
-
+    languageProbe.show();
     Controller c = new Controller(languageProbe.toString());
     Splash splashView = new CSSSplash(languageProbe.toString());
-    Display mainIDEView = new MainIDEView(languageProbe.toString(), c, splashView.toString());
+    splashView.show();
+    Display mainIDEView = new MainIDEView(languageProbe.toString(), c, splashView.toString(), stage);
     TurtleWindowView turtleWindowView = new TurtleWindowView(splashView.toString());
 
     // THIS IS THE PROCEDURE FOR ADDING NEW TURTLES

@@ -16,6 +16,7 @@ public abstract class Display {
   public static final String CSS_RESOURCES_PATH = "/view/css/";
   public static final String CSS_FILE_ENDING = ".css";
 
+  private Scene myScene;
   /**
    * Used to standardize creation of stages so no duplicate code. Can initialize without a previous
    * stage, or with one, if the stage needs to be referenced in creating the root.
@@ -27,10 +28,10 @@ public abstract class Display {
    * @return the stage but now configured
    */
   protected Stage createStage(Stage stage, String title, Dimension size, Pane root, String style) {
-    Scene scene = new Scene(root, size.width, size.height);
-    scene.getStylesheets()
+    myScene = new Scene(root, size.width, size.height);
+    myScene.getStylesheets()
         .add(getClass().getResource(CSS_RESOURCES_PATH + style + CSS_FILE_ENDING).toExternalForm());
-    stage.setScene(scene);
+    stage.setScene(myScene);
     stage.setTitle(title);
     return stage;
   }
@@ -41,5 +42,13 @@ public abstract class Display {
   protected Stage createStage(String title, Dimension size, Pane root, String style) {
     Stage stage = new Stage();
     return createStage(stage, title, size, root, style);
+  }
+
+  /**
+   * Used only for testing purposes
+   * @return
+   */
+  protected Scene getMyScene(){
+    return myScene;
   }
 }

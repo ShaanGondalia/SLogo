@@ -42,11 +42,10 @@ public class CSSSplash extends Splash {
     myStage = createStage(myStage, TITLE, SIZE,
         makeOptions(new OptionGenerator(myStage, myResources, CSS_RESOURCE_ENDING, IMPLEMENTED)),
         DEFAULT_SPLASH_CSS);
-    try {
-      myStage.showAndWait();
-    } catch (Exception e) {
-      Errors.showAndClose(e.getMessage());
-    }
+  }
+
+  public void show(){
+    super.show(myStage);
   }
 
 }

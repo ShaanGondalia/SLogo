@@ -59,4 +59,13 @@ public abstract class Splash extends Display {
     return value;
   }
 
+  public abstract void show();
+
+  protected void show(Stage stage){
+    try {
+      stage.showAndWait();
+    } catch (Exception e) {
+      Errors.showAndClose(e.getMessage());
+    }
+  }
 }

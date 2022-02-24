@@ -41,12 +41,12 @@ public class MainIDEView extends Display {
   private ScrollPane myHistoryPane;
   private Text myHistory;
 
-  public MainIDEView(String language, Controller c, String css) {
+  public MainIDEView(String language, Controller c, String css, Stage stage) {
     myResources = ResourceBundle.getBundle(RESOURCE_PREFIX + language + BUTTON_RESOURCE_ENDING);
 
     myPane = new BorderPane();
     myPane.setId(ROOT_ID);
-    Stage stage = createStage(TITLE, MAIN_SIZE, myPane, css);
+    stage = createStage(TITLE, MAIN_SIZE, myPane, css);
     stage.show();
 
     createTextArea();
@@ -103,6 +103,7 @@ public class MainIDEView extends Display {
       myController.runText(getRawCommandText());
     } catch (Exception e) {
       Errors.showError(e.getMessage());
+      return;
     }
 
     myHistory.setText(myHistory.getText() + "\n" + getRawCommandText());

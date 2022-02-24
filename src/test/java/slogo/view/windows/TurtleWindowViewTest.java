@@ -1,4 +1,4 @@
-package slogo.view;
+package slogo.view.windows;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

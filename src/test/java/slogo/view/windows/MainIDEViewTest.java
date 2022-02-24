@@ -1,8 +1,7 @@
-package slogo.view;
+package slogo.view.windows;
 
 import org.junit.jupiter.api.BeforeEach;
 import slogo.controller.Controller;
-import slogo.view.windows.LanguageSplash;
 import util.DukeApplicationTest;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
