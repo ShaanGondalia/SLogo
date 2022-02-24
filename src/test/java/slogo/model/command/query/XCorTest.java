@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import slogo.Main;
+import slogo.model.command.Value;
 import slogo.model.exception.MissingArgumentException;
 import slogo.model.turtle.Turtle;
 
@@ -27,19 +29,19 @@ public class XCorTest {
 
   @Test
   void testTooManyArgs() throws MissingArgumentException {
-    List<Double> args = new ArrayList<>();
-    args.add(ARG_1);
+    List<Value> args = new ArrayList<>();
+    args.add(new Value(ARG_1));
     XCor c = new XCor(myTurtle, args);
-    assertEquals(myTurtle.getPose().x(), c.returnValue());
-    assertEquals(myTurtle.getPose().x(), c.execute());
+    assertEquals(myTurtle.getPose().x(), c.returnValue().getVal(), Main.TOLERANCE);
+    assertEquals(myTurtle.getPose().x(), c.execute().getVal(), Main.TOLERANCE);
   }
 
   @Test
   void testCorrectArgs() throws MissingArgumentException {
-    List<Double> args = new ArrayList<>();
+    List<Value> args = new ArrayList<>();
     XCor c = new XCor(myTurtle, args);
-    assertEquals(myTurtle.getPose().x(), c.returnValue());
-    assertEquals(myTurtle.getPose().x(), c.execute());
+    assertEquals(myTurtle.getPose().x(), c.returnValue().getVal(), Main.TOLERANCE);
+    assertEquals(myTurtle.getPose().x(), c.execute().getVal(), Main.TOLERANCE);
   }
 
 }

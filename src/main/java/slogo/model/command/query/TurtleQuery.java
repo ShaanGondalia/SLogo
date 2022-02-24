@@ -1,7 +1,9 @@
 package slogo.model.command.query;
 
 import java.util.List;
+import slogo.model.command.AbstractCommand;
 import slogo.model.command.Command;
+import slogo.model.command.Value;
 import slogo.model.exception.MissingArgumentException;
 import slogo.model.turtle.Turtle;
 
@@ -10,7 +12,7 @@ import slogo.model.turtle.Turtle;
  *
  * @author Shaan Gondalia
  */
-public abstract class TurtleQuery implements Command {
+public abstract class TurtleQuery extends AbstractCommand {
 
   private final Turtle attachedTurtle;
 
@@ -22,8 +24,9 @@ public abstract class TurtleQuery implements Command {
    * @param numArgs the number of arguments that this command takes
    * @throws MissingArgumentException if the list of arguments does not contain enough arguments
    */
-  public TurtleQuery(Turtle turtle, List<Double> args, int numArgs)
+  public TurtleQuery(Turtle turtle, List<Value> args, int numArgs)
       throws MissingArgumentException {
+    super();
     attachedTurtle = turtle;
     verifyArgs(args, numArgs);
   }
@@ -37,26 +40,8 @@ public abstract class TurtleQuery implements Command {
     return attachedTurtle;
   }
 
-  /**
-   * Method for when a query is executed.
-   *
-   * @return the return value of the query.
-   */
-  @Override
-  public Double execute() {
-    return returnValue();
-  }
-
-  /**
-   * Abstract method for that gets the returnValue of the command. Implemented by subclasses.
-   *
-   * @return the return value of the query
-   */
-  @Override
-  public abstract Double returnValue();
-
   //Verifies that the command received the correct number of arguments.
-  private void verifyArgs(List<Double> args, int numArgs) throws MissingArgumentException {
+  private void verifyArgs(List<Value> args, int numArgs) throws MissingArgumentException {
     if (args.size() < numArgs) {
       throw new MissingArgumentException("NOT ENOUGH ARGS");
     }

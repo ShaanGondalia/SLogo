@@ -1,6 +1,7 @@
 package slogo.model.command.query;
 
 import java.util.List;
+import slogo.model.command.Value;
 import slogo.model.exception.MissingArgumentException;
 import slogo.model.turtle.Turtle;
 
@@ -20,7 +21,7 @@ public class XCor extends TurtleQuery {
    * @param args   the arguments that the command takes
    * @throws MissingArgumentException if the list of arguments does not contain enough arguments
    */
-  public XCor(Turtle turtle, List<Double> args) throws MissingArgumentException {
+  public XCor(Turtle turtle, List<Value> args) throws MissingArgumentException {
     super(turtle, args, NUM_ARGS);
   }
 
@@ -30,7 +31,8 @@ public class XCor extends TurtleQuery {
    * @return the x coordinate of the queried turtle
    */
   @Override
-  public Double returnValue() {
-    return getTurtle().getPose().x();
+  public Value execute() throws MissingArgumentException {
+    setReturnValue(getTurtle().getPose().x());
+    return returnValue();
   }
 }

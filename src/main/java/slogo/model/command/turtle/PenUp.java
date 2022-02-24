@@ -1,6 +1,7 @@
 package slogo.model.command.turtle;
 
 import java.util.List;
+import slogo.model.command.Value;
 import slogo.model.exception.MissingArgumentException;
 import slogo.model.turtle.Turtle;
 
@@ -20,8 +21,9 @@ public class PenUp extends TurtleCommand {
    * @param turtle the Turtle that will be rotated
    * @throws MissingArgumentException if the list of arguments does not contain enough arguments
    */
-  public PenUp(Turtle turtle, List<Double> args) throws MissingArgumentException {
+  public PenUp(Turtle turtle, List<Value> args) throws MissingArgumentException {
     super(turtle, args, NUM_ARGS);
+    setReturnValue(0.0);
   }
 
   /**
@@ -30,18 +32,8 @@ public class PenUp extends TurtleCommand {
    * @return 0
    */
   @Override
-  public Double execute() {
+  public Value execute() {
     getTurtle().setPen(true);
     return returnValue();
-  }
-
-  /**
-   * Returns 0
-   *
-   * @return 0
-   */
-  @Override
-  public Double returnValue() {
-    return 0.0;
   }
 }

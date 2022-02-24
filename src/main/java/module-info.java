@@ -11,4 +11,5 @@ open module slogo_app {
     exports slogo;
   exports slogo.model;
   exports slogo.model.turtle;
+  exports slogo.model.command;
 }

@@ -1,6 +1,7 @@
 package slogo.model.command.math;
 
 import java.util.List;
+import slogo.model.command.Value;
 import slogo.model.exception.MissingArgumentException;
 import slogo.model.turtle.Turtle;
 
@@ -11,7 +12,8 @@ import slogo.model.turtle.Turtle;
  */
 public class Sum extends MathOperation {
 
-  private final Double sum;
+  private final Value arg1;
+  private final Value arg2;
   private static final int NUM_ARGS = 2;
 
   /**
@@ -21,18 +23,20 @@ public class Sum extends MathOperation {
    * @param args   the arguments that the command takes
    * @throws MissingArgumentException if the list of arguments does not contain enough arguments
    */
-  public Sum(Turtle turtle, List<Double> args) throws MissingArgumentException {
+  public Sum(Turtle turtle, List<Value> args) throws MissingArgumentException {
     super(turtle, args, NUM_ARGS);
-    sum = args.get(0) + args.get(1);
+    arg1 = args.get(0);
+    arg2 = args.get(1);
   }
 
   /**
-   * Gets the returnValue of the operation. Implemented by subclasses.
+   * Calculates the sum of the two arguments
    *
    * @return arg1 + arg2
    */
   @Override
-  public Double returnValue() {
-    return sum;
+  public Value execute() {
+    setReturnValue(arg1.getVal() + arg2.getVal());
+    return returnValue();
   }
 }

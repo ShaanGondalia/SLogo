@@ -9,6 +9,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import slogo.Main;
 import slogo.model.command.Command;
+import slogo.model.command.Value;
 import slogo.model.exception.MissingArgumentException;
 import slogo.model.turtle.Turtle;
 
@@ -31,30 +32,30 @@ public class RightTest {
 
   @Test
   void testNotEnoughArgs() {
-    List<Double> args = new ArrayList<>();
+    List<Value> args = new ArrayList<>();
     assertThrows(MissingArgumentException.class, () -> new Right(myTurtle, args));
   }
 
   @Test
   void testTooManyArgs() throws MissingArgumentException {
-    List<Double> args = new ArrayList<>();
-    args.add(ARG_1);
-    args.add(ARG_2);
+    List<Value> args = new ArrayList<>();
+    args.add(new Value(ARG_1));
+    args.add(new Value(ARG_2));
     Right c = new Right(myTurtle, args);
-    assertEquals(ARG_1, c.returnValue());
-    assertEquals(ARG_1, c.execute());
+    assertEquals(ARG_1, c.execute().getVal());
+    assertEquals(ARG_1, c.returnValue().getVal());
   }
 
   @Test
   void testCorrectArgs() throws MissingArgumentException {
-    List<Double> args = new ArrayList<>();
-    args.add(ARG_1);
+    List<Value> args = new ArrayList<>();
+    args.add(new Value(ARG_1));
     Right c = new Right(myTurtle, args);
-    assertEquals(ARG_1, c.returnValue());
+    //assertEquals(ARG_1, c.returnValue().getVal());
     double bearingBefore = myTurtle.getPose().bearing();
     double xBefore = myTurtle.getPose().x();
     double yBefore = myTurtle.getPose().y();
-    assertEquals(ARG_1, c.execute());
+    assertEquals(ARG_1, c.execute().getVal());
     assertEquals(bearingBefore + ARG_1, myTurtle.getPose().bearing());
     assertEquals(xBefore, myTurtle.getPose().x(), Main.TOLERANCE);
     assertEquals(yBefore, myTurtle.getPose().y(), Main.TOLERANCE);
@@ -62,12 +63,16 @@ public class RightTest {
 
   @Test
   void testRight1() throws MissingArgumentException {
-    List<Double> args = new ArrayList<>();
-    args.add(45.0);
+    List<Value> args = new ArrayList<>();
+    double degreesToTurn = 45;
+    args.add(new Value(degreesToTurn));
     Command right = new Right(myTurtle, args);
-    double answer = 45.0;
-    assertEquals(45.0, right.execute(), Main.TOLERANCE);
-    assertEquals(answer, myTurtle.getPose().bearing(), Main.TOLERANCE);
+
+    // sanity check
+    assertEquals( 0, myTurtle.getPose().bearing(), Main.TOLERANCE);
+    right.execute();
+    //assertEquals(degreesToTurn, right.execute().getVal(), Main.TOLERANCE);
+    assertEquals(degreesToTurn, myTurtle.getPose().bearing(), Main.TOLERANCE);
   }
 
 }

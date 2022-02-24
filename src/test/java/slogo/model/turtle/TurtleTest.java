@@ -48,7 +48,7 @@ public class TurtleTest {
     myTurtle.rotate(LEFT);
     myTurtle.move(FORWARD);
     assertEquals(0, myTurtle.getPose().y(), EPSILON);
-    assertEquals(-FORWARD, myTurtle.getPose().x(), EPSILON);
+    assertEquals(FORWARD, myTurtle.getPose().x(), EPSILON);
   }
 
   @Test

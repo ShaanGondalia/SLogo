@@ -1,6 +1,7 @@
 package slogo.model.command.turtle;
 
 import java.util.List;
+import slogo.model.command.Value;
 import slogo.model.exception.MissingArgumentException;
 import slogo.model.turtle.Turtle;
 
@@ -11,7 +12,7 @@ import slogo.model.turtle.Turtle;
  */
 public class Forward extends TurtleCommand {
 
-  private final double pixels;
+  private final Value pixels;
   private static final int NUM_ARGS = 1;
 
   /**
@@ -21,7 +22,7 @@ public class Forward extends TurtleCommand {
    * @param turtle the Turtle that will be moved when the command is executed
    * @throws MissingArgumentException if the list of arguments does not contain enough arguments
    */
-  public Forward(Turtle turtle, List<Double> args) throws MissingArgumentException {
+  public Forward(Turtle turtle, List<Value> args) throws MissingArgumentException {
     super(turtle, args, NUM_ARGS);
     pixels = args.get(0);
   }
@@ -32,18 +33,9 @@ public class Forward extends TurtleCommand {
    * @return the number of pixels the turtle will move
    */
   @Override
-  public Double execute() {
-    getTurtle().move(pixels);
-    return pixels;
-  }
-
-  /**
-   * Returns the number of pixels the turtle will move
-   *
-   * @return the number of pixels the turtle will move
-   */
-  @Override
-  public Double returnValue() {
-    return pixels;
+  public Value execute() {
+    getTurtle().move(pixels.getVal());
+    setReturnValue(pixels.getVal());
+    return returnValue();
   }
 }
