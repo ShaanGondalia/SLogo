@@ -6,9 +6,11 @@ import java.util.List;
 import java.util.ResourceBundle;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.TilePane;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import slogo.Errors;
 import slogo.controller.Controller;
@@ -24,6 +26,8 @@ public class MainIDEView extends Display {
   private static final Dimension MAIN_SIZE = new Dimension(300, 200);
   private static final String ROOT_ID = "root";
   private static final String BUTTON_SECTION_ID = "button_sec";
+  private static final String HISTORY_SECTION_ID = "history_sec";
+
   private static final List<String> BUTTONS = List.of("run", "close", "help", "set_image",
       "set_bk_color", "set_pen_color");
   private static final String BUTTON_RESOURCE_ENDING = "Buttons";
@@ -34,6 +38,8 @@ public class MainIDEView extends Display {
   private TextArea myCommandArea;
   private Controller myController;
   private ResourceBundle myResources;
+  private ScrollPane myHistoryPane;
+  private Text myHistory;
 
   public MainIDEView(String language, Controller c, String css) {
     myResources = ResourceBundle.getBundle(RESOURCE_PREFIX + language + BUTTON_RESOURCE_ENDING);
@@ -53,6 +59,12 @@ public class MainIDEView extends Display {
       createButton(button);
     }
     myController = c;
+
+    myHistory = new Text("");
+    myHistoryPane = new ScrollPane();
+    myHistoryPane.setId(HISTORY_SECTION_ID);
+    myHistoryPane.setContent(myHistory);
+    myPane.setRight(myHistoryPane);
   }
 
   private void createTextArea() {
@@ -92,6 +104,10 @@ public class MainIDEView extends Display {
     } catch (Exception e) {
       Errors.showError(e.getMessage());
     }
+
+    myHistory.setText(myHistory.getText() + getRawCommandText());
+    myHistoryPane.setContent(myHistory);
+
     myCommandArea.clear();
   }
 
