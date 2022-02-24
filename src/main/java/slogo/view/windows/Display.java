@@ -7,12 +7,22 @@ import javafx.stage.Stage;
 import slogo.controller.Controller;
 
 /**
- * Commons to display a new stage
+ * Common functionality to display a new stage
  *
  * @author Andy S. He
  */
 public abstract class Display {
 
+  /**
+   * Used to standardize creation of stages so no duplicate code. Can initialize without a previous
+   * stage, or with one, if the stage needs to be referenced in creating the root.
+   *
+   * @param stage old stage to reconfigure
+   * @param title title of the stage
+   * @param size dimensions of the stage
+   * @param root where to add new JavaFX nodes
+   * @return the stage but now configured
+   */
   protected Stage createStage(Stage stage, String title, Dimension size, Pane root) {
     Scene scene = new Scene(root, size.width, size.height);
     stage.setScene(scene);
@@ -20,6 +30,9 @@ public abstract class Display {
     return stage;
   }
 
+  /**
+   * Same as above, but stage need not referenced in creation of the root
+   */
   protected Stage createStage(String title, Dimension size, Pane root) {
     Stage stage = new Stage();
     return createStage(stage, title, size, root);

@@ -13,6 +13,7 @@ import slogo.view.util.OptionGenerator;
 /**
  * Used to probe what language the whole program will be in
  *
+ * @see OptionGenerator
  * @author Andy S He
  */
 public class LanguageSplash extends Splash {
@@ -26,6 +27,9 @@ public class LanguageSplash extends Splash {
   private final ResourceBundle myLanguages;
   private Stage myStage;
 
+  /**
+   * Creates the Splash Screen for choosing a Language
+   */
   public LanguageSplash() {
     myLanguages = ResourceBundle.getBundle(RESOURCE_LANGUAGES);
     myStage = new Stage();

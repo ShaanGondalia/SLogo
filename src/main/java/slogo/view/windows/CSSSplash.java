@@ -15,6 +15,7 @@ import slogo.view.util.OptionGenerator;
  * Screen to display the first time program is running up. Here, can select language / css and
  * anything else needed before initialization
  *
+ * @see OptionGenerator
  * @author Andy S. He
  */
 public class CSSSplash extends Splash {
@@ -27,6 +28,12 @@ public class CSSSplash extends Splash {
   private ResourceBundle myResources;
   private Stage myStage;
 
+  /**
+   * Creates a Splash screen to determine what style of nodes to have for MainIDEView
+   * @see LanguageSplash
+   * @see MainIDEView
+   * @param language
+   */
   public CSSSplash(String language) {
     myResources = ResourceBundle.getBundle(
         MainIDEView.RESOURCE_PREFIX + language + CSS_RESOURCE_ENDING);
