@@ -2,6 +2,7 @@ package slogo.model.command.control;
 
 import java.util.Deque;
 import java.util.List;
+import slogo.Main;
 import slogo.model.command.Command;
 import slogo.model.command.Value;
 import slogo.model.exception.MissingArgumentException;
@@ -29,6 +30,9 @@ public class For extends ControlCommand {
    */
   public For(Turtle turtle, List<Value> args, Deque<Command> body) throws MissingArgumentException {
     super(turtle, args, NUM_ARGS);
+    verifyBody(body);
+
+    myBody = body;
     myVariable = args.get(0);
     myStart = args.get(1).getVal();
     myEnd = args.get(2).getVal();
@@ -43,7 +47,7 @@ public class For extends ControlCommand {
   @Override
   public Value execute() throws MissingArgumentException {
     myVariable.setVal(myStart);
-    while (myVariable.getVal() < myEnd) {
+    while (myVariable.getVal() < myEnd && (Math.abs(myVariable.getVal() - myEnd) > Main.TOLERANCE)) {
       for (Command c: myBody) {
         c.execute();
       }

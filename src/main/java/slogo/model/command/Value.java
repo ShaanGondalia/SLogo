@@ -1,5 +1,7 @@
 package slogo.model.command;
 
+import slogo.Main;
+
 /**
  * Mutable class that wraps a double. Represents any value that can be passed to a SLogo command.
  * Required because Value is immutable.
@@ -42,4 +44,7 @@ public class Value {
     val = d;
   }
 
+  public boolean equals(Value a) {
+    return (Math.abs(a.getVal() - val) < Main.TOLERANCE);
+  }
 }

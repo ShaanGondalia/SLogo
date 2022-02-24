@@ -1,5 +1,6 @@
 package slogo.model.command.control;
 
+import java.util.Deque;
 import java.util.List;
 import slogo.model.command.AbstractCommand;
 import slogo.model.command.Command;
@@ -30,6 +31,12 @@ public abstract class ControlCommand extends AbstractCommand {
   private void verifyArgs(List<Value> args, int numArgs) throws MissingArgumentException {
     if (args.size() < numArgs) {
       throw new MissingArgumentException("NOT ENOUGH ARGS");
+    }
+  }
+
+  protected void verifyBody(Deque<Command> body) throws MissingArgumentException {
+    if (body.isEmpty()) {
+      throw new MissingArgumentException("Body cannot be empty");
     }
   }
 }

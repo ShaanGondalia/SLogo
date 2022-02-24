@@ -18,6 +18,7 @@ public class DoTimes extends ControlCommand{
 
   public DoTimes(Turtle turtle, List<Value> args, Deque<Command> body) throws MissingArgumentException {
     super(turtle, args, NUM_ARGS);
+    verifyBody(body);
 
     Value start = new Value(1);
     Value end = new Value(args.get(1).getVal() + 0.5); // 0.5 to ensure that loop gets run correct number of times

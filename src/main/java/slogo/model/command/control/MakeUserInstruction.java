@@ -4,6 +4,7 @@ import java.util.Deque;
 import java.util.List;
 import slogo.model.command.Command;
 import slogo.model.command.Value;
+import slogo.model.command.turtle.Forward;
 import slogo.model.exception.MissingArgumentException;
 import slogo.model.turtle.Turtle;
 
@@ -16,6 +17,8 @@ public class MakeUserInstruction extends ControlCommand {
   public MakeUserInstruction(Turtle turtle, List<Value> variables, Deque<Command> body)
       throws MissingArgumentException {
     super(turtle, variables, variables.size());
+    verifyBody(body);
+
     myFormalParameters = variables;
     myMethodBody = body;
   }
