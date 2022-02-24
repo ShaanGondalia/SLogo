@@ -1,4 +1,4 @@
-package slogo.view;
+package slogo.view.windows;
 
 import slogo.controller.Controller;
 

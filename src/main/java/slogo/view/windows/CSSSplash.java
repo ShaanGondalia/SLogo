@@ -1,4 +1,4 @@
-package slogo.view;
+package slogo.view.windows;
 
 import java.awt.Dimension;
 import java.util.List;
@@ -8,7 +8,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.TilePane;
 import javafx.stage.Stage;
-import javax.swing.text.html.CSS;
 import slogo.Errors;
 
 /**

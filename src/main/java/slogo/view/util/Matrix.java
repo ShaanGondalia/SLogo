@@ -1,4 +1,4 @@
-package slogo.view;
+package slogo.view.util;
 
 public class Matrix {
 
@@ -52,13 +52,6 @@ public class Matrix {
 
     public double[] getMat() {
         return matrix;
-    }
-
-    public static void main(String[] args) {
-        Matrix m = new Matrix(1, 0, 200, 0, -1, 200);
-        Coordinate c = new Coordinate(100, 100);
-        Coordinate trans = m.mapPoint(c);
-        System.out.println(trans.x() + " " + trans.y());
     }
 
 }

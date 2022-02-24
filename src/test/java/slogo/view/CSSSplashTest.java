@@ -3,6 +3,9 @@ package slogo.view;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import slogo.controller.Controller;
+import slogo.view.turtle.TurtleView;
+import slogo.view.windows.CSSSplash;
+import slogo.view.windows.LanguageSplash;
 import util.DukeApplicationTest;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;

@@ -6,6 +6,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import slogo.controller.Controller;
 import slogo.model.turtle.Pose;
+import slogo.view.turtle.TurtleView;
+import slogo.view.windows.LanguageSplash;
+import slogo.view.windows.TurtleWindowView;
 
 import static org.junit.jupiter.api.Assertions.*;
 
