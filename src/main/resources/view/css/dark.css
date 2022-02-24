@@ -1,8 +1,8 @@
 .root{
   fx-background-color: black;
 }
-#textArea{
-  fx-background-color: black;
+.text-area .content{
+  -fx-background-color: black;
 }
 .button{
   fx-background-color: black;
