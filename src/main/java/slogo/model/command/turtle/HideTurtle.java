@@ -23,6 +23,7 @@ public class HideTurtle extends TurtleCommand {
    */
   public HideTurtle(Turtle turtle, List<Value> args) throws MissingArgumentException {
     super(turtle, args, NUM_ARGS);
+    setReturnValue(0.0);
   }
 
   /**
@@ -34,15 +35,5 @@ public class HideTurtle extends TurtleCommand {
   public Value execute() {
     getTurtle().setVisibility(false);
     return returnValue();
-  }
-
-  /**
-   * Returns 0
-   *
-   * @return 0
-   */
-  @Override
-  public Value returnValue() {
-    return new Value(0);
   }
 }

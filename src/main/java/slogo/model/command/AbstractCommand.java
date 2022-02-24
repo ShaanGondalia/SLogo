@@ -15,6 +15,11 @@ public abstract class AbstractCommand implements Command {
     myReturnValue = new Value();
   }
 
+  /**
+   * Abstract method for that gets the returnValue of the command. Implemented by subclasses.
+   *
+   * @return the return value of the command
+   */
   @Override
   public Value returnValue() {
     return myReturnValue;

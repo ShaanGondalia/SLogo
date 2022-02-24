@@ -23,6 +23,7 @@ public class PenUp extends TurtleCommand {
    */
   public PenUp(Turtle turtle, List<Value> args) throws MissingArgumentException {
     super(turtle, args, NUM_ARGS);
+    setReturnValue(0.0);
   }
 
   /**
@@ -34,15 +35,5 @@ public class PenUp extends TurtleCommand {
   public Value execute() {
     getTurtle().setPen(true);
     return returnValue();
-  }
-
-  /**
-   * Returns 0
-   *
-   * @return 0
-   */
-  @Override
-  public Value returnValue() {
-    return new Value(0);
   }
 }

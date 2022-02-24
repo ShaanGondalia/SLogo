@@ -36,24 +36,16 @@ public class SetTowards extends TurtleCommand {
   /**
    * Turns the turtle to face the given point.
    *
-   * @return the number of degrees the turtle turns
+   * @return the number of degrees the turtle rotates
    */
   @Override
   public Value execute() {
     degrees = getDegreesToTurn();
     degreesAbs.setVal(Math.abs(degrees));
     getTurtle().rotate(degrees);
-    return returnValue();
-  }
 
-  /**
-   * Returns the number of degrees the turtle will rotate
-   *
-   * @return the number of degrees the turtle will rotate
-   */
-  @Override
-  public Value returnValue() {
-    return degreesAbs;
+    setReturnValue(degreesAbs.getVal());
+    return returnValue();
   }
 
   // Gets the number of degrees the turtle has to turn

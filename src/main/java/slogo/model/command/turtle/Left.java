@@ -35,16 +35,7 @@ public class Left extends TurtleCommand {
   @Override
   public Value execute() {
     getTurtle().rotate(-degrees.getVal());
+    setReturnValue(degrees.getVal());
     return returnValue();
-  }
-
-  /**
-   * Returns the number of degrees the turtle will rotate
-   *
-   * @return the number of degrees the turtle will rotate
-   */
-  @Override
-  public Value returnValue() {
-    return degrees;
   }
 }

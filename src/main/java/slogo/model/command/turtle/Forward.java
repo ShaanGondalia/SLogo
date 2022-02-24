@@ -35,16 +35,7 @@ public class Forward extends TurtleCommand {
   @Override
   public Value execute() {
     getTurtle().move(pixels.getVal());
+    setReturnValue(pixels.getVal());
     return returnValue();
-  }
-
-  /**
-   * Returns the number of pixels the turtle will move
-   *
-   * @return the number of pixels the turtle will move
-   */
-  @Override
-  public Value returnValue() {
-    return pixels;
   }
 }

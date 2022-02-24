@@ -35,6 +35,7 @@ public class Backward extends TurtleCommand {
   @Override
   public Value execute() {
     getTurtle().move(-pixels.getVal());
+    setReturnValue(pixels.getVal());
     return returnValue();
   }
 

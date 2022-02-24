@@ -41,15 +41,8 @@ public class SetHeading extends TurtleCommand {
     double currBearing = currPose.bearing();
     myDegreesTurned.setVal(myBearing.getVal() - currBearing);
     getTurtle().rotate(myDegreesTurned.getVal());
-    return returnValue();
-  }
 
-  /**
-   *
-   * @return the number of degrees turned to reach target bearing
-   */
-  @Override
-  public Value returnValue() {
-    return myDegreesTurned;
+    setReturnValue(myDegreesTurned.getVal());
+    return returnValue();
   }
 }

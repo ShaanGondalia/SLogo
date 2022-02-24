@@ -47,16 +47,8 @@ public class SetPosition extends TurtleCommand{
     setBearing(initialBearing).execute();
 
     myDistance.setVal(distance(initialPose.x(), initialPose.y(), myX.getVal(), myY.getVal()));
+    setReturnValue(myDistance.getVal());
     return returnValue();
-  }
-
-  /**
-   *
-   * @return distance travelled
-   */
-  @Override
-  public Value returnValue() {
-    return myDistance;
   }
 
   public Command setTowards(double x, double y) throws MissingArgumentException {

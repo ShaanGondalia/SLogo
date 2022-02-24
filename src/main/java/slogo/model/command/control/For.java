@@ -26,6 +26,6 @@ public class For extends ControlCommand {
 
   @Override
   public Value returnValue() {
-    return ;
+    return myVariable;
   }
 }

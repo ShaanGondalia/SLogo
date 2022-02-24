@@ -25,31 +25,21 @@ public class ClearScreen extends TurtleCommand {
    */
   public ClearScreen(Turtle turtle, List<Value> args) throws MissingArgumentException {
     super(turtle, args, NUM_ARGS);
-    distance = new Value();
   }
 
   /**
    * Shows the attached turtle
    *
-   * @return 1
+   * @return distance turtle moved
    */
   @Override
   public Value execute() {
     double x = getTurtle().getPose().x();
     double y = getTurtle().getPose().y();
-    distance.setVal(Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2)));
     getTurtle().goHome();
     getTurtle().clear();
-    return returnValue();
-  }
 
-  /**
-   * Returns 1
-   *
-   * @return 1
-   */
-  @Override
-  public Value returnValue() {
-    return distance;
+    setReturnValue(Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2)));
+    return returnValue();
   }
 }
