@@ -111,7 +111,7 @@ public class Compiler {
         // Use reflection to create command
         Command command = getCommand(pendingCommand, turtle, args);
         values.add(command.returnValue());
-        commandQueue.push(command);
+        commandQueue.addLast(command);
         if (pendingCommands.isEmpty()) {
           values.clear();
         }
