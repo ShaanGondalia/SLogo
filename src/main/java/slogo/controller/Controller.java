@@ -3,7 +3,7 @@ package slogo.controller;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.List;
-import slogo.view.TurtleView;
+
 import slogo.model.Compiler;
 import slogo.model.turtle.Turtle;
 

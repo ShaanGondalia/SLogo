@@ -1,4 +1,4 @@
-package slogo.view;
+package slogo.view.util;
 
 public class Coordinate {
 
