@@ -14,6 +14,7 @@ import java.util.ResourceBundle;
 import java.util.Stack;
 import slogo.model.command.Command;
 import slogo.model.command.Value;
+import slogo.model.command.control.MakeUserInstruction;
 import slogo.model.exception.MissingArgumentException;
 import slogo.model.exception.SymbolNotFoundException;
 import slogo.model.parser.Parser;
@@ -34,7 +35,7 @@ public class Compiler {
 
   private Parser myParser;
   private Map<String, Value> myVariables;
-  private Map<String, Command> myUserCommands;
+  private Map<String, MakeUserInstruction> myUserCommands;
 
   private final ResourceBundle parameterResources = ResourceBundle.getBundle(PARAMETER_RESOURCES);
   private final ResourceBundle reflectionResources = ResourceBundle.getBundle(REFLECTION_RESOURCES);
@@ -87,6 +88,9 @@ public class Compiler {
           throw new SymbolNotFoundException(
               String.format(exceptionResources.getString("SymbolNotFound"), token));
         }
+        else if (symbol.equals("ListStart")) {
+
+        }
       }
 
       // LOGIC:
@@ -126,7 +130,12 @@ public class Compiler {
   }
 
   // Returns an instance of a command using reflection
-  private Command getCommand(String symbol, Turtle turtle, List<Value> args) {
+  private Command getCommand(String symbol, Turtle turtle, List<Value> args)
+      throws MissingArgumentException {
+    if (myUserCommands.containsKey(symbol)) {
+      MakeUserInstruction c = myUserCommands.get(symbol);
+      c.setActualParameters(args);
+    }
     String command = reflectionResources.getString(symbol).trim();
     try {
       // convert string into Java object that represents that Java class

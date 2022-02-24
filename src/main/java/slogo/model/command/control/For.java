@@ -8,6 +8,11 @@ import slogo.model.command.Value;
 import slogo.model.exception.MissingArgumentException;
 import slogo.model.turtle.Turtle;
 
+/**
+ * Implements For Command
+ *
+ * @author Jake Heller
+ */
 public class For extends ControlCommand {
 
   private static int NUM_ARGS = 4;
@@ -19,10 +24,6 @@ public class For extends ControlCommand {
   private double myIncrement;
 
   /**
-   * Implements For Command
-   *
-   * @author Jake Heller
-   *
    * @param turtle
    * @param args
    * @param body

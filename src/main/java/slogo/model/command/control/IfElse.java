@@ -7,6 +7,11 @@ import slogo.model.command.Value;
 import slogo.model.exception.MissingArgumentException;
 import slogo.model.turtle.Turtle;
 
+/**
+ * Creates IfElse command, which returns the value of the last command run
+ *
+ * @author Jake Heller
+ */
 public class IfElse extends ControlCommand {
 
   private static int NUM_ARGS = 1;
