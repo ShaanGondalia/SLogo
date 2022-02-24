@@ -60,9 +60,9 @@ public class SetTowardsTest {
   void testRotateFourthQuadrant() throws MissingArgumentException {
     List<Value> args = new ArrayList<>();
     args.add(new Value(X_NEG));
-    args.add(new Value(Y_NEG));
+    args.add(new Value(Y_POS));
     SetTowards c = new SetTowards(myTurtle, args);
-    assertEquals(315, c.execute().getVal(), EPSILON);
+    assertEquals(45, c.execute().getVal(), EPSILON);
   }
 
 

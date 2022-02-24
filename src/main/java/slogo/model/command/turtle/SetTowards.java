@@ -1,6 +1,7 @@
 package slogo.model.command.turtle;
 
 import java.util.List;
+import slogo.Main;
 import slogo.model.command.Value;
 import slogo.model.exception.MissingArgumentException;
 import slogo.model.turtle.Turtle;
@@ -53,27 +54,30 @@ public class SetTowards extends TurtleCommand {
   private double getDegreesToTurn() {
     double deltaX = x.getVal() - getTurtle().getPose().x();
     double deltaY = y.getVal() - getTurtle().getPose().y();
-    double radsFromVertical = Math.atan((deltaX) / (deltaY));
-    double degreesFromVertical = Math.toDegrees(radsFromVertical);
 
-    double newBearing = getNewBearing(degreesFromVertical, deltaX, deltaY);
+    double newBearing;
+
+    // division by 0
+    if (Math.abs(deltaY) < Main.TOLERANCE) {
+      newBearing = (deltaX > 0 ? 90 : 270); // either 90 or 270
+    }
+    else {
+      double radsFromVertical = Math.atan((deltaX) / (deltaY));
+      double degreesFromVertical = Math.toDegrees(radsFromVertical);
+      newBearing = getNewBearing(degreesFromVertical, deltaX, deltaY);
+    }
+
     double degreesToTurn = newBearing - getTurtle().getPose().bearing();
-
-    degreesToTurn = degreesToTurn > 180 ? 360 - degreesToTurn : degreesToTurn;
 
     return degreesToTurn;
   }
 
   // Gets the new bearing of the turtle given the degrees from vertical and delta x and y
   private double getNewBearing(double degreesFromVertical, double deltaX, double deltaY) {
-    if (deltaX >= 0 && deltaY >= 0) { // quadrant 1
+    if (deltaY >= 0) { // quadrant 1 and 2
       return degreesFromVertical;
-    } else if (deltaX < 0 && deltaY >= 0) { // quadrant 2
-      return 180 - degreesFromVertical;
-    } else if (deltaX < 0 && deltaY < 0) { // quadrant 3
+    } else { // quadrant 3 and 4
       return 180 + degreesFromVertical;
-    } else { // quadrant 4
-      return 360 - degreesFromVertical;
     }
   }
 }

@@ -44,4 +44,19 @@ public class SetPositionTest {
     assertEquals(distance, setPos.execute().getVal(), Main.TOLERANCE);
   }
 
+  // this has caused turtle to disappear in GUI
+  @Test
+  void testSamePosTwice() throws MissingArgumentException {
+    List<Value> args = new ArrayList<>();
+    args.add(new Value(3));
+    args.add(new Value(4));
+    Command setPos = new SetPosition(myTurtle, args);
+    double distance = 5.0;
+    assertEquals(distance, setPos.execute().getVal(), Main.TOLERANCE);
+    assertEquals(4, myTurtle.getPose().y(), Main.TOLERANCE);
+
+    setPos.execute();
+    assertEquals(0.0, setPos.returnValue().getVal(), Main.TOLERANCE);
+    assertEquals(4, myTurtle.getPose().y(), Main.TOLERANCE);
+  }
 }
