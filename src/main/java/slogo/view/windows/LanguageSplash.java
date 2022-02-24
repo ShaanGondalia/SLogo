@@ -1,4 +1,4 @@
-package slogo.view;
+package slogo.view.windows;
 
 import java.awt.Dimension;
 import java.util.ResourceBundle;

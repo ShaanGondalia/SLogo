@@ -1,6 +1,7 @@
 package slogo.model.command.turtle;
 
 import java.util.List;
+import slogo.model.command.Value;
 import slogo.model.exception.MissingArgumentException;
 import slogo.model.turtle.Turtle;
 
@@ -11,7 +12,7 @@ import slogo.model.turtle.Turtle;
  */
 public class Left extends TurtleCommand {
 
-  private final double degrees;
+  private final Value degrees;
   private static final int NUM_ARGS = 1;
 
   /**
@@ -21,7 +22,7 @@ public class Left extends TurtleCommand {
    * @param turtle the Turtle that will be rotated
    * @throws MissingArgumentException if the list of arguments does not contain enough arguments
    */
-  public Left(Turtle turtle, List<Double> args) throws MissingArgumentException {
+  public Left(Turtle turtle, List<Value> args) throws MissingArgumentException {
     super(turtle, args, NUM_ARGS);
     degrees = args.get(0);
   }
@@ -32,18 +33,9 @@ public class Left extends TurtleCommand {
    * @return the number of degrees the turtle will rotate
    */
   @Override
-  public Double execute() {
-    getTurtle().rotate(-degrees);
-    return degrees;
-  }
-
-  /**
-   * Returns the number of degrees the turtle will rotate
-   *
-   * @return the number of degrees the turtle will rotate
-   */
-  @Override
-  public Double returnValue() {
-    return degrees;
+  public Value execute() {
+    getTurtle().rotate(-degrees.getVal());
+    setReturnValue(degrees.getVal());
+    return returnValue();
   }
 }

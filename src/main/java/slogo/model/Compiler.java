@@ -3,13 +3,17 @@ package slogo.model;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.Deque;
 import java.util.HashMap;
 import java.util.InputMismatchException;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Queue;
 import java.util.ResourceBundle;
 import java.util.Stack;
 import slogo.model.command.Command;
+import slogo.model.command.Value;
 import slogo.model.exception.MissingArgumentException;
 import slogo.model.exception.SymbolNotFoundException;
 import slogo.model.parser.Parser;
@@ -29,7 +33,7 @@ public class Compiler {
   private static final String EXCEPTION_RESOURCES = "model.exception.";
 
   private Parser myParser;
-  private Map<String, Double> myVariables;
+  private Map<String, Value> myVariables;
   private Map<String, Command> myUserCommands;
 
   private final ResourceBundle parameterResources = ResourceBundle.getBundle(PARAMETER_RESOURCES);
@@ -55,13 +59,14 @@ public class Compiler {
    * @param turtles  list of turtles to attach commands to
    * @throws Exception if there is an issue running the program
    */
-  public void run(String program, List<Turtle> turtles) throws Exception {
+  public Deque<Command> compile(String program, List<Turtle> turtles) throws Exception {
+    Deque<Command> commandQueue = new LinkedList<>();
 
     // will be changed when we can have multiple turtles
     Turtle turtle = turtles.get(0);
 
     Stack<String> pendingCommands = new Stack<>();
-    Stack<Double> values = new Stack<>();
+    Stack<Value> values = new Stack<>();
     Stack<Integer> valuesBefore = new Stack<>();
 
     for (String token : program.split(WHITESPACE)) {
@@ -71,8 +76,11 @@ public class Compiler {
         pendingCommands.push(symbol);
         valuesBefore.push(values.size());
       } else if (symbol.equals("Constant")) {
-        values.push(Double.parseDouble(token));
+        values.push(new Value(Double.parseDouble(token)));
       } else if (symbol.equals("Variable")) {
+        if (!myVariables.containsKey(token)) {
+          myVariables.put(token, new Value());
+        }
         values.push(myVariables.get(token));
       } else if (symbol.equals("UserCommand")) {
         if (!myUserCommands.containsKey(token)) {
@@ -80,7 +88,6 @@ public class Compiler {
               String.format(exceptionResources.getString("SymbolNotFound"), token));
         }
       }
-
 
       // LOGIC:
       // After a command is added, we can only resolve the commands arguments once numInputs values have been added to the value stack.
@@ -90,15 +97,17 @@ public class Compiler {
 
       while (!pendingCommands.isEmpty()
           && getNumInputs(pendingCommands.peek()) <= values.size() - valuesBefore.peek()) {
-        List<Double> args = new ArrayList<>();
+        List<Value> args = new ArrayList<>();
         String pendingCommand = pendingCommands.pop();
         valuesBefore.pop();
         for (int i = 0; i < getNumInputs(pendingCommand); i++) {
-          args.add(values.pop());
+          args.add(0, values.pop()); // add element to start of args
+          //System.out.printf("%s: %f\n", args.get(i), args.get(i).getVal());
         }
         // Use reflection to create command
         Command command = getCommand(pendingCommand, turtle, args);
-        values.add(command.execute());
+        values.add(command.returnValue());
+        commandQueue.push(command);
         if (pendingCommands.isEmpty()) {
           values.clear();
         }
@@ -108,6 +117,7 @@ public class Compiler {
       throw new MissingArgumentException(
           String.format(exceptionResources.getString("MissingArgument"), pendingCommands.peek()));
     }
+    return commandQueue;
   }
 
   // Gets the number of inputs a given command takes.
@@ -116,7 +126,7 @@ public class Compiler {
   }
 
   // Returns an instance of a command using reflection
-  private Command getCommand(String symbol, Turtle turtle, List<Double> args) {
+  private Command getCommand(String symbol, Turtle turtle, List<Value> args) {
     String command = reflectionResources.getString(symbol).trim();
     try {
       // convert string into Java object that represents that Java class

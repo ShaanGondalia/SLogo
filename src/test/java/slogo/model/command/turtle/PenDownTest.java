@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import slogo.model.command.Value;
 import slogo.model.exception.MissingArgumentException;
 import slogo.model.turtle.Turtle;
 
@@ -27,19 +28,19 @@ public class PenDownTest {
 
   @Test
   void testTooManyArgs() throws MissingArgumentException {
-    List<Double> args = new ArrayList<>();
-    args.add(ARG_1);
+    List<Value> args = new ArrayList<>();
+    args.add(new Value(ARG_1));
     PenDown c = new PenDown(myTurtle, args);
-    assertEquals(1.0, c.returnValue());
-    assertEquals(1.0, c.execute());
+    assertEquals(1.0, c.returnValue().getVal());
+    assertEquals(1.0, c.execute().getVal());
   }
 
   @Test
   void testCorrectArgs() throws MissingArgumentException {
-    List<Double> args = new ArrayList<>();
+    List<Value> args = new ArrayList<>();
     PenDown c = new PenDown(myTurtle, args);
-    assertEquals(1.0, c.returnValue());
-    assertEquals(1.0, c.execute());
+    assertEquals(1.0, c.returnValue().getVal());
+    assertEquals(1.0, c.execute().getVal());
   }
 
 }

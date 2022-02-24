@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import slogo.model.command.Value;
 import slogo.model.exception.MissingArgumentException;
 import slogo.model.turtle.Pose;
 import slogo.model.turtle.Turtle;
@@ -31,26 +32,26 @@ public class ClearScreenTest {
 
   @Test
   void testTooManyArgs() throws MissingArgumentException {
-    List<Double> args = new ArrayList<>();
-    args.add(ARG_1);
+    List<Value> args = new ArrayList<>();
+    args.add(new Value(ARG_1));
     ClearScreen c = new ClearScreen(myTurtle, args);
-    assertEquals(0.0, c.execute());
+    assertEquals(0.0, c.execute().getVal());
   }
 
   @Test
   void testCorrectArgs() throws MissingArgumentException {
-    List<Double> args = new ArrayList<>();
+    List<Value> args = new ArrayList<>();
     ClearScreen c = new ClearScreen(myTurtle, args);
-    assertEquals(0.0, c.execute());
+    assertEquals(0.0, c.execute().getVal());
   }
 
   @Test
   void testAfterMovement() throws MissingArgumentException {
-    List<Double> args = new ArrayList<>();
+    List<Value> args = new ArrayList<>();
     Pose p = new Pose(MOVE_X, MOVE_Y, BEARING);
     myTurtle.setPose(p);
     ClearScreen c = new ClearScreen(myTurtle, args);
-    assertEquals(5, c.execute());
+    assertEquals(5, c.execute().getVal());
   }
 
 }

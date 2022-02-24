@@ -1,6 +1,7 @@
 package slogo.model.command.math;
 
 import java.util.List;
+import slogo.model.command.Value;
 import slogo.model.exception.MissingArgumentException;
 import slogo.model.turtle.Turtle;
 
@@ -20,8 +21,9 @@ public class Pi extends MathOperation {
    * @param args   the arguments that the command takes (pi takes 0 args).
    * @throws MissingArgumentException if the list of arguments does not contain enough arguments
    */
-  public Pi(Turtle turtle, List<Double> args) throws MissingArgumentException {
+  public Pi(Turtle turtle, List<Value> args) throws MissingArgumentException {
     super(turtle, args, NUM_ARGS);
+    setReturnValue(Math.PI);
   }
 
   /**
@@ -30,7 +32,7 @@ public class Pi extends MathOperation {
    * @return pi
    */
   @Override
-  public Double returnValue() {
-    return Math.PI;
+  public Value execute() throws MissingArgumentException {
+    return returnValue();
   }
 }

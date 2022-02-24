@@ -14,12 +14,12 @@ public interface Command {
    *
    * @return the value that the command returns when executed
    */
-  public Double execute() throws MissingArgumentException;
+  public Value execute() throws MissingArgumentException;
 
   /**
    * Returns the return value of a command without executing it
    *
    * @return the return value of a command without execution.
    */
-  public Double returnValue();
+  public Value returnValue();
 }

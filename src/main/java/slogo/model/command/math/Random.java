@@ -1,6 +1,7 @@
 package slogo.model.command.math;
 
 import java.util.List;
+import slogo.model.command.Value;
 import slogo.model.exception.MissingArgumentException;
 import slogo.model.turtle.Turtle;
 
@@ -11,7 +12,7 @@ import slogo.model.turtle.Turtle;
  */
 public class Random extends MathOperation {
 
-  private final Double random;
+  private final Value arg1;
   private static final int NUM_ARGS = 1;
 
   /**
@@ -21,18 +22,19 @@ public class Random extends MathOperation {
    * @param args   the arguments that the command takes
    * @throws MissingArgumentException if the list of arguments does not contain enough arguments
    */
-  public Random(Turtle turtle, List<Double> args) throws MissingArgumentException {
+  public Random(Turtle turtle, List<Value> args) throws MissingArgumentException {
     super(turtle, args, NUM_ARGS);
-    random = Math.random() * args.get(0);
+    arg1 = args.get(0);
   }
 
   /**
-   * Returns a random number strictly less than arg1
+   * Calculates a random number strictly less than arg1
    *
    * @return a random number strictly less than arg1
    */
   @Override
-  public Double returnValue() {
-    return random;
+  public Value execute() {
+    setReturnValue(Math.random() * arg1.getVal());
+    return returnValue();
   }
 }

@@ -1,7 +1,6 @@
 package slogo;
 
 import java.io.IOException;
-import java.lang.reflect.Constructor;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.nio.file.Files;
@@ -10,13 +9,13 @@ import java.util.*;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import slogo.controller.Controller;
-import slogo.view.Display;
-import slogo.view.LanguageSplash;
-import slogo.view.MainIDEView;
-import slogo.view.CSSSplash;
-import slogo.view.Splash;
-import slogo.view.TurtleView;
-import slogo.view.TurtleWindowView;
+import slogo.view.windows.Display;
+import slogo.view.windows.LanguageSplash;
+import slogo.view.windows.MainIDEView;
+import slogo.view.windows.CSSSplash;
+import slogo.view.windows.Splash;
+import slogo.view.turtle.TurtleView;
+import slogo.view.windows.TurtleWindowView;
 
 
 /**
@@ -27,7 +26,7 @@ public class Main extends Application {
   private static final String LANGUAGE_RESOURCE_PATH = "/slogo/languages/";
   private static final String EXAMPLE_PROGRAMS_PATH = "/examples";
 
-  public static double TOLERANCE = 0.01;
+  public static double TOLERANCE = 0.0001;
 
   /**
    * Get command in a given language.

@@ -1,10 +1,10 @@
-package slogo.view;
+package slogo.view.windows;
 
 import java.awt.Dimension;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-import slogo.controller.Controller;
+import slogo.view.turtle.TurtleView;
 
 public class TurtleWindowView extends Display {
   private static final String TITLE = "SLOGO TEAM 3 - Turtle Window";

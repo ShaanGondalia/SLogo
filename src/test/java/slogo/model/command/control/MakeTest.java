@@ -1,4 +1,4 @@
-package slogo.model.command.math;
+package slogo.model.command.control;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -12,11 +12,11 @@ import slogo.model.exception.MissingArgumentException;
 import slogo.model.turtle.Turtle;
 
 /**
- * Tests for Product Command
+ * Tests for Make Command
  *
  * @author Shaan Gondalia
  */
-public class ProductTest {
+public class MakeTest {
 
   private static final double ARG_1 = 50;
   private static final double ARG_2 = 75;
@@ -33,7 +33,7 @@ public class ProductTest {
   void testNotEnoughArgs() {
     List<Value> args = new ArrayList<>();
     args.add(new Value(ARG_1));
-    assertThrows(MissingArgumentException.class, () -> new Product(myTurtle, args));
+    assertThrows(MissingArgumentException.class, () -> new Make(myTurtle, args));
   }
 
   @Test
@@ -42,19 +42,20 @@ public class ProductTest {
     args.add(new Value(ARG_1));
     args.add(new Value(ARG_2));
     args.add(new Value(ARG_3));
-    Product s = new Product(myTurtle, args);
-    assertEquals(ARG_1 * ARG_2, s.execute().getVal());
-    assertEquals(ARG_1 * ARG_2, s.returnValue().getVal());
+    Make m = new Make(myTurtle, args);
+    assertEquals(ARG_2, m.execute().getVal());
+    assertEquals(ARG_2, m.returnValue().getVal());
   }
 
   @Test
-  void testCorrectArgs() throws MissingArgumentException {
+  void testCorrectArgsOverwrite() throws MissingArgumentException {
     List<Value> args = new ArrayList<>();
-    args.add(new Value(ARG_1));
+    Value var = new Value(ARG_1);
+    args.add(var);
     args.add(new Value(ARG_2));
-    Product s = new Product(myTurtle, args);
-    assertEquals(ARG_1 * ARG_2, s.execute().getVal());
-    assertEquals(ARG_1 * ARG_2, s.returnValue().getVal());
+    Make m = new Make(myTurtle, args);
+    assertEquals(ARG_2, m.execute().getVal());
+    assertEquals(ARG_2, var.getVal());
   }
 
 }
