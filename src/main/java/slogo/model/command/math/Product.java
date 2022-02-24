@@ -14,7 +14,6 @@ public class Product extends MathOperation {
 
   private final Value arg1;
   private final Value arg2;
-  private Value product;
   private static final int NUM_ARGS = 2;
 
   /**
@@ -26,7 +25,6 @@ public class Product extends MathOperation {
    */
   public Product(Turtle turtle, List<Value> args) throws MissingArgumentException {
     super(turtle, args, NUM_ARGS);
-    product = new Value();
     arg1 = args.get(0);
     arg2 = args.get(1);
   }
@@ -34,21 +32,11 @@ public class Product extends MathOperation {
   /**
    * Calculates the product of the two arguments
    *
-   * @return the product of the two arguments
-   */
-  @Override
-  public Value execute() {
-    product.setVal(arg1.getVal() * arg2.getVal());
-    return returnValue();
-  }
-
-  /**
-   * Gets the returnValue of the operation.
-   *
    * @return arg1 * arg2
    */
   @Override
-  public Value returnValue() {
-    return product;
+  public Value execute() {
+    setReturnValue(arg1.getVal() * arg2.getVal());
+    return returnValue();
   }
 }

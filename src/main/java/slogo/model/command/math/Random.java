@@ -13,7 +13,6 @@ import slogo.model.turtle.Turtle;
 public class Random extends MathOperation {
 
   private final Value arg1;
-  private Value random;
   private static final int NUM_ARGS = 1;
 
   /**
@@ -25,7 +24,6 @@ public class Random extends MathOperation {
    */
   public Random(Turtle turtle, List<Value> args) throws MissingArgumentException {
     super(turtle, args, NUM_ARGS);
-    random = new Value();
     arg1 = args.get(0);
   }
 
@@ -36,17 +34,7 @@ public class Random extends MathOperation {
    */
   @Override
   public Value execute() {
-    random.setVal(Math.random() * arg1.getVal());
+    setReturnValue(Math.random() * arg1.getVal());
     return returnValue();
-  }
-
-  /**
-   * Returns a random number strictly less than arg1
-   *
-   * @return a random number strictly less than arg1
-   */
-  @Override
-  public Value returnValue() {
-    return random;
   }
 }

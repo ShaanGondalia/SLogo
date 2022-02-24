@@ -13,8 +13,6 @@ public class MakeUserInstruction extends ControlCommand {
   private List<Value> myActualParameters;
   private Deque<Command> myMethodBody;
 
-  private Value myReturnValue;
-
   public MakeUserInstruction(Turtle turtle, List<Value> variables, Deque<Command> body)
       throws MissingArgumentException {
     super(turtle, variables, variables.size());
@@ -52,11 +50,7 @@ public class MakeUserInstruction extends ControlCommand {
     }
     copyToActual();
     myActualParameters = null;
+    setReturnValue(myMethodBody.peekLast().returnValue().getVal());
     return returnValue();
-  }
-
-  @Override
-  public Value returnValue() {
-    return myMethodBody.peekLast().returnValue();
   }
 }

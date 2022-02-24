@@ -1,6 +1,7 @@
 package slogo.model.command.control;
 
 import java.util.List;
+import slogo.model.command.AbstractCommand;
 import slogo.model.command.Command;
 import slogo.model.command.Value;
 import slogo.model.exception.MissingArgumentException;
@@ -11,7 +12,7 @@ import slogo.model.turtle.Turtle;
  *
  * @author Shaan Gondalia
  */
-public abstract class ControlCommand implements Command {
+public abstract class ControlCommand extends AbstractCommand {
 
   /**
    * @param turtle  the Turtle that is attached to this command
@@ -21,24 +22,9 @@ public abstract class ControlCommand implements Command {
    */
   public ControlCommand(Turtle turtle, List<Value> args, int numArgs)
       throws MissingArgumentException {
+    super();
     verifyArgs(args, numArgs);
   }
-
-  /**
-   * Abstract method for when the command is executed.
-   *
-   * @return the return value of the command.
-   */
-  @Override
-  public abstract Value execute() throws MissingArgumentException;
-
-  /**
-   * Abstract method that gets the returnValue of the command. Implemented by subclasses.
-   *
-   * @return the return value of the command
-   */
-  @Override
-  public abstract Value returnValue();
 
   //Verifies that the command received the correct number of arguments.
   private void verifyArgs(List<Value> args, int numArgs) throws MissingArgumentException {

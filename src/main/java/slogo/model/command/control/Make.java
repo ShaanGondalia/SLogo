@@ -37,16 +37,7 @@ public class Make extends ControlCommand{
   @Override
   public Value execute() {
     variable.setVal(expr.getVal());
+    setReturnValue(expr.getVal());
     return returnValue();
-  }
-
-  /**
-   * Returns the value of the expression
-   *
-   * @return the value of the expression
-   */
-  @Override
-  public Value returnValue() {
-    return expr;
   }
 }

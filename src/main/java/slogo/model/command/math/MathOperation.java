@@ -26,24 +26,6 @@ public abstract class MathOperation extends AbstractCommand {
     verifyArgs(args, numArgs);
   }
 
-  /**
-   * Abstract method for when an operation is executed.
-   *
-   * @return the return value of the operation. An operation does not have anything to execute.
-   */
-  @Override
-  public Value execute() {
-    return returnValue();
-  }
-
-  /**
-   * Abstract method that gets the returnValue of the operation. Implemented by subclasses.
-   *
-   * @return the return value of the operation
-   */
-  @Override
-  public abstract Value returnValue();
-
   //Verifies that the command received the correct number of arguments.
   private void verifyArgs(List<Value> args, int numArgs) throws MissingArgumentException {
     if (args.size() < numArgs) {

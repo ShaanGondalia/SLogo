@@ -23,6 +23,7 @@ public class Pi extends MathOperation {
    */
   public Pi(Turtle turtle, List<Value> args) throws MissingArgumentException {
     super(turtle, args, NUM_ARGS);
+    setReturnValue(Math.PI);
   }
 
   /**
@@ -31,7 +32,7 @@ public class Pi extends MathOperation {
    * @return pi
    */
   @Override
-  public Value returnValue() {
-    return new Value(Math.PI);
+  public Value execute() throws MissingArgumentException {
+    return returnValue();
   }
 }
