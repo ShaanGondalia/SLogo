@@ -29,15 +29,19 @@ import slogo.model.turtle.Turtle;
 public class Compiler {
 
   public static final String WHITESPACE = "\\s+";
-  private static final String PARAMETER_RESOURCES = "model.Parameter";
+  private static final String PARAMETER_RESOURCES = "model.ListParameter";
+  private static final String LIST_PARAMETER_RESOURCES = "model.Parameter";
   private static final String REFLECTION_RESOURCES = "model.Reflection";
   private static final String EXCEPTION_RESOURCES = "model.exception.";
 
   private Parser myParser;
   private Map<String, Value> myVariables;
   private Map<String, MakeUserInstruction> myUserCommands;
+  private Map<String, Integer> myParameterCounts;
+  private Map<String, Integer> myListParameterCounts;
 
   private final ResourceBundle parameterResources = ResourceBundle.getBundle(PARAMETER_RESOURCES);
+  private final ResourceBundle listParameterResources = ResourceBundle.getBundle(LIST_PARAMETER_RESOURCES);
   private final ResourceBundle reflectionResources = ResourceBundle.getBundle(REFLECTION_RESOURCES);
   private final ResourceBundle exceptionResources;
 
@@ -51,6 +55,16 @@ public class Compiler {
     myParser.addPatterns("Syntax");
     myVariables = new HashMap<>();
     myUserCommands = new HashMap<>();
+
+    loadResources(myParameterCounts, parameterResources);
+    loadResources(myListParameterCounts, listParameterResources);
+  }
+
+  private void loadResources(Map<String, Integer> map, ResourceBundle resource) {
+    for (String key: resource.keySet()) {
+      Integer value = Integer.parseInt(resource.getString(key));
+      map.put(key, value);
+    }
   }
 
   /**
@@ -62,6 +76,8 @@ public class Compiler {
    */
   public Deque<Command> compile(String program, List<Turtle> turtles) throws Exception {
     Deque<Command> commandQueue = new LinkedList<>();
+    Stack<Deque<Command>> queueStack = new Stack<>();
+    Stack<Deque<Command>> completedQueues = new Stack<>();
 
     // will be changed when we can have multiple turtles
     Turtle turtle = turtles.get(0);
@@ -73,7 +89,7 @@ public class Compiler {
     for (String token : program.split(WHITESPACE)) {
       String symbol = myParser.getSymbol(token);
 
-      if (parameterResources.containsKey(symbol)) {
+      if (myParameterCounts.containsKey(symbol)) {
         pendingCommands.push(symbol);
         valuesBefore.push(values.size());
       } else if (symbol.equals("Constant")) {
@@ -84,12 +100,22 @@ public class Compiler {
         }
         values.push(myVariables.get(token));
       } else if (symbol.equals("UserCommand")) {
+        if (pendingCommands.peek().equals("MakeUserInstruction")){
+          // make user instruction code here
+          int inputs = 0; // need to figure out how many inputs user instruction takes
+          myParameterCounts.put(token, inputs);
+        }
         if (!myUserCommands.containsKey(token)) {
           throw new SymbolNotFoundException(
               String.format(exceptionResources.getString("SymbolNotFound"), token));
         }
         else if (symbol.equals("ListStart")) {
-
+          queueStack.push(commandQueue);
+          commandQueue = new LinkedList<>();
+        }
+        else if (symbol.equals("ListEnd")) {
+          completedQueues.push(commandQueue);
+          commandQueue = queueStack.pop();
         }
       }
 
@@ -135,6 +161,7 @@ public class Compiler {
     if (myUserCommands.containsKey(symbol)) {
       MakeUserInstruction c = myUserCommands.get(symbol);
       c.setActualParameters(args);
+      return (Command) c;
     }
     String command = reflectionResources.getString(symbol).trim();
     try {
