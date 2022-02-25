@@ -1,29 +1,27 @@
 package slogo.view.windows;
 
-import org.junit.jupiter.api.BeforeEach;
+import java.util.function.Predicate;
+import javafx.stage.Stage;
 import org.junit.jupiter.api.Test;
-import slogo.controller.Controller;
-import slogo.view.turtle.TurtleView;
-import slogo.view.windows.CSSSplash;
-import slogo.view.windows.LanguageSplash;
 import util.DukeApplicationTest;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+/**
+ * Testing the CSS Splash by seeing if the style sheet is indeed used
+ *
+ * @author Andy S. He
+ */
 class CSSSplashTest extends DukeApplicationTest {
 
-  LanguageSplash languageSplash;
-  Controller c;
   CSSSplash window;
-  TurtleView tv;
 
-  @BeforeEach
-  void setUp() {
-    languageSplash = new LanguageSplash();
-    c = new Controller(languageSplash.toString());
-    window = new CSSSplash(languageSplash.toString());
+  @Override
+  public void start(Stage stage){
+    window = new CSSSplash("English");
+    stage.setScene(window.getMyScene());
+    stage.show();
   }
-
   @Test
   void createStage() {
     assertTrue(true);
@@ -31,6 +29,7 @@ class CSSSplashTest extends DukeApplicationTest {
 
   @Test
   void styleSheetToUse() {
-    assertTrue(window.toString().equals(""));
+    clickOn(lookup("light").query());
+    assertTrue(window.toString().equals("light"));
   }
 }

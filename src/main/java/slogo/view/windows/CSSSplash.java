@@ -36,7 +36,6 @@ public class CSSSplash extends Splash {
    * @see MainIDEView
    */
   public CSSSplash(String language) {
-    System.out.println(language);
     myResources = ResourceBundle.getBundle(RESOURCE_PREFIX + language);
     myStage = new Stage();
     myStage = createStage(myStage, TITLE, SIZE,

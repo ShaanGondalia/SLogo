@@ -1,37 +1,41 @@
 package slogo.view.windows;
 
-import org.junit.jupiter.api.BeforeEach;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import javafx.scene.control.Button;
+import javafx.scene.control.TextInputControl;
+import javafx.stage.Stage;
+import org.junit.jupiter.api.Test;
 import slogo.controller.Controller;
 import util.DukeApplicationTest;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
+/**
+ * Testing the Main IDE by testing each of its components
+ *
+ * @author Andy S. He
+ */
 class MainIDEViewTest extends DukeApplicationTest {
+  private MainIDEView main;
 
-  LanguageSplash languageSplash;
-  Controller c;
-  MainIDEViewTest window;
-
-  @BeforeEach
-  void setUp() {
-    //languageProbe = new LanguageProbe();
-    c = new Controller("English");
-    window = new MainIDEViewTest();
+  @Override
+  public void start(Stage stage){
+    main = new MainIDEView("English", new Controller("English"), "dark", stage);
+    TextInputControl area = lookup("#textArea").query();
+    area.clear();
   }
 
-  // THIS IS BROKEN FOR SOME REASON?????
-  // WHY
+  @Test
+  void createStage(){
+   assertTrue(true);
+  }
 
-//  @Test
-//  void createStage() {
-//    window.createStage("English", c);
-//    assertTrue(true);
-//  }
-//
-//  @Test
-//  void getRawCommandText() {
-//    window.createStage("English", c);
-//    assertTrue(window.getRawCommandText().getClass() == String.class);
-//  }
+  @Test
+  void rawCommandText(){
+    String toWrite = "fd 50";
+    TextInputControl area = lookup("#textArea").query();
+
+    clickOn(area).write(toWrite);
+    assertTrue(main.getRawCommandText().equals("fd 50"));
+  }
 
 }

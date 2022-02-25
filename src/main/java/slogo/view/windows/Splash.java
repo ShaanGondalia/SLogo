@@ -24,7 +24,7 @@ public abstract class Splash extends Display {
    *
    * @param gen parameters for creating the buttons
    * @see OptionGenerator
-   * @return
+   * @return the created pane
    */
   protected TilePane makeOptions(OptionGenerator gen) {
     TilePane root = new TilePane();
@@ -48,7 +48,7 @@ public abstract class Splash extends Display {
 
   /**
    * Gets what the splash screen's achieved value is - Can Only return one value, but can easily
-   * make iit return more if necessary
+   * make it return more if necessary
    *
    * @return what the splash screen achieved
    */

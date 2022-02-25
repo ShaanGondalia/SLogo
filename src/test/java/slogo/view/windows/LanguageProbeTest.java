@@ -6,6 +6,11 @@ import util.DukeApplicationTest;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+/**
+ * Testing the Language Probe by clicking on implemented and non implemented languages
+ *
+ * @author Andy S. He
+ */
 class LanguageProbeTest extends DukeApplicationTest {
 
   private Splash ls;
@@ -16,6 +21,11 @@ class LanguageProbeTest extends DukeApplicationTest {
     stage = new Stage();
     stage.setScene(ls.getMyScene());
     stage.show();
+  }
+
+  @Test
+  void createStage(){
+    assertTrue(true);
   }
 
 //  @Test
