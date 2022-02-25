@@ -18,16 +18,16 @@ class LanguageProbeTest extends DukeApplicationTest {
     stage.show();
   }
 
-  @Test
-  void testNotImplemented(){
-    clickOn(lookup("French").query());
-    assertTrue(ls.toString().equals(""));
-  }
-
 //  @Test
-//  void testImplemented() {
-//    clickOn(lookup("English").query());
-//    assertTrue(ls.toString().equals("English"));
+//  void testNotImplemented(){
+//    clickOn(lookup("French").query());
+//    assertTrue(ls.toString().equals(""));
 //  }
+
+  @Test
+  void testImplemented() {
+    clickOn(lookup("English").query());
+    assertTrue(ls.toString().equals("English"));
+  }
 
 }

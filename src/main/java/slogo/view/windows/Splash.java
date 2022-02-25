@@ -43,7 +43,6 @@ public abstract class Splash extends Display {
       gen.stage().close();
     }
         : e -> Errors.showError(gen.splashType() + ERROR_MESSAGE + gen.implemented()));
-    System.out.println(key);
     root.getChildren().add(b);
   }
 
