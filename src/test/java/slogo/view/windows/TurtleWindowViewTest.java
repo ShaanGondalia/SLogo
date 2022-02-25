@@ -1,26 +1,35 @@
 package slogo.view.windows;
 
+import javafx.application.Platform;
+import javafx.stage.Stage;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.testfx.api.FxRobot;
 import slogo.controller.Controller;
 import slogo.view.turtle.TurtleView;
 import slogo.view.windows.LanguageSplash;
 import slogo.view.windows.TurtleWindowView;
+import util.DukeApplicationTest;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class TurtleWindowViewTest {
+/**
+ * Testing popping up the turtle window
+ *
+ * @author Andy S. He, Zack Schrage
+ */
+class TurtleWindowViewTest extends DukeApplicationTest {
 
-    LanguageSplash languageSplash;
     Controller c;
     TurtleWindowView window;
-    TurtleView tv;
 
-    @BeforeEach
-    void setUp() {
-        //languageProbe = new LanguageProbe();
-        c = new Controller("English");
+
+    @Override
+    public void start(Stage stage){
         window = new TurtleWindowView("light");
+        c = new Controller("English");
+        stage.setScene(window.getMyScene());
+        stage.show();
     }
 
     @Test
@@ -29,8 +38,9 @@ class TurtleWindowViewTest {
     }
 
     @Test
-    void addTurtleView(TurtleView tv) {
-        window.addTurtleView(tv);
+    void addTurtleView() {
+        TurtleView tv = new TurtleView();
+        Platform.runLater(() -> window.addTurtleView(tv));
         assertTrue(true);
     }
 

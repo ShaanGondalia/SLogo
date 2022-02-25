@@ -16,7 +16,6 @@ public class TurtleWindowView extends Display {
   private Pane myPane;
 
   public TurtleWindowView(String css){
-
     myPane = new Pane();
     myPane.setId(ROOT_ID);
 
