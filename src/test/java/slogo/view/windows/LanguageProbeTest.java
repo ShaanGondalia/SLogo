@@ -2,8 +2,6 @@ package slogo.view.windows;
 
 import javafx.stage.Stage;
 import org.junit.jupiter.api.Test;
-import slogo.view.windows.LanguageSplash;
-import slogo.view.windows.Splash;
 import util.DukeApplicationTest;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -21,8 +19,15 @@ class LanguageProbeTest extends DukeApplicationTest {
   }
 
   @Test
-   void languageToUse() {
-    clickOn(lookup("English").query());
-    assertTrue(ls.toString().equals("English"));
+  void testNotImplemented(){
+    clickOn(lookup("French").query());
+    assertTrue(ls.toString().equals(""));
   }
+
+//  @Test
+//  void testImplemented() {
+//    clickOn(lookup("English").query());
+//    assertTrue(ls.toString().equals("English"));
+//  }
+
 }
