@@ -101,15 +101,10 @@ public class Compiler {
       // We can create another data structure that tracks this information, and use it to determine when
 
       while (!pendingCommands.isEmpty()
-          && commandFactory. getNumInputs(pendingCommands.peek()) <= values.size() - valuesBefore.peek()) {
-        List<Value> args = new ArrayList<>();
+          && commandFactory.getNumInputs(pendingCommands.peek()) <= values.size() - valuesBefore.peek()) {
         String pendingCommand = pendingCommands.pop();
         valuesBefore.pop();
-        for (int i = 0; i < commandFactory.getNumInputs(pendingCommand); i++) {
-          args.add(0, values.pop()); // add element to start of args
-        }
-        // Use reflection to create command
-        Command command = commandFactory.getCommand(pendingCommand, turtle, args);
+        Command command = commandFactory.getCommand(pendingCommand, turtle, values);
         values.add(command.returnValue());
         commandQueue.addLast(command);
         if (pendingCommands.isEmpty()) {

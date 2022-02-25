@@ -2,11 +2,13 @@ package slogo.model.factory;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.Stack;
 import slogo.model.command.Command;
 import slogo.model.command.Value;
 import slogo.model.command.control.MakeUserInstruction;
@@ -31,6 +33,10 @@ public class CommandFactory {
 
   private final ResourceBundle exceptionResources;
 
+  /**
+   * Creates a new command factory that operates in the given language
+   * @param language the language of the command factory
+   */
   public CommandFactory(String language){
     exceptionResources = ResourceBundle.getBundle(EXCEPTION_RESOURCES + language);
     myUserCommands = new HashMap<>();
@@ -45,19 +51,32 @@ public class CommandFactory {
   /**
    * Returns an instance of a command using reflection
    *
-   * @param symbol
-   * @param turtle
-   * @param args
+   * @param symbol the symbol of the command
+   * @param turtle the turtle attached to the command
+   * @param values the stack of values to pass to the command
    * @return
    * @throws MissingArgumentException
    */
-  public Command getCommand(String symbol, Turtle turtle, List<Value> args)
+  public Command getCommand(String symbol, Turtle turtle, Stack<Value> values)
       throws MissingArgumentException {
-    if (myUserCommands.containsKey(symbol)) {
-      MakeUserInstruction c = myUserCommands.get(symbol);
-      c.setActualParameters(args);
-      return c;
+    List<Value> args = new ArrayList<>();
+    for (int i = 0; i < getNumInputs(symbol); i++) {
+      args.add(0, values.pop()); // add element to start of args
     }
+    if (myUserCommands.containsKey(symbol)) {
+      return getUserCommand(symbol, args);
+    }
+    return getCommandReflection(symbol, turtle, args);
+  }
+
+  private Command getUserCommand(String symbol, List<Value> args) throws MissingArgumentException {
+    MakeUserInstruction c = myUserCommands.get(symbol);
+    c.setActualParameters(args);
+    return c;
+  }
+
+  // Gets a command using reflection
+  private Command getCommandReflection(String symbol, Turtle turtle, List<Value> args){
     String command = reflectionResources.getString(symbol).trim();
     try {
       // convert string into Java object that represents that Java class
@@ -81,8 +100,8 @@ public class CommandFactory {
 
   /**
    * Returns whether a symbol is a known command
-   * @param symbol
-   * @return
+   * @param symbol the symbol to check
+   * @return whether symbol is a command
    */
   public boolean isCommand(String symbol){
     return myParameterCounts.containsKey(symbol) || myUserCommands.containsKey(symbol);
@@ -90,7 +109,7 @@ public class CommandFactory {
 
   /**
    * Gets the number of inputs a given command takes.
-   * @param command
+   * @param command the command to get the number of inputs for
    * @return
    */
   public int getNumInputs(String command) {
