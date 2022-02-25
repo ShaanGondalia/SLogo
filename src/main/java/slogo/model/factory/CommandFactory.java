@@ -17,6 +17,8 @@ import slogo.model.turtle.Turtle;
 
 /**
  * Factory that has methods that return commands using reflection.
+ *
+ * @author Shaan Gondalia
  */
 public class CommandFactory {
   private static final String REFLECTION_RESOURCES = "model.Reflection";
@@ -69,6 +71,7 @@ public class CommandFactory {
     return getCommandReflection(symbol, turtle, args);
   }
 
+  // Gets a user command using reflection
   private Command getUserCommand(String symbol, List<Value> args) throws MissingArgumentException {
     MakeUserInstruction c = myUserCommands.get(symbol);
     c.setActualParameters(args);
@@ -110,13 +113,25 @@ public class CommandFactory {
   /**
    * Gets the number of inputs a given command takes.
    * @param command the command to get the number of inputs for
-   * @return
+   * @return the number of inputs the command takes.
    */
   public int getNumInputs(String command) {
-    return Integer.parseInt(parameterResources.getString(command));
+    return myParameterCounts.get(command);
   }
 
+  /**
+   * Returns the number of list inputs a given command takes.
+   * @param command the command to get the number of list inputs for
+   * @return the number of list inputs the command takes
+   */
+  public int getNumListInputs(String command) {
+    if (!myListParameterCounts.containsKey(command)){
+      return 0;
+    }
+    return myListParameterCounts.get(command);
+  }
 
+  // Loads property files into a map
   private void loadResources(Map<String, Integer> map, ResourceBundle resource) {
     for (String key: resource.keySet()) {
       Integer value = Integer.parseInt(resource.getString(key));

@@ -59,15 +59,17 @@ public class Compiler {
    */
   public Deque<Command> compile(String program, List<Turtle> turtles) throws Exception {
     Deque<Command> commandQueue = new LinkedList<>();
-    //Stack<Deque<Command>> queueStack = new Stack<>();
-    //Stack<Deque<Command>> completedQueues = new Stack<>();
+    Stack<Deque<Command>> completedQueues = new Stack<>();
 
     // will be changed when we can have multiple turtles
     Turtle turtle = turtles.get(0);
 
     Stack<String> pendingCommands = new Stack<>();
     Stack<Value> values = new Stack<>();
+    Stack<Deque<Command>> lists = new Stack<>();
     Stack<Integer> valuesBefore = new Stack<>();
+    Stack<Integer> listsBefore = new Stack<>();
+    Stack<Deque<Command>> queueStack = new Stack<>();
 
     for (String token : program.split(WHITESPACE)) {
       String symbol = myParser.getSymbol(token);
@@ -77,6 +79,7 @@ public class Compiler {
         System.out.println("HI");
         pendingCommands.push(symbol);
         valuesBefore.push(values.size());
+        listsBefore.push(lists.size());
       } else if (symbol.equals("Constant")) {
         values.push(new Value(Double.parseDouble(token)));
       } else if (symbol.equals("Variable")) {
@@ -86,12 +89,16 @@ public class Compiler {
         values.push(myVariables.get(token));
       } else if (symbol.equals("UserCommand")) {
         if (pendingCommands.peek().equals("MakeUserInstruction")) {
-          // make user instruction code here
+          // TODO: figure out how make user instruction works
           int inputs = 0; // need to figure out how many inputs user instruction takes
           commandFactory.makeCommand(token, inputs);
         } else {
           throw new SymbolNotFoundException(String.format(exceptionResources.getString("SymbolNotFound"), symbol));
         }
+      } else if (symbol.equals("ListStart")) {
+        queueStack.push(new LinkedList<>());
+      } else if (symbol.equals("ListEnd")) {
+        lists.push(queueStack.pop());
       }
 
       // LOGIC:
@@ -101,9 +108,11 @@ public class Compiler {
       // We can create another data structure that tracks this information, and use it to determine when
 
       while (!pendingCommands.isEmpty()
-          && commandFactory.getNumInputs(pendingCommands.peek()) <= values.size() - valuesBefore.peek()) {
+          && commandFactory.getNumInputs(pendingCommands.peek()) <= values.size() - valuesBefore.peek()
+          && commandFactory.getNumListInputs(pendingCommands.peek()) <= lists.size() - listsBefore.peek()) {
         String pendingCommand = pendingCommands.pop();
         valuesBefore.pop();
+        listsBefore.pop();
         Command command = commandFactory.getCommand(pendingCommand, turtle, values);
         values.add(command.returnValue());
         commandQueue.addLast(command);
