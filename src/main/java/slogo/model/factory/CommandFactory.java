@@ -13,6 +13,7 @@ import slogo.model.command.Command;
 import slogo.model.command.Value;
 import slogo.model.command.control.MakeUserInstruction;
 import slogo.model.exception.MissingArgumentException;
+import slogo.model.exception.SymbolNotFoundException;
 import slogo.model.turtle.Turtle;
 
 /**
@@ -60,8 +61,11 @@ public class CommandFactory {
    * @throws MissingArgumentException
    */
   public Command getCommand(String symbol, Turtle turtle, Stack<Value> values)
-      throws MissingArgumentException {
+      throws MissingArgumentException, SymbolNotFoundException {
     List<Value> args = new ArrayList<>();
+    if (values.size() < getNumInputs(symbol)) {
+      throw new MissingArgumentException(String.format(exceptionResources.getString("MissingArgument"), symbol));
+    }
     for (int i = 0; i < getNumInputs(symbol); i++) {
       args.add(0, values.pop()); // add element to start of args
     }
@@ -115,7 +119,10 @@ public class CommandFactory {
    * @param command the command to get the number of inputs for
    * @return the number of inputs the command takes.
    */
-  public int getNumInputs(String command) {
+  public int getNumInputs(String command) throws SymbolNotFoundException {
+    if (!myParameterCounts.containsKey(command)) {
+      throw new SymbolNotFoundException(String.format(exceptionResources.getString("SymbolNotFound"), command));
+    }
     return myParameterCounts.get(command);
   }
 
