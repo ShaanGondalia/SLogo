@@ -30,8 +30,7 @@ public class MainIDEView extends Display {
 
   private static final List<String> BUTTONS = List.of("run", "close", "help", "set_image",
       "set_bk_color", "set_pen_color");
-  private static final String BUTTON_RESOURCE_ENDING = "Buttons";
-  public static final String RESOURCE_PREFIX = "view.";
+  private static final String RESOURCE_PREFIX = "view.buttons.";
 
   private BorderPane myPane;
   private TilePane myButtons;
@@ -42,7 +41,7 @@ public class MainIDEView extends Display {
   private Text myHistory;
 
   public MainIDEView(String language, Controller c, String css, Stage stage) {
-    myResources = ResourceBundle.getBundle(RESOURCE_PREFIX + language + BUTTON_RESOURCE_ENDING);
+    myResources = ResourceBundle.getBundle(RESOURCE_PREFIX + language);
 
     myPane = new BorderPane();
     myPane.setId(ROOT_ID);

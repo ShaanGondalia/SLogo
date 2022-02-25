@@ -22,7 +22,7 @@ public class LanguageSplash extends Splash {
   private static final Dimension SIZE = new Dimension(400, 400);
   private static final String RESOURCE_LANGUAGES = "slogo.languages.LangaugeOptions";
   private static final String SPLASH_TYPE = "Language";
-  private static final Set<String> IMPLEMENTED = Set.of("English");
+  private static final Set<String> IMPLEMENTED = Set.of("English", "Spanish");
 
   private ResourceBundle myLanguages;
   private Stage myStage;
