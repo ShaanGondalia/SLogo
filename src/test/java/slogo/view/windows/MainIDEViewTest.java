@@ -15,22 +15,23 @@ import util.DukeApplicationTest;
  * @author Andy S. He
  */
 class MainIDEViewTest extends DukeApplicationTest {
+
   private MainIDEView main;
 
   @Override
-  public void start(Stage stage){
+  public void start(Stage stage) {
     main = new MainIDEView("English", new Controller("English"), "dark", stage);
     TextInputControl area = lookup("#textArea").query();
     area.clear();
   }
 
   @Test
-  void createStage(){
-   assertTrue(true);
+  void createStage() {
+    assertTrue(true);
   }
 
   @Test
-  void rawCommandText(){
+  void rawCommandText() {
     String toWrite = "fd 50";
     TextInputControl area = lookup("#textArea").query();
 

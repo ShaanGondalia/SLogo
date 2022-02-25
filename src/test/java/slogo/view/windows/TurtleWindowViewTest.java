@@ -20,28 +20,27 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 class TurtleWindowViewTest extends DukeApplicationTest {
 
-    Controller c;
-    TurtleWindowView window;
+  Controller c;
+  TurtleWindowView window;
 
+  @Override
+  public void start(Stage stage) {
+    window = new TurtleWindowView("light");
+    c = new Controller("English");
+    stage.setScene(window.getMyScene());
+    stage.show();
+  }
 
-    @Override
-    public void start(Stage stage){
-        window = new TurtleWindowView("light");
-        c = new Controller("English");
-        stage.setScene(window.getMyScene());
-        stage.show();
-    }
+  @Test
+  void createStage() {
+    assertTrue(true);
+  }
 
-    @Test
-    void createStage() {
-        assertTrue(true);
-    }
-
-    @Test
-    void addTurtleView() {
-        TurtleView tv = new TurtleView();
-        Platform.runLater(() -> window.addTurtleView(tv));
-        assertTrue(true);
-    }
+  @Test
+  void addTurtleView() {
+    TurtleView tv = new TurtleView();
+    Platform.runLater(() -> window.addTurtleView(tv));
+    assertTrue(true);
+  }
 
 }

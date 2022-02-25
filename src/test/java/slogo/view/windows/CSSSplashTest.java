@@ -17,11 +17,12 @@ class CSSSplashTest extends DukeApplicationTest {
   CSSSplash window;
 
   @Override
-  public void start(Stage stage){
+  public void start(Stage stage) {
     window = new CSSSplash("English");
     stage.setScene(window.getMyScene());
     stage.show();
   }
+
   @Test
   void createStage() {
     assertTrue(true);

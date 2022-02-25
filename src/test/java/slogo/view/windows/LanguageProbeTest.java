@@ -24,7 +24,7 @@ class LanguageProbeTest extends DukeApplicationTest {
   }
 
   @Test
-  void createStage(){
+  void createStage() {
     assertTrue(true);
   }
 
