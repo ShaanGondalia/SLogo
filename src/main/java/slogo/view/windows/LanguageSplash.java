@@ -22,9 +22,9 @@ public class LanguageSplash extends Splash {
   private static final Dimension SIZE = new Dimension(400, 400);
   private static final String RESOURCE_LANGUAGES = "slogo.languages.LangaugeOptions";
   private static final String SPLASH_TYPE = "Language";
-  private static final Set<String> IMPLEMENTED = Set.of("English");
+  private static final Set<String> IMPLEMENTED = Set.of("English", "Spanish");
 
-  private final ResourceBundle myLanguages;
+  private ResourceBundle myLanguages;
   private Stage myStage;
 
   /**
@@ -36,10 +36,10 @@ public class LanguageSplash extends Splash {
     myStage = createStage(myStage, TITLE, SIZE,
         makeOptions(new OptionGenerator(myStage, myLanguages, SPLASH_TYPE, IMPLEMENTED)),
         DEFAULT_SPLASH_CSS);
-    try {
-      myStage.showAndWait();
-    } catch (Exception e) {
-      Errors.showAndClose(e.getMessage());
-    }
+  }
+
+  @Override
+  public void show(){
+    super.show(myStage);
   }
 }

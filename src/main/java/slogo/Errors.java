@@ -16,8 +16,7 @@ public class Errors {
    * @param message message to display to user
    */
   public static void showAndClose(String message) {
-    Alert alert = new Alert(AlertType.ERROR, message);
-    alert.showAndWait();
+    showError(message);
     Platform.exit();
     System.exit(0);
   }
