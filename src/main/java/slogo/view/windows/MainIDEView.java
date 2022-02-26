@@ -18,6 +18,7 @@ import slogo.controller.Controller;
 import slogo.view.windows.sections.ButtonSection;
 import slogo.view.windows.sections.HistorySection;
 import slogo.view.windows.sections.IDESection;
+import slogo.view.windows.sections.TextSection;
 
 /**
  * Creates the central window to display where the user can type in text commands
@@ -50,12 +51,13 @@ public class MainIDEView extends Display {
     stage = createStage(TITLE, MAIN_SIZE, myPane, css);
     stage.show();
 
-    createTextArea();
+    IDESection textSection = new TextSection();
     IDESection historySection = new HistorySection();
-    IDESection buttonSection = new ButtonSection(language, c, (HistorySection) historySection);
+    IDESection buttonSection = new ButtonSection(language, c, (HistorySection) historySection, (TextSection) textSection);
 
     myPane.setBottom(buttonSection.getSection());
     myPane.setRight(historySection.getSection());
+    myPane.setCenter(textSection.getSection());
 
   }
 
@@ -65,12 +67,7 @@ public class MainIDEView extends Display {
     myPane.setCenter(myCommandArea);
   }
 
-  /**
-   * Sends the data from the TextBox over to the Parser - perhaps needs redesign since maybe the
-   * parser should not know the view.
-   *
-   * @return raw text
-   */
+
   public String getRawCommandText() {
     return myCommandArea.getText();
   }

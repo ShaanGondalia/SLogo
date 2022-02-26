@@ -37,6 +37,7 @@ public class HistorySection implements IDESection{
    */
   public void setNewHistory(String newCommand){
     commandList.add(newCommand);
+    setMyTextField();
   }
 
   private void setMyTextField(){
