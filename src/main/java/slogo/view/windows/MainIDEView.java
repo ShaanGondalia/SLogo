@@ -37,15 +37,8 @@ public class MainIDEView extends Display {
 
 
   private BorderPane myPane;
-  private TilePane myButtons;
-  private TextArea myCommandArea;
-  private Controller myController;
-  private ResourceBundle myResources;
-  private ScrollPane myHistoryPane;
-  private Text myHistory;
 
   public MainIDEView(String language, Controller c, String css, Stage stage) {
-    myController = c;
     myPane = new BorderPane();
     myPane.setId(ROOT_ID);
     stage = createStage(TITLE, MAIN_SIZE, myPane, css);
@@ -58,67 +51,6 @@ public class MainIDEView extends Display {
     myPane.setBottom(buttonSection.getSection());
     myPane.setRight(historySection.getSection());
     myPane.setCenter(textSection.getSection());
-
   }
-
-  private void createTextArea() {
-    myCommandArea = new TextArea();
-    myCommandArea.setId("textArea");
-    myPane.setCenter(myCommandArea);
-  }
-
-
-  public String getRawCommandText() {
-    return myCommandArea.getText();
-  }
-
-  private void createButton(String button) {
-    Button b = new Button();
-    b.setText(myResources.getString(button));
-    b.setOnAction((e) -> {
-      try {
-        Class<?> c = Class.forName("slogo.view.windows.MainIDEView");
-        Method m = c.getDeclaredMethod(button);
-        m.invoke(this);
-      } catch (Exception ex) {
-        Errors.showAndClose("internal error");
-      }
-    });
-    myButtons.getChildren().add(b);
-  }
-
-//  private void run() {
-//    try {
-//      myController.runText(getRawCommandText());
-//    } catch (Exception e) {
-//      Errors.showError(e.getMessage());
-//      return;
-//    }
-//
-//    myHistory.setText(myHistory.getText() + "\n" + getRawCommandText());
-//    myHistoryPane.setContent(myHistory);
-//
-//    myCommandArea.clear();
-//  }
-//
-//  private void close() {
-//    Errors.justClose();
-//  }
-//
-//  private void set_image() {
-//
-//  }
-//
-//  private void set_bk_color() {
-//
-//  }
-//
-//  private void set_pen_color() {
-//
-//  }
-//
-//  private void help() {
-//
-//  }
 
 }

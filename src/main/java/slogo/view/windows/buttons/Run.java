@@ -4,7 +4,7 @@ import slogo.Errors;
 import slogo.view.util.ButtonUtil;
 
 public class Run implements IDEButton {
-
+  @Override
   public void doAction(ButtonUtil info){
     try {
       info.c().runText(info.textSec().getRawCommandText());
