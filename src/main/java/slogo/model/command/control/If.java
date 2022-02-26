@@ -9,18 +9,19 @@ import slogo.model.turtle.Turtle;
 
 public class If extends ControlCommand {
 
-  private static int NUM_ARGS = 1;
+  private static final int NUM_ARGS = 1;
+  private static final int NUM_LISTS = 1;
 
   private Value myExpr;
   private Deque<Command> myBody;
 
-  public If(Turtle turtle, List<Value> args, Deque<Command> body)
+  public If(Turtle turtle, List<Value> args, List<Deque<Command>> lists)
       throws MissingArgumentException {
     super(turtle, args, NUM_ARGS);
-    verifyBody(body);
+    verifyCommandLists(lists, NUM_LISTS);
 
     myExpr = args.get(0);
-    myBody = body;
+    myBody = lists.get(0);
   }
 
   @Override

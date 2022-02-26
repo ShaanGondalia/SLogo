@@ -14,21 +14,21 @@ import slogo.model.turtle.Turtle;
  */
 public class IfElse extends ControlCommand {
 
-  private static int NUM_ARGS = 1;
+  private static final int NUM_ARGS = 1;
+  private static final int NUM_LISTS = 2;
 
   private Value myExpr;
   private Deque<Command> myTrueBody;
   private Deque<Command> myFalseBody;
 
-  public IfElse(Turtle turtle, List<Value> args, Deque<Command> trueBody, Deque<Command> falseBody)
+  public IfElse(Turtle turtle, List<Value> args, List<Deque<Command>> lists)
       throws MissingArgumentException {
     super(turtle, args, NUM_ARGS);
-    verifyBody(trueBody);
-    verifyBody(falseBody);
+    verifyCommandLists(lists, NUM_LISTS);
 
     myExpr = args.get(0);
-    myTrueBody = trueBody;
-    myFalseBody = falseBody;
+    myTrueBody = lists.get(0);
+    myFalseBody = lists.get(1);
   }
 
   @Override

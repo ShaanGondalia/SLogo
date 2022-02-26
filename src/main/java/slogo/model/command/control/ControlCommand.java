@@ -11,7 +11,7 @@ import slogo.model.turtle.Turtle;
 /**
  * Defines abstract class for any control command with an arbitrary number of args.
  *
- * @author Shaan Gondalia
+ * @author Shaan Gondalia and Jake Heller
  */
 public abstract class ControlCommand extends AbstractCommand {
 
@@ -34,9 +34,9 @@ public abstract class ControlCommand extends AbstractCommand {
     }
   }
 
-  protected void verifyBody(Deque<Command> body) throws MissingArgumentException {
-    if (body.isEmpty()) {
-      throw new MissingArgumentException("Body cannot be empty");
+  protected void verifyCommandLists(List<Deque<Command>> lists, int numCommandLists) throws MissingArgumentException {
+    if(lists.size() < numCommandLists) {
+      throw new MissingArgumentException("NOT ENOUGH LISTS");
     }
   }
 }

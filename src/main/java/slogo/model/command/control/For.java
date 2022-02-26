@@ -15,7 +15,8 @@ import slogo.model.turtle.Turtle;
  */
 public class For extends ControlCommand {
 
-  private static int NUM_ARGS = 4;
+  private static final int NUM_ARGS = 4;
+  private static final int NUM_LISTS = 1;
 
   private Deque<Command> myBody;
   private Value myVariable;
@@ -29,11 +30,11 @@ public class For extends ControlCommand {
    * @param body
    * @throws MissingArgumentException
    */
-  public For(Turtle turtle, List<Value> args, Deque<Command> body) throws MissingArgumentException {
+  public For(Turtle turtle, List<Value> args, List<Deque<Command>> lists) throws MissingArgumentException {
     super(turtle, args, NUM_ARGS);
-    verifyBody(body);
+    verifyCommandLists(lists, NUM_LISTS);
 
-    myBody = body;
+    myBody = lists.get(0);
     myVariable = args.get(0);
     myStart = args.get(1).getVal();
     myEnd = args.get(2).getVal();
