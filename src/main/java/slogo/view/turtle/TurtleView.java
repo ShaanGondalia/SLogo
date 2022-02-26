@@ -43,24 +43,27 @@ public class TurtleView implements PropertyChangeListener  {
 
     private Coordinate origin = ctm.mapPoint(new Coordinate(0, 0));
     private Image turtleImage;
+    private Image invisibleTurtle;
     private ImageView turtleNode;
     private Queue<TurtleAnimation> animationQueue = new LinkedList<>();
     private GraphicsContext gc;
     private boolean isAnimating = false;
     private double pathSpeed = 0.01; //Hard coded for now
     private double rotationSpeed = 0.75; //Hard coded for now
+    private int thickness = 2; //Hard coded for now
 
     public TurtleView() {
         turtleImage = new Image(getClass().getResourceAsStream("/view/img/turtle.png"));
+        invisibleTurtle = new Image(getClass().getResourceAsStream("/view/img/invisibleTurtle.png"));
         turtleNode = new ImageView(turtleImage);
         turtleNode.setX(origin.x() - turtleImage.getWidth()/2);
         turtleNode.setY(origin.y() - turtleImage.getHeight()/2);
         gc = TurtleWindowView.getCanvas().getGraphicsContext2D();
         gc.setFill(Color.BLACK);
-        gc.setLineWidth(2);
+        gc.setLineWidth(thickness);
     }
 
-    private Animation makeAnimation(Pose oldPose, Pose newPose, boolean penDown, boolean visibility) {
+    private Animation makeAnimation(Pose oldPose, Pose newPose, boolean penDown) {
         Coordinate start = ctm.mapPoint(new Coordinate(oldPose.x(), oldPose.y()));
         Coordinate end = ctm.mapPoint(new Coordinate(newPose.x(), newPose.y()));
 
@@ -75,7 +78,7 @@ public class TurtleView implements PropertyChangeListener  {
         double deltaS = normSquared(oldPose, newPose);
         PathTransition pt = new PathTransition(Duration.seconds(pathSpeed * Math.sqrt(deltaS)), path, turtleNode);
 
-        if (penDown) {
+        if (penDown && deltaS > 0.001) {
             pt.currentTimeProperty().addListener(new ChangeListener<Duration>() {
                 double prevX = turtleNode.getTranslateX();
                 double prevY = turtleNode.getTranslateY();
@@ -92,7 +95,7 @@ public class TurtleView implements PropertyChangeListener  {
         }
 
         SequentialTransition st = new SequentialTransition(turtleNode);
-        if (Math.abs(deltaR) > 0.1) st.getChildren().add(rt);
+        if (deltaS < 0.001) st.getChildren().add(rt);
         else st.getChildren().add(pt);
         return st;
     }
@@ -105,6 +108,8 @@ public class TurtleView implements PropertyChangeListener  {
         animationQueue.remove();
         if (animationQueue.size() > 0) {
             isAnimating = true;
+            if (animationQueue.peek().getVisibility()) turtleNode.setImage(turtleImage);
+            else turtleNode.setImage(invisibleTurtle);
             animationQueue.peek().getAnimation().play();
         }
         else isAnimating = false;
@@ -122,8 +127,7 @@ public class TurtleView implements PropertyChangeListener  {
         TurtleStatus oldT = (TurtleStatus) evt.getOldValue();
         TurtleStatus newT = (TurtleStatus) evt.getNewValue();
         if (oldT.pose() != newT.pose()) {
-            System.out.println(newT.penDown());
-            Animation anim = makeAnimation(oldT.pose(), newT.pose(), newT.penDown(), newT.visibility());
+            Animation anim = makeAnimation(oldT.pose(), newT.pose(), newT.penDown());
             anim.setOnFinished(finish -> handleAnimationQueue());
             animationQueue.add(new TurtleAnimation(anim, newT.penDown(), newT.visibility()));
             if (!isAnimating) {
