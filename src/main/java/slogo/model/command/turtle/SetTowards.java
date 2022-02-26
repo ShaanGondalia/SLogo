@@ -60,8 +60,7 @@ public class SetTowards extends TurtleCommand {
     // division by 0
     if (Math.abs(deltaY) < Main.TOLERANCE) {
       newBearing = (deltaX > 0 ? 90 : 270); // either 90 or 270
-    }
-    else {
+    } else {
       double radsFromVertical = Math.atan((deltaX) / (deltaY));
       double degreesFromVertical = Math.toDegrees(radsFromVertical);
       newBearing = getNewBearing(degreesFromVertical, deltaX, deltaY);

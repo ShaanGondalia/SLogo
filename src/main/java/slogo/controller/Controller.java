@@ -24,8 +24,8 @@ public class Controller {
 
   public void runText(String program) throws Exception {
     Deque<Command> commands = myCompiler.compile(program, myTurtles);
-    for (Command c : commands) {
-      c.execute();
+    while (!commands.isEmpty()){
+      commands.removeFirst().execute();
     }
   }
 

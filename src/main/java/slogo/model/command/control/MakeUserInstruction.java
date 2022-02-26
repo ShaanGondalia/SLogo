@@ -9,15 +9,19 @@ import slogo.model.turtle.Turtle;
 
 public class MakeUserInstruction extends ControlCommand {
 
+  private static final int NUM_LISTS = 1;
+
   private List<Value> myFormalParameters;
   private List<Value> myActualParameters;
   private Deque<Command> myMethodBody;
 
-  public MakeUserInstruction(Turtle turtle, List<Value> variables, Deque<Command> body)
+  public MakeUserInstruction(Turtle turtle, List<Value> variables, List<Deque<Command>> lists)
       throws MissingArgumentException {
     super(turtle, variables, variables.size());
+    verifyCommandLists(lists, NUM_LISTS);
+
     myFormalParameters = variables;
-    myMethodBody = body;
+    myMethodBody = lists.get(0);
   }
 
   public void setActualParameters(List<Value> inputs) throws MissingArgumentException {
