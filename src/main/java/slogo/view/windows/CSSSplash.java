@@ -22,9 +22,9 @@ public class CSSSplash extends Splash {
 
   private static final String TITLE = "Choose CSS";
   private static final Dimension SIZE = new Dimension(200, 200);
-  private static final String CSS_RESOURCE_ENDING = "CSS";
   private static final Set<String> IMPLEMENTED = Set.of("light", "dark");
-
+  private static final String SPLASH_TYPE = "CSS";
+  private static final String RESOURCE_PREFIX = "view.cssprops.";
   private ResourceBundle myResources;
   private Stage myStage;
 
@@ -36,17 +36,15 @@ public class CSSSplash extends Splash {
    * @see MainIDEView
    */
   public CSSSplash(String language) {
-    myResources = ResourceBundle.getBundle(
-        MainIDEView.RESOURCE_PREFIX + language + CSS_RESOURCE_ENDING);
+    myResources = ResourceBundle.getBundle(RESOURCE_PREFIX + language);
     myStage = new Stage();
     myStage = createStage(myStage, TITLE, SIZE,
-        makeOptions(new OptionGenerator(myStage, myResources, CSS_RESOURCE_ENDING, IMPLEMENTED)),
+        makeOptions(new OptionGenerator(myStage, myResources, SPLASH_TYPE, IMPLEMENTED)),
         DEFAULT_SPLASH_CSS);
-    try {
-      myStage.showAndWait();
-    } catch (Exception e) {
-      Errors.showAndClose(e.getMessage());
-    }
+  }
+
+  public void show() {
+    super.show(myStage);
   }
 
 }
