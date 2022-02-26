@@ -30,13 +30,13 @@ class MainIDEViewTest extends DukeApplicationTest {
     assertTrue(true);
   }
 
-  @Test
-  void rawCommandText() {
-    String toWrite = "fd 50";
-    TextInputControl area = lookup("#textArea").query();
-
-    clickOn(area).write(toWrite);
-    assertTrue(main.getRawCommandText().equals("fd 50"));
-  }
+//  @Test
+//  void rawCommandText() {
+//    String toWrite = "fd 50";
+//    TextInputControl area = lookup("#textArea").query();
+//
+//    clickOn(area).write(toWrite);
+//    assertTrue(main.getRawCommandText().equals("fd 50"));
+//  }
 
 }

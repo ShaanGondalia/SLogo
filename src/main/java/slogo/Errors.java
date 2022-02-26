@@ -17,8 +17,7 @@ public class Errors {
    */
   public static void showAndClose(String message) {
     showError(message);
-    Platform.exit();
-    System.exit(0);
+    justClose();
   }
 
   public static void showError(String message) {
