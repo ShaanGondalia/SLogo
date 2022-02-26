@@ -35,6 +35,8 @@ public class ForTest {
     args.add(variable);
     Command forward = new Forward(myTurtle, args);
     body.add(forward);
+    List<Deque<Command>> lists = new ArrayList<>();
+    lists.add(body);
 
     List<Value> forArgs = new ArrayList<>();
     forArgs.add(variable);
@@ -42,7 +44,7 @@ public class ForTest {
     forArgs.add(new Value(10));
     forArgs.add(new Value(1));
 
-    Command forCommand = new For(myTurtle, forArgs, body);
+    Command forCommand = new For(myTurtle, forArgs, lists);
     forCommand.execute();
     assertEquals(9.0, forCommand.returnValue().getVal(), Main.TOLERANCE);
     assertEquals(45.0, myTurtle.getPose().y(), Main.TOLERANCE);
