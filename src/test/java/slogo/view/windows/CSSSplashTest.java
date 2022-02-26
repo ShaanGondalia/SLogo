@@ -1,6 +1,5 @@
 package slogo.view.windows;
 
-import java.util.function.Predicate;
 import javafx.stage.Stage;
 import org.junit.jupiter.api.Test;
 import util.DukeApplicationTest;

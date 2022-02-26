@@ -1,9 +1,12 @@
 package slogo.view.windows;
 
+import javafx.scene.control.Button;
 import javafx.stage.Stage;
 import org.junit.jupiter.api.Test;
 import util.DukeApplicationTest;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
@@ -14,6 +17,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 class LanguageProbeTest extends DukeApplicationTest {
 
   private Splash ls;
+  private Button fs;
+  private Button eng;
 
   @Override
   public void start(Stage stage) {
@@ -21,6 +26,8 @@ class LanguageProbeTest extends DukeApplicationTest {
     stage = new Stage();
     stage.setScene(ls.getMyScene());
     stage.show();
+    fs = lookup("#French").query();
+    eng = lookup("#English").query();
   }
 
   @Test
@@ -28,15 +35,9 @@ class LanguageProbeTest extends DukeApplicationTest {
     assertTrue(true);
   }
 
-//  @Test
-//  void testNotImplemented(){
-//    clickOn(lookup("French").query());
-//    assertTrue(ls.toString().equals(""));
-//  }
-
   @Test
   void testImplemented() {
-    clickOn(lookup("English").query());
+    clickOn(eng);
     assertTrue(ls.toString().equals("English"));
   }
 
