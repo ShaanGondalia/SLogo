@@ -33,7 +33,7 @@ public class HistorySection implements IDESection{
 
   /**
    * Adds a new command's text to the history
-   * @param newCommand
+   * @param newCommand new successfully run command
    */
   public void setNewHistory(String newCommand){
     commandList.add(newCommand);

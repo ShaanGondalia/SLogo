@@ -9,11 +9,15 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.TilePane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import slogo.Errors;
 import slogo.controller.Controller;
+import slogo.view.windows.sections.ButtonSection;
+import slogo.view.windows.sections.HistorySection;
+import slogo.view.windows.sections.IDESection;
 
 /**
  * Creates the central window to display where the user can type in text commands
@@ -40,29 +44,18 @@ public class MainIDEView extends Display {
   private Text myHistory;
 
   public MainIDEView(String language, Controller c, String css, Stage stage) {
-    myResources = ResourceBundle.getBundle(RESOURCE_PREFIX + language);
-
+    myController = c;
     myPane = new BorderPane();
     myPane.setId(ROOT_ID);
     stage = createStage(TITLE, MAIN_SIZE, myPane, css);
     stage.show();
 
     createTextArea();
+    IDESection historySection = new HistorySection();
+    IDESection buttonSection = new ButtonSection(language, c, (HistorySection) historySection);
 
-    myButtons = new TilePane();
-    myButtons.setId(BUTTON_SECTION_ID);
-    myPane.setBottom(myButtons);
-
-    for (String button : BUTTONS) {
-      createButton(button);
-    }
-    myController = c;
-
-    myHistory = new Text("");
-    myHistoryPane = new ScrollPane();
-    myHistoryPane.setId(HISTORY_SECTION_ID);
-    myHistoryPane.setContent(myHistory);
-    myPane.setRight(myHistoryPane);
+    myPane.setBottom(buttonSection.getSection());
+    myPane.setRight(historySection.getSection());
 
   }
 

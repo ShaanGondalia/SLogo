@@ -23,7 +23,7 @@ public class IDEButtonFactory {
 
   private IDEButton getButtonClass(String name) throws Exception {
     try {
-      Class<?> clazz = Class.forName(IDEButton.class.getPackageName() + name);
+      Class<?> clazz = Class.forName(IDEButton.class.getPackageName() + "." + name);
       Constructor<?> ctor = clazz.getDeclaredConstructor();
       return (IDEButton) ctor.newInstance();
     } catch (Exception exception) {

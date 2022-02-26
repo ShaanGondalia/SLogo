@@ -16,13 +16,13 @@ public class ButtonSection implements IDESection {
   private TilePane myTilePane;
   private ResourceBundle myResources;
 
-  public ButtonSection(String language, Controller c){
+  public ButtonSection(String language, Controller c, HistorySection histSec){
     myTilePane = new TilePane();
     myTilePane.setId(BUTTON_SECTION_ID);
     myResources = ResourceBundle.getBundle(RESOURCE_PREFIX + language);
     IDEButtonFactory factory = new IDEButtonFactory();
     for (String button : myResources.keySet()){
-      myTilePane.getChildren().add(factory.createButton(new ButtonUtil(button, c, myResources)));
+      myTilePane.getChildren().add(factory.createButton(new ButtonUtil(button, c, myResources, histSec)));
     }
   }
 
