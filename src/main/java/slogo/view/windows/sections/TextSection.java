@@ -16,6 +16,7 @@ public class TextSection implements IDESection {
 
   /**
    * Creates a new TextSection that contains the JavaFX TextArea
+   *
    * @see TextArea
    */
   public TextSection() {
@@ -40,7 +41,7 @@ public class TextSection implements IDESection {
   /**
    * Clears the text area
    */
-  public void clear(){
+  public void clear() {
     myTextArea.clear();
   }
 }

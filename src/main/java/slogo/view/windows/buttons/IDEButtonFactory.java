@@ -11,10 +11,12 @@ import slogo.view.util.ButtonUtil;
  * @author Andy S. He
  */
 public class IDEButtonFactory {
+
   public static final String FILE_PATH_DELIMITER = ".";
 
   /**
    * Creates a new Button using reflection - the main factory method
+   *
    * @param info contains all the information each of the buttons need to function
    * @return a Button object that will be added to the ButtonSection soon
    * @see slogo.view.windows.sections.ButtonSection
@@ -32,6 +34,7 @@ public class IDEButtonFactory {
     });
     return b;
   }
+
   // uses reflection to create a new IDEButton class
   private IDEButton getButtonClass(String name) throws Exception {
     try {
