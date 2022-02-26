@@ -30,7 +30,8 @@ public class For extends ControlCommand {
    * @param body
    * @throws MissingArgumentException
    */
-  public For(Turtle turtle, List<Value> args, List<Deque<Command>> lists) throws MissingArgumentException {
+  public For(Turtle turtle, List<Value> args, List<Deque<Command>> lists)
+      throws MissingArgumentException {
     super(turtle, args, NUM_ARGS);
     verifyCommandLists(lists, NUM_LISTS);
 
@@ -42,15 +43,15 @@ public class For extends ControlCommand {
   }
 
   /**
-   *
    * @return the output of the last executed command in the loop
    * @throws MissingArgumentException
    */
   @Override
   public Value execute() throws MissingArgumentException {
     myVariable.setVal(myStart);
-    while (myVariable.getVal() < myEnd && (Math.abs(myVariable.getVal() - myEnd) > Main.TOLERANCE)) {
-      for (Command c: myBody) {
+    while (myVariable.getVal() < myEnd && (Math.abs(myVariable.getVal() - myEnd)
+        > Main.TOLERANCE)) {
+      for (Command c : myBody) {
         c.execute();
       }
       myVariable.setVal(myVariable.getVal() + myIncrement);

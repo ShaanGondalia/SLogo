@@ -9,12 +9,11 @@ import slogo.model.turtle.Pose;
 import slogo.model.turtle.Turtle;
 
 /**
- * Class that represents GOTO/SETXY command,
- * which moves turtle to given position
+ * Class that represents GOTO/SETXY command, which moves turtle to given position
  *
  * @author Jake Heller
  */
-public class SetPosition extends TurtleCommand{
+public class SetPosition extends TurtleCommand {
 
   private static final int NUM_ARGS = 2;
 
@@ -30,7 +29,6 @@ public class SetPosition extends TurtleCommand{
   }
 
   /**
-   *
    * @return distance travelled
    * @throws MissingArgumentException if less than 2 arguments given
    */
@@ -67,7 +65,7 @@ public class SetPosition extends TurtleCommand{
   }
 
   public double distance(double x1, double y1, double x2, double y2) {
-    return Math.sqrt(Math.pow(x2-x1, 2) + Math.pow(y2-y1, 2));
+    return Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
   }
 
 }

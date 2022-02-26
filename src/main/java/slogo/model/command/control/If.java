@@ -29,9 +29,8 @@ public class If extends ControlCommand {
     Deque<Command> body;
     if (myExpr.equals(new Value(0))) {
       setReturnValue(0);
-    }
-    else {
-      for (Command c: myBody) {
+    } else {
+      for (Command c : myBody) {
         c.execute();
       }
       setReturnValue(myBody.peekLast().returnValue().getVal());

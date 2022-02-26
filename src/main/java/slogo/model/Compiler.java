@@ -1,20 +1,14 @@
 package slogo.model;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
 import java.util.Deque;
 import java.util.HashMap;
-import java.util.InputMismatchException;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Queue;
 import java.util.ResourceBundle;
 import java.util.Stack;
 import slogo.model.command.Command;
 import slogo.model.command.Value;
-import slogo.model.command.control.MakeUserInstruction;
 import slogo.model.exception.MissingArgumentException;
 import slogo.model.exception.SymbolNotFoundException;
 import slogo.model.factory.CommandFactory;
@@ -54,7 +48,7 @@ public class Compiler {
    * Compiles and runs a program.
    *
    * @param program the string input of the program
-   * @param turtles  list of turtles to attach commands to
+   * @param turtles list of turtles to attach commands to
    * @throws Exception if there is an issue running the program
    */
   public Deque<Command> compile(String program, List<Turtle> turtles) throws Exception {
@@ -91,7 +85,8 @@ public class Compiler {
           int inputs = 0; // need to figure out how many inputs user instruction takes
           commandFactory.makeCommand(token, inputs);
         } else {
-          throw new SymbolNotFoundException(String.format(exceptionResources.getString("SymbolNotFound"), symbol));
+          throw new SymbolNotFoundException(
+              String.format(exceptionResources.getString("SymbolNotFound"), symbol));
         }
       } else if (symbol.equals("ListStart")) {
         queueStack.push(new LinkedList<>());
@@ -107,8 +102,10 @@ public class Compiler {
       // We can create another data structure that tracks this information, and use it to determine when
 
       while (!pendingCommands.isEmpty()
-          && commandFactory.getNumInputs(pendingCommands.peek()) <= values.size() - valuesBefore.peek()
-          && commandFactory.getNumListInputs(pendingCommands.peek()) <= lists.size() - listsBefore.peek()) {
+          && commandFactory.getNumInputs(pendingCommands.peek())
+          <= values.size() - valuesBefore.peek()
+          && commandFactory.getNumListInputs(pendingCommands.peek())
+          <= lists.size() - listsBefore.peek()) {
         String pendingCommand = pendingCommands.pop();
         valuesBefore.pop();
         listsBefore.pop();

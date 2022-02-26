@@ -23,6 +23,7 @@ import slogo.model.turtle.Turtle;
  * @author Shaan Gondalia
  */
 public class CommandFactory {
+
   private static final String REFLECTION_RESOURCES = "model.Reflection";
   private static final String EXCEPTION_RESOURCES = "model.exception.";
   private static final String PARAMETER_RESOURCES = "model.Parameter";
@@ -39,9 +40,10 @@ public class CommandFactory {
 
   /**
    * Creates a new command factory that operates in the given language
+   *
    * @param language the language of the command factory
    */
-  public CommandFactory(String language){
+  public CommandFactory(String language) {
     exceptionResources = ResourceBundle.getBundle(EXCEPTION_RESOURCES + language);
     myUserCommands = new HashMap<>();
     myListParameterCounts = new HashMap<>();
@@ -61,12 +63,14 @@ public class CommandFactory {
    * @return
    * @throws MissingArgumentException
    */
-  public Command getCommand(String symbol, Turtle turtle, Stack<Value> values, Stack<Deque<Command>> commandLists)
+  public Command getCommand(String symbol, Turtle turtle, Stack<Value> values,
+      Stack<Deque<Command>> commandLists)
       throws MissingArgumentException, SymbolNotFoundException {
     List<Value> args = new ArrayList<>();
     List<Deque<Command>> commandQueues = new ArrayList<>();
     if (values.size() < getNumInputs(symbol)) {
-      throw new MissingArgumentException(String.format(exceptionResources.getString("MissingArgument"), symbol));
+      throw new MissingArgumentException(
+          String.format(exceptionResources.getString("MissingArgument"), symbol));
     }
     for (int i = 0; i < getNumInputs(symbol); i++) {
       args.add(0, values.pop()); // add element to start of args
@@ -82,7 +86,8 @@ public class CommandFactory {
     return getCommandReflection(symbol, turtle, args);
   }
 
-  private Command getCommandListReflection(String symbol, Turtle turtle, List<Value> args, List<Deque<Command>> commandQueues) {
+  private Command getCommandListReflection(String symbol, Turtle turtle, List<Value> args,
+      List<Deque<Command>> commandQueues) {
     String command = reflectionResources.getString(symbol).trim();
     try {
       // convert string into Java object that represents that Java class
@@ -105,7 +110,7 @@ public class CommandFactory {
   }
 
   // Gets a command using reflection
-  private Command getCommandReflection(String symbol, Turtle turtle, List<Value> args){
+  private Command getCommandReflection(String symbol, Turtle turtle, List<Value> args) {
     String command = reflectionResources.getString(symbol).trim();
     try {
       // convert string into Java object that represents that Java class
@@ -129,32 +134,36 @@ public class CommandFactory {
 
   /**
    * Returns whether a symbol is a known command
+   *
    * @param symbol the symbol to check
    * @return whether symbol is a command
    */
-  public boolean isCommand(String symbol){
+  public boolean isCommand(String symbol) {
     return myParameterCounts.containsKey(symbol) || myUserCommands.containsKey(symbol);
   }
 
   /**
    * Gets the number of inputs a given command takes.
+   *
    * @param command the command to get the number of inputs for
    * @return the number of inputs the command takes.
    */
   public int getNumInputs(String command) throws SymbolNotFoundException {
     if (!myParameterCounts.containsKey(command)) {
-      throw new SymbolNotFoundException(String.format(exceptionResources.getString("SymbolNotFound"), command));
+      throw new SymbolNotFoundException(
+          String.format(exceptionResources.getString("SymbolNotFound"), command));
     }
     return myParameterCounts.get(command);
   }
 
   /**
    * Returns the number of list inputs a given command takes.
+   *
    * @param command the command to get the number of list inputs for
    * @return the number of list inputs the command takes
    */
   public int getNumListInputs(String command) {
-    if (!myListParameterCounts.containsKey(command)){
+    if (!myListParameterCounts.containsKey(command)) {
       return 0;
     }
     return myListParameterCounts.get(command);
@@ -162,7 +171,7 @@ public class CommandFactory {
 
   // Loads property files into a map
   private void loadResources(Map<String, Integer> map, ResourceBundle resource) {
-    for (String key: resource.keySet()) {
+    for (String key : resource.keySet()) {
       Integer value = Integer.parseInt(resource.getString(key));
       map.put(key, value);
     }

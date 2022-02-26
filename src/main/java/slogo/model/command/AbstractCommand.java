@@ -1,7 +1,5 @@
 package slogo.model.command;
 
-import slogo.model.exception.MissingArgumentException;
-
 /**
  * abstract class that formalizes how return values should be used
  *

@@ -36,11 +36,10 @@ public class IfElse extends ControlCommand {
     Deque<Command> body;
     if (myExpr.equals(new Value(0))) {
       body = myFalseBody;
-    }
-    else {
+    } else {
       body = myTrueBody;
     }
-    for (Command c: body) {
+    for (Command c : body) {
       c.execute();
     }
     setReturnValue(body.peekLast().returnValue().getVal());
