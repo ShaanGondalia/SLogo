@@ -73,10 +73,8 @@ public class Compiler {
 
     for (String token : program.split(WHITESPACE)) {
       String symbol = myParser.getSymbol(token);
-      System.out.println(symbol);
 
       if (commandFactory.isCommand(symbol)) {
-        System.out.println("HI");
         pendingCommands.push(symbol);
         valuesBefore.push(values.size());
         listsBefore.push(lists.size());
@@ -99,6 +97,7 @@ public class Compiler {
         queueStack.push(new LinkedList<>());
       } else if (symbol.equals("ListEnd")) {
         lists.push(queueStack.pop());
+        values.pop(); // This is needed to remove the value from the final command in the body of a list
       }
 
       // LOGIC:
@@ -115,7 +114,11 @@ public class Compiler {
         listsBefore.pop();
         Command command = commandFactory.getCommand(pendingCommand, turtle, values, lists);
         values.add(command.returnValue());
-        commandQueue.addLast(command);
+        if (!queueStack.empty()) {
+          queueStack.peek().addLast(command);
+        } else {
+          commandQueue.addLast(command);
+        }
         if (pendingCommands.isEmpty()) {
           values.clear();
         }
