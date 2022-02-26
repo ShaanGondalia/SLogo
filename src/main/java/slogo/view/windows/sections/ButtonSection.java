@@ -1,11 +1,14 @@
-package slogo.view.windows.buttons;
+package slogo.view.windows.sections;
 
 import java.util.ResourceBundle;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.TilePane;
 import slogo.controller.Controller;
 import slogo.view.util.ButtonUtil;
+import slogo.view.windows.buttons.IDEButtonFactory;
+import slogo.view.windows.sections.IDESection;
 
-public class ButtonSection {
+public class ButtonSection implements IDESection {
 
   private static final String BUTTON_SECTION_ID = "button_sec";
   private static final String RESOURCE_PREFIX = "view.buttons.";
@@ -23,7 +26,8 @@ public class ButtonSection {
     }
   }
 
-  public TilePane getSection(){
+  @Override
+  public Pane getSection(){
     return myTilePane;
   }
 
