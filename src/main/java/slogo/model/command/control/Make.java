@@ -10,7 +10,7 @@ import slogo.model.turtle.Turtle;
  *
  * @author Shaan Gondalia
  */
-public class Make extends ControlCommand{
+public class Make extends ControlCommand {
 
   private final Value variable;
   private final Value expr;

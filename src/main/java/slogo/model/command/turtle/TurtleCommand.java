@@ -2,7 +2,6 @@ package slogo.model.command.turtle;
 
 import java.util.List;
 import slogo.model.command.AbstractCommand;
-import slogo.model.command.Command;
 import slogo.model.command.Value;
 import slogo.model.exception.MissingArgumentException;
 import slogo.model.turtle.Turtle;

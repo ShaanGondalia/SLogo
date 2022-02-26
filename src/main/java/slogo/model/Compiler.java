@@ -1,21 +1,17 @@
 package slogo.model;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
 import java.util.Deque;
 import java.util.HashMap;
-import java.util.InputMismatchException;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Queue;
 import java.util.ResourceBundle;
 import java.util.Stack;
 import slogo.model.command.Command;
 import slogo.model.command.Value;
 import slogo.model.exception.MissingArgumentException;
 import slogo.model.exception.SymbolNotFoundException;
+import slogo.model.factory.CommandFactory;
 import slogo.model.parser.Parser;
 import slogo.model.turtle.Turtle;
 
@@ -28,16 +24,12 @@ import slogo.model.turtle.Turtle;
 public class Compiler {
 
   public static final String WHITESPACE = "\\s+";
-  private static final String PARAMETER_RESOURCES = "model.Parameter";
-  private static final String REFLECTION_RESOURCES = "model.Reflection";
   private static final String EXCEPTION_RESOURCES = "model.exception.";
 
   private Parser myParser;
   private Map<String, Value> myVariables;
-  private Map<String, Command> myUserCommands;
 
-  private final ResourceBundle parameterResources = ResourceBundle.getBundle(PARAMETER_RESOURCES);
-  private final ResourceBundle reflectionResources = ResourceBundle.getBundle(REFLECTION_RESOURCES);
+  private CommandFactory commandFactory;
   private final ResourceBundle exceptionResources;
 
   /**
@@ -49,32 +41,37 @@ public class Compiler {
     myParser.addPatterns(language);
     myParser.addPatterns("Syntax");
     myVariables = new HashMap<>();
-    myUserCommands = new HashMap<>();
+    commandFactory = new CommandFactory(language);
   }
 
   /**
    * Compiles and runs a program.
    *
    * @param program the string input of the program
-   * @param turtles  list of turtles to attach commands to
+   * @param turtles list of turtles to attach commands to
    * @throws Exception if there is an issue running the program
    */
   public Deque<Command> compile(String program, List<Turtle> turtles) throws Exception {
     Deque<Command> commandQueue = new LinkedList<>();
+    Stack<Deque<Command>> completedQueues = new Stack<>();
 
     // will be changed when we can have multiple turtles
     Turtle turtle = turtles.get(0);
 
     Stack<String> pendingCommands = new Stack<>();
     Stack<Value> values = new Stack<>();
+    Stack<Deque<Command>> lists = new Stack<>();
     Stack<Integer> valuesBefore = new Stack<>();
+    Stack<Integer> listsBefore = new Stack<>();
+    Stack<Deque<Command>> queueStack = new Stack<>();
 
     for (String token : program.split(WHITESPACE)) {
       String symbol = myParser.getSymbol(token);
 
-      if (parameterResources.containsKey(symbol)) {
+      if (commandFactory.isCommand(symbol)) {
         pendingCommands.push(symbol);
         valuesBefore.push(values.size());
+        listsBefore.push(lists.size());
       } else if (symbol.equals("Constant")) {
         values.push(new Value(Double.parseDouble(token)));
       } else if (symbol.equals("Variable")) {
@@ -83,10 +80,19 @@ public class Compiler {
         }
         values.push(myVariables.get(token));
       } else if (symbol.equals("UserCommand")) {
-        if (!myUserCommands.containsKey(token)) {
+        if (pendingCommands.peek().equals("MakeUserInstruction")) {
+          // TODO: figure out how make user instruction works
+          int inputs = 0; // need to figure out how many inputs user instruction takes
+          commandFactory.makeCommand(token, inputs);
+        } else {
           throw new SymbolNotFoundException(
-              String.format(exceptionResources.getString("SymbolNotFound"), token));
+              String.format(exceptionResources.getString("SymbolNotFound"), symbol));
         }
+      } else if (symbol.equals("ListStart")) {
+        queueStack.push(new LinkedList<>());
+      } else if (symbol.equals("ListEnd")) {
+        lists.push(queueStack.pop());
+        values.pop(); // This is needed to remove the value from the final command in the body of a list
       }
 
       // LOGIC:
@@ -96,18 +102,20 @@ public class Compiler {
       // We can create another data structure that tracks this information, and use it to determine when
 
       while (!pendingCommands.isEmpty()
-          && getNumInputs(pendingCommands.peek()) <= values.size() - valuesBefore.peek()) {
-        List<Value> args = new ArrayList<>();
+          && commandFactory.getNumInputs(pendingCommands.peek())
+          <= values.size() - valuesBefore.peek()
+          && commandFactory.getNumListInputs(pendingCommands.peek())
+          <= lists.size() - listsBefore.peek()) {
         String pendingCommand = pendingCommands.pop();
         valuesBefore.pop();
-        for (int i = 0; i < getNumInputs(pendingCommand); i++) {
-          args.add(0, values.pop()); // add element to start of args
-          //System.out.printf("%s: %f\n", args.get(i), args.get(i).getVal());
-        }
-        // Use reflection to create command
-        Command command = getCommand(pendingCommand, turtle, args);
+        listsBefore.pop();
+        Command command = commandFactory.getCommand(pendingCommand, turtle, values, lists);
         values.add(command.returnValue());
-        commandQueue.push(command);
+        if (!queueStack.empty()) {
+          queueStack.peek().addLast(command);
+        } else {
+          commandQueue.addLast(command);
+        }
         if (pendingCommands.isEmpty()) {
           values.clear();
         }
@@ -120,25 +128,4 @@ public class Compiler {
     return commandQueue;
   }
 
-  // Gets the number of inputs a given command takes.
-  private int getNumInputs(String command) {
-    return Integer.parseInt(parameterResources.getString(command));
-  }
-
-  // Returns an instance of a command using reflection
-  private Command getCommand(String symbol, Turtle turtle, List<Value> args) {
-    String command = reflectionResources.getString(symbol).trim();
-    try {
-      // convert string into Java object that represents that Java class
-      Class<?> clazz = Class.forName(command);
-      // use reflection to find the appropriate constructor of that class to call to create a new instance
-      Constructor<?> ctor = clazz.getDeclaredConstructor(Turtle.class, List.class);
-      return (Command) ctor.newInstance(turtle, args);
-    } catch (ClassNotFoundException | InvocationTargetException | NoSuchMethodException |
-        InstantiationException | IllegalAccessException e) {
-      throw new InputMismatchException(
-          String.format(exceptionResources.getString("InputMismatch"), symbol, command));
-    }
-
-  }
 }
