@@ -29,7 +29,7 @@ public class MainIDEView extends Display {
 
   private static final List<String> BUTTONS = List.of("run", "close", "help", "set_image",
       "set_bk_color", "set_pen_color");
-  private static final String RESOURCE_PREFIX = "view.buttons.";
+
 
   private BorderPane myPane;
   private TilePane myButtons;
@@ -96,38 +96,38 @@ public class MainIDEView extends Display {
     myButtons.getChildren().add(b);
   }
 
-  private void run() {
-    try {
-      myController.runText(getRawCommandText());
-    } catch (Exception e) {
-      Errors.showError(e.getMessage());
-      return;
-    }
-
-    myHistory.setText(myHistory.getText() + "\n" + getRawCommandText());
-    myHistoryPane.setContent(myHistory);
-
-    myCommandArea.clear();
-  }
-
-  private void close() {
-    Errors.justClose();
-  }
-
-  private void set_image() {
-
-  }
-
-  private void set_bk_color() {
-
-  }
-
-  private void set_pen_color() {
-
-  }
-
-  private void help() {
-
-  }
+//  private void run() {
+//    try {
+//      myController.runText(getRawCommandText());
+//    } catch (Exception e) {
+//      Errors.showError(e.getMessage());
+//      return;
+//    }
+//
+//    myHistory.setText(myHistory.getText() + "\n" + getRawCommandText());
+//    myHistoryPane.setContent(myHistory);
+//
+//    myCommandArea.clear();
+//  }
+//
+//  private void close() {
+//    Errors.justClose();
+//  }
+//
+//  private void set_image() {
+//
+//  }
+//
+//  private void set_bk_color() {
+//
+//  }
+//
+//  private void set_pen_color() {
+//
+//  }
+//
+//  private void help() {
+//
+//  }
 
 }
