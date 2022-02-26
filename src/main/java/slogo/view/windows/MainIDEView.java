@@ -32,10 +32,6 @@ public class MainIDEView extends Display {
   private static final String ROOT_ID = "root";
 
 
-  private static final List<String> BUTTONS = List.of("run", "close", "help", "set_image",
-      "set_bk_color", "set_pen_color");
-
-
   private BorderPane myPane;
 
   public MainIDEView(String language, Controller c, String css, Stage stage) {
