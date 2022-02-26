@@ -1,8 +1,8 @@
 package slogo.view.windows.sections;
 
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.TilePane;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.layout.Region;
 
 public interface IDESection {
-  Pane getSection();
+  Region getSection();
 }

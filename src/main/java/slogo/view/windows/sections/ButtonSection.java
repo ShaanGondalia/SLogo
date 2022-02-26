@@ -1,12 +1,12 @@
 package slogo.view.windows.sections;
 
 import java.util.ResourceBundle;
-import javafx.scene.layout.Pane;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.TilePane;
 import slogo.controller.Controller;
 import slogo.view.util.ButtonUtil;
 import slogo.view.windows.buttons.IDEButtonFactory;
-import slogo.view.windows.sections.IDESection;
 
 public class ButtonSection implements IDESection {
 
@@ -27,7 +27,7 @@ public class ButtonSection implements IDESection {
   }
 
   @Override
-  public Pane getSection(){
+  public Region getSection(){
     return myTilePane;
   }
 

@@ -25,7 +25,7 @@ public class MainIDEView extends Display {
   private static final String TITLE = "SLOGO TEAM 3";
   private static final Dimension MAIN_SIZE = new Dimension(300, 200);
   private static final String ROOT_ID = "root";
-  private static final String HISTORY_SECTION_ID = "history_sec";
+
 
   private static final List<String> BUTTONS = List.of("run", "close", "help", "set_image",
       "set_bk_color", "set_pen_color");
@@ -63,6 +63,7 @@ public class MainIDEView extends Display {
     myHistoryPane.setId(HISTORY_SECTION_ID);
     myHistoryPane.setContent(myHistory);
     myPane.setRight(myHistoryPane);
+
   }
 
   private void createTextArea() {
