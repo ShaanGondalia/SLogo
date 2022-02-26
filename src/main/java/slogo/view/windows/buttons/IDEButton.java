@@ -2,6 +2,11 @@ package slogo.view.windows.buttons;
 
 import slogo.view.util.ButtonUtil;
 
+/**
+ * The common interface that each of the classes that represent a button will implement
+ *
+ * @author Andy S. He
+ */
 public interface IDEButton {
 
   /**
