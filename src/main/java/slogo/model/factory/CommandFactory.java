@@ -3,6 +3,7 @@ package slogo.model.factory;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.Deque;
 import java.util.HashMap;
 import java.util.InputMismatchException;
 import java.util.List;
@@ -60,19 +61,40 @@ public class CommandFactory {
    * @return
    * @throws MissingArgumentException
    */
-  public Command getCommand(String symbol, Turtle turtle, Stack<Value> values)
+  public Command getCommand(String symbol, Turtle turtle, Stack<Value> values, Stack<Deque<Command>> commandLists)
       throws MissingArgumentException, SymbolNotFoundException {
     List<Value> args = new ArrayList<>();
+    List<Deque<Command>> commandQueues = new ArrayList<>();
     if (values.size() < getNumInputs(symbol)) {
       throw new MissingArgumentException(String.format(exceptionResources.getString("MissingArgument"), symbol));
     }
     for (int i = 0; i < getNumInputs(symbol); i++) {
       args.add(0, values.pop()); // add element to start of args
     }
+    for (int i = 0; i < getNumListInputs(symbol); i++) {
+      commandQueues.add(0, commandLists.pop()); // add element to start of args
+    }
     if (myUserCommands.containsKey(symbol)) {
       return getUserCommand(symbol, args);
+    } else if (getNumListInputs(symbol) != 0) {
+      return getCommandListReflection(symbol, turtle, args, commandQueues);
     }
     return getCommandReflection(symbol, turtle, args);
+  }
+
+  private Command getCommandListReflection(String symbol, Turtle turtle, List<Value> args, List<Deque<Command>> commandQueues) {
+    String command = reflectionResources.getString(symbol).trim();
+    try {
+      // convert string into Java object that represents that Java class
+      Class<?> clazz = Class.forName(command);
+      // use reflection to find the appropriate constructor of that class to call to create a new instance
+      Constructor<?> ctor = clazz.getDeclaredConstructor(Turtle.class, List.class, List.class);
+      return (Command) ctor.newInstance(turtle, args, commandQueues);
+    } catch (ClassNotFoundException | InvocationTargetException | NoSuchMethodException |
+        InstantiationException | IllegalAccessException e) {
+      throw new InputMismatchException(
+          String.format(exceptionResources.getString("InputMismatch"), symbol, command));
+    }
   }
 
   // Gets a user command using reflection

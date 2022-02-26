@@ -113,7 +113,7 @@ public class Compiler {
         String pendingCommand = pendingCommands.pop();
         valuesBefore.pop();
         listsBefore.pop();
-        Command command = commandFactory.getCommand(pendingCommand, turtle, values);
+        Command command = commandFactory.getCommand(pendingCommand, turtle, values, lists);
         values.add(command.returnValue());
         commandQueue.addLast(command);
         if (pendingCommands.isEmpty()) {
