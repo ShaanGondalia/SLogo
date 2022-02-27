@@ -1,25 +1,14 @@
 package slogo.view.windows;
 
 import java.awt.Dimension;
-import java.lang.reflect.Method;
-import java.util.List;
-import java.util.ResourceBundle;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.TextArea;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.Region;
-import javafx.scene.layout.TilePane;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import slogo.Errors;
 import slogo.controller.Controller;
 import slogo.view.windows.sections.ButtonSection;
 import slogo.view.windows.sections.HistorySection;
 import slogo.view.windows.sections.IDESection;
 import slogo.view.windows.sections.TextSection;
-import slogo.view.windows.sections.VariablesSection;
+import slogo.view.windows.sections.VariablesAndCommandsSection;
 
 /**
  * Creates the central window to display where the user can type in text commands
@@ -29,7 +18,7 @@ import slogo.view.windows.sections.VariablesSection;
 public class MainIDEView extends Display {
 
   private static final String TITLE = "SLOGO TEAM 3";
-  private static final Dimension MAIN_SIZE = new Dimension(400, 400);
+  private static final Dimension MAIN_SIZE = new Dimension(700, 400);
   private static final String ROOT_ID = "root";
 
 
@@ -39,7 +28,7 @@ public class MainIDEView extends Display {
     myPane = new BorderPane();
     myPane.setId(ROOT_ID);
 
-    IDESection variablesSection = new VariablesSection(c);
+    IDESection variablesSection = new VariablesAndCommandsSection(c);
     IDESection textSection = new TextSection();
     IDESection historySection = new HistorySection();
     IDESection buttonSection = new ButtonSection(language, c, (HistorySection) historySection, (TextSection) textSection);
