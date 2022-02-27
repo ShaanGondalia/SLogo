@@ -19,7 +19,9 @@ import javafx.util.Duration;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Queue;
 
 import slogo.model.turtle.Pose;
@@ -45,7 +47,7 @@ public class TurtleView implements PropertyChangeListener  {
     private Image turtleImage;
     private Image invisibleTurtle;
     private ImageView turtleNode;
-    private TrailHistory trailHistory;
+    private List<Trail> trailHistory;
     private GraphicsContext gc;
     private Queue<TurtleAnimation> animationQueue = new LinkedList<>();
     private boolean isAnimating = false;
@@ -62,7 +64,7 @@ public class TurtleView implements PropertyChangeListener  {
         turtleNode = new ImageView(turtleImage);
         turtleNode.setX(origin.x() - turtleImage.getWidth()/2);
         turtleNode.setY(origin.y() - turtleImage.getHeight()/2);
-        trailHistory = new TrailHistory();
+        trailHistory = new ArrayList<>();
         gc = TurtleWindowView.CANVAS.getGraphicsContext2D();
         gc.setLineWidth(thickness);
         gc.setFill(trailColor);
@@ -93,7 +95,7 @@ public class TurtleView implements PropertyChangeListener  {
     }
 
     private void realTimeTrailAnimation(PathTransition pt, Coordinate start, Coordinate end) {
-        trailHistory.add(new Line(start.x(), start.y(), end.x(), end.y()));
+        trailHistory.add(new Trail(new Line(start.x(), start.y(), end.x(), end.y()), trailColor));
         pt.currentTimeProperty().addListener(new ChangeListener<Duration>() {
             double prevX = start.x();
             double prevY = start.y();
@@ -102,7 +104,6 @@ public class TurtleView implements PropertyChangeListener  {
             public void changed(ObservableValue<? extends Duration> observableValue, Duration duration, Duration t1) {
                 double x = turtleNode.getTranslateX();
                 double y = turtleNode.getTranslateY();
-                System.out.println(trailColor.toString());
                 if (validTransitionStroke(prevX, x, prevY, y)) gc.strokeLine(prevX + centerX, prevY + centerY, x + centerX, y + centerY);
                 //System.out.printf("(%5.2f, %5.2f) -> (%5.2f, %5.2f)\n", prevX + centerX, prevY + centerY, x + centerX, y + centerY);
                 prevX = x;
@@ -188,7 +189,7 @@ public class TurtleView implements PropertyChangeListener  {
      * Getter method for a turtle's trail history
      * @return turtle's trail history
      */
-    public TrailHistory getTrailHistory() {
+    public List<Trail> getTrailHistory() {
         return trailHistory;
     }
 

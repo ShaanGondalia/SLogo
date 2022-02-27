@@ -9,6 +9,7 @@ import javafx.scene.shape.Line;
 import javafx.stage.Stage;
 import javafx.scene.paint.Color;
 import slogo.model.turtle.Turtle;
+import slogo.view.turtle.Trail;
 import slogo.view.turtle.TurtleView;
 import slogo.view.util.ButtonUtil;
 import slogo.view.util.ColorPickerGenerator;
@@ -35,8 +36,9 @@ public class SetBkColor extends Display implements IDEButton{
         gc.setFill(cpg.getCp().getValue());
         gc.fillRect(0, 0, TurtleWindowView.CANVAS.getWidth(), TurtleWindowView.CANVAS.getHeight());
         for (TurtleView tv : info.c().getTurtleViews()) {
-            gc.setFill(tv.getTrailColor());
-            for (Line line : tv.getTrailHistory().getTrails()) {
+            for (Trail trail : tv.getTrailHistory()) {
+                Line line = trail.getLine();
+                gc.setFill(trail.getColor());
                 gc.strokeLine(line.getStartX(), line.getStartY(), line.getEndX(), line.getEndY());
             }
         }
