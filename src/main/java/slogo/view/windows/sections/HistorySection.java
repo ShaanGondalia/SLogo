@@ -14,6 +14,7 @@ import javafx.scene.text.Text;
 public class HistorySection implements IDESection {
 
   private static final String HISTORY_SECTION_ID = "history_sec";
+  private static final String TEXT_SECTION_ID = "history_text";
 
   private ScrollPane myScrollPane;
   private List<String> commandList;
@@ -23,6 +24,7 @@ public class HistorySection implements IDESection {
     myScrollPane = new ScrollPane();
     myScrollPane.setId(HISTORY_SECTION_ID);
     myTextField = new Text("");
+    myTextField.setId(TEXT_SECTION_ID);
     myScrollPane.setContent(myTextField);
     commandList = new Stack<>();
   }

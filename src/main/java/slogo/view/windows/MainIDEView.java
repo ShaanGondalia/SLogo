@@ -37,8 +37,6 @@ public class MainIDEView extends Display {
   public MainIDEView(String language, Controller c, String css, Stage stage) {
     myPane = new BorderPane();
     myPane.setId(ROOT_ID);
-    stage = createStage(TITLE, MAIN_SIZE, myPane, css);
-    stage.show();
 
     IDESection textSection = new TextSection();
     IDESection historySection = new HistorySection();
@@ -47,6 +45,9 @@ public class MainIDEView extends Display {
     myPane.setBottom(buttonSection.getSection());
     myPane.setRight(historySection.getSection());
     myPane.setCenter(textSection.getSection());
+
+    stage = createStage(TITLE, MAIN_SIZE, myPane, css);
+    stage.show();
   }
 
 }

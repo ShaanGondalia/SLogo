@@ -24,3 +24,13 @@
   -fx-highlight-text-fill: #fd5d5d;
   -fx-text-fill: #fd5d5d;
 }
+
+#history_sec {
+  -fx-background: black;
+  /*-fx-font-family: "Comic Sans MS";*/
+  /*-fx-text-fill: #fd5d5d;*/
+}
+#history_text{
+  -fx-font-family: "Comic Sans MS";
+  -fx-fill: #fd5d5d;
+}
