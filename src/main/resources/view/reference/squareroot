@@ -1,0 +1,12 @@
+Math Operations:
+SQUAREROOT expr
+SQRT expr
+
+Description:
+Calculates square root of given value
+
+Parameters:
+expr - any expression
+
+Returns:
+Square root of expr

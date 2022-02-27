@@ -1,0 +1,13 @@
+Math Operations:
+RANDOMRANGE min max
+RANDR min max
+
+Description:
+Calculates a random value between given min and max
+
+Parameters:
+min - any expression
+max - any expression
+
+Returns:
+Random number within the range min to max, inclusive
