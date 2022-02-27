@@ -12,23 +12,33 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import slogo.Errors;
 
+/**
+ * Help View - it only supports english because Prof. Duvall only gave us english help menus
+ *
+ * @author Andy S. He
+ */
 public class HelpView extends Display {
 
   private static final String TITLE = "Help View";
   private static final Dimension DIM = new Dimension(400, 400);
   private static final String FILE_PATH = "src/main/resources/view/reference";
+  private static final String DEFAULT_CONTENT = "click a command to see help";
 
   private String myContent;
   private Text myContentTextBox;
   private VBox myButtons;
   private File[] myFiles;
 
+  /**
+   * Constructor that will display everything - is called on press of the help button
+   * @see slogo.view.windows.buttons.Help
+   */
   public HelpView() {
 
     File path = new File(FILE_PATH);
     myFiles = path.listFiles();
 
-    myContent = "";
+    myContent = DEFAULT_CONTENT;
     BorderPane borderPane = new BorderPane();
 
     ScrollPane options = new ScrollPane();
