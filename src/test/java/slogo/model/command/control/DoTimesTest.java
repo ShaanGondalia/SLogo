@@ -66,6 +66,21 @@ public class DoTimesTest{
     assertEquals(REPETITIONS * (REPETITIONS + 1) / 2, myTurtle.getPose().y(), Main.TOLERANCE);
   }
 
+  @Test
+  void testNotEnoughLists(){
+    List<Value> args = new ArrayList<>();
+    args.add(new Value());
+    args.add(new Value(REPETITIONS));
+    assertThrows(MissingArgumentException.class, () -> new DoTimes(myTurtle, args, bodies));
+  }
+
+  @Test
+  void testNotEnoughArgs(){
+    List<Value> args = new ArrayList<>();
+    args.add(new Value());
+    assertThrows(MissingArgumentException.class, () -> new DoTimes(myTurtle, args, bodies));
+  }
+
   private void makeBody(Value v) throws MissingArgumentException {
     List<Value> forArgs = new ArrayList<>();
     forArgs.add(v);

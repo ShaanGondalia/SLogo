@@ -64,4 +64,18 @@ public class IfTest{
     assertEquals(ARG_1, myTurtle.getPose().y(), Main.TOLERANCE);
   }
 
+  @Test
+  void testNotEnoughLists(){
+    List<Value> ifArgs = new ArrayList<>();
+    ifArgs.add(new Value(1));
+    lists = new ArrayList<>();
+    assertThrows(MissingArgumentException.class, () -> new If(myTurtle, ifArgs, lists));
+  }
+
+  @Test
+  void testNotEnoughArgs(){
+    List<Value> ifArgs = new ArrayList<>();
+    assertThrows(MissingArgumentException.class, () -> new If(myTurtle, ifArgs, lists));
+  }
+
 }
