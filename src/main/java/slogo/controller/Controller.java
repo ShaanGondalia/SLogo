@@ -5,16 +5,14 @@ import java.util.ArrayList;
 import java.util.Deque;
 import java.util.List;
 
-import java.util.Queue;
 import slogo.model.command.Command;
-import slogo.view.turtle.TurtleView;
 
-import slogo.model.Compiler;
+import slogo.model.compiler.Compiler;
 import slogo.model.turtle.Turtle;
 
 public class Controller {
 
-  slogo.model.Compiler myCompiler;
+  Compiler myCompiler;
   List<Turtle> myTurtles;
 
   public Controller(String lan) {

@@ -4,7 +4,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import slogo.model.turtle.Pose;
 import slogo.model.turtle.Turtle;
-import slogo.model.parser.Parser;
+import slogo.model.compiler.Parser;
 
 import static org.junit.jupiter.api.Assertions.*;
 

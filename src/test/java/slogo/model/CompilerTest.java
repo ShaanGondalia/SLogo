@@ -8,7 +8,9 @@ import java.util.List;
 import java.util.Queue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import slogo.Main;
 import slogo.model.command.Command;
+import slogo.model.compiler.Compiler;
 import slogo.model.exception.MissingArgumentException;
 import slogo.model.exception.SymbolNotFoundException;
 import slogo.model.turtle.Turtle;
@@ -26,6 +28,7 @@ public class CompilerTest {
   private static final String TWO_ARG_PROGRAM = "fd + 50 50";
   private static final String MULTI_PROGRAM = "fd + fd 50 50";
   private static final String COMPLEX_PROGRAM = "fd + fd 50 50 lt sum 45 45";
+  public static final String LOOP_PROGRAM = "dotimes [ :dist 200 ] [  fd :dist rt 89 ]";
   private static final String LANGUAGE = "English";
 
   private List<Turtle> myTurtles;
@@ -67,6 +70,14 @@ public class CompilerTest {
     run(compiler.compile(COMPLEX_PROGRAM, myTurtles));
     assertEquals(150, myTurtles.get(0).getPose().y());
     assertEquals(270, myTurtles.get(0).getPose().bearing());
+  }
+
+  @Test
+  void testLoop() throws Exception {
+    run(compiler.compile(LOOP_PROGRAM, myTurtles));
+    assertEquals(62.4117, myTurtles.get(0).getPose().x(), Main.TOLERANCE);
+    assertEquals(128.9302, myTurtles.get(0).getPose().y(), Main.TOLERANCE);
+    assertEquals(160, myTurtles.get(0).getPose().bearing(), Main.TOLERANCE);
   }
 
   @Test

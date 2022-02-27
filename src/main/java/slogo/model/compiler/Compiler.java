@@ -1,8 +1,7 @@
-package slogo.model;
+package slogo.model.compiler;
 
 import java.util.Deque;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
@@ -12,7 +11,6 @@ import slogo.model.command.Value;
 import slogo.model.exception.MissingArgumentException;
 import slogo.model.exception.SymbolNotFoundException;
 import slogo.model.factory.CommandFactory;
-import slogo.model.parser.Parser;
 import slogo.model.turtle.Turtle;
 
 /**

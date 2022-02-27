@@ -1,4 +1,4 @@
-package slogo.model.parser;
+package slogo.model.compiler;
 
 import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;

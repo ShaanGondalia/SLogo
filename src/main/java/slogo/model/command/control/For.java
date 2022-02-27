@@ -27,7 +27,6 @@ public class For extends ControlCommand {
   /**
    * @param turtle
    * @param args
-   * @param body
    * @throws MissingArgumentException
    */
   public For(Turtle turtle, List<Value> args, List<Deque<Command>> lists)
@@ -49,6 +48,7 @@ public class For extends ControlCommand {
   @Override
   public Value execute() throws MissingArgumentException {
     myVariable.setVal(myStart);
+
     while (myVariable.getVal() < myEnd && (Math.abs(myVariable.getVal() - myEnd)
         > Main.TOLERANCE)) {
       for (Command c : myBody) {

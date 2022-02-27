@@ -1,4 +1,4 @@
-package slogo.model;
+package slogo.model.compiler;
 
 import java.util.Deque;
 import java.util.LinkedList;
@@ -13,12 +13,12 @@ import slogo.model.command.Value;
  * @author Shaan Gondalia
  */
 public class Context {
-  private Stack<String> pendingCommands;
-  private Deque<Command> resolvedCommands;
-  private Stack<Value> values;
-  private Stack<Deque<Command>> lists;
-  private Stack<Integer> valuesBefore;
-  private Stack<Integer> listsBefore;
+  private final Stack<String> pendingCommands;
+  private final Deque<Command> resolvedCommands;
+  private final Stack<Value> values;
+  private final Stack<Deque<Command>> lists;
+  private final Stack<Integer> valuesBefore;
+  private final Stack<Integer> listsBefore;
 
   /**
    * Creates a new context
