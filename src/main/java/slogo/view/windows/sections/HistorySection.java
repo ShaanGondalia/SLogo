@@ -11,18 +11,25 @@ import javafx.scene.text.Text;
  *
  * @author Andy S. He
  */
-public class HistorySection implements IDESection{
+public class HistorySection implements IDESection {
+
   private static final String HISTORY_SECTION_ID = "history_sec";
+  private static final String TEXT_SECTION_ID = "history_text";
+
+  private static final String STARTING_TEXT = "Past Commands:\n";
+  private static final int WIDTH = 100;
 
   private ScrollPane myScrollPane;
   private List<String> commandList;
   private Text myTextField;
 
-  public HistorySection(){
+  public HistorySection() {
     myScrollPane = new ScrollPane();
     myScrollPane.setId(HISTORY_SECTION_ID);
-    myTextField = new Text("");
+    myTextField = new Text(STARTING_TEXT);
+    myTextField.setId(TEXT_SECTION_ID);
     myScrollPane.setContent(myTextField);
+    myScrollPane.setPrefViewportWidth(WIDTH);
     commandList = new Stack<>();
   }
 
@@ -33,16 +40,17 @@ public class HistorySection implements IDESection{
 
   /**
    * Adds a new command's text to the history
+   *
    * @param newCommand new successfully run command
    */
-  public void setNewHistory(String newCommand){
+  public void setNewHistory(String newCommand) {
     commandList.add(newCommand);
     setMyTextField();
   }
 
-  private void setMyTextField(){
-    String toSet = "";
-    for(String s : commandList){
+  private void setMyTextField() {
+    String toSet = STARTING_TEXT;
+    for (String s : commandList) {
       toSet += s;
       toSet += "\n";
     }

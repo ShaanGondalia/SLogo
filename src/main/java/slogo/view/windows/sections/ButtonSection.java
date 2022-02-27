@@ -8,6 +8,11 @@ import slogo.controller.Controller;
 import slogo.view.util.ButtonUtil;
 import slogo.view.windows.buttons.IDEButtonFactory;
 
+/**
+ * The section that holds all the buttons that the user can use to interact with the IDE
+ *
+ * @author Andy S. He
+ */
 public class ButtonSection implements IDESection {
 
   private static final String BUTTON_SECTION_ID = "button_sec";
@@ -16,18 +21,28 @@ public class ButtonSection implements IDESection {
   private TilePane myTilePane;
   private ResourceBundle myResources;
 
-  public ButtonSection(String language, Controller c, HistorySection histSec, TextSection textSec){
+  /**
+   * Default constructor used to generate the buttons and the button section
+   *
+   * @param language language to display the buttons
+   * @param c        controller to interact with the model
+   * @param histSec  History Section to add commands to the history
+   * @param textSec  Text Section to get the text
+   * @see IDEButtonFactory
+   */
+  public ButtonSection(String language, Controller c, HistorySection histSec, TextSection textSec) {
     myTilePane = new TilePane();
     myTilePane.setId(BUTTON_SECTION_ID);
     myResources = ResourceBundle.getBundle(RESOURCE_PREFIX + language);
     IDEButtonFactory factory = new IDEButtonFactory();
-    for (String button : myResources.keySet()){
-      myTilePane.getChildren().add(factory.createButton(new ButtonUtil(button, c, myResources, histSec, textSec)));
+    for (String button : myResources.keySet()) {
+      myTilePane.getChildren()
+          .add(factory.createButton(new ButtonUtil(button, c, myResources, histSec, textSec)));
     }
   }
 
   @Override
-  public Region getSection(){
+  public Region getSection() {
     return myTilePane;
   }
 

@@ -24,3 +24,13 @@
   -fx-highlight-text-fill: #fd5d5d;
   -fx-text-fill: #fd5d5d;
 }
+
+.scroll-pane {
+  -fx-background: black;
+  /*-fx-font-family: "Comic Sans MS";*/
+  /*-fx-text-fill: #fd5d5d;*/
+}
+Text{
+  -fx-font-family: "Comic Sans MS";
+  -fx-fill: #fd5d5d;
+}
