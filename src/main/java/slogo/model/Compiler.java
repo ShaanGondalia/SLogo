@@ -32,20 +32,8 @@ public class Compiler {
   private CommandFactory commandFactory;
   private final ResourceBundle exceptionResources;
 
-  private Stack<String> pendingCommandsInContext = new Stack<>();
-  private Deque<Command> resolvedCommandsInContext = new LinkedList<>();
-  private Stack<Value> valuesInContext = new Stack<>();
-  private Stack<Deque<Command>> listsInContext = new Stack<>();
-  private Stack<Integer> valuesBeforeInContext = new Stack<>();
-  private Stack<Integer> listsBeforeInContext = new Stack<>();
-
-  private Stack<Stack<String>> pendingCommandsOutOfContext = new Stack<>();
-  private Stack<Deque<Command>> resolvedCommandsOutOfContext = new Stack<>();
-  private Stack<Stack<Value>> valuesOutOfContext = new Stack<>();
-  private Stack<Stack<Deque<Command>>> listsOutOfContext = new Stack<>();
-  private Stack<Stack<Integer>> valuesBeforeOutOfContext = new Stack<>();
-  private Stack<Stack<Integer>> listsBeforeOutOfContext = new Stack<>();
-
+  private Context activeContext;
+  private Stack<Context> inactiveContexts;
 
   /**
    * Creates an instance of a compiler for the given language.
@@ -67,6 +55,8 @@ public class Compiler {
    * @throws Exception if there is an issue running the program
    */
   public Deque<Command> compile(String program, List<Turtle> turtles) throws Exception {
+    reset();
+
     // will be changed when we can have multiple turtles
     Turtle turtle = turtles.get(0);
 
@@ -78,31 +68,37 @@ public class Compiler {
       // We know the number of inputs each command requires, and we know the size of the values stack when each command is added.
       // We can create another data structure that tracks this information, and use it to determine when
 
-      while (!pendingCommandsInContext.isEmpty()
-          && commandFactory.getNumInputs(pendingCommandsInContext.peek())
-          <= valuesInContext.size() - valuesBeforeInContext.peek()
-          && commandFactory.getNumListInputs(pendingCommandsInContext.peek())
-          <= listsInContext.size() - listsBeforeInContext.peek()) {
-        String pendingCommand = pendingCommandsInContext.pop();
-        valuesBeforeInContext.pop();
-        listsBeforeInContext.pop();
-        Command command = commandFactory.getCommand(pendingCommand, turtle, valuesInContext, listsInContext);
-        valuesInContext.add(command.returnValue());
-        if (!listsInContext.empty()) {
-          listsInContext.peek().addLast(command);
+      while (!activeContext.getPendingCommands().isEmpty()
+          && commandFactory.getNumInputs(activeContext.getPendingCommands().peek())
+          <= activeContext.getValues().size() - activeContext.getValuesBefore().peek()
+          && commandFactory.getNumListInputs(activeContext.getPendingCommands().peek())
+          <= activeContext.getLists().size() - activeContext.getListsBefore().peek()) {
+        String pendingCommand = activeContext.getPendingCommands().pop();
+        activeContext.getValuesBefore().pop();
+        activeContext.getListsBefore().pop();
+        Command command = commandFactory.getCommand(pendingCommand, turtle, activeContext.getValues(), activeContext.getLists());
+        activeContext.getValues().add(command.returnValue());
+        if (!activeContext.getLists().empty()) {
+          activeContext.getLists().peek().addLast(command);
         } else {
-          resolvedCommandsInContext.addLast(command);
+          activeContext.getResolvedCommands().addLast(command);
         }
-        if (pendingCommandsInContext.isEmpty()) {
-          valuesInContext.clear();
+        if (activeContext.getPendingCommands().isEmpty()) {
+          activeContext.getValues().clear();
         }
       }
     }
-    if (!pendingCommandsInContext.empty()) {
+    if (!activeContext.getPendingCommands().empty()) {
       throw new MissingArgumentException(
-          String.format(exceptionResources.getString("MissingArgument"), pendingCommandsInContext.peek()));
+          String.format(exceptionResources.getString("MissingArgument"), activeContext.getPendingCommands().peek()));
     }
-    return resolvedCommandsInContext;
+    return activeContext.getResolvedCommands();
+  }
+
+  // "Resets" the compiler, wiping all contexts
+  private void reset() {
+    activeContext = new Context();
+    inactiveContexts = new Stack<>();
   }
 
 
@@ -112,7 +108,7 @@ public class Compiler {
     if (commandFactory.isCommand(symbol)) {
       handleCommand(symbol);
     } else if (symbol.equals("Constant")) {
-      valuesInContext.push(new Value(Double.parseDouble(token)));
+      activeContext.getValues().push(new Value(Double.parseDouble(token)));
     } else if (symbol.equals("Variable")) {
       handleVariable(token);
     } else if (symbol.equals("UserCommand")) {
@@ -126,9 +122,9 @@ public class Compiler {
 
   // Handles what happens when a command is detected by the parser
   private void handleCommand(String symbol){
-    pendingCommandsInContext.push(symbol);
-    valuesBeforeInContext.push(valuesInContext.size());
-    listsBeforeInContext.push(listsInContext.size());
+    activeContext.getPendingCommands().push(symbol);
+    activeContext.getValuesBefore().push(activeContext.getValues().size());
+    activeContext.getListsBefore().push(activeContext.getLists().size());
   }
 
   // Handles what happens when a variable is detected by the parser
@@ -136,12 +132,12 @@ public class Compiler {
     if (!myVariables.containsKey(value)) {
       myVariables.put(value, new Value());
     }
-    valuesInContext.push(myVariables.get(value));
+    activeContext.getValues().push(myVariables.get(value));
   }
 
   // Handles what happens when a user command is detected by the parser
   private void handleUserCommand(String token) throws SymbolNotFoundException {
-    if (pendingCommandsInContext.peek().equals("MakeUserInstruction")) {
+    if (activeContext.getPendingCommands().peek().equals("MakeUserInstruction")) {
       // TODO: figure out how make user instruction works
       int inputs = 0; // need to figure out how many inputs user instruction takes
       commandFactory.makeCommand(token, inputs);
@@ -153,37 +149,14 @@ public class Compiler {
 
   // Swaps the context of the compiler in the case of a list
   private void swapContext() {
-    pendingCommandsOutOfContext.push(pendingCommandsInContext);
-    resolvedCommandsOutOfContext.push(resolvedCommandsInContext);
-    valuesOutOfContext.push(valuesInContext);
-    listsOutOfContext.push(listsInContext);
-    valuesBeforeOutOfContext.push(valuesBeforeInContext);
-    listsBeforeOutOfContext.push(listsBeforeInContext);
-
-    pendingCommandsInContext = new Stack<>();
-    resolvedCommandsInContext = new LinkedList<>();
-    valuesInContext = new Stack<>();
-    listsInContext = new Stack<>();
-    valuesBeforeInContext = new Stack<>();
-    listsBeforeInContext = new Stack<>();
+    inactiveContexts.push(activeContext);
+    activeContext = new Context();
   }
 
   // Resolves the context of the compiler in the case of a list ending
   private void resolveContext() {
-    // Revert back to state before context swap
-    pendingCommandsInContext = pendingCommandsOutOfContext.pop();
-    valuesBeforeInContext = valuesBeforeOutOfContext.pop();
-    listsBeforeInContext = listsBeforeOutOfContext.pop();
-    listsInContext = listsOutOfContext.pop();
-    // If list only contained values (no commands) add values to values in previous context
-    if(resolvedCommandsInContext.isEmpty()) {
-      valuesOutOfContext.peek().addAll(valuesInContext);
-    } else {
-      // Add resolved commands of list to lists in outer context
-      listsInContext.push(resolvedCommandsInContext);
-    }
-    resolvedCommandsInContext = resolvedCommandsOutOfContext.pop();
-    valuesInContext = valuesOutOfContext.pop();
+    inactiveContexts.peek().resolve(activeContext);
+    activeContext = inactiveContexts.pop();
   }
 
 }
