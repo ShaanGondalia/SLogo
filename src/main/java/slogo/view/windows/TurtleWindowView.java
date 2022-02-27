@@ -13,16 +13,15 @@ public class TurtleWindowView extends Display {
   public static final int WIDTH = 400;
   private static final Dimension SIZE = new Dimension(400,400);
   public static final String ROOT_ID = "turtleWindowRoot";
-  private static Canvas canvas;
+  public static final Canvas CANVAS = new Canvas();
 
   private Pane myPane;
 
   public TurtleWindowView(String css){
-    canvas = new Canvas();
-    canvas.setWidth(WIDTH);
-    canvas.setHeight(HEIGHT);
+    CANVAS.setWidth(WIDTH);
+    CANVAS.setHeight(HEIGHT);
     myPane = new Pane();
-    myPane.getChildren().add(canvas);
+    myPane.getChildren().add(CANVAS);
     myPane.setId(ROOT_ID);
 
     Stage stage = createStage(TITLE, SIZE, myPane, css);
@@ -34,7 +33,4 @@ public class TurtleWindowView extends Display {
       myPane.getChildren().add(tv.getTurtleNode());
   }
 
-  public static Canvas getCanvas() {
-    return canvas;
-  }
 }

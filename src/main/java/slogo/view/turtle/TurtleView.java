@@ -11,6 +11,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Line;
 import javafx.scene.shape.LineTo;
 import javafx.scene.shape.MoveTo;
 import javafx.scene.shape.Path;
@@ -45,12 +46,15 @@ public class TurtleView implements PropertyChangeListener  {
     private Image turtleImage;
     private Image invisibleTurtle;
     private ImageView turtleNode;
+    private TrailHistory trailHistory;
     private Queue<TurtleAnimation> animationQueue = new LinkedList<>();
     private GraphicsContext gc;
     private boolean isAnimating = false;
+    private double epsilon = 0.001;
     private double pathSpeed = 0.01; //Hard coded for now
     private double rotationSpeed = 0.75; //Hard coded for now
-    private int thickness = 2; //Hard coded for now
+    private int thickness = 2; //Hard coded default for now
+    private Color trailColor = Color.BLACK; //Hard coded default for now
 
     public TurtleView() {
         turtleImage = new Image(getClass().getResourceAsStream("/view/img/turtle.png"));
@@ -58,9 +62,10 @@ public class TurtleView implements PropertyChangeListener  {
         turtleNode = new ImageView(turtleImage);
         turtleNode.setX(origin.x() - turtleImage.getWidth()/2);
         turtleNode.setY(origin.y() - turtleImage.getHeight()/2);
-        gc = TurtleWindowView.getCanvas().getGraphicsContext2D();
-        gc.setFill(Color.BLACK);
+        trailHistory = new TrailHistory();
+        gc = TurtleWindowView.CANVAS.getGraphicsContext2D();
         gc.setLineWidth(thickness);
+        gc.setFill(trailColor);
     }
 
     private Animation makeAnimation(Pose oldPose, Pose newPose, boolean penDown) {
@@ -71,14 +76,15 @@ public class TurtleView implements PropertyChangeListener  {
         path.getElements().add(new MoveTo(start.x(), start.y()));
         path.getElements().add(new LineTo(end.x(), end.y()));
 
-        double deltaR = newPose.bearing() - oldPose.bearing();
+        double deltaR = changeInBearing(oldPose, newPose);
         RotateTransition rt = new RotateTransition(Duration.seconds(rotationSpeed), turtleNode);
         rt.setByAngle(deltaR);
 
         double deltaS = normSquared(oldPose, newPose);
         PathTransition pt = new PathTransition(Duration.seconds(pathSpeed * Math.sqrt(deltaS)), path, turtleNode);
 
-        if (penDown && deltaS > 0.001) {
+        if (penDown && deltaS > epsilon) {
+            trailHistory.add(new Line(start.x(), start.y(), end.x(), end.y()));
             pt.currentTimeProperty().addListener(new ChangeListener<Duration>() {
                 double prevX = turtleNode.getTranslateX();
                 double prevY = turtleNode.getTranslateY();
@@ -88,6 +94,7 @@ public class TurtleView implements PropertyChangeListener  {
                     double x = turtleNode.getTranslateX();
                     double y = turtleNode.getTranslateY();
                     gc.strokeLine(prevX + centerX, prevY + centerY, x + centerX, y + centerY);
+                    //System.out.printf("(%5.2f, %5.2f) -> (%5.2f, %5.2f)\n", prevX + centerX, prevY + centerY, x + centerX, y + centerY);
                     prevX = x;
                     prevY = y;
                 }
@@ -95,7 +102,7 @@ public class TurtleView implements PropertyChangeListener  {
         }
 
         SequentialTransition st = new SequentialTransition(turtleNode);
-        if (deltaS < 0.001) st.getChildren().add(rt);
+        if (deltaS < epsilon) st.getChildren().add(rt);
         else st.getChildren().add(pt);
         return st;
     }
@@ -104,8 +111,16 @@ public class TurtleView implements PropertyChangeListener  {
         return (Math.pow(oldPose.x() - newPose.x(), 2.0) + Math.pow(oldPose.y() - newPose.y(), 2.0));
     }
 
+    private double changeInBearing(Pose oldPose, Pose newPose) {
+        return newPose.bearing() - oldPose.bearing();
+    }
+
     private void handleAnimationQueue() {
         animationQueue.remove();
+        handleAnimation();
+    }
+
+    private void handleAnimation() {
         if (animationQueue.size() > 0) {
             isAnimating = true;
             if (animationQueue.peek().getVisibility()) turtleNode.setImage(turtleImage);
@@ -126,14 +141,11 @@ public class TurtleView implements PropertyChangeListener  {
     public void propertyChange(PropertyChangeEvent evt) {
         TurtleStatus oldT = (TurtleStatus) evt.getOldValue();
         TurtleStatus newT = (TurtleStatus) evt.getNewValue();
-        if (oldT.pose() != newT.pose()) {
+        if (normSquared(oldT.pose(), newT.pose()) > epsilon || Math.abs(changeInBearing(oldT.pose(), newT.pose())) > epsilon) {
             Animation anim = makeAnimation(oldT.pose(), newT.pose(), newT.penDown());
             anim.setOnFinished(finish -> handleAnimationQueue());
-            animationQueue.add(new TurtleAnimation(anim, newT.penDown(), newT.visibility()));
-            if (!isAnimating) {
-                isAnimating = true;
-                anim.play();
-            }
+            animationQueue.add(new TurtleAnimation(anim, newT.visibility()));
+            if (!isAnimating) handleAnimation();
         }
     }
 
@@ -143,6 +155,31 @@ public class TurtleView implements PropertyChangeListener  {
      */
     public Node getTurtleNode() {
         return turtleNode;
+    }
+
+    /**
+     * Getter method for the turtle's trail color
+     * @return trail color
+     */
+    public Color getTrailColor() {
+        return trailColor;
+    }
+
+    /**
+     * Setter method for the turtle's trail color
+     * @param color new trail color
+     */
+    public void setTrailColor(Color color) {
+        trailColor = color;
+        gc.setFill(trailColor);
+    }
+
+    /**
+     * Getter method for a turtle's trail history
+     * @return turtle's trail history
+     */
+    public TrailHistory getTrailHistory() {
+        return trailHistory;
     }
 
 }
