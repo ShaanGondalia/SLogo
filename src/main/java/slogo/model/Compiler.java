@@ -108,31 +108,46 @@ public class Compiler {
 
   private void handleToken(String token) throws SymbolNotFoundException {
     String symbol = myParser.getSymbol(token);
-
+    // TODO: Replace this conditional chain with reflective method calls
     if (commandFactory.isCommand(symbol)) {
-      pendingCommandsInContext.push(symbol);
-      valuesBeforeInContext.push(valuesInContext.size());
-      listsBeforeInContext.push(listsInContext.size());
+      handleCommand(symbol);
     } else if (symbol.equals("Constant")) {
       valuesInContext.push(new Value(Double.parseDouble(token)));
     } else if (symbol.equals("Variable")) {
-      if (!myVariables.containsKey(token)) {
-        myVariables.put(token, new Value());
-      }
-      valuesInContext.push(myVariables.get(token));
+      handleVariable(token);
     } else if (symbol.equals("UserCommand")) {
-      if (pendingCommandsInContext.peek().equals("MakeUserInstruction")) {
-        // TODO: figure out how make user instruction works
-        int inputs = 0; // need to figure out how many inputs user instruction takes
-        commandFactory.makeCommand(token, inputs);
-      } else {
-        throw new SymbolNotFoundException(
-            String.format(exceptionResources.getString("SymbolNotFound"), symbol));
-      }
+      handleUserCommand(token);
     } else if (symbol.equals("ListStart")) {
       swapContext();
     } else if (symbol.equals("ListEnd")) {
       resolveContext();
+    }
+  }
+
+  // Handles what happens when a command is detected by the parser
+  private void handleCommand(String symbol){
+    pendingCommandsInContext.push(symbol);
+    valuesBeforeInContext.push(valuesInContext.size());
+    listsBeforeInContext.push(listsInContext.size());
+  }
+
+  // Handles what happens when a variable is detected by the parser
+  private void handleVariable(String value){
+    if (!myVariables.containsKey(value)) {
+      myVariables.put(value, new Value());
+    }
+    valuesInContext.push(myVariables.get(value));
+  }
+
+  // Handles what happens when a user command is detected by the parser
+  private void handleUserCommand(String token) throws SymbolNotFoundException {
+    if (pendingCommandsInContext.peek().equals("MakeUserInstruction")) {
+      // TODO: figure out how make user instruction works
+      int inputs = 0; // need to figure out how many inputs user instruction takes
+      commandFactory.makeCommand(token, inputs);
+    } else {
+      throw new SymbolNotFoundException(
+          String.format(exceptionResources.getString("SymbolNotFound"), token));
     }
   }
 
