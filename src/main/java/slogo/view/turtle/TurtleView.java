@@ -41,18 +41,18 @@ public class TurtleView implements PropertyChangeListener  {
     private static double centerX = TurtleWindowView.WIDTH / 2;
     private static double centerY = TurtleWindowView.HEIGHT / 2;
     private static Matrix ctm = new Matrix(1, 0, centerX, 0, -1, centerY);
-
     private Coordinate origin = ctm.mapPoint(new Coordinate(0, 0));
     private Image turtleImage;
     private Image invisibleTurtle;
     private ImageView turtleNode;
     private TrailHistory trailHistory;
-    private Queue<TurtleAnimation> animationQueue = new LinkedList<>();
     private GraphicsContext gc;
+    private Queue<TurtleAnimation> animationQueue = new LinkedList<>();
     private boolean isAnimating = false;
     private double epsilon = 0.001;
-    private double pathSpeed = 0.01; //Hard coded for now
-    private double rotationSpeed = 0.75; //Hard coded for now
+    private double epsilon2 = 10;
+    private double pathSpeed = 0.01; //Hard coded default for now
+    private double rotationSpeed = 0.75; //Hard coded default for now
     private int thickness = 2; //Hard coded default for now
     private Color trailColor = Color.BLACK; //Hard coded default for now
 
@@ -83,28 +83,37 @@ public class TurtleView implements PropertyChangeListener  {
         double deltaS = normSquared(oldPose, newPose);
         PathTransition pt = new PathTransition(Duration.seconds(pathSpeed * Math.sqrt(deltaS)), path, turtleNode);
 
-        if (penDown && deltaS > epsilon) {
-            trailHistory.add(new Line(start.x(), start.y(), end.x(), end.y()));
-            pt.currentTimeProperty().addListener(new ChangeListener<Duration>() {
-                double prevX = turtleNode.getTranslateX();
-                double prevY = turtleNode.getTranslateY();
-
-                @Override
-                public void changed(ObservableValue<? extends Duration> observableValue, Duration duration, Duration t1) {
-                    double x = turtleNode.getTranslateX();
-                    double y = turtleNode.getTranslateY();
-                    gc.strokeLine(prevX + centerX, prevY + centerY, x + centerX, y + centerY);
-                    //System.out.printf("(%5.2f, %5.2f) -> (%5.2f, %5.2f)\n", prevX + centerX, prevY + centerY, x + centerX, y + centerY);
-                    prevX = x;
-                    prevY = y;
-                }
-            });
-        }
+        if (penDown && deltaS > epsilon) realTimeTrailAnimation(pt, start, end);
 
         SequentialTransition st = new SequentialTransition(turtleNode);
         if (deltaS < epsilon) st.getChildren().add(rt);
         else st.getChildren().add(pt);
         return st;
+    }
+
+    private void realTimeTrailAnimation(PathTransition pt, Coordinate start, Coordinate end) {
+        trailHistory.add(new Line(start.x(), start.y(), end.x(), end.y()));
+        //System.out.printf("Line from (%5.2f, %5.2f) -> (%5.2f, %5.2f)\n", start.x(), start.y(), end.x(), end.y());
+        pt.currentTimeProperty().addListener(new ChangeListener<Duration>() {
+            double prevX = start.x();
+            double prevY = start.y();
+
+            @Override
+            public void changed(ObservableValue<? extends Duration> observableValue, Duration duration, Duration t1) {
+                double x = turtleNode.getTranslateX();
+                double y = turtleNode.getTranslateY();
+                if (validTransitionStroke(prevX, x, prevY, y)) gc.strokeLine(prevX + centerX, prevY + centerY, x + centerX, y + centerY);
+                //System.out.printf("(%5.2f, %5.2f) -> (%5.2f, %5.2f)\n", prevX + centerX, prevY + centerY, x + centerX, y + centerY);
+                prevX = x;
+                prevY = y;
+            }
+        });
+    }
+
+    private boolean validTransitionStroke(double x1, double x2, double y1, double y2) {
+        if (Math.abs(x2- x1) > epsilon2) return false;
+        if (Math.abs(y2- y1) > epsilon2) return false;
+        return true;
     }
 
     private double normSquared(Pose oldPose, Pose newPose) {
@@ -141,6 +150,7 @@ public class TurtleView implements PropertyChangeListener  {
     public void propertyChange(PropertyChangeEvent evt) {
         TurtleStatus oldT = (TurtleStatus) evt.getOldValue();
         TurtleStatus newT = (TurtleStatus) evt.getNewValue();
+        //System.out.println(newT.penDown());
         if (normSquared(oldT.pose(), newT.pose()) > epsilon || Math.abs(changeInBearing(oldT.pose(), newT.pose())) > epsilon) {
             Animation anim = makeAnimation(oldT.pose(), newT.pose(), newT.penDown());
             anim.setOnFinished(finish -> handleAnimationQueue());
