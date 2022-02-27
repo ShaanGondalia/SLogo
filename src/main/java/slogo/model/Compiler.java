@@ -67,13 +67,10 @@ public class Compiler {
    * @throws Exception if there is an issue running the program
    */
   public Deque<Command> compile(String program, List<Turtle> turtles) throws Exception {
-    Deque<Command> commandQueue = new LinkedList<>();
-
     // will be changed when we can have multiple turtles
     Turtle turtle = turtles.get(0);
 
     for (String token : program.split(WHITESPACE)) {
-
       handleToken(token);
       // LOGIC:
       // After a command is added, we can only resolve the commands arguments once numInputs values have been added to the value stack.
@@ -91,12 +88,10 @@ public class Compiler {
         listsBeforeInContext.pop();
         Command command = commandFactory.getCommand(pendingCommand, turtle, valuesInContext, listsInContext);
         valuesInContext.add(command.returnValue());
-        //System.out.println(pendingCommand);
-        //values.forEach((value) -> System.out.println(value));
         if (!listsInContext.empty()) {
           listsInContext.peek().addLast(command);
         } else {
-          commandQueue.addLast(command);
+          resolvedCommandsInContext.addLast(command);
         }
         if (pendingCommandsInContext.isEmpty()) {
           valuesInContext.clear();
@@ -107,7 +102,7 @@ public class Compiler {
       throw new MissingArgumentException(
           String.format(exceptionResources.getString("MissingArgument"), pendingCommandsInContext.peek()));
     }
-    return commandQueue;
+    return resolvedCommandsInContext;
   }
 
 
@@ -160,21 +155,20 @@ public class Compiler {
 
   // Resolves the context of the compiler in the case of a list ending
   private void resolveContext() {
-    /*      Deque<Command> commandList = listsInContext.pop();
-      if(!commandList.isEmpty()) {
-        listsInContext.push(commandList);
-      }
-      /
-    */
     // Revert back to state before context swap
     pendingCommandsInContext = pendingCommandsOutOfContext.pop();
-    valuesInContext = valuesOutOfContext.pop();
     valuesBeforeInContext = valuesBeforeOutOfContext.pop();
     listsBeforeInContext = listsBeforeOutOfContext.pop();
-
-    // Add resolved commands of list to lists in outer context
-    listsInContext.push(resolvedCommandsInContext);
+    listsInContext = listsOutOfContext.pop();
+    // If list only contained values (no commands) add values to values in previous context
+    if(resolvedCommandsInContext.isEmpty()) {
+      valuesOutOfContext.peek().addAll(valuesInContext);
+    } else {
+      // Add resolved commands of list to lists in outer context
+      listsInContext.push(resolvedCommandsInContext);
+    }
     resolvedCommandsInContext = resolvedCommandsOutOfContext.pop();
+    valuesInContext = valuesOutOfContext.pop();
   }
 
 }
