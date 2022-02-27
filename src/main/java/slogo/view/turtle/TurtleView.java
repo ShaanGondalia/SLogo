@@ -66,6 +66,7 @@ public class TurtleView implements PropertyChangeListener  {
         gc = TurtleWindowView.CANVAS.getGraphicsContext2D();
         gc.setLineWidth(thickness);
         gc.setFill(trailColor);
+        gc.setStroke(trailColor);
     }
 
     private Animation makeAnimation(Pose oldPose, Pose newPose, boolean penDown) {
@@ -93,7 +94,6 @@ public class TurtleView implements PropertyChangeListener  {
 
     private void realTimeTrailAnimation(PathTransition pt, Coordinate start, Coordinate end) {
         trailHistory.add(new Line(start.x(), start.y(), end.x(), end.y()));
-        //System.out.printf("Line from (%5.2f, %5.2f) -> (%5.2f, %5.2f)\n", start.x(), start.y(), end.x(), end.y());
         pt.currentTimeProperty().addListener(new ChangeListener<Duration>() {
             double prevX = start.x();
             double prevY = start.y();
@@ -102,6 +102,7 @@ public class TurtleView implements PropertyChangeListener  {
             public void changed(ObservableValue<? extends Duration> observableValue, Duration duration, Duration t1) {
                 double x = turtleNode.getTranslateX();
                 double y = turtleNode.getTranslateY();
+                System.out.println(trailColor.toString());
                 if (validTransitionStroke(prevX, x, prevY, y)) gc.strokeLine(prevX + centerX, prevY + centerY, x + centerX, y + centerY);
                 //System.out.printf("(%5.2f, %5.2f) -> (%5.2f, %5.2f)\n", prevX + centerX, prevY + centerY, x + centerX, y + centerY);
                 prevX = x;
@@ -150,7 +151,6 @@ public class TurtleView implements PropertyChangeListener  {
     public void propertyChange(PropertyChangeEvent evt) {
         TurtleStatus oldT = (TurtleStatus) evt.getOldValue();
         TurtleStatus newT = (TurtleStatus) evt.getNewValue();
-        //System.out.println(newT.penDown());
         if (normSquared(oldT.pose(), newT.pose()) > epsilon || Math.abs(changeInBearing(oldT.pose(), newT.pose())) > epsilon) {
             Animation anim = makeAnimation(oldT.pose(), newT.pose(), newT.penDown());
             anim.setOnFinished(finish -> handleAnimationQueue());
@@ -181,7 +181,7 @@ public class TurtleView implements PropertyChangeListener  {
      */
     public void setTrailColor(Color color) {
         trailColor = color;
-        gc.setFill(trailColor);
+        gc.setStroke(trailColor);
     }
 
     /**
