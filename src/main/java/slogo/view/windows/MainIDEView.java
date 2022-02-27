@@ -19,6 +19,7 @@ import slogo.view.windows.sections.ButtonSection;
 import slogo.view.windows.sections.HistorySection;
 import slogo.view.windows.sections.IDESection;
 import slogo.view.windows.sections.TextSection;
+import slogo.view.windows.sections.VariablesSection;
 
 /**
  * Creates the central window to display where the user can type in text commands
@@ -28,7 +29,7 @@ import slogo.view.windows.sections.TextSection;
 public class MainIDEView extends Display {
 
   private static final String TITLE = "SLOGO TEAM 3";
-  private static final Dimension MAIN_SIZE = new Dimension(300, 200);
+  private static final Dimension MAIN_SIZE = new Dimension(400, 400);
   private static final String ROOT_ID = "root";
 
 
@@ -38,6 +39,7 @@ public class MainIDEView extends Display {
     myPane = new BorderPane();
     myPane.setId(ROOT_ID);
 
+    IDESection variablesSection = new VariablesSection(c);
     IDESection textSection = new TextSection();
     IDESection historySection = new HistorySection();
     IDESection buttonSection = new ButtonSection(language, c, (HistorySection) historySection, (TextSection) textSection);
@@ -45,6 +47,7 @@ public class MainIDEView extends Display {
     myPane.setBottom(buttonSection.getSection());
     myPane.setRight(historySection.getSection());
     myPane.setCenter(textSection.getSection());
+    myPane.setLeft(variablesSection.getSection());
 
     stage = createStage(TITLE, MAIN_SIZE, myPane, css);
     stage.show();

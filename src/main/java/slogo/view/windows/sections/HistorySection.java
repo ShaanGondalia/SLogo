@@ -16,6 +16,9 @@ public class HistorySection implements IDESection {
   private static final String HISTORY_SECTION_ID = "history_sec";
   private static final String TEXT_SECTION_ID = "history_text";
 
+  private static final String STARTING_TEXT = "Past Commands:\n";
+  private static final int WIDTH = 100;
+
   private ScrollPane myScrollPane;
   private List<String> commandList;
   private Text myTextField;
@@ -23,9 +26,10 @@ public class HistorySection implements IDESection {
   public HistorySection() {
     myScrollPane = new ScrollPane();
     myScrollPane.setId(HISTORY_SECTION_ID);
-    myTextField = new Text("");
+    myTextField = new Text(STARTING_TEXT);
     myTextField.setId(TEXT_SECTION_ID);
     myScrollPane.setContent(myTextField);
+    myScrollPane.setPrefViewportWidth(WIDTH);
     commandList = new Stack<>();
   }
 
@@ -45,7 +49,7 @@ public class HistorySection implements IDESection {
   }
 
   private void setMyTextField() {
-    String toSet = "";
+    String toSet = STARTING_TEXT;
     for (String s : commandList) {
       toSet += s;
       toSet += "\n";

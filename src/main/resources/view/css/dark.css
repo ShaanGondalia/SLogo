@@ -25,12 +25,12 @@
   -fx-text-fill: #fd5d5d;
 }
 
-#history_sec {
+.scroll-pane {
   -fx-background: black;
   /*-fx-font-family: "Comic Sans MS";*/
   /*-fx-text-fill: #fd5d5d;*/
 }
-#history_text{
+Text{
   -fx-font-family: "Comic Sans MS";
   -fx-fill: #fd5d5d;
 }
