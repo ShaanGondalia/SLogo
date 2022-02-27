@@ -17,4 +17,8 @@ public class TrailHistory {
         trailHistory.add(line);
     }
 
+    public List<Line> getTrails() {
+        return trailHistory;
+    }
+
 }

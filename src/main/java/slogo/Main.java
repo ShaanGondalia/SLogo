@@ -90,10 +90,11 @@ public class Main extends Application {
     Display mainIDEView = new MainIDEView(languageProbe.toString(), c, splashView.toString(), stage);
     TurtleWindowView turtleWindowView = new TurtleWindowView(splashView.toString());
 
-    // THIS IS THE PROCEDURE FOR ADDING NEW TURTLES
+    //SPAWNS IN TURTLE
     TurtleView tv = new TurtleView();
     c.addTurtle(tv);
     turtleWindowView.addTurtleView(tv);
+
   }
 
 }

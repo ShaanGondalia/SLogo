@@ -1,11 +1,8 @@
 package slogo.controller;
 
 import java.beans.PropertyChangeListener;
-import java.util.ArrayList;
-import java.util.Deque;
-import java.util.List;
+import java.util.*;
 
-import java.util.Queue;
 import slogo.model.command.Command;
 import slogo.view.turtle.TurtleView;
 
@@ -14,12 +11,14 @@ import slogo.model.turtle.Turtle;
 
 public class Controller {
 
-  slogo.model.Compiler myCompiler;
-  List<Turtle> myTurtles;
+  private Compiler myCompiler;
+  private List<Turtle> myTurtles;
+  private List<TurtleView> myTurtleViews;
 
   public Controller(String lan) {
     myCompiler = new Compiler(lan);
     myTurtles = new ArrayList<>();
+    myTurtleViews = new ArrayList<>();
   }
 
   public void runText(String program) throws Exception {
@@ -30,6 +29,7 @@ public class Controller {
   }
 
   public void addTurtle(PropertyChangeListener turtleView) {
+    myTurtleViews.add((TurtleView) turtleView);
     Turtle turtle = new Turtle();
     myTurtles.add(turtle);
     turtle.addListener(turtleView);
@@ -37,5 +37,9 @@ public class Controller {
 
   public List<Turtle> getTurtles() {
     return myTurtles;
+  }
+
+  public List<TurtleView> getTurtleViews() {
+    return myTurtleViews;
   }
 }
