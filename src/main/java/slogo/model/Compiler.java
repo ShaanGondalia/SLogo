@@ -33,13 +33,18 @@ public class Compiler {
   private final ResourceBundle exceptionResources;
 
   private Stack<String> pendingCommandsInContext = new Stack<>();
+  private Deque<Command> resolvedCommandsInContext = new LinkedList<>();
   private Stack<Value> valuesInContext = new Stack<>();
   private Stack<Deque<Command>> listsInContext = new Stack<>();
-
   private Stack<Integer> valuesBeforeInContext = new Stack<>();
   private Stack<Integer> listsBeforeInContext = new Stack<>();
 
-  private Stack<Deque<Command>> commandQueuesInContext = new Stack<>();
+  private Stack<Stack<String>> pendingCommandsOutOfContext = new Stack<>();
+  private Stack<Deque<Command>> resolvedCommandsOutOfContext = new Stack<>();
+  private Stack<Stack<Value>> valuesOutOfContext = new Stack<>();
+  private Stack<Stack<Deque<Command>>> listsOutOfContext = new Stack<>();
+  private Stack<Stack<Integer>> valuesBeforeOutOfContext = new Stack<>();
+  private Stack<Stack<Integer>> listsBeforeOutOfContext = new Stack<>();
 
 
   /**
@@ -63,7 +68,6 @@ public class Compiler {
    */
   public Deque<Command> compile(String program, List<Turtle> turtles) throws Exception {
     Deque<Command> commandQueue = new LinkedList<>();
-    Stack<Deque<Command>> completedQueues = new Stack<>();
 
     // will be changed when we can have multiple turtles
     Turtle turtle = turtles.get(0);
@@ -89,8 +93,8 @@ public class Compiler {
         valuesInContext.add(command.returnValue());
         //System.out.println(pendingCommand);
         //values.forEach((value) -> System.out.println(value));
-        if (!commandQueuesInContext.empty()) {
-          commandQueuesInContext.peek().addLast(command);
+        if (!listsInContext.empty()) {
+          listsInContext.peek().addLast(command);
         } else {
           commandQueue.addLast(command);
         }
@@ -131,15 +135,46 @@ public class Compiler {
             String.format(exceptionResources.getString("SymbolNotFound"), symbol));
       }
     } else if (symbol.equals("ListStart")) {
-      commandQueuesInContext.push(new LinkedList<>());
+      swapContext();
     } else if (symbol.equals("ListEnd")) {
-      Deque<Command> commandList = commandQueuesInContext.pop();
-      if(!commandList.isEmpty()) {
-        listsInContext.push(commandList);
-      }
+      resolveContext();
     }
   }
 
+  // Swaps the context of the compiler in the case of a list
+  private void swapContext() {
+    pendingCommandsOutOfContext.push(pendingCommandsInContext);
+    resolvedCommandsOutOfContext.push(resolvedCommandsInContext);
+    valuesOutOfContext.push(valuesInContext);
+    listsOutOfContext.push(listsInContext);
+    valuesBeforeOutOfContext.push(valuesBeforeInContext);
+    listsBeforeOutOfContext.push(listsBeforeInContext);
 
+    pendingCommandsInContext = new Stack<>();
+    resolvedCommandsInContext = new LinkedList<>();
+    valuesInContext = new Stack<>();
+    listsInContext = new Stack<>();
+    valuesBeforeInContext = new Stack<>();
+    listsBeforeInContext = new Stack<>();
+  }
+
+  // Resolves the context of the compiler in the case of a list ending
+  private void resolveContext() {
+    /*      Deque<Command> commandList = listsInContext.pop();
+      if(!commandList.isEmpty()) {
+        listsInContext.push(commandList);
+      }
+      /
+    */
+    // Revert back to state before context swap
+    pendingCommandsInContext = pendingCommandsOutOfContext.pop();
+    valuesInContext = valuesOutOfContext.pop();
+    valuesBeforeInContext = valuesBeforeOutOfContext.pop();
+    listsBeforeInContext = listsBeforeOutOfContext.pop();
+
+    // Add resolved commands of list to lists in outer context
+    listsInContext.push(resolvedCommandsInContext);
+    resolvedCommandsInContext = resolvedCommandsOutOfContext.pop();
+  }
 
 }
