@@ -43,7 +43,7 @@ public class HelpView extends Display {
 
     borderPane.setLeft(options);
     borderPane.setCenter(description);
-
+    makeHelperButtons();
     stage.show();
   }
 
