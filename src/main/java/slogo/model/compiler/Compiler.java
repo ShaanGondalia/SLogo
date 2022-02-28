@@ -11,7 +11,6 @@ import slogo.model.command.Command;
 import slogo.model.command.Value;
 import slogo.model.exception.MissingArgumentException;
 import slogo.model.exception.SymbolNotFoundException;
-import slogo.model.factory.CommandFactory;
 import slogo.model.turtle.Turtle;
 
 /**

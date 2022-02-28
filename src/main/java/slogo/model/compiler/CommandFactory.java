@@ -1,4 +1,4 @@
-package slogo.model.factory;
+package slogo.model.compiler;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
