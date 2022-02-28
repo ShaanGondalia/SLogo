@@ -6,7 +6,7 @@ import slogo.model.exception.MissingArgumentException;
 import slogo.model.turtle.Turtle;
 
 /**
- * Class that represents an Arc Tangent command.
+ * Class that represents a Difference command.
  *
  * @author Jake Heller
  */
