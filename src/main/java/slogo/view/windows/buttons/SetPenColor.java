@@ -24,9 +24,8 @@ public class SetPenColor implements IDEButton{
 
       EventHandler<ActionEvent> colorChangeEvent = e -> {
           Color c = cpg.getCp().getValue();
-          for (Turtle t : info.c().getTurtles()) {
-              //Get the turtle's front end turtle listner
-              //do tv.setTrailColor(c);
+          for (TurtleView tv : info.c().getTurtleViews()) {
+              tv.setTrailColor(c);
           }
       };
       cpg.getCp().setOnAction(colorChangeEvent);

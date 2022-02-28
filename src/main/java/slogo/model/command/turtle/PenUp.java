@@ -33,7 +33,7 @@ public class PenUp extends TurtleCommand {
    */
   @Override
   public Value execute() {
-    getTurtle().setPen(true);
+    getTurtle().setPen(false);
     return returnValue();
   }
 }

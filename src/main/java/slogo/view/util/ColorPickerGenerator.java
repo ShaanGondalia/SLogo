@@ -16,6 +16,8 @@ import java.awt.*;
  */
 public class ColorPickerGenerator extends Display {
 
+    public static final int SIZE_X = 400;
+    public static final int SIZE_Y = 400;
     private ColorPicker cp;
 
     /**
@@ -27,7 +29,7 @@ public class ColorPickerGenerator extends Display {
         Pane root = new Pane();
         cp = new ColorPicker();
         root.getChildren().add(cp);
-        return createStage("Color Picker", new Dimension(400, 400), root, "light");
+        return createStage("Color Picker", new Dimension(SIZE_X, SIZE_Y), root, "light");
     }
 
     /**
