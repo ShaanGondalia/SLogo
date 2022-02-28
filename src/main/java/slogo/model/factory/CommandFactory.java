@@ -13,6 +13,7 @@ import java.util.Stack;
 import slogo.model.command.Command;
 import slogo.model.command.Value;
 import slogo.model.command.control.MakeUserInstruction;
+import slogo.model.command.control.UserCommand;
 import slogo.model.exception.MissingArgumentException;
 import slogo.model.exception.SymbolNotFoundException;
 import slogo.model.turtle.Turtle;
@@ -105,7 +106,7 @@ public class CommandFactory {
   // Gets a user command using reflection
   private Command getUserCommand(String symbol, List<Value> args) throws MissingArgumentException {
     MakeUserInstruction c = myUserCommands.get(symbol);
-    c.setActualParameters(args);
+    c.getUserCommand(args);
     return c;
   }
 

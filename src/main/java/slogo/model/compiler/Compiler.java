@@ -34,6 +34,8 @@ public class Compiler {
   private Context activeContext;
   private Stack<Context> inactiveContexts;
 
+  private String waitingUserCommandName;
+
   /**
    * Creates an instance of a compiler for the given language.
    */
@@ -73,6 +75,11 @@ public class Compiler {
           && commandFactory.getNumListInputs(activeContext.getPendingCommands().peek())
           <= activeContext.getLists().size() - activeContext.getListsBefore().peek()) {
         String pendingCommand = activeContext.getPendingCommands().pop();
+        if(pendingCommand.equals("MakeUserInstruction")) {
+          int numInputs = activeContext.getValues().size() - activeContext.getValuesBefore().peek();
+          commandFactory.makeCommand(waitingUserCommandName, numInputs);
+          continue;
+        }
         activeContext.getValuesBefore().pop();
         activeContext.getListsBefore().pop();
         Command command = commandFactory.getCommand(pendingCommand, turtle, activeContext.getValues(), activeContext.getLists());
@@ -138,9 +145,7 @@ public class Compiler {
   private void handleUserCommand(String token) throws SymbolNotFoundException {
     try {
       if (activeContext.getPendingCommands().peek().equals("MakeUserInstruction")) {
-        // TODO: figure out how make user instruction works
-        int inputs = 0; // need to figure out how many inputs user instruction takes
-        commandFactory.makeCommand(token, inputs);
+        waitingUserCommandName = token;
       } else {
         throw new SymbolNotFoundException(
             String.format(exceptionResources.getString("SymbolNotFound"), token));
