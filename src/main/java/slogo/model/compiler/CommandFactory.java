@@ -156,6 +156,9 @@ public class CommandFactory {
    * @return the number of inputs the command takes.
    */
   public int getNumInputs(String command) throws SymbolNotFoundException {
+    if (command.equals("MakeUserInstruction")){
+      return myParameterCounts.getOrDefault(lastAddedSymbol, 0);
+    }
     if (!myParameterCounts.containsKey(command)) {
       throw new SymbolNotFoundException(
           String.format(exceptionResources.getString("SymbolNotFound"), command));

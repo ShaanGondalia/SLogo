@@ -28,7 +28,29 @@ public class CompilerTest {
   private static final String TWO_ARG_PROGRAM = "fd + 50 50";
   private static final String MULTI_PROGRAM = "fd + fd 50 50";
   private static final String COMPLEX_PROGRAM = "fd + fd 50 50 lt sum 45 45";
-  public static final String LOOP_PROGRAM = "dotimes [ :dist 200 ] [  fd :dist rt 89 ]";
+  private static final String LOOP_PROGRAM = "dotimes [ :dist 200 ] [  fd :dist rt 89 ]";
+  private static final String PROCEDURE_PROGRAM = "set :count 12\n"
+      + "set :distance 20\n"
+      + "\n"
+      + "to dash [ ]\n"
+      + "[\n"
+      + "  repeat :count \n"
+      + "  [\n"
+      + "    pu fd :distance pd fd :distance\n"
+      + "  ]\n"
+      + "]\n"
+      + "\n"
+      + "\n"
+      + "dash";
+  private static final String PROCEDURE_PROGRAM_ARGS = "to dash [ :count :distance ]\n"
+      + "[\n"
+      + "  repeat :count \n"
+      + "  [\n"
+      + "    pu fd :distance pd fd :distance\n"
+      + "  ]      \n]\n\n"
+      + "cs\n\ndash 10 20\nrt 120\ndash 20 10\nrt 120\ndash 40 5\n";
+
+
   private static final String LANGUAGE = "English";
 
   private List<Turtle> myTurtles;
@@ -78,6 +100,22 @@ public class CompilerTest {
     assertEquals(62.4117, myTurtles.get(0).getPose().x(), Main.TOLERANCE);
     assertEquals(128.9302, myTurtles.get(0).getPose().y(), Main.TOLERANCE);
     assertEquals(160, myTurtles.get(0).getPose().bearing(), Main.TOLERANCE);
+  }
+
+  @Test
+  void testProcedure() throws Exception {
+    run(compiler.compile(PROCEDURE_PROGRAM, myTurtles));
+    assertEquals(0, myTurtles.get(0).getPose().x(), Main.TOLERANCE);
+    assertEquals(480, myTurtles.get(0).getPose().y(), Main.TOLERANCE);
+    assertEquals(0, myTurtles.get(0).getPose().bearing(), Main.TOLERANCE);
+  }
+
+  @Test
+  void testProcedureArgs() throws Exception {
+    run(compiler.compile(PROCEDURE_PROGRAM_ARGS, myTurtles));
+    assertEquals(0, myTurtles.get(0).getPose().x(), Main.TOLERANCE);
+    assertEquals(0, myTurtles.get(0).getPose().y(), Main.TOLERANCE);
+    assertEquals(240, myTurtles.get(0).getPose().bearing(), Main.TOLERANCE);
   }
 
   @Test
