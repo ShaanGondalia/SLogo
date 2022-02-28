@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Deque;
 import java.util.List;
 
+import java.util.Map;
 import slogo.model.command.Command;
 
 import slogo.model.compiler.Compiler;
@@ -35,5 +36,9 @@ public class Controller {
 
   public List<Turtle> getTurtles() {
     return myTurtles;
+  }
+
+  public Map<String, String> getVariables() {
+    return myCompiler.getVariables();
   }
 }
