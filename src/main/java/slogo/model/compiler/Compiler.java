@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.Stack;
+import java.util.regex.Pattern;
 import slogo.model.command.Command;
 import slogo.model.command.Value;
 import slogo.model.exception.MissingArgumentException;
@@ -22,6 +23,7 @@ import slogo.model.turtle.Turtle;
 public class Compiler {
 
   public static final String WHITESPACE = "\\s+";
+  public static final String COMMENT = "^#.*\n";
   private static final String EXCEPTION_RESOURCES = "model.exception.";
 
   private Parser myParser;
@@ -56,7 +58,7 @@ public class Compiler {
    */
   public Deque<Command> compile(String program, List<Turtle> turtles) throws Exception {
     reset();
-
+    program = program.replaceAll(COMMENT, ""); // TODO: verify if this actually works
     // will be changed when we can have multiple turtles
     Turtle turtle = turtles.get(0);
 
@@ -122,6 +124,7 @@ public class Compiler {
     } else if (symbol.equals("ListEnd")) {
       resolveContext();
     }
+
   }
 
   // Handles what happens when a command is detected by the parser
