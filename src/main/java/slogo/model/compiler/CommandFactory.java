@@ -1,4 +1,4 @@
-package slogo.model.factory;
+package slogo.model.compiler;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -13,6 +13,7 @@ import java.util.Stack;
 import slogo.model.command.Command;
 import slogo.model.command.Value;
 import slogo.model.command.control.MakeUserInstruction;
+import slogo.model.command.control.UserCommand;
 import slogo.model.exception.MissingArgumentException;
 import slogo.model.exception.SymbolNotFoundException;
 import slogo.model.turtle.Turtle;
@@ -37,6 +38,8 @@ public class CommandFactory {
   private final Map<String, Integer> myParameterCounts;
 
   private final ResourceBundle exceptionResources;
+
+  private String lastAddedSymbol;
 
   /**
    * Creates a new command factory that operates in the given language
@@ -94,7 +97,11 @@ public class CommandFactory {
       Class<?> clazz = Class.forName(command);
       // use reflection to find the appropriate constructor of that class to call to create a new instance
       Constructor<?> ctor = clazz.getDeclaredConstructor(Turtle.class, List.class, List.class);
-      return (Command) ctor.newInstance(turtle, args, commandQueues);
+      Command c = (Command) ctor.newInstance(turtle, args, commandQueues);
+      if (symbol.equals("MakeUserInstruction")) {
+        myUserCommands.put(lastAddedSymbol, (MakeUserInstruction) c);
+      }
+      return c;
     } catch (ClassNotFoundException | InvocationTargetException | NoSuchMethodException |
         InstantiationException | IllegalAccessException e) {
       throw new InputMismatchException(
@@ -105,8 +112,7 @@ public class CommandFactory {
   // Gets a user command using reflection
   private Command getUserCommand(String symbol, List<Value> args) throws MissingArgumentException {
     MakeUserInstruction c = myUserCommands.get(symbol);
-    c.setActualParameters(args);
-    return c;
+    return c.getUserCommand(args);
   }
 
   // Gets a command using reflection
@@ -130,6 +136,7 @@ public class CommandFactory {
    */
   public void makeCommand(String symbol, int inputs) {
     myParameterCounts.put(symbol, inputs);
+    lastAddedSymbol = symbol;
   }
 
   /**
@@ -149,6 +156,9 @@ public class CommandFactory {
    * @return the number of inputs the command takes.
    */
   public int getNumInputs(String command) throws SymbolNotFoundException {
+    if (command.equals("MakeUserInstruction")){
+      return myParameterCounts.getOrDefault(lastAddedSymbol, 0);
+    }
     if (!myParameterCounts.containsKey(command)) {
       throw new SymbolNotFoundException(
           String.format(exceptionResources.getString("SymbolNotFound"), command));
