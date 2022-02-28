@@ -78,7 +78,6 @@ public class Compiler {
         if(pendingCommand.equals("MakeUserInstruction")) {
           int numInputs = activeContext.getValues().size() - activeContext.getValuesBefore().peek();
           commandFactory.makeCommand(waitingUserCommandName, numInputs);
-          continue;
         }
         activeContext.getValuesBefore().pop();
         activeContext.getListsBefore().pop();
@@ -144,7 +143,10 @@ public class Compiler {
   // Handles what happens when a user command is detected by the parser
   private void handleUserCommand(String token) throws SymbolNotFoundException {
     try {
-      if (activeContext.getPendingCommands().peek().equals("MakeUserInstruction")) {
+      if (commandFactory.isCommand(token)) {
+        handleCommand(token);
+      }
+      else if (activeContext.getPendingCommands().peek().equals("MakeUserInstruction")) {
         waitingUserCommandName = token;
       } else {
         throw new SymbolNotFoundException(

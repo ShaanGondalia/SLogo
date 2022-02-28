@@ -39,6 +39,8 @@ public class CommandFactory {
 
   private final ResourceBundle exceptionResources;
 
+  private String lastAddedSymbol;
+
   /**
    * Creates a new command factory that operates in the given language
    *
@@ -95,7 +97,11 @@ public class CommandFactory {
       Class<?> clazz = Class.forName(command);
       // use reflection to find the appropriate constructor of that class to call to create a new instance
       Constructor<?> ctor = clazz.getDeclaredConstructor(Turtle.class, List.class, List.class);
-      return (Command) ctor.newInstance(turtle, args, commandQueues);
+      Command c = (Command) ctor.newInstance(turtle, args, commandQueues);
+      if (symbol.equals("MakeUserInstruction")) {
+        myUserCommands.put(lastAddedSymbol, (MakeUserInstruction) c);
+      }
+      return c;
     } catch (ClassNotFoundException | InvocationTargetException | NoSuchMethodException |
         InstantiationException | IllegalAccessException e) {
       throw new InputMismatchException(
@@ -106,8 +112,7 @@ public class CommandFactory {
   // Gets a user command using reflection
   private Command getUserCommand(String symbol, List<Value> args) throws MissingArgumentException {
     MakeUserInstruction c = myUserCommands.get(symbol);
-    c.getUserCommand(args);
-    return c;
+    return c.getUserCommand(args);
   }
 
   // Gets a command using reflection
@@ -131,6 +136,7 @@ public class CommandFactory {
    */
   public void makeCommand(String symbol, int inputs) {
     myParameterCounts.put(symbol, inputs);
+    lastAddedSymbol = symbol;
   }
 
   /**
