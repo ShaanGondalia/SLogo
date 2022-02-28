@@ -3,10 +3,12 @@ package slogo.controller;
 import java.beans.PropertyChangeListener;
 import java.util.*;
 
+import java.util.Map;
 import slogo.model.command.Command;
 
 import slogo.model.compiler.Compiler;
 import slogo.model.turtle.Turtle;
+import slogo.view.turtle.TurtleView;
 
 public class Controller {
 
@@ -36,6 +38,10 @@ public class Controller {
 
   public List<Turtle> getTurtles() {
     return myTurtles;
+  }
+
+  public Map<String, String> getVariables() {
+    return myCompiler.getVariables();
   }
 
   public List<TurtleView> getTurtleViews() {

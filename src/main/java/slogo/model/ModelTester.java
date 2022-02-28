@@ -6,6 +6,7 @@ import java.util.Queue;
 import slogo.model.command.Command;
 import slogo.model.compiler.Compiler;
 import slogo.model.turtle.Turtle;
+import slogo.model.compiler.Compiler;
 
 public class ModelTester {
 

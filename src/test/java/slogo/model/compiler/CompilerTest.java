@@ -1,4 +1,4 @@
-package slogo.model;
+package slogo.model.compiler;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -10,10 +10,10 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import slogo.Main;
 import slogo.model.command.Command;
-import slogo.model.compiler.Compiler;
 import slogo.model.exception.MissingArgumentException;
 import slogo.model.exception.SymbolNotFoundException;
 import slogo.model.turtle.Turtle;
+import slogo.model.compiler.Compiler;
 
 /**
  * Tests for Compiler class

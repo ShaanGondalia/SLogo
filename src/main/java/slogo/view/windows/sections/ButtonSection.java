@@ -30,14 +30,14 @@ public class ButtonSection implements IDESection {
    * @param textSec  Text Section to get the text
    * @see IDEButtonFactory
    */
-  public ButtonSection(String language, Controller c, HistorySection histSec, TextSection textSec) {
+  public ButtonSection(String language, Controller c, HistorySection histSec, TextSection textSec, VariablesAndCommandsSection userDefinedSection) {
     myTilePane = new TilePane();
     myTilePane.setId(BUTTON_SECTION_ID);
     myResources = ResourceBundle.getBundle(RESOURCE_PREFIX + language);
     IDEButtonFactory factory = new IDEButtonFactory();
     for (String button : myResources.keySet()) {
       myTilePane.getChildren()
-          .add(factory.createButton(new ButtonUtil(button, c, myResources, histSec, textSec)));
+          .add(factory.createButton(new ButtonUtil(button, c, myResources, histSec, textSec, userDefinedSection)));
     }
   }
 

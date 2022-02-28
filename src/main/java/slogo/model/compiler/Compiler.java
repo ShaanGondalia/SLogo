@@ -1,8 +1,10 @@
 package slogo.model.compiler;
 
+import java.util.Collections;
 import java.util.Deque;
 import java.util.EmptyStackException;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
@@ -45,7 +47,7 @@ public class Compiler {
     myParser = new Parser(language);
     myParser.addPatterns(language);
     myParser.addPatterns("Syntax");
-    myVariables = new HashMap<>();
+    myVariables = new LinkedHashMap<>(); // linked hashmap preserves insertion order for display
     commandFactory = new CommandFactory(language);
   }
 
@@ -170,6 +172,15 @@ public class Compiler {
   private void resolveContext() {
     inactiveContexts.peek().resolve(activeContext);
     activeContext = inactiveContexts.pop();
+  }
+
+  public Map<String, String> getVariables() {
+    Map<String, String> variables = new LinkedHashMap<>();
+    for (String name: myVariables.keySet()) {
+      String val = String.format("%.2f", myVariables.get(name).getVal());
+      variables.put(name, val);
+    }
+    return variables;
   }
 
 }

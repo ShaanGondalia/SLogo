@@ -31,7 +31,7 @@ public class MainIDEView extends Display {
     IDESection variablesSection = new VariablesAndCommandsSection(c);
     IDESection textSection = new TextSection();
     IDESection historySection = new HistorySection();
-    IDESection buttonSection = new ButtonSection(language, c, (HistorySection) historySection, (TextSection) textSection);
+    IDESection buttonSection = new ButtonSection(language, c, (HistorySection) historySection, (TextSection) textSection, (VariablesAndCommandsSection) variablesSection);
 
     myPane.setBottom(buttonSection.getSection());
     myPane.setRight(historySection.getSection());

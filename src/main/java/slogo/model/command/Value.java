@@ -8,7 +8,9 @@ import slogo.Main;
  *
  * @author Shaan Gondalia
  */
-public class Value {
+public class Value implements Comparable<Value> {
+
+  private static final double TOLERANCE = 0.0001;
 
   private double val;
 
@@ -47,6 +49,25 @@ public class Value {
   }
 
   public boolean equals(Value a) {
-    return (Math.abs(a.getVal() - val) < Main.TOLERANCE);
+    return (Math.abs(a.getVal() - val) < TOLERANCE);
+  }
+
+  /**
+   *
+   * @param o Value to compare this to
+   * @return 0 if Values are equal, -1 if o is larger
+   * 1 if o is smaller
+   */
+  @Override
+  public int compareTo(Value o) {
+    if (this.equals(o)) {
+      return 0;
+    }
+    else if (this.val < o.getVal()) {
+      return -1;
+    }
+    else {
+      return 1;
+    }
   }
 }
