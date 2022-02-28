@@ -1,6 +1,7 @@
 package slogo.model.compiler;
 
 import java.util.Deque;
+import java.util.EmptyStackException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -135,11 +136,16 @@ public class Compiler {
 
   // Handles what happens when a user command is detected by the parser
   private void handleUserCommand(String token) throws SymbolNotFoundException {
-    if (activeContext.getPendingCommands().peek().equals("MakeUserInstruction")) {
-      // TODO: figure out how make user instruction works
-      int inputs = 0; // need to figure out how many inputs user instruction takes
-      commandFactory.makeCommand(token, inputs);
-    } else {
+    try {
+      if (activeContext.getPendingCommands().peek().equals("MakeUserInstruction")) {
+        // TODO: figure out how make user instruction works
+        int inputs = 0; // need to figure out how many inputs user instruction takes
+        commandFactory.makeCommand(token, inputs);
+      } else {
+        throw new SymbolNotFoundException(
+            String.format(exceptionResources.getString("SymbolNotFound"), token));
+      }
+    } catch (EmptyStackException e) {
       throw new SymbolNotFoundException(
           String.format(exceptionResources.getString("SymbolNotFound"), token));
     }
