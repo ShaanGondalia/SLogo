@@ -11,6 +11,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import slogo.model.command.Command;
 import slogo.model.command.Value;
+import slogo.model.compiler.CommandFactory;
 import slogo.model.exception.MissingArgumentException;
 import slogo.model.exception.SymbolNotFoundException;
 import slogo.model.turtle.Turtle;
@@ -57,7 +58,6 @@ public class CommandFactoryTest {
   @Test
   void testUserCommand() throws MissingArgumentException, SymbolNotFoundException {
     commandFactory.makeCommand(GIBBERISH, 1);
-    Command c = commandFactory.getCommand(GIBBERISH, turtle, args, lists);
   }
 
   @Test

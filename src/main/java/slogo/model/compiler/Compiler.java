@@ -7,11 +7,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.Stack;
+import java.util.regex.Pattern;
 import slogo.model.command.Command;
 import slogo.model.command.Value;
 import slogo.model.exception.MissingArgumentException;
 import slogo.model.exception.SymbolNotFoundException;
-import slogo.model.factory.CommandFactory;
 import slogo.model.turtle.Turtle;
 
 /**
@@ -23,6 +23,7 @@ import slogo.model.turtle.Turtle;
 public class Compiler {
 
   public static final String WHITESPACE = "\\s+";
+  public static final String COMMENT = "^#.*\n";
   private static final String EXCEPTION_RESOURCES = "model.exception.";
 
   private Parser myParser;
@@ -33,6 +34,8 @@ public class Compiler {
 
   private Context activeContext;
   private Stack<Context> inactiveContexts;
+
+  private String waitingUserCommandName;
 
   /**
    * Creates an instance of a compiler for the given language.
@@ -55,7 +58,7 @@ public class Compiler {
    */
   public Deque<Command> compile(String program, List<Turtle> turtles) throws Exception {
     reset();
-
+    program = program.replaceAll(COMMENT, ""); // TODO: verify if this actually works
     // will be changed when we can have multiple turtles
     Turtle turtle = turtles.get(0);
 
@@ -73,6 +76,10 @@ public class Compiler {
           && commandFactory.getNumListInputs(activeContext.getPendingCommands().peek())
           <= activeContext.getLists().size() - activeContext.getListsBefore().peek()) {
         String pendingCommand = activeContext.getPendingCommands().pop();
+        if(pendingCommand.equals("MakeUserInstruction")) {
+          int numInputs = activeContext.getValues().size() - activeContext.getValuesBefore().peek();
+          commandFactory.makeCommand(waitingUserCommandName, numInputs);
+        }
         activeContext.getValuesBefore().pop();
         activeContext.getListsBefore().pop();
         Command command = commandFactory.getCommand(pendingCommand, turtle, activeContext.getValues(), activeContext.getLists());
@@ -117,6 +124,7 @@ public class Compiler {
     } else if (symbol.equals("ListEnd")) {
       resolveContext();
     }
+
   }
 
   // Handles what happens when a command is detected by the parser
@@ -137,10 +145,11 @@ public class Compiler {
   // Handles what happens when a user command is detected by the parser
   private void handleUserCommand(String token) throws SymbolNotFoundException {
     try {
-      if (activeContext.getPendingCommands().peek().equals("MakeUserInstruction")) {
-        // TODO: figure out how make user instruction works
-        int inputs = 0; // need to figure out how many inputs user instruction takes
-        commandFactory.makeCommand(token, inputs);
+      if (commandFactory.isCommand(token)) {
+        handleCommand(token);
+      }
+      else if (activeContext.getPendingCommands().peek().equals("MakeUserInstruction")) {
+        waitingUserCommandName = token;
       } else {
         throw new SymbolNotFoundException(
             String.format(exceptionResources.getString("SymbolNotFound"), token));

@@ -12,49 +12,29 @@ public class MakeUserInstruction extends ControlCommand {
   private static final int NUM_LISTS = 1;
 
   private List<Value> myFormalParameters;
-  private List<Value> myActualParameters;
-  private Deque<Command> myMethodBody;
+  private Turtle myTurtle;
+  private List<Deque<Command>> bodies;
+
 
   public MakeUserInstruction(Turtle turtle, List<Value> variables, List<Deque<Command>> lists)
       throws MissingArgumentException {
     super(turtle, variables, variables.size());
     verifyCommandLists(lists, NUM_LISTS);
 
+    myTurtle = turtle;
     myFormalParameters = variables;
-    myMethodBody = lists.get(0);
+    bodies = lists;
   }
 
-  public void setActualParameters(List<Value> inputs) throws MissingArgumentException {
-    myActualParameters = inputs;
-    if (myActualParameters.size() != myFormalParameters.size()) {
-      throw new MissingArgumentException("Wrong number of inputs");
-    }
-    for (int i = 0; i < myFormalParameters.size(); i++) {
-      Value formal = myFormalParameters.get(i);
-      Value actual = myActualParameters.get(i);
-      formal.setVal(actual.getVal());
-    }
-  }
-
-  public void copyToActual() {
-    for (int i = 0; i < myFormalParameters.size(); i++) {
-      Value formal = myFormalParameters.get(i);
-      Value actual = myActualParameters.get(i);
-      actual.setVal(formal.getVal());
-    }
+  public Command getUserCommand(List<Value> inputs) throws MissingArgumentException {
+    UserCommand userCommand = new UserCommand(myTurtle, myFormalParameters, bodies);
+    userCommand.setActualParameters(inputs);
+    return userCommand;
   }
 
   @Override
   public Value execute() throws MissingArgumentException {
-    if (myActualParameters == null) {
-      throw new MissingArgumentException("No arguments specified");
-    }
-    for (Command c : myMethodBody) {
-      c.execute();
-    }
-    copyToActual();
-    myActualParameters = null;
-    setReturnValue(myMethodBody.peekLast().returnValue().getVal());
+    setReturnValue(1);
     return returnValue();
   }
 }
