@@ -36,7 +36,7 @@ public class Greater extends BooleanOperation {
    */
   @Override
   public Value execute() {
-    setReturnValue(arg1.getVal() > arg2.getVal() ? 1.0 : 0.0);
+    setReturnValue(arg1.compareTo(arg2) == 1 ? 1.0 : 0.0);
     return returnValue();
   }
 }
