@@ -1,5 +1,7 @@
 package slogo.view.windows.sections;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Stack;
 import javafx.scene.control.ScrollPane;
@@ -46,6 +48,22 @@ public class HistorySection implements IDESection {
   public void setNewHistory(String newCommand) {
     commandList.add(newCommand);
     setMyTextField();
+  }
+
+  /**
+   * Returns the text of the history as to print it out to a file
+   *
+   * @see slogo.view.windows.buttons.CommandHistoryOut
+   * @return formatted text that can be rerun
+   */
+  public String getHistoryText(){
+    String s = "";
+
+    for (int i = 1; i < myTextField.getText().split("\n").length; i++) {
+      s += myTextField.getText().split("\n")[i] + "\n";
+    }
+
+    return s;
   }
 
   private void setMyTextField() {
