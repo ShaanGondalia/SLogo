@@ -59,8 +59,7 @@ public class VariablesAndCommandsSection implements IDESection {
     String toDisplay = VAR_STARTING_TEXT;
     for(String variableName : varList.keySet()){
       String variableValue = varList.get(variableName);
-      toDisplay += variableName;
-      toDisplay = toDisplay.substring(1); // gets rid of colon in front of variable
+      toDisplay += variableName.substring(1);
       toDisplay += DELIMITER;
       toDisplay += variableValue;
       toDisplay += NEW_LINE;

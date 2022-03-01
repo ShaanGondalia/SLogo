@@ -48,6 +48,16 @@ public class HistorySection implements IDESection {
     setMyTextField();
   }
 
+  /**
+   * Returns the text of the history as to print it out to a file
+   *
+   * @see slogo.view.windows.buttons.CommandHistoryOut
+   * @return formatted text that can be rerun
+   */
+  public String getHistoryText(){
+    return myTextField.getText();
+  }
+
   private void setMyTextField() {
     String toSet = STARTING_TEXT;
     for (String s : commandList) {
