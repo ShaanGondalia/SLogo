@@ -15,7 +15,6 @@ public class Run implements IDEButton {
       info.c().runText(s);
     } catch (Exception e) {
       Errors.showError(e.getMessage());
-      e.printStackTrace();
       return;
     }
     info.userDefinedSection().updateList();
