@@ -15,28 +15,11 @@ import javafx.stage.Stage;
 import slogo.view.util.ButtonUtil;
 
 public class CommandHistoryOut implements IDEButton {
-
+  private static final String TITLE = "Save";
   @Override
   public void doAction(ButtonUtil info) {
-//    Stage stage = new Stage();
-//    Text text = new Text(info.histSec().getHistoryText());
-//    Menu file = new Menu("File");
-//    MenuItem item = new MenuItem("Save", text);
-//    file.getItems().addAll(item);
-//    FileChooser fileChooser = new FileChooser();
-//    fileChooser.setTitle("Save");
-//    item.setOnAction((e) -> fileChooser.showSaveDialog(stage));
-//    MenuBar menuBar = new MenuBar(file);
-//    Group root = new Group(menuBar);
-//    Scene scene = new Scene(root, 400, 400);
-//    stage.setScene(scene);
-//    stage.show();
-    test(info);
-  }
-
-  private void test(ButtonUtil info) {
     FileChooser fileChooser = new FileChooser();
-    fileChooser.setTitle("Save");
+    fileChooser.setTitle(TITLE);
     File file = fileChooser.showSaveDialog(new Stage());
     if (file != null){
       try{
