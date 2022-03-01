@@ -2,6 +2,8 @@ package slogo.view.windows.buttons;
 
 import slogo.view.util.ButtonUtil;
 
+import java.io.FileNotFoundException;
+
 /**
  * The common interface that each of the classes that represent a button will implement
  *
@@ -14,5 +16,5 @@ public interface IDEButton {
    *
    * @param info contains the information that each of the buttons need to function
    */
-  void doAction(ButtonUtil info);
+  void doAction(ButtonUtil info) throws FileNotFoundException;
 }
