@@ -55,11 +55,12 @@ public class VariablesAndCommandsSection implements IDESection {
   }
 
   public void updateList() {
-    Map<String, String> varList = myController.getVariables(); // will be replaced by getting information from model
+    Map<String, String> varList = myController.getVariables();
     String toDisplay = VAR_STARTING_TEXT;
     for(String variableName : varList.keySet()){
       String variableValue = varList.get(variableName);
       toDisplay += variableName;
+      toDisplay = toDisplay.substring(1); // gets rid of colon in front of variable
       toDisplay += DELIMITER;
       toDisplay += variableValue;
       toDisplay += NEW_LINE;
