@@ -40,6 +40,13 @@ public class Value implements Comparable<Value> {
   }
 
   /**
+   *
+   * @return value rounded to nearest int
+   */
+  public int asInt() {
+    return (int) Math.round(val);
+  }
+  /**
    * Sets the Value to the corresponding double
    *
    * @param d the value of the Value
