@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.ArrayList;
+import java.util.Deque;
 import java.util.List;
 import java.util.Queue;
 import org.junit.jupiter.api.BeforeEach;
@@ -129,10 +130,12 @@ public class CompilerTest {
     assertThrows(MissingArgumentException.class, () -> compiler.compile(program, myTurtles));
   }
 
-  private void run(Queue<Command> q) throws MissingArgumentException {
-    while (!q.isEmpty()) {
-      Command command = q.remove();
-      command.execute();
+  private void run(Deque<Deque<Command>> q) throws MissingArgumentException {
+    System.out.println(q);
+    for (Deque<Command> innerQueue : q) {
+      for (Command command : innerQueue) {
+        command.execute();
+      }
     }
   }
 

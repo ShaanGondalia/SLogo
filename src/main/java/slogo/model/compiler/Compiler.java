@@ -5,6 +5,7 @@ import java.util.Deque;
 import java.util.EmptyStackException;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
@@ -58,7 +59,7 @@ public class Compiler {
    * @param turtles list of turtles to attach commands to
    * @throws Exception if there is an issue running the program
    */
-  public Deque<Command> compile(String program, List<Turtle> turtles) throws Exception {
+  public Deque<Deque<Command>> compile(String program, List<Turtle> turtles) throws Exception {
     reset();
     program = program.replaceAll(COMMENT, ""); // TODO: verify if this actually works
     // will be changed when we can have multiple turtles
@@ -93,6 +94,7 @@ public class Compiler {
         }
         if (activeContext.getPendingCommands().isEmpty()) {
           activeContext.getValues().clear();
+          activeContext.getResolvedCommands().add(null);
         }
       }
     }
@@ -101,7 +103,28 @@ public class Compiler {
           String.format(exceptionResources.getString("MissingArgument"), activeContext.getPendingCommands().peek()));
     }
     commandFactory.addUserDefinedCommandStrings(program, myParser);
-    return activeContext.getResolvedCommands();
+
+    return constructResolvedCommandQueues();
+  }
+
+  // Returns a queue of queues of commands. Each inner queue represents a chunk of commands that
+  // does not rely on any other commands
+  private Deque<Deque<Command>> constructResolvedCommandQueues() {
+    Deque<Deque<Command>> resolvedCommandQueues = new LinkedList<>();
+    resolvedCommandQueues.add(new LinkedList<>());
+    for (Command c : activeContext.getResolvedCommands()){
+      // null delimits completed blocks of commands
+      if (c == null) {
+        resolvedCommandQueues.add(new LinkedList<>());
+      } else {
+        resolvedCommandQueues.peekLast().add(c);
+      }
+    }
+    if (resolvedCommandQueues.peekLast().isEmpty()) {
+      resolvedCommandQueues.removeLast();
+    }
+
+    return resolvedCommandQueues;
   }
 
   // "Resets" the compiler, wiping all contexts

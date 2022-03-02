@@ -10,7 +10,7 @@ import slogo.model.turtle.Turtle;
  *
  * @author Shaan Gondalia
  */
-public class Forward extends TurtleCommand {
+public class  Forward extends TurtleCommand {
 
   private final Value pixels;
   private static final int NUM_ARGS = 1;

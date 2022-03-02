@@ -1,6 +1,7 @@
 package slogo.model;
 
 import java.util.ArrayList;
+import java.util.Deque;
 import java.util.List;
 import java.util.Queue;
 import slogo.model.command.Command;
@@ -33,13 +34,14 @@ public class ModelTester {
     List<Turtle> turtles = new ArrayList<>();
     Turtle t = new Turtle();
     turtles.add(t);
-    Queue<Command> q = c.compile(PROGRAM, turtles);
+    Deque<Deque<Command>> q = c.compile(PROGRAM, turtles);
 
-    while (!q.isEmpty()) {
-      Command command = q.remove();
-      System.out.println(command);
-      command.execute();
-      System.out.println(t.getPose());
+    for (Deque<Command> innerQueue : q) {
+      for (Command command : innerQueue) {
+        System.out.println(command);
+        command.execute();
+        System.out.println(t.getPose());
+      }
     }
   }
 }
