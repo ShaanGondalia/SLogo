@@ -7,6 +7,11 @@ import slogo.view.util.ButtonUtil;
 import java.io.*;
 import java.nio.channels.FileChannel;
 
+/**
+ * Button that opens a file chooser to select an image to be added to a list of turtle view images
+ *
+ * @author Zack Schrage
+ */
 public class AddImage implements IDEButton {
 
     public static final String imagePath = "src/main/resources/view/img/";

@@ -13,7 +13,7 @@ import slogo.view.windows.Display;
 import slogo.view.windows.TurtleWindowView;
 
 /**
- * Button that sets the background color of the turtle canvas window
+ * Button that opens a window with a color picker that sets the background color of the turtle canvas window
  *
  * @author Zack Schrage
  */

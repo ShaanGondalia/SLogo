@@ -1,5 +1,6 @@
 package slogo.view.util;
 
+import javafx.beans.value.ObservableValue;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
@@ -29,7 +30,15 @@ public class ColorPickerGenerator extends Display {
         Pane root = new Pane();
         cp = new ColorPicker();
         root.getChildren().add(cp);
-        return createStage("Color Picker", new Dimension(SIZE_X, SIZE_Y), root, "light");
+        Stage stage =  createStage("Color Picker", new Dimension(SIZE_X, SIZE_Y), root, "light");
+
+        stage.focusedProperty().addListener((ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) -> {
+            if (!newValue) {
+                stage.close();
+            }
+        });
+
+        return stage;
     }
 
     /**

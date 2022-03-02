@@ -10,7 +10,9 @@ import javafx.stage.Stage;
 import java.io.File;
 
 /**
+ * Button that opens a file chooser to select an image to act as the turtle image view
  *
+ * @author Zack Schrage
  */
 public class SetImage implements IDEButton {
 
