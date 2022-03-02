@@ -36,6 +36,7 @@ public class Parser {
   public Parser(String language) {
     reset();
     exceptionResources = ResourceBundle.getBundle(EXCEPTION_RESOURCES + language);
+    addPatterns(language);
   }
 
   /**
@@ -53,14 +54,13 @@ public class Parser {
   /**
    * Returns type associated with given text or NO_MATCH none exists
    */
-  public String getSymbol(String text) throws SymbolNotFoundException {
+  public String getSymbol(String text) {
     for (Entry<String, Pattern> e : mySymbols) {
       if (match(text, e.getValue())) {
         return e.getKey();
       }
     }
-    throw new SymbolNotFoundException(
-        String.format(exceptionResources.getString("SymbolNotFound"), text));
+    return NO_MATCH;
   }
 
   /**

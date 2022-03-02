@@ -34,6 +34,7 @@ public class CommandFactory {
   private final ResourceBundle parameterResources = ResourceBundle.getBundle(PARAMETER_RESOURCES);
 
   private final Map<String, MakeUserInstruction> myUserCommands;
+  private final Map<String, String> myUserCommandStrings;
   private final Map<String, Integer> myListParameterCounts;
   private final Map<String, Integer> myParameterCounts;
 
@@ -49,6 +50,7 @@ public class CommandFactory {
   public CommandFactory(String language) {
     exceptionResources = ResourceBundle.getBundle(EXCEPTION_RESOURCES + language);
     myUserCommands = new HashMap<>();
+    myUserCommandStrings = new HashMap<>();
     myListParameterCounts = new HashMap<>();
     myParameterCounts = new HashMap<>();
 
@@ -164,6 +166,20 @@ public class CommandFactory {
           String.format(exceptionResources.getString("SymbolNotFound"), command));
     }
     return myParameterCounts.get(command);
+  }
+
+  /**
+   * Adds the string associated with user command
+   * @param program entire program that was run
+   * @param p parser used to parse program
+   */
+  public void addUserDefinedCommandStrings(String program, Parser p) {
+    Map<String, String> userCommands = UserCommandFinder.findUserCommands(program, p, myUserCommands.keySet());
+    myUserCommandStrings.putAll(userCommands);
+  }
+
+  public Map<String, String> getUserCommandStrings() {
+    return myUserCommandStrings;
   }
 
   /**
