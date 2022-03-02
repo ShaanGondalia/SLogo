@@ -19,10 +19,19 @@ public class TurtleAnimation {
         this.visibility = visibility;
     }
 
+    /**
+     * Getter method for a Turtle Animations JavaFX Animation object
+     * @return animation object
+     */
     public Animation getAnimation() {
         return animation;
     }
 
+    /**
+     * Getter method for an animations visibility
+     * If a turtle animation is meant to be invisible it will hide the turtle while animating
+     * @return turtle's visibility
+     */
     public boolean getVisibility() {
         return visibility;
     }
