@@ -1,0 +1,10 @@
+fd 40 pd fd 50
+cs
+
+rt 30 fd 50
+cs
+pu rt 50 fd 90
+pd
+
+cs
+rt 50 fd 90

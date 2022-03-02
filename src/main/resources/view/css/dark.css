@@ -13,7 +13,9 @@
   -fx-font-size: 13;
   -fx-text-fill: #fd5d5d;
 }
-
+.button:hover {
+  -fx-text-fill: white;
+}
 #button_sec {
   -fx-background-color: black;
 }

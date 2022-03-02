@@ -4,6 +4,7 @@ import java.awt.Dimension;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import slogo.controller.Controller;
+import slogo.view.util.Runner;
 import slogo.view.windows.sections.ButtonSection;
 import slogo.view.windows.sections.HistorySection;
 import slogo.view.windows.sections.IDESection;
@@ -27,11 +28,15 @@ public class MainIDEView extends Display {
   public MainIDEView(String language, Controller c, String css, Stage stage) {
     myPane = new BorderPane();
     myPane.setId(ROOT_ID);
-
+    Runner runner = new Runner();
     IDESection variablesSection = new VariablesAndCommandsSection(c);
     IDESection textSection = new TextSection();
-    IDESection historySection = new HistorySection();
-    IDESection buttonSection = new ButtonSection(language, c, (HistorySection) historySection, (TextSection) textSection, (VariablesAndCommandsSection) variablesSection);
+    IDESection historySection = new HistorySection(runner);
+
+    runner.setParameters(c, (VariablesAndCommandsSection) variablesSection,
+        (HistorySection) historySection);
+    IDESection buttonSection = new ButtonSection(language, c, (HistorySection) historySection,
+        (TextSection) textSection, (VariablesAndCommandsSection) variablesSection, runner);
 
     myPane.setBottom(buttonSection.getSection());
     myPane.setRight(historySection.getSection());
