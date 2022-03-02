@@ -22,6 +22,7 @@ public class Controller {
     myCompiler = new Compiler(lan);
     myTurtles = new ArrayList<>();
     myTurtleViews = new ArrayList<>();
+    myMapGetters = new HashMap<>();
     myMapGetters.put("variables", () -> myCompiler.getVariables());
     myMapGetters.put("userCommands", () -> myCompiler.getUserCommandStrings());
     myMapGetters.put("default", () -> new HashMap<>());

@@ -1,6 +1,5 @@
 package slogo.view.windows.sections;
 
-import java.util.HashMap;
 import java.util.Map;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.BorderPane;
@@ -54,7 +53,12 @@ public class VariablesAndCommandsSection implements IDESection {
     myVarAndComSec.setRight(commandScrollPane);
   }
 
-  public void updateList() {
+  public void update() {
+    updateVariables();
+    updateUserCommands();
+  }
+
+  private void updateVariables() {
     Map<String, String> varList = myController.getMapData("variables");
     String toDisplay = VAR_STARTING_TEXT;
     for(String variableName : varList.keySet()){
@@ -66,6 +70,17 @@ public class VariablesAndCommandsSection implements IDESection {
     }
 
     variableTextField.setText(toDisplay);
+  }
+
+  private void updateUserCommands() {
+    Map<String, String> commandList = myController.getMapData("userCommands");
+    String toDisplay = COM_STARTING_TEXT;
+    for(String commandName : commandList.keySet()){
+      String commandValue = commandList.get(commandName);
+      toDisplay += commandValue;
+      toDisplay += NEW_LINE + NEW_LINE;
+    }
+    commandTextField.setText(toDisplay);
   }
 
   @Override

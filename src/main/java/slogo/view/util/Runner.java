@@ -19,7 +19,7 @@ public class Runner {
 
   public void runAndSave(String program) {
     myController.runText(program);
-    myUserDefinedSection.updateList();
+    myUserDefinedSection.update();
     myHistorySection.setNewHistory(program);
   }
 }
