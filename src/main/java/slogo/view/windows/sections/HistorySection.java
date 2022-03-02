@@ -7,6 +7,7 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
+import slogo.view.util.Runner;
 import slogo.view.windows.buttons.Run;
 
 /**
@@ -26,10 +27,11 @@ public class HistorySection implements IDESection {
   private ScrollPane myScrollPane;
   private List<String> commandList;
   private Text myTextField;
+  private Runner myRunner;
 
   private VBox myHistoryButtons;
 
-  public HistorySection() {
+  public HistorySection(Runner runner) {
     myScrollPane = new ScrollPane();
     myScrollPane.setId(HISTORY_SECTION_ID);
     myHistoryButtons = new VBox();
@@ -39,6 +41,7 @@ public class HistorySection implements IDESection {
     myScrollPane.setContent(myTextField);
     myScrollPane.setPrefViewportWidth(WIDTH);
     commandList = new Stack<>();
+    myRunner = runner;
   }
 
   @Override

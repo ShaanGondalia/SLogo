@@ -9,10 +9,7 @@ public class Run implements IDEButton {
   }
 
   public void runString(ButtonUtil info, String s){
-    info.c().runText(s);
-    info.userDefinedSection().updateList();
-    info.histSec().setNewHistory(s);
-    info.textSec().clear();
+    info.runner().runPublicly(s);
   }
 
 }
