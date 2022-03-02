@@ -34,6 +34,7 @@ public class CommandFactory {
   private final ResourceBundle parameterResources = ResourceBundle.getBundle(PARAMETER_RESOURCES);
 
   private final Map<String, MakeUserInstruction> myUserCommands;
+  private final Map<String, String> myUserCommandStrings;
   private final Map<String, Integer> myListParameterCounts;
   private final Map<String, Integer> myParameterCounts;
 
@@ -49,6 +50,7 @@ public class CommandFactory {
   public CommandFactory(String language) {
     exceptionResources = ResourceBundle.getBundle(EXCEPTION_RESOURCES + language);
     myUserCommands = new HashMap<>();
+    myUserCommandStrings = new HashMap<>();
     myListParameterCounts = new HashMap<>();
     myParameterCounts = new HashMap<>();
 

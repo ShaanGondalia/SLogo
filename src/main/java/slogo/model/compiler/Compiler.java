@@ -125,6 +125,9 @@ public class Compiler {
       swapContext();
     } else if (symbol.equals("ListEnd")) {
       resolveContext();
+    } else {
+      throw new SymbolNotFoundException(
+          String.format(exceptionResources.getString("SymbolNotFound"), token));
     }
 
   }
