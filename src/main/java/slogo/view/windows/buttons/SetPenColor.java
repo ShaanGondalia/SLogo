@@ -11,7 +11,7 @@ import slogo.view.util.ButtonUtil;
 import slogo.view.util.ColorPickerGenerator;
 
 /**
- * Button that sets the pen color of the turtle's path
+ * Button that opens a window with a color picker that sets the pen color of the turtle's path
  *
  * @author Zack Schrage
  */

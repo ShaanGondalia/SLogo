@@ -29,6 +29,7 @@ import slogo.model.turtle.TurtleStatus;
 import slogo.view.util.Coordinate;
 import slogo.view.util.Matrix;
 import slogo.view.util.TurtleAnimation;
+import slogo.view.windows.TurtleAnimationController;
 import slogo.view.windows.TurtleWindowView;
 
 /**
@@ -131,7 +132,7 @@ public class TurtleView implements PropertyChangeListener  {
     }
 
     private void handleAnimation() {
-        if (animationQueue.size() > 0) {
+        if (animationQueue.size() > 0 && TurtleAnimationController.getPlayStatus()) {
             isAnimating = true;
             handleTurtleImage(animationQueue.peek().getVisibility());
             animationQueue.peek().getAnimation().play();
@@ -199,6 +200,14 @@ public class TurtleView implements PropertyChangeListener  {
     public void setTurtleImage(String name) {
         turtleImage = new Image(getClass().getResourceAsStream("/view/img/" + name));
         handleTurtleImage(true);
+    }
+
+    public boolean isAnimating() {
+        return isAnimating;
+    }
+
+    public Queue<TurtleAnimation> getAnimationQueue() {
+        return animationQueue;
     }
 
 }
