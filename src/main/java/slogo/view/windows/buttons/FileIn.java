@@ -26,9 +26,7 @@ public class FileIn implements IDEButton {
       toRun += scanner.nextLine();
       toRun += "\n";
     }
-    System.out.println(toRun);
-    Run run = new Run();
 
-    run.runString(info, toRun);
+    info.runner().runAndSave(toRun);
   }
 }

@@ -29,12 +29,13 @@ import slogo.model.turtle.TurtleStatus;
 import slogo.view.util.Coordinate;
 import slogo.view.util.Matrix;
 import slogo.view.util.TurtleAnimation;
+import slogo.view.windows.TurtleAnimationController;
 import slogo.view.windows.TurtleWindowView;
 
 /**
  * Front end representation of the Turtle. It implements PropertyChangeListener and is tied to a backend turtle.
- * Its propertyChange method is invoked upon a property change in the backend turtle and that animation is reflected
- * on this front end turtle
+ * Its propertyChange method is invoked upon a property change occurring in the backend turtle
+ * and that animation is reflected in this front end turtle
  *
  * @author Zack Schrage
  */
@@ -105,7 +106,6 @@ public class TurtleView implements PropertyChangeListener  {
                 double x = turtleNode.getTranslateX();
                 double y = turtleNode.getTranslateY();
                 if (validTransitionStroke(prevX, x, prevY, y)) gc.strokeLine(prevX + centerX, prevY + centerY, x + centerX, y + centerY);
-                //System.out.printf("(%5.2f, %5.2f) -> (%5.2f, %5.2f)\n", prevX + centerX, prevY + centerY, x + centerX, y + centerY);
                 prevX = x;
                 prevY = y;
             }
@@ -132,13 +132,17 @@ public class TurtleView implements PropertyChangeListener  {
     }
 
     private void handleAnimation() {
-        if (animationQueue.size() > 0) {
+        if (animationQueue.size() > 0 && TurtleAnimationController.getPlayStatus()) {
             isAnimating = true;
-            if (animationQueue.peek().getVisibility()) turtleNode.setImage(turtleImage);
-            else turtleNode.setImage(invisibleTurtle);
+            handleTurtleImage(animationQueue.peek().getVisibility());
             animationQueue.peek().getAnimation().play();
         }
         else isAnimating = false;
+    }
+
+    private void handleTurtleImage(boolean visible) {
+        if (visible) turtleNode.setImage(turtleImage);
+        else turtleNode.setImage(invisibleTurtle);
     }
 
     /**
@@ -158,6 +162,9 @@ public class TurtleView implements PropertyChangeListener  {
             animationQueue.add(new TurtleAnimation(anim, newT.visibility()));
             if (!isAnimating) handleAnimation();
         }
+        else if (oldT.visibility() ^ newT.visibility()) {
+            handleTurtleImage(newT.visibility());
+        }
     }
 
     /**
@@ -169,19 +176,12 @@ public class TurtleView implements PropertyChangeListener  {
     }
 
     /**
-     * Getter method for the turtle's trail color
-     * @return trail color
-     */
-    public Color getTrailColor() {
-        return trailColor;
-    }
-
-    /**
      * Setter method for the turtle's trail color
      * @param color new trail color
      */
     public void setTrailColor(Color color) {
         trailColor = color;
+        gc.setFill(trailColor);
         gc.setStroke(trailColor);
     }
 
@@ -191,6 +191,23 @@ public class TurtleView implements PropertyChangeListener  {
      */
     public List<Trail> getTrailHistory() {
         return trailHistory;
+    }
+
+    /**
+     * Setter method for a turtle's image
+     * @param name of image in resources
+     */
+    public void setTurtleImage(String name) {
+        turtleImage = new Image(getClass().getResourceAsStream("/view/img/" + name));
+        handleTurtleImage(true);
+    }
+
+    public boolean isAnimating() {
+        return isAnimating;
+    }
+
+    public Queue<TurtleAnimation> getAnimationQueue() {
+        return animationQueue;
     }
 
 }
