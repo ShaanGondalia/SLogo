@@ -32,8 +32,9 @@ public class MainIDEView extends Display {
     IDESection variablesSection = new VariablesAndCommandsSection(c);
     IDESection textSection = new TextSection();
     IDESection historySection = new HistorySection(runner);
+
     runner.setParameters(c, (VariablesAndCommandsSection) variablesSection,
-        (HistorySection) historySection, (TextSection) textSection);
+        (HistorySection) historySection);
     IDESection buttonSection = new ButtonSection(language, c, (HistorySection) historySection,
         (TextSection) textSection, (VariablesAndCommandsSection) variablesSection, runner);
 

@@ -5,11 +5,7 @@ import slogo.view.util.ButtonUtil;
 public class Run implements IDEButton {
   @Override
   public void doAction(ButtonUtil info){
-    runString(info, info.textSec().getRawCommandText());
+    info.runner().runAndSave(info.textSec().getRawCommandText());
+    info.textSec().clear();
   }
-
-  public void runString(ButtonUtil info, String s){
-    info.runner().runPublicly(s);
-  }
-
 }
