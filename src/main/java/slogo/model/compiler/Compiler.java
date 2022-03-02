@@ -100,6 +100,7 @@ public class Compiler {
       throw new MissingArgumentException(
           String.format(exceptionResources.getString("MissingArgument"), activeContext.getPendingCommands().peek()));
     }
+    commandFactory.addUserDefinedCommandStrings(program, myParser);
     return activeContext.getResolvedCommands();
   }
 
@@ -184,6 +185,13 @@ public class Compiler {
       variables.put(name, val);
     }
     return variables;
+  }
+
+  /**
+   * @return copy of command strings map (Strings are immutable, so this is a deep copy)
+   */
+  public Map<String, String> getUserCommandStrings() {
+    return new HashMap<>(commandFactory.getUserCommandStrings());
   }
 
 }

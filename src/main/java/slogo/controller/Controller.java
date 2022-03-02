@@ -15,11 +15,15 @@ public class Controller {
   private Compiler myCompiler;
   private List<Turtle> myTurtles;
   private List<TurtleView> myTurtleViews;
+  private Map<String, MapGetter<String, String>> myMapGetters;
 
   public Controller(String lan) {
     myCompiler = new Compiler(lan);
     myTurtles = new ArrayList<>();
     myTurtleViews = new ArrayList<>();
+    myMapGetters.put("variables", () -> myCompiler.getVariables());
+    myMapGetters.put("userCommands", () -> myCompiler.getUserCommandStrings());
+    myMapGetters.put("default", () -> new HashMap<>());
   }
 
   public void runText(String program) throws Exception {
@@ -40,8 +44,13 @@ public class Controller {
     return myTurtles;
   }
 
-  public Map<String, String> getVariables() {
-    return myCompiler.getVariables();
+  /**
+   *
+   * @param dataName "variables" for variable map and "userCommands" for user defined commands
+   * @return
+   */
+  public Map<String, String> getMapData(String dataName) {
+    return myMapGetters.getOrDefault(dataName, myMapGetters.get("default")).getMap();
   }
 
   public List<TurtleView> getTurtleViews() {

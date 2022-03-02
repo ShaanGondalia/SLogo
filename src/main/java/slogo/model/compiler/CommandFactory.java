@@ -169,6 +169,19 @@ public class CommandFactory {
   }
 
   /**
+   * Adds the string associated with user command
+   * @param program entire program that was run
+   * @param p parser used to parse program
+   */
+  public void addUserDefinedCommandStrings(String program, Parser p) {
+    UserCommandFinder.findUserCommands(program, p, myUserCommands.keySet());
+  }
+
+  public Map<String, String> getUserCommandStrings() {
+    return myUserCommandStrings;
+  }
+
+  /**
    * Returns the number of list inputs a given command takes.
    *
    * @param command the command to get the number of list inputs for

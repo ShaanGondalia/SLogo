@@ -55,7 +55,7 @@ public class VariablesAndCommandsSection implements IDESection {
   }
 
   public void updateList() {
-    Map<String, String> varList = myController.getVariables();
+    Map<String, String> varList = myController.getMapData("variables");
     String toDisplay = VAR_STARTING_TEXT;
     for(String variableName : varList.keySet()){
       String variableValue = varList.get(variableName);
