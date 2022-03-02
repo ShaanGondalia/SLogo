@@ -10,7 +10,6 @@ public class Run implements IDEButton {
   }
 
   public void runString(ButtonUtil info, String s){
-
     try {
       info.c().runText(s);
     } catch (Exception e) {
@@ -21,4 +20,5 @@ public class Run implements IDEButton {
     info.histSec().setNewHistory(s);
     info.textSec().clear();
   }
+
 }
