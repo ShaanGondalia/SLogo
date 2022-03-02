@@ -2,9 +2,12 @@ package slogo.view.windows.sections;
 
 import java.util.List;
 import java.util.Stack;
+import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.Region;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
+import slogo.view.windows.buttons.Run;
 
 /**
  * Section for History
@@ -15,17 +18,22 @@ public class HistorySection implements IDESection {
 
   private static final String HISTORY_SECTION_ID = "history_sec";
   private static final String TEXT_SECTION_ID = "history_text";
+  private static final String DELIMITER = "\n";
+  private static final String STARTING_TEXT = "Past Commands:" + DELIMITER;
 
-  private static final String STARTING_TEXT = "Past Commands:\n";
   private static final int WIDTH = 100;
 
   private ScrollPane myScrollPane;
   private List<String> commandList;
   private Text myTextField;
 
+  private VBox myHistoryButtons;
+
   public HistorySection() {
     myScrollPane = new ScrollPane();
     myScrollPane.setId(HISTORY_SECTION_ID);
+    myHistoryButtons = new VBox();
+    myHistoryButtons.setFillWidth(true);
     myTextField = new Text(STARTING_TEXT);
     myTextField.setId(TEXT_SECTION_ID);
     myScrollPane.setContent(myTextField);
@@ -48,6 +56,12 @@ public class HistorySection implements IDESection {
     setMyTextField();
   }
 
+  private void makeHistoryButton(String command){
+    Run run = new Run();
+    Button b = new Button();
+    b.setText(command);
+  }
+
   /**
    * Returns the text of the history as to print it out to a file
    *
@@ -57,8 +71,8 @@ public class HistorySection implements IDESection {
   public String getHistoryText(){
     String s = "";
 
-    for (int i = 1; i < myTextField.getText().split("\n").length; i++) {
-      s += myTextField.getText().split("\n")[i] + "\n";
+    for(String command : commandList){
+      s += command + DELIMITER;
     }
 
     return s;

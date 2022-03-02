@@ -4,6 +4,7 @@ import java.beans.PropertyChangeListener;
 import java.util.*;
 
 import java.util.Map;
+import slogo.Errors;
 import slogo.model.command.Command;
 
 import slogo.model.compiler.Compiler;
@@ -22,10 +23,14 @@ public class Controller {
     myTurtleViews = new ArrayList<>();
   }
 
-  public void runText(String program) throws Exception {
-    Deque<Command> commands = myCompiler.compile(program, myTurtles);
-    while (!commands.isEmpty()){
-      commands.removeFirst().execute();
+  public void runText(String program){
+    try {
+      Deque<Command> commands = myCompiler.compile(program, myTurtles);
+      while (!commands.isEmpty()) {
+        commands.removeFirst().execute();
+      }
+    } catch (Exception e){
+      Errors.showError(e.getMessage());
     }
   }
 
