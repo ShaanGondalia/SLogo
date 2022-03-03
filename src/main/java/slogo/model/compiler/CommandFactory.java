@@ -2,6 +2,7 @@ package slogo.model.compiler;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Deque;
 import java.util.HashMap;
@@ -28,13 +29,16 @@ public class CommandFactory {
   private static final String EXCEPTION_RESOURCES = "model.exception.";
   private static final String PARAMETER_RESOURCES = "model.Parameter";
   private static final String LIST_PARAMETER_RESOURCES = "model.ListParameter";
+  private static final String CONSTRUCTOR_RESOURCES = "model.Constructor";
 
   private final ResourceBundle reflectionResources = ResourceBundle.getBundle(REFLECTION_RESOURCES);
+  private final ResourceBundle constructorResources = ResourceBundle.getBundle(CONSTRUCTOR_RESOURCES);
 
   private final Map<String, MakeUserInstruction> myUserCommands;
   private final Map<String, String> myUserCommandStrings;
   private final Map<String, Integer> myListParameterCounts;
   private final Map<String, Integer> myParameterCounts;
+
 
   private final TurtleManager myTurtleManager;
 
@@ -71,15 +75,13 @@ public class CommandFactory {
    */
   public Command getCommand(String symbol, Stack<Value> values,
       Stack<Deque<Command>> commandLists, int numInputs)
-      throws MissingArgumentException {
+      throws MissingArgumentException, SymbolNotFoundException {
     List<Value> args = generateArgList(symbol, values, numInputs);
     List<Deque<Command>> commandQueues = generateCommandQueueList(symbol, commandLists);
     if (myUserCommands.containsKey(symbol)) {
       return getUserCommand(symbol, args);
-    } else if (getNumListInputs(symbol) != 0) {
-      return getCommandListReflection(symbol, args, commandQueues);
     } else {
-      return getCommandReflection(symbol, args);
+      return generateCommand(symbol, args, commandQueues);
     }
   }
 
@@ -113,59 +115,58 @@ public class CommandFactory {
     return args;
   }
 
-
-  private Command getCommandListReflection(String symbol, List<Value> args,
-      List<Deque<Command>> commandQueues) {
-    String command = reflectionResources.getString(symbol).trim();
-    try {
-      Class<?> clazz = Class.forName(command);
-      Constructor<?> ctor;
-      try {
-        // TODO: MAKE THIS LOGIC CLEANER
-        ctor = clazz.getDeclaredConstructor(List.class, List.class);
-      } catch (Exception e) {
-        ctor = clazz.getDeclaredConstructor(List.class, List.class, TurtleManager.class);
-        return (Command) ctor.newInstance(args, commandQueues, myTurtleManager);
-      }
-      Command c = (Command) ctor.newInstance(args, commandQueues);
-      if (symbol.equals("MakeUserInstruction")) {
-        myUserCommands.put(lastAddedSymbol, (MakeUserInstruction) c);
-      }
-      return c;
-    } catch (ClassNotFoundException | InvocationTargetException | NoSuchMethodException |
-        InstantiationException | IllegalAccessException e) {
-      throw new InputMismatchException(
-          String.format(exceptionResources.getString("InputMismatch"), symbol, command));
-    }
-  }
-
-  // Gets a user command using reflection
   private Command getUserCommand(String symbol, List<Value> args) throws MissingArgumentException {
     MakeUserInstruction c = myUserCommands.get(symbol);
     return c.getUserCommand(args);
   }
 
-  // Gets a command using reflection
-  private Command getCommandReflection(String symbol, List<Value> args) {
+  // Generates a command using reflection
+  private Command generateCommand(String symbol, List<Value> args, List<Deque<Command>> queues)
+      throws SymbolNotFoundException {
     String command = reflectionResources.getString(symbol).trim();
     try {
-      // convert string into Java object that represents that Java class
-      Class<?> clazz = Class.forName(command);
-      // use reflection to find the appropriate constructor of that class to call to create a new instance
-      Constructor<?> ctor;
-      try {
-        // TODO: MAKE THIS LOGIC CLEANER
-        ctor = clazz.getDeclaredConstructor(List.class);
-      } catch (Exception e) {
-        ctor = clazz.getDeclaredConstructor(List.class, TurtleManager.class);
-        return (Command) ctor.newInstance(args, myTurtleManager);
+      String handlerMethod = constructorResources.getString(symbol);
+      Method handle = CommandFactory.class.getDeclaredMethod(handlerMethod, Class.class, List.class, List.class);
+      Command c = (Command) handle.invoke(this, Class.forName(command), args, queues);
+      if (symbol.equals("MakeUserInstruction")) {
+        myUserCommands.put(lastAddedSymbol, (MakeUserInstruction) c);
       }
-      return (Command) ctor.newInstance(args);
-    } catch (ClassNotFoundException | InvocationTargetException | NoSuchMethodException |
-        InstantiationException | IllegalAccessException e) {
-      throw new InputMismatchException(
-          String.format(exceptionResources.getString("InputMismatch"), symbol, command));
+      return c;
+    } catch (Exception e) {
+      throw new SymbolNotFoundException(
+          String.format(exceptionResources.getString("SymbolNotFound"), symbol));
     }
+  }
+
+  private Command makeArgCommand(Class<?> commandClass, List<Value> args, List<Deque<Command>> commandQueues)
+      throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
+    Constructor<?> ctor = commandClass.getDeclaredConstructor(List.class);
+    return (Command) ctor.newInstance(args);
+  }
+
+  private Command makeListCommand(Class<?> commandClass, List<Value> args, List<Deque<Command>> commandQueues)
+      throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
+    Constructor<?> ctor = commandClass.getDeclaredConstructor(List.class, List.class);
+    return (Command) ctor.newInstance(args, commandQueues);
+  }
+
+  private Command makeListMultiCommand(Class<?> commandClass, List<Value> args, List<Deque<Command>> commandQueues)
+      throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
+    Constructor<?> ctor = commandClass.getDeclaredConstructor(List.class, List.class, TurtleManager.class);
+    return (Command) ctor.newInstance(args, commandQueues, myTurtleManager);
+  }
+
+  private Command makeArgMultiCommand(Class<?> commandClass, List<Value> args, List<Deque<Command>> commandQueues)
+      throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
+    Constructor<?> ctor = commandClass.getDeclaredConstructor(List.class, TurtleManager.class);
+    return (Command) ctor.newInstance(args, myTurtleManager);
+  }
+
+  // TODO: Implement this
+  private Command makeArgColorCommand(Class<?> commandClass, List<Value> args, List<Deque<Command>> commandQueues)
+      throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
+    Constructor<?> ctor = commandClass.getDeclaredConstructor(List.class, TurtleManager.class);
+    return (Command) ctor.newInstance(args, myTurtleManager);
   }
 
   /**

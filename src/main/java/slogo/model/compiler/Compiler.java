@@ -86,7 +86,8 @@ public class Compiler {
   }
 
   // Builds and resolves a command's parameters in the active context.
-  private void resolveCommandInContext(String pendingCommand, int numInputs) throws MissingArgumentException {
+  private void resolveCommandInContext(String pendingCommand, int numInputs)
+      throws MissingArgumentException, SymbolNotFoundException {
     activeContext.getValuesBefore().pop();
     activeContext.getListsBefore().pop();
     Command command = commandFactory.getCommand(pendingCommand, activeContext.getValues(),
@@ -215,6 +216,14 @@ public class Compiler {
   private void resolveContext(String token) {
     inactiveContexts.peek().resolve(activeContext);
     activeContext = inactiveContexts.pop();
+  }
+
+  private void handleGroupStart(String token) {
+
+  }
+
+  private void handleGroupEnd(String token) {
+
   }
 
   public Map<String, String> getVariables() {
