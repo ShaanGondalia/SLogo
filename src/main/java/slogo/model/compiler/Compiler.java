@@ -1,5 +1,7 @@
 package slogo.model.compiler;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.Deque;
 import java.util.EmptyStackException;
 import java.util.HashMap;
@@ -30,9 +32,10 @@ public class Compiler {
   private static final String LIST_START = "ListStart";
   private static final String LIST_END = "ListEnd";
   private static final String EXCEPTION_RESOURCES = "model.exception.";
-
+  private static final String HANDLER_RESOURCES = "model.Handler";
 
   private final ResourceBundle exceptionResources;
+  private final ResourceBundle handlerResources;
   private final Parser myParser;
   private final Map<String, Value> myVariables;
   private final CommandFactory commandFactory;
@@ -46,6 +49,7 @@ public class Compiler {
    */
   public Compiler(String language, TurtleManager turtleManager) {
     exceptionResources = ResourceBundle.getBundle(EXCEPTION_RESOURCES + language);
+    handlerResources = ResourceBundle.getBundle(HANDLER_RESOURCES);
     myParser = new Parser(language);
     myParser.addPatterns(language);
     myParser.addPatterns("Syntax");
@@ -154,25 +158,20 @@ public class Compiler {
     inactiveContexts = new Stack<>();
   }
 
-
+  // Handles a token
   private void handleToken(String token) throws SymbolNotFoundException {
     String symbol = myParser.getSymbol(token);
-    // TODO: Replace this conditional chain with reflective method calls
     if (commandFactory.isCommand(symbol)) {
       handleCommand(symbol);
-    } else if (symbol.equals(CONSTANT)) {
-      activeContext.getValues().push(new Value(Double.parseDouble(token)));
-    } else if (symbol.equals(VARIABLE)) {
-      handleVariable(token);
-    } else if (symbol.equals(USER_COMMAND)) {
-      handleUserCommand(token);
-    } else if (symbol.equals(LIST_START)) {
-      swapContext();
-    } else if (symbol.equals(LIST_END)) {
-      resolveContext();
     } else {
-      throw new SymbolNotFoundException(
-          String.format(exceptionResources.getString("SymbolNotFound"), token));
+      try {
+        String handlerMethod = handlerResources.getString(symbol);
+        Method handle = Compiler.class.getDeclaredMethod(handlerMethod, String.class);
+        handle.invoke(this, token);
+      } catch (Exception e) {
+          throw new SymbolNotFoundException(
+              String.format(exceptionResources.getString("SymbolNotFound"), token));
+      }
     }
   }
 
@@ -183,7 +182,12 @@ public class Compiler {
     activeContext.getListsBefore().push(activeContext.getLists().size());
   }
 
-  // Handles what happens when a variable is detected by the parser
+  // Handles what happens when a constant is detected by the parser. Called with reflection
+  private void handleConstant(String token) {
+    activeContext.getValues().push(new Value(Double.parseDouble(token)));
+  }
+
+  // Handles what happens when a variable is detected by the parser. Called with reflection
   private void handleVariable(String value) {
     if (!myVariables.containsKey(value)) {
       myVariables.put(value, new Value());
@@ -191,7 +195,7 @@ public class Compiler {
     activeContext.getValues().push(myVariables.get(value));
   }
 
-  // Handles what happens when a user command is detected by the parser
+  // Handles what happens when a user command is detected by the parser. Called with reflection
   private void handleUserCommand(String token) throws SymbolNotFoundException {
     try {
       if (commandFactory.isCommand(token)) {
@@ -208,14 +212,14 @@ public class Compiler {
     }
   }
 
-  // Swaps the context of the compiler in the case of a list
-  private void swapContext() {
+  // Swaps the context of the compiler in the case of a list. Called with reflection
+  private void swapContext(String token) {
     inactiveContexts.push(activeContext);
     activeContext = new Context();
   }
 
-  // Resolves the context of the compiler in the case of a list ending
-  private void resolveContext() {
+  // Resolves the context of the compiler in the case of a list ending. Called with reflection
+  private void resolveContext(String token) {
     inactiveContexts.peek().resolve(activeContext);
     activeContext = inactiveContexts.pop();
   }
