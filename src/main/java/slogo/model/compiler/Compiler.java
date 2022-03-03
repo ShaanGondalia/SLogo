@@ -65,7 +65,7 @@ public class Compiler {
           numInputs = activeContext.getValues().size() - activeContext.getValuesBefore().peek();
         }
         if (pendingCommand.equals("MakeUserInstruction")) {
-          commandFactory.makeCommand(waitingUserCommandName, numInputs);
+          commandFactory.makeUserCommand(waitingUserCommandName, numInputs);
         }
 
         activeContext.getValuesBefore().pop();
