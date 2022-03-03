@@ -10,6 +10,9 @@ import slogo.model.color.Color;
  */
 public class Turtle extends Observable<TurtleStatus> {
 
+  private static final double ROTATION_ADJUST = 90;
+  private static final double FULL_ROTATION = 360;
+
   private double myX;
   private double myY;
   private final double myID;
@@ -54,7 +57,7 @@ public class Turtle extends Observable<TurtleStatus> {
    * @param distance the distance in pixels to move
    */
   public void move(double distance) {
-    double theta = -1 * (myBearing - 90);
+    double theta = -1 * (myBearing - ROTATION_ADJUST);
     double radians = Math.toRadians(theta);
     myX += distance * Math.cos(radians);
     myY += distance * Math.sin(radians);
@@ -71,9 +74,9 @@ public class Turtle extends Observable<TurtleStatus> {
     myBearing = myBearing + degrees;
     change("Pose");
     // "silently" change bearing and myLastState
-    myBearing = myBearing % 360;
+    myBearing = myBearing % FULL_ROTATION;
     if (myBearing < 0) {
-      myBearing += 360;
+      myBearing += FULL_ROTATION;
     }
     myLastState = makeStatus();
   }
@@ -145,8 +148,7 @@ public class Turtle extends Observable<TurtleStatus> {
 
   private TurtleStatus makeStatus() {
     Pose pose = currentPose();
-    TurtleStatus status = new TurtleStatus(pose, myHasPen, myVisibility);
-    return status;
+    return new TurtleStatus(pose, myHasPen, myVisibility);
   }
 
   private Pose currentPose() {

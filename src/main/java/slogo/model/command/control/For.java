@@ -17,6 +17,9 @@ public class For extends ControlCommand {
 
   private static final int NUM_ARGS = 4;
   private static final int NUM_LISTS = 1;
+  private static final int START_POS = 1;
+  private static final int END_POS = 2;
+  private static final int INCREMENT_POS = 3;
 
   private final Deque<Command> myBody;
   private final Value myVariable;
@@ -35,9 +38,9 @@ public class For extends ControlCommand {
 
     myBody = lists.get(0);
     myVariable = args.get(0);
-    myStart = args.get(1).getVal();
-    myEnd = args.get(2).getVal();
-    myIncrement = args.get(3).getVal();
+    myStart = args.get(START_POS).getVal();
+    myEnd = args.get(END_POS).getVal();
+    myIncrement = args.get(INCREMENT_POS).getVal();
   }
 
   /**
