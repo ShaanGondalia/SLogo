@@ -1,11 +1,19 @@
 package slogo.view.windows.buttons;
 
 import slogo.view.util.ButtonUtil;
+import slogo.view.windows.Display;
+import slogo.view.windows.TurtleAnimationController;
 
-public class OpenTurtleAnimationController implements IDEButton {
+/**
+ * Button that opens a new window containing a control panel for the turtle's animation properties
+ *
+ * @author Zack Schrage
+ */
+public class OpenTurtleAnimationController extends Display implements IDEButton {
 
   @Override
   public void doAction(ButtonUtil info) {
-    //TODO: create new stage with animation controls - play, pause, speed up, slow down - perhaps in a new class that extends Display - in this class it just makes a new instance of that view class - see Help example
+    new TurtleAnimationController(info);
   }
+
 }

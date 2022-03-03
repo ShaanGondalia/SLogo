@@ -45,7 +45,11 @@ public class Main extends Application {
 
     List<String> lines = readFile(
         String.format("%s/%s/%s.slogo", EXAMPLE_PROGRAMS_PATH, category, example), NEWLINE);
-    return lines.get(0).trim();
+    String program = "";
+    for (String line: lines) {
+      program += line + "\n";
+    }
+    return program;
   }
 
   /**
