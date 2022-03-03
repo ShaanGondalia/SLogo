@@ -1,5 +1,6 @@
 package slogo.view.util;
 
+import slogo.Errors;
 import slogo.controller.Controller;
 import slogo.view.windows.sections.HistorySection;
 import slogo.view.windows.sections.VariablesAndCommandsSection;
@@ -18,7 +19,12 @@ public class Runner {
   }
 
   public void runAndSave(String program) {
-    myController.runText(program);
+    try {
+      myController.runText(program);
+    }
+    catch (Exception e){
+      Errors.showError(e.getMessage());
+    }
     myUserDefinedSection.update();
     myHistorySection.setNewHistory(program);
   }
