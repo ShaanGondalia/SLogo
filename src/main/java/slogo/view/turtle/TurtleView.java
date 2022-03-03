@@ -165,6 +165,8 @@ public class TurtleView implements PropertyChangeListener  {
         else if (oldT.visibility() ^ newT.visibility()) {
             handleTurtleImage(newT.visibility());
         }
+        // Turtle status pen color command
+        // Clear screen
     }
 
     /**
