@@ -8,7 +8,7 @@ import slogo.model.exception.MissingArgumentException;
 
 public class ColorPalette {
 
-  Map<Integer, Color> myColors;
+  Map<Double, ColorRecord> myColors;
 
   public ColorPalette() {
     myColors = new HashMap<>();
@@ -18,12 +18,12 @@ public class ColorPalette {
     if (args.size() != 4) {
       throw new MissingArgumentException("Message");
     } else {
-      Color c = new Color(args.get(1), args.get(2), args.get(3));
-      myColors.put(args.get(0).asInt(), c);
+      ColorRecord c = new ColorRecord(args.get(1).asInt(), args.get(2).asInt(), args.get(3).asInt());
+      myColors.put(args.get(0).getVal(), c);
     }
   }
 
-  public Color getColor(int key) {
+  public ColorRecord getColor(int key) {
     return myColors.get(key);
   }
 

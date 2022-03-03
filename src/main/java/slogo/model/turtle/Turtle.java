@@ -1,6 +1,6 @@
 package slogo.model.turtle;
 
-import slogo.model.color.Color;
+import slogo.model.color.ColorRecord;
 
 /**
  * Class that encapsulates the turtle in the back-end. Contains internal API methods for updating
@@ -15,10 +15,14 @@ public class Turtle extends Observable<TurtleStatus> {
   private final double myID;
   private double myThickness;
   private double myBearing;
-  private boolean myHasPen;
+  private boolean myPenDown;
   private boolean myVisibility;
-  private Color myColor;
+  private boolean myActive;
+  private ColorRecord myColor;
   private TurtleStatus myLastState;
+  private int myPenR;
+  private int myPenG;
+  private int myPenB;
 
   /**
    * Create a new turtle that starts at the center of the screen. Initializes instance variables.
@@ -28,9 +32,10 @@ public class Turtle extends Observable<TurtleStatus> {
     myY = 0;
     myID = 0;
     myBearing = 0;
-    myHasPen = false;
+    myPenDown = false;
     myVisibility = true;
     myLastState = makeStatus();
+    myActive = false;
   }
 
   /**
@@ -43,7 +48,7 @@ public class Turtle extends Observable<TurtleStatus> {
     myY = 0;
     myID = id;
     myBearing = 0;
-    myHasPen = false;
+    myPenDown = false;
     myVisibility = true;
     myLastState = makeStatus();
   }
@@ -111,9 +116,17 @@ public class Turtle extends Observable<TurtleStatus> {
    * @param hasPen If true, the pen is down. If false, the pen is up.
    */
   public void setPen(boolean hasPen) {
-    myHasPen = hasPen;
+    myPenDown = hasPen;
     String property = "Pen";
     change(property);
+  }
+
+  public void setPenColor(ColorRecord color) {
+    myPenR = color.r();
+    myPenG = color.g();
+    myPenB = color.b();
+    String property = "Color";
+
   }
 
   /**
@@ -145,8 +158,14 @@ public class Turtle extends Observable<TurtleStatus> {
 
   private TurtleStatus makeStatus() {
     Pose pose = currentPose();
-    TurtleStatus status = new TurtleStatus(pose, myHasPen, myVisibility);
+    TurtleStatus status = new TurtleStatus(pose, makePenState(), myActive, myVisibility);
     return status;
+  }
+
+  private PenState makePenState() {
+    ColorRecord color = new ColorRecord(myPenR, myPenG, myPenB);
+    PenState penState = new PenState(myPenDown, color, myThickness);
+    return penState;
   }
 
   private Pose currentPose() {

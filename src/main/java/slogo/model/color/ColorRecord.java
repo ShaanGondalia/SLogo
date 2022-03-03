@@ -2,11 +2,7 @@ package slogo.model.color;
 
 import slogo.model.command.Value;
 
-public record Color(int r, int g, int b) {
-
-  public Color(Value r, Value g, Value b) {
-    this(r.asInt(), g.asInt(), b.asInt());
-  }
+public record ColorRecord(int r, int g, int b) {
 
   @Override
   public String toString() {

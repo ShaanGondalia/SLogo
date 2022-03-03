@@ -10,7 +10,7 @@ public class ColorTest {
 
   @Test
   void colorTest() {
-    Color c = new Color(200, 2, 3);
+    ColorRecord c = new ColorRecord(200, 2, 3);
     assertEquals(c.toString(), "#c80203");
   }
 }
