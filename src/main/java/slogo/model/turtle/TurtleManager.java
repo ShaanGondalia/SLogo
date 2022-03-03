@@ -2,10 +2,13 @@ package slogo.model.turtle;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Deque;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import slogo.model.command.Command;
 import slogo.model.command.Value;
+import slogo.model.exception.MissingArgumentException;
 
 /**
  * Class that manages turtles
@@ -44,11 +47,12 @@ public class TurtleManager {
     return followingTurtles;
   }
 
+
   /**
    *
    * @param turtle the turtle that is active
    */
-  public void setActiveTurtle(Turtle turtle) {
+  private void setActiveTurtle(Turtle turtle) {
     activeTurtle = turtle;
   }
 
@@ -70,12 +74,34 @@ public class TurtleManager {
    * @param ids the ids of the turtles that will follow commands.
    */
   public void setFollowingIDs(List<Value> ids) {
+    clearFollowers();
     for (Value id : ids) {
       if (!myTurtles.containsKey(id.getVal())) {
         Turtle turtle = new Turtle();
         myTurtles.put(id.getVal(), turtle);
       }
       followingTurtleMap.put(id.getVal(), true);
+    }
+  }
+
+  private void clearFollowers() {
+    followingTurtleMap.replaceAll((k, v) -> false);
+  }
+
+
+  /**
+   * Executes a queue of commands on the following turtles. Assumes the following turtle does not
+   * change during the run
+   * @param innerQueue
+   */
+  public void executeCommandQueue(Deque<Command> innerQueue) throws MissingArgumentException {
+    for (Turtle t : getFollowingTurtles()) {
+      setActiveTurtle(t);
+      for (Command command : innerQueue) {
+        System.out.println(command);
+        command.execute(t);
+        System.out.println(t.getPose());
+      }
     }
   }
 }

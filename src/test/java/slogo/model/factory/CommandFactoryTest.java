@@ -15,6 +15,7 @@ import slogo.model.compiler.CommandFactory;
 import slogo.model.exception.MissingArgumentException;
 import slogo.model.exception.SymbolNotFoundException;
 import slogo.model.turtle.Turtle;
+import slogo.model.turtle.TurtleManager;
 
 /**
  * Tests for CommandFactory class
@@ -33,6 +34,7 @@ public class CommandFactoryTest {
   private Stack<Deque<Command>> lists;
   private Turtle turtle;
   private CommandFactory commandFactory;
+  private TurtleManager myTurtleManager;
 
   @BeforeEach
   void setUp() {
@@ -41,18 +43,19 @@ public class CommandFactoryTest {
     lists = new Stack<>();
     lists.add(null);
     turtle = new Turtle();
-    commandFactory = new CommandFactory(LANGUAGE);
+    myTurtleManager = new TurtleManager();
+    commandFactory = new CommandFactory(LANGUAGE, myTurtleManager);
   }
 
   @Test
   void testBaseCommand() throws MissingArgumentException, SymbolNotFoundException {
-    Command c = commandFactory.getCommand(FORWARD, args, lists);
+    Command c = commandFactory.getCommand(FORWARD, args, lists, 1);
     assertEquals(ARG_1, c.execute(turtle).getVal());
   }
 
   @Test
   void testBaseNotEnoughArgs() {
-    assertThrows(MissingArgumentException.class, () -> commandFactory.getCommand(SUM, args, lists));
+    assertThrows(MissingArgumentException.class, () -> commandFactory.getCommand(SUM, args, lists, 2));
   }
 
   @Test
@@ -63,7 +66,7 @@ public class CommandFactoryTest {
   @Test
   void testUnknownCommand() {
     assertFalse(commandFactory.isCommand(GIBBERISH));
-    assertThrows(SymbolNotFoundException.class, () -> commandFactory.getCommand(GIBBERISH, args, lists));
+    assertThrows(SymbolNotFoundException.class, () -> commandFactory.getCommand(GIBBERISH, args, lists, 2));
   }
 
 

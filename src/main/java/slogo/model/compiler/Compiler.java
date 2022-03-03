@@ -51,7 +51,7 @@ public class Compiler {
     myParser.addPatterns(language);
     myParser.addPatterns("Syntax");
     myVariables = new LinkedHashMap<>(); // linked hashmap preserves insertion order for display
-    commandFactory = new CommandFactory(language);
+    commandFactory = new CommandFactory(language, turtleManager);
     myTurtleManager = turtleManager;
   }
 
@@ -74,19 +74,19 @@ public class Compiler {
       // We know the number of inputs each command requires, and we know the size of the values stack when each command is added.
       // We can create another data structure that tracks this information, and use it to determine when
 
-      while (!activeContext.getPendingCommands().isEmpty()
-          && commandFactory.getNumInputs(activeContext.getPendingCommands().peek())
-          <= activeContext.getValues().size() - activeContext.getValuesBefore().peek()
-          && commandFactory.getNumListInputs(activeContext.getPendingCommands().peek())
-          <= activeContext.getLists().size() - activeContext.getListsBefore().peek()) {
+      while (canBeResolved()) {
         String pendingCommand = activeContext.getPendingCommands().pop();
+        int numInputs = commandFactory.getNumInputs(pendingCommand);
+        if(numInputs == -1) {
+          numInputs = activeContext.getValues().size() - activeContext.getValuesBefore().peek();
+        }
         if(pendingCommand.equals("MakeUserInstruction")) {
-          int numInputs = activeContext.getValues().size() - activeContext.getValuesBefore().peek();
           commandFactory.makeCommand(waitingUserCommandName, numInputs);
         }
+
         activeContext.getValuesBefore().pop();
         activeContext.getListsBefore().pop();
-        Command command = commandFactory.getCommand(pendingCommand, activeContext.getValues(), activeContext.getLists());
+        Command command = commandFactory.getCommand(pendingCommand, activeContext.getValues(), activeContext.getLists(), numInputs);
         activeContext.getValues().add(command.returnValue());
         if (!activeContext.getLists().empty()) {
           activeContext.getLists().peek().addLast(command);
@@ -106,6 +106,20 @@ public class Compiler {
     commandFactory.addUserDefinedCommandStrings(program, myParser);
 
     return constructResolvedCommandQueues();
+  }
+  //Returns true if the pending command can be resolved
+  private boolean canBeResolved() throws SymbolNotFoundException {
+    if (activeContext.getPendingCommands().isEmpty()) {
+      return false;
+    }
+    int numInputs = commandFactory.getNumInputs(activeContext.getPendingCommands().peek());
+    if (commandFactory.getNumInputs(activeContext.getPendingCommands().peek()) == -1) {
+      numInputs = 1;
+    }
+    return numInputs <= activeContext.getValues().size() - activeContext.getValuesBefore().peek()
+        && commandFactory.getNumListInputs(activeContext.getPendingCommands().peek())
+        <= activeContext.getLists().size() - activeContext.getListsBefore().peek();
+
   }
 
   // Returns a queue of queues of commands. Each inner queue represents a chunk of commands that

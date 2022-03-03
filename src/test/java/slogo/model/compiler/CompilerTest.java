@@ -53,7 +53,7 @@ public class CompilerTest {
 
   private static final String LANGUAGE = "English";
 
-  TurtleManager myTurtleManager;
+  private TurtleManager myTurtleManager;
   private Compiler compiler;
 
   @BeforeEach

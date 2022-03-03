@@ -16,6 +16,7 @@ import slogo.model.command.control.MakeUserInstruction;
 import slogo.model.command.control.UserCommand;
 import slogo.model.exception.MissingArgumentException;
 import slogo.model.exception.SymbolNotFoundException;
+import slogo.model.turtle.TurtleManager;
 
 /**
  * Factory that has methods that return commands using reflection.
@@ -37,6 +38,8 @@ public class CommandFactory {
   private final Map<String, Integer> myListParameterCounts;
   private final Map<String, Integer> myParameterCounts;
 
+  private final TurtleManager myTurtleManager;
+
   private final ResourceBundle exceptionResources;
 
   private String lastAddedSymbol;
@@ -46,8 +49,9 @@ public class CommandFactory {
    *
    * @param language the language of the command factory
    */
-  public CommandFactory(String language) {
+  public CommandFactory(String language, TurtleManager turtleManager) {
     exceptionResources = ResourceBundle.getBundle(EXCEPTION_RESOURCES + language);
+    myTurtleManager = turtleManager;
     myUserCommands = new HashMap<>();
     myUserCommandStrings = new HashMap<>();
     myListParameterCounts = new HashMap<>();
@@ -67,15 +71,15 @@ public class CommandFactory {
    * @throws MissingArgumentException
    */
   public Command getCommand(String symbol, Stack<Value> values,
-      Stack<Deque<Command>> commandLists)
+      Stack<Deque<Command>> commandLists, int numInputs)
       throws MissingArgumentException, SymbolNotFoundException {
     List<Value> args = new ArrayList<>();
     List<Deque<Command>> commandQueues = new ArrayList<>();
-    if (values.size() < getNumInputs(symbol)) {
+    if (values.size() < numInputs) {
       throw new MissingArgumentException(
           String.format(exceptionResources.getString("MissingArgument"), symbol));
     }
-    for (int i = 0; i < getNumInputs(symbol); i++) {
+    for (int i = 0; i < numInputs; i++) {
       args.add(0, values.pop()); // add element to start of args
     }
     for (int i = 0; i < getNumListInputs(symbol); i++) {
@@ -122,7 +126,14 @@ public class CommandFactory {
       // convert string into Java object that represents that Java class
       Class<?> clazz = Class.forName(command);
       // use reflection to find the appropriate constructor of that class to call to create a new instance
-      Constructor<?> ctor = clazz.getDeclaredConstructor(List.class);
+      Constructor<?> ctor;
+      try {
+        // TODO: MAKE THIS LOGIC CLEANER
+        ctor = clazz.getDeclaredConstructor(List.class);
+      } catch (Exception e) {
+        ctor = clazz.getDeclaredConstructor(List.class, TurtleManager.class);
+        return (Command) ctor.newInstance(args, myTurtleManager);
+      }
       return (Command) ctor.newInstance(args);
     } catch (ClassNotFoundException | InvocationTargetException | NoSuchMethodException |
         InstantiationException | IllegalAccessException e) {

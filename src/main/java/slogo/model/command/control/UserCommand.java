@@ -53,7 +53,6 @@ public class UserCommand extends ControlCommand {
       c.execute(turtle);
     }
     copyToActual();
-    myActualParameters = null;
     setReturnValue(myMethodBody.peekLast().returnValue().getVal());
     return returnValue();
   }

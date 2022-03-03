@@ -36,11 +36,7 @@ public class Controller {
       Deque<Deque<Command>> commands = myCompiler.compile(program);
       while (!commands.isEmpty()) {
         Deque<Command> innerCommands = commands.removeFirst();
-        for (Turtle t : myTurtleManager.getFollowingTurtles()) {
-          while (!innerCommands.isEmpty()) {
-            innerCommands.removeFirst().execute(t);
-          }
-        }
+        myTurtleManager.executeCommandQueue(innerCommands);
       }
     } catch (Exception e){
       Errors.showError(e.getMessage());
