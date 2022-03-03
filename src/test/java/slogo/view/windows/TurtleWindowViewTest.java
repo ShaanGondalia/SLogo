@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.testfx.api.FxRobot;
 import slogo.controller.Controller;
 import slogo.view.turtle.TurtleView;
+import slogo.view.turtle.TurtleViewManager;
 import slogo.view.windows.LanguageSplash;
 import slogo.view.windows.TurtleWindowView;
 import util.DukeApplicationTest;
@@ -26,7 +27,8 @@ class TurtleWindowViewTest extends DukeApplicationTest {
   @Override
   public void start(Stage stage) {
     window = new TurtleWindowView("light");
-    c = new Controller("English");
+    TurtleViewManager tvm = new TurtleViewManager(window);
+    c = new Controller("English", tvm);
     stage.setScene(window.getMyScene());
     stage.show();
   }

@@ -22,7 +22,7 @@ class TurtleViewTest {
   @BeforeEach
   void setUp() {
     //languageProbe = new LanguageProbe();
-    c = new Controller("English");
+    c = new Controller("English", null);
     window = new TurtleWindowView("light");
     tv = new TurtleView();
     window.addTurtleView(tv);

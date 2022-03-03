@@ -26,6 +26,7 @@ public class TurtleManager extends Observable<Turtle> {
     myTurtles = new HashMap<>();
     followingTurtleMap = new HashMap<>();
     activeTurtle = new Turtle();
+    addTurtle(activeTurtle);
     myTurtles.put((double) 0, activeTurtle);
     followingTurtleMap.put((double) 0, true);
   }
@@ -88,6 +89,7 @@ public class TurtleManager extends Observable<Turtle> {
     for (Value id : ids) {
       if (!myTurtles.containsKey(id.getVal())) {
         Turtle turtle = new Turtle();
+        addTurtle(turtle);
         myTurtles.put(id.getVal(), turtle);
       }
       followingTurtleMap.put(id.getVal(), true);

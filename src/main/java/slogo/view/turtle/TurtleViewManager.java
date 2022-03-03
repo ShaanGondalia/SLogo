@@ -1,5 +1,6 @@
 package slogo.view.turtle;
 
+import java.util.ArrayList;
 import slogo.model.turtle.Turtle;
 import slogo.view.windows.TurtleWindowView;
 
@@ -14,6 +15,7 @@ public class TurtleViewManager implements PropertyChangeListener {
 
     public TurtleViewManager(TurtleWindowView turvleViewWindow) {
         this.turvleViewWindow = turvleViewWindow;
+        turtleViewList = new ArrayList<>();
     }
 
     public TurtleView createTurtleView() {

@@ -12,6 +12,7 @@ import slogo.model.exception.MissingArgumentException;
 import slogo.model.turtle.Turtle;
 import slogo.model.turtle.TurtleManager;
 import slogo.view.turtle.TurtleView;
+import slogo.view.turtle.TurtleViewManager;
 
 public class Controller {
 
