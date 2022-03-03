@@ -2,6 +2,7 @@ package slogo.view.windows.sections;
 
 import java.util.Map;
 import java.util.ResourceBundle;
+import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Region;
@@ -81,6 +82,14 @@ public class VariablesAndCommandsSection implements IDESection {
     commandScrollPane.setPrefViewportWidth(COM_WIDTH);
   }
 
+  private void makeVariableButton(String variableName, String value){
+    Button b = new Button(formatVariableString(variableName, value));
+    b.setMinWidth(VAR_WIDTH);
+    b.setOnAction((e) -> {
+
+    });
+  }
+
   /**
    * Updates the display to display the current variables and user-defined section
    */
@@ -101,6 +110,15 @@ public class VariablesAndCommandsSection implements IDESection {
     }
 
     variableTextField.setText(toDisplay);
+  }
+
+  private String formatVariableString(String name, String value){
+    String s = name;
+    s = s.substring(1);
+    s += DELIMITER;
+    s += value;
+    s += NEW_LINE;
+    return s;
   }
 
   private void updateUserCommands() {
