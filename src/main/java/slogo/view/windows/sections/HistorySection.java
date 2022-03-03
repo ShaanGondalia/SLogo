@@ -39,9 +39,9 @@ public class HistorySection implements IDESection {
     myScrollPane = new ScrollPane();
     myScrollPane.setId(HISTORY_SECTION_ID);
     Text descriptor = new Text(STARTING_TEXT);
+    descriptor.setId(TEXT_SECTION_ID);
     BorderPane borderPane = new BorderPane();
     borderPane.setTop(descriptor);
-
     myHistoryButtons = new VBox();
     myHistoryButtons.setMinWidth(WIDTH);
     myHistoryButtons.setMaxWidth(MAX_WIDTH);
@@ -58,7 +58,7 @@ public class HistorySection implements IDESection {
   }
 
   /**
-   * Adds a new command's text to the history
+   * Adds a new command's text to the history - now uses buttons so user can click on them
    *
    * @param newCommand new successfully run command
    */
