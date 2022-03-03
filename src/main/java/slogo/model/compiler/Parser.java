@@ -20,7 +20,7 @@ public class Parser {
   public static final String COMMENT = "^#.*";
 
   // where to find resources specifically for this class
-  private static final String RESOURCES_PACKAGE = "slogo.languages.";
+  public static final String RESOURCES_PACKAGE = "slogo.languages.";
   private static final String EXCEPTION_RESOURCES = "model.exception.";
   // "types" and the regular expression patterns that recognize those types
   // note, it is a list because order matters (some patterns may be more generic)

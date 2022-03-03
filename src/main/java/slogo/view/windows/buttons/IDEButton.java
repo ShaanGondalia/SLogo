@@ -16,5 +16,5 @@ public interface IDEButton {
    *
    * @param info contains the information that each of the buttons need to function
    */
-  void doAction(ButtonUtil info) throws FileNotFoundException;
+  void doAction(ButtonUtil info);
 }

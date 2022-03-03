@@ -8,6 +8,7 @@ import slogo.Errors;
 import slogo.model.command.Command;
 
 import slogo.model.compiler.Compiler;
+import slogo.model.exception.MissingArgumentException;
 import slogo.model.turtle.Turtle;
 import slogo.model.turtle.TurtleManager;
 import slogo.view.turtle.TurtleView;
@@ -31,15 +32,12 @@ public class Controller {
     myMapGetters.put("default", () -> new HashMap<>());
   }
 
-  public void runText(String program){
-    try {
-      Deque<Deque<Command>> commands = myCompiler.compile(program);
-      while (!commands.isEmpty()) {
-        Deque<Command> innerCommands = commands.removeFirst();
-        myTurtleManager.executeCommandQueue(innerCommands);
-      }
-    } catch (Exception e){
-      Errors.showError(e.getMessage());
+
+  public void runText(String program) throws Exception {
+    Deque<Deque<Command>> commands = myCompiler.compile(program);
+    while (!commands.isEmpty()) {
+      Deque<Command> innerCommands = commands.removeFirst();
+      myTurtleManager.executeCommandQueue(innerCommands);
     }
   }
 
