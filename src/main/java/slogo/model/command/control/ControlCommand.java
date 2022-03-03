@@ -16,12 +16,11 @@ import slogo.model.turtle.Turtle;
 public abstract class ControlCommand extends AbstractCommand {
 
   /**
-   * @param turtle  the Turtle that is attached to this command
    * @param args    the arguments that the command takes
    * @param numArgs the number of arguments that this command takes
    * @throws MissingArgumentException if the list of arguments does not contain enough arguments
    */
-  public ControlCommand(Turtle turtle, List<Value> args, int numArgs)
+  public ControlCommand(List<Value> args, int numArgs)
       throws MissingArgumentException {
     super();
     verifyArgs(args, numArgs);

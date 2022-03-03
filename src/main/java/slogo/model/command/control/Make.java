@@ -20,11 +20,10 @@ public class Make extends ControlCommand {
    * Creates a make command
    *
    * @param args   the arguments for the command (two arguments for Make)
-   * @param turtle the Turtle that will be moved when the command is executed
    * @throws MissingArgumentException if the list of arguments does not contain enough arguments
    */
-  public Make(Turtle turtle, List<Value> args) throws MissingArgumentException {
-    super(turtle, args, NUM_ARGS);
+  public Make(List<Value> args) throws MissingArgumentException {
+    super(args, NUM_ARGS);
     variable = args.get(0);
     expr = args.get(1);
   }
@@ -33,9 +32,10 @@ public class Make extends ControlCommand {
    * Sets a variable to the given value
    *
    * @return the value of the expression
+   * @param turtle the Turtle that will be moved when the command is executed
    */
   @Override
-  public Value execute() {
+  public Value execute(Turtle turtle) {
     variable.setVal(expr.getVal());
     setReturnValue(expr.getVal());
     return returnValue();

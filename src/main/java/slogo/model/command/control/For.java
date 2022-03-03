@@ -25,13 +25,12 @@ public class For extends ControlCommand {
   private double myIncrement;
 
   /**
-   * @param turtle
    * @param args
    * @throws MissingArgumentException
    */
-  public For(Turtle turtle, List<Value> args, List<Deque<Command>> lists)
+  public For(List<Value> args, List<Deque<Command>> lists)
       throws MissingArgumentException {
-    super(turtle, args, NUM_ARGS);
+    super(args, NUM_ARGS);
     verifyCommandLists(lists, NUM_LISTS);
 
     myBody = lists.get(0);
@@ -44,15 +43,16 @@ public class For extends ControlCommand {
   /**
    * @return the output of the last executed command in the loop
    * @throws MissingArgumentException
+   * @param turtle
    */
   @Override
-  public Value execute() throws MissingArgumentException {
+  public Value execute(Turtle turtle) throws MissingArgumentException {
     myVariable.setVal(myStart);
 
     while (myVariable.getVal() < myEnd && (Math.abs(myVariable.getVal() - myEnd)
         > Main.TOLERANCE)) {
       for (Command c : myBody) {
-        c.execute();
+        c.execute(turtle);
       }
       myVariable.setVal(myVariable.getVal() + myIncrement);
     }
