@@ -17,7 +17,7 @@ public class PenDown extends TurtleCommand {
   /**
    * Creates a pen down command. Takes no arguments
    *
-   * @param args   the arguments for the command (no arguments for PenDown)
+   * @param args the arguments for the command (no arguments for PenDown)
    * @throws MissingArgumentException if the list of arguments does not contain enough arguments
    */
   public PenDown(List<Value> args) throws MissingArgumentException {
@@ -28,8 +28,8 @@ public class PenDown extends TurtleCommand {
   /**
    * Puts the attached turtle's pen down
    *
-   * @return 1
    * @param turtle the Turtle that will be rotated
+   * @return 1
    */
   @Override
   public Value execute(Turtle turtle) {

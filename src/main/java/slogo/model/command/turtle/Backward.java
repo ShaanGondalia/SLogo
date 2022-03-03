@@ -12,13 +12,13 @@ import slogo.model.turtle.Turtle;
  */
 public class Backward extends TurtleCommand {
 
-  private final Value pixels;
   private static final int NUM_ARGS = 1;
+  private final Value pixels;
 
   /**
    * Creates a backward command
    *
-   * @param args   the arguments for the command (single argument for BK)
+   * @param args the arguments for the command (single argument for BK)
    * @throws MissingArgumentException if the list of arguments does not contain enough arguments
    */
   public Backward(List<Value> args) throws MissingArgumentException {
@@ -29,8 +29,8 @@ public class Backward extends TurtleCommand {
   /**
    * Moves the attached turtle backward the given number of pixels
    *
-   * @return the number of pixels the turtle will move
    * @param turtle the Turtle that will be moved when the command is executed
+   * @return the number of pixels the turtle will move
    */
   @Override
   public Value execute(Turtle turtle) {

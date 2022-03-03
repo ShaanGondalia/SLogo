@@ -12,9 +12,9 @@ import slogo.model.turtle.Turtle;
  */
 public class Sum extends MathOperation {
 
+  private static final int NUM_ARGS = 2;
   private final Value arg1;
   private final Value arg2;
-  private static final int NUM_ARGS = 2;
 
   /**
    * Creates a sum command
@@ -32,8 +32,8 @@ public class Sum extends MathOperation {
   /**
    * Calculates the sum of the two arguments
    *
-   * @return arg1 + arg2
    * @param turtle
+   * @return arg1 + arg2
    */
   @Override
   public Value execute(Turtle turtle) {

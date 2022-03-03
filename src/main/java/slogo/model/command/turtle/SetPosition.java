@@ -29,9 +29,9 @@ public class SetPosition extends TurtleCommand {
   }
 
   /**
+   * @param turtle
    * @return distance travelled
    * @throws MissingArgumentException if less than 2 arguments given
-   * @param turtle
    */
   @Override
   public Value execute(Turtle turtle) throws MissingArgumentException {

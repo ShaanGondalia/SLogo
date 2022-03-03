@@ -19,7 +19,7 @@ public class SetHeading extends TurtleCommand {
   private final Value myBearing;
 
   /**
-   * @param args   size 1 list containing bearing to set turtle to
+   * @param args size 1 list containing bearing to set turtle to
    * @throws MissingArgumentException if args contains less than 1 item
    */
   public SetHeading(List<Value> args) throws MissingArgumentException {
@@ -29,8 +29,8 @@ public class SetHeading extends TurtleCommand {
   }
 
   /**
-   * @return the number of degrees turned to reach target bearing
    * @param turtle turtle to perform command on
+   * @return the number of degrees turned to reach target bearing
    */
   @Override
   public Value execute(Turtle turtle) {

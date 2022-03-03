@@ -12,8 +12,8 @@ import slogo.model.turtle.Turtle;
  */
 public class Not extends BooleanOperation {
 
-  private final Value arg1;
   private static final int NUM_ARGS = 1;
+  private final Value arg1;
 
   public Not(List<Value> args) throws MissingArgumentException {
     super(args, NUM_ARGS);
@@ -21,10 +21,9 @@ public class Not extends BooleanOperation {
   }
 
   /**
-   *
+   * @param turtle
    * @return 1 if both expr1 and expr2 are non-zero
    * @throws MissingArgumentException
-   * @param turtle
    */
   @Override
   public Value execute(Turtle turtle) {

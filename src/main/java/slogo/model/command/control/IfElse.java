@@ -17,9 +17,9 @@ public class IfElse extends ControlCommand {
   private static final int NUM_ARGS = 1;
   private static final int NUM_LISTS = 2;
 
-  private Value myExpr;
-  private Deque<Command> myTrueBody;
-  private Deque<Command> myFalseBody;
+  private final Value myExpr;
+  private final Deque<Command> myTrueBody;
+  private final Deque<Command> myFalseBody;
 
   public IfElse(List<Value> args, List<Deque<Command>> lists)
       throws MissingArgumentException {

@@ -12,8 +12,8 @@ public class If extends ControlCommand {
   private static final int NUM_ARGS = 1;
   private static final int NUM_LISTS = 1;
 
-  private Value myExpr;
-  private Deque<Command> myBody;
+  private final Value myExpr;
+  private final Deque<Command> myBody;
 
   public If(List<Value> args, List<Deque<Command>> lists)
       throws MissingArgumentException {

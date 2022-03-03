@@ -12,14 +12,14 @@ import slogo.model.turtle.Turtle;
  */
 public class Make extends ControlCommand {
 
+  private static final int NUM_ARGS = 2;
   private final Value variable;
   private final Value expr;
-  private static final int NUM_ARGS = 2;
 
   /**
    * Creates a make command
    *
-   * @param args   the arguments for the command (two arguments for Make)
+   * @param args the arguments for the command (two arguments for Make)
    * @throws MissingArgumentException if the list of arguments does not contain enough arguments
    */
   public Make(List<Value> args) throws MissingArgumentException {
@@ -31,8 +31,8 @@ public class Make extends ControlCommand {
   /**
    * Sets a variable to the given value
    *
-   * @return the value of the expression
    * @param turtle the Turtle that will be moved when the command is executed
+   * @return the value of the expression
    */
   @Override
   public Value execute(Turtle turtle) {

@@ -7,14 +7,15 @@ import slogo.model.turtle.Turtle;
 import slogo.model.turtle.TurtleManager;
 
 /**
- * Class that represents a tell command. Depends on MultipleTurtleCommand, Turtle, and TurtleManager.
+ * Class that represents a tell command. Depends on MultipleTurtleCommand, Turtle, and
+ * TurtleManager.
  *
  * @author Shaan Gondalia
  */
 public class Tell extends MultipleTurtleCommand {
 
-  private TurtleManager myTurtleManager;
-  private List<Value> ids;
+  private final TurtleManager myTurtleManager;
+  private final List<Value> ids;
 
   /**
    * Tells turtles with given ids to follow future commands. Creates turtles if needed.
@@ -32,13 +33,13 @@ public class Tell extends MultipleTurtleCommand {
   /**
    * Sets the turtles to follow the new commands
    *
-   * @return the last value in the id list
    * @param turtle the turtle to execute the command on
+   * @return the last value in the id list
    */
   @Override
   public Value execute(Turtle turtle) throws MissingArgumentException {
     myTurtleManager.swapFollowingIDs(ids);
-    setReturnValue(ids.get(ids.size() - 1 ).getVal());
+    setReturnValue(ids.get(ids.size() - 1).getVal());
     return returnValue();
   }
 }

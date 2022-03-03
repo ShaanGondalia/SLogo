@@ -7,7 +7,7 @@ package slogo.model.command;
  */
 public abstract class AbstractCommand implements Command {
 
-  private Value myReturnValue;
+  private final Value myReturnValue;
 
   public AbstractCommand() {
     myReturnValue = new Value();

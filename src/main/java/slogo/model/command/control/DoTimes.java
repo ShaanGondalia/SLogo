@@ -15,7 +15,7 @@ public class DoTimes extends ControlCommand {
 
   private static final int NUM_ARGS = 2;
   private static final int NUM_LISTS = 1;
-  private Command myFor;
+  private final Command myFor;
 
   public DoTimes(List<Value> args, List<Deque<Command>> lists)
       throws MissingArgumentException {
@@ -37,9 +37,9 @@ public class DoTimes extends ControlCommand {
   }
 
   /**
+   * @param turtle
    * @return value of last command run
    * @throws MissingArgumentException
-   * @param turtle
    */
   @Override
   public Value execute(Turtle turtle) throws MissingArgumentException {

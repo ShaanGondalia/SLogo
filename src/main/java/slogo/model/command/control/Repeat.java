@@ -17,8 +17,8 @@ public class Repeat extends ControlCommand {
   private static final int NUM_ARGS = 1;
   private static final int NUM_LISTS = 1;
 
-  private Deque<Command> myBody;
-  private Value repetitions;
+  private final Deque<Command> myBody;
+  private final Value repetitions;
 
   /**
    * @param args
@@ -35,9 +35,9 @@ public class Repeat extends ControlCommand {
   }
 
   /**
+   * @param turtle
    * @return the output of the last executed command in the loop
    * @throws MissingArgumentException
-   * @param turtle
    */
   @Override
   public Value execute(Turtle turtle) throws MissingArgumentException {

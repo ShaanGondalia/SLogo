@@ -12,7 +12,7 @@ public class Turtle extends Observable<TurtleStatus> {
 
   private double myX;
   private double myY;
-  private double myID;
+  private final double myID;
   private double myThickness;
   private double myBearing;
   private boolean myHasPen;
@@ -35,6 +35,7 @@ public class Turtle extends Observable<TurtleStatus> {
 
   /**
    * Create a new turtle that starts at the center of the screen with the given ID.
+   *
    * @param id the id of the turtle
    */
   public Turtle(double id) {
@@ -87,14 +88,6 @@ public class Turtle extends Observable<TurtleStatus> {
     change("Pose");
   }
 
-  public void setPose(Pose pose) {
-    myX = pose.x();
-    myY = pose.y();
-    myBearing = pose.bearing();
-    String property = "Pose";
-    change(property);
-  }
-
   /**
    * Clears the turtle's trails
    */
@@ -105,6 +98,7 @@ public class Turtle extends Observable<TurtleStatus> {
 
   /**
    * Gets the id of the turtle
+   *
    * @return the id of the turtle
    */
   public double getMyID() {
@@ -135,6 +129,14 @@ public class Turtle extends Observable<TurtleStatus> {
 
   public Pose getPose() {
     return currentPose();
+  }
+
+  public void setPose(Pose pose) {
+    myX = pose.x();
+    myY = pose.y();
+    myBearing = pose.bearing();
+    String property = "Pose";
+    change(property);
   }
 
   public TurtleStatus getStatus() {

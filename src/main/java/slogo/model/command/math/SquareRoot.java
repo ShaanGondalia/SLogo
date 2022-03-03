@@ -12,8 +12,8 @@ import slogo.model.turtle.Turtle;
  */
 public class SquareRoot extends MathOperation {
 
-  private final Value arg1;
   private static final int NUM_ARGS = 1;
+  private final Value arg1;
 
   /**
    * Creates a SquareRoot command
@@ -30,8 +30,8 @@ public class SquareRoot extends MathOperation {
   /**
    * Calculates the Square Root
    *
-   * @return sqrt(arg1)
    * @param turtle
+   * @return sqrt(arg1)
    */
   @Override
   public Value execute(Turtle turtle) {

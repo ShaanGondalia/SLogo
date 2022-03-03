@@ -17,7 +17,7 @@ public class HideTurtle extends TurtleCommand {
   /**
    * Creates a hide turtle command. Takes no arguments
    *
-   * @param args   the arguments for the command (no arguments for HideTurtle)
+   * @param args the arguments for the command (no arguments for HideTurtle)
    * @throws MissingArgumentException if the list of arguments does not contain enough arguments
    */
   public HideTurtle(List<Value> args) throws MissingArgumentException {
@@ -28,8 +28,8 @@ public class HideTurtle extends TurtleCommand {
   /**
    * Hides the attached turtle
    *
-   * @return 0
    * @param turtle the Turtle that will be rotated
+   * @return 0
    */
   @Override
   public Value execute(Turtle turtle) {

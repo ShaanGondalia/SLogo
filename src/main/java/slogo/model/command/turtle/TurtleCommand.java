@@ -29,8 +29,8 @@ public abstract class TurtleCommand extends AbstractCommand {
   /**
    * Abstract method for when a command is executed. Implemented by subclasses.
    *
-   * @return the value that is returned when the command is executed
    * @param turtle the turtle that this command executes on
+   * @return the value that is returned when the command is executed
    */
   @Override
   public abstract Value execute(Turtle turtle) throws MissingArgumentException;

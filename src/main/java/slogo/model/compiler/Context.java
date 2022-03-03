@@ -2,18 +2,19 @@ package slogo.model.compiler;
 
 import java.util.Deque;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Stack;
 import slogo.model.command.Command;
 import slogo.model.command.Value;
 
 /**
  * Class that represents a single context of a program. A new context is defined every time the
- * compiler encounters a new list. Contexts exist because lists need to be separated from each other.
- * 
+ * compiler encounters a new list. Contexts exist because lists need to be separated from each
+ * other.
+ *
  * @author Shaan Gondalia
  */
 public class Context {
+
   private final Stack<String> pendingCommands;
   private final Deque<Command> resolvedCommands;
   private final Deque<Deque<Command>> resolvedCommandQueues;
@@ -96,7 +97,7 @@ public class Context {
    */
   public void resolve(Context previousContext) {
     // If list only contained values (no commands) add values to values in previous context
-    if(previousContext.getResolvedCommands().isEmpty()) {
+    if (previousContext.getResolvedCommands().isEmpty()) {
       values.addAll(previousContext.getValues());
     } else {
       // Add resolved commands of list to lists in outer context

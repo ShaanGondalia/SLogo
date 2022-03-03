@@ -13,15 +13,15 @@ public interface Command {
   /**
    * Executes a command, returning a corresponding value
    *
-   * @return the value that the command returns when executed
    * @param turtle
+   * @return the value that the command returns when executed
    */
-  public Value execute(Turtle turtle) throws MissingArgumentException;
+  Value execute(Turtle turtle) throws MissingArgumentException;
 
   /**
    * Returns the return value of a command without executing it
    *
    * @return the return value of a command without execution.
    */
-  public Value returnValue();
+  Value returnValue();
 }

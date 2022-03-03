@@ -12,13 +12,13 @@ import slogo.model.turtle.Turtle;
  */
 public class ArcTangent extends MathOperation {
 
-  private final Value arg1;
   private static final int NUM_ARGS = 1;
+  private final Value arg1;
 
   /**
    * Creates an ArcTangent command
    *
-   * @param args   the arguments that the command takes
+   * @param args the arguments that the command takes
    * @throws MissingArgumentException if the list of arguments does not contain enough arguments
    */
   public ArcTangent(List<Value> args) throws MissingArgumentException {
@@ -29,8 +29,8 @@ public class ArcTangent extends MathOperation {
   /**
    * Calculates the arctan of the first argument
    *
-   * @return atan(arg1)
    * @param turtle the Turtle that is attached to this command
+   * @return atan(arg1)
    */
   @Override
   public Value execute(Turtle turtle) {

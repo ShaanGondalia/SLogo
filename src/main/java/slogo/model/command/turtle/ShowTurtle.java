@@ -17,7 +17,7 @@ public class ShowTurtle extends TurtleCommand {
   /**
    * Creates a show turtle command. Takes no arguments
    *
-   * @param args   the arguments for the command (no arguments for ShowTurtle)
+   * @param args the arguments for the command (no arguments for ShowTurtle)
    * @throws MissingArgumentException if the list of arguments does not contain enough arguments
    */
   public ShowTurtle(List<Value> args) throws MissingArgumentException {

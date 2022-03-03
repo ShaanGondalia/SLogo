@@ -11,9 +11,9 @@ public class UserCommand extends ControlCommand {
 
   private static final int NUM_LISTS = 1;
 
-  private List<Value> myFormalParameters;
+  private final List<Value> myFormalParameters;
   private List<Value> myActualParameters;
-  private Deque<Command> myMethodBody;
+  private final Deque<Command> myMethodBody;
 
   public UserCommand(List<Value> variables, List<Deque<Command>> lists)
       throws MissingArgumentException {

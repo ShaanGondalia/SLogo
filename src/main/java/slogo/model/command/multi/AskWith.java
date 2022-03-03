@@ -9,7 +9,8 @@ import slogo.model.turtle.Turtle;
 import slogo.model.turtle.TurtleManager;
 
 /**
- * Class that represents an ask with command. Depends on MultipleTurtleCommand, Turtle, and TurtleManager.
+ * Class that represents an ask with command. Depends on MultipleTurtleCommand, Turtle, and
+ * TurtleManager.
  *
  * @author Shaan Gondalia
  */
@@ -18,9 +19,9 @@ public class AskWith extends MultipleTurtleCommand {
   private static final int NUM_ARGS = 0;
   private static final int NUM_LISTS = 2;
 
-  private TurtleManager myTurtleManager;
-  private Deque<Command> condition;
-  private Deque<Command> myBody;
+  private final TurtleManager myTurtleManager;
+  private final Deque<Command> condition;
+  private final Deque<Command> myBody;
 
   /**
    * Asks turtles with given ids to follow commands in the body. Creates turtles if needed.
@@ -40,8 +41,8 @@ public class AskWith extends MultipleTurtleCommand {
   /**
    * Tells the turtles given in the arguments to follow the commands in the body.
    *
-   * @return the return value of the last command that was run
    * @param turtle the turtle to execute the command on (this command ignores this turtle)
+   * @return the return value of the last command that was run
    */
   @Override
   public Value execute(Turtle turtle) throws MissingArgumentException {

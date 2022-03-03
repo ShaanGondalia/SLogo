@@ -12,8 +12,8 @@ import slogo.model.turtle.Turtle;
  */
 public class Random extends MathOperation {
 
-  private final Value arg1;
   private static final int NUM_ARGS = 1;
+  private final Value arg1;
 
   /**
    * Creates a random command
@@ -30,8 +30,8 @@ public class Random extends MathOperation {
   /**
    * Calculates a random number strictly less than arg1
    *
-   * @return a random number strictly less than arg1
    * @param turtle
+   * @return a random number strictly less than arg1
    */
   @Override
   public Value execute(Turtle turtle) {

@@ -12,9 +12,9 @@ import slogo.model.turtle.Turtle;
  */
 public class And extends BooleanOperation {
 
+  private static final int NUM_ARGS = 2;
   private final Value arg1;
   private final Value arg2;
-  private static final int NUM_ARGS = 2;
 
   public And(List<Value> args) throws MissingArgumentException {
     super(args, NUM_ARGS);
@@ -23,10 +23,9 @@ public class And extends BooleanOperation {
   }
 
   /**
-   *
+   * @param turtle
    * @return 1 if both expr1 and expr2 are non-zero
    * @throws MissingArgumentException
-   * @param turtle
    */
   @Override
   public Value execute(Turtle turtle) {

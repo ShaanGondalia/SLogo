@@ -28,8 +28,8 @@ public class XCoordinate extends TurtleQuery {
   /**
    * Returns the x coordinate of the queried
    *
-   * @return the x coordinate of the queried turtle
    * @param turtle
+   * @return the x coordinate of the queried turtle
    */
   @Override
   public Value execute(Turtle turtle) throws MissingArgumentException {

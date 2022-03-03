@@ -13,16 +13,16 @@ import slogo.model.turtle.Turtle;
  */
 public class SetTowards extends TurtleCommand {
 
+  private static final int NUM_ARGS = 2;
   private final Value x;
   private final Value y;
   private double degrees;
-  private Value degreesAbs;
-  private static final int NUM_ARGS = 2;
+  private final Value degreesAbs;
 
   /**
    * Creates a set towards command
    *
-   * @param args   the arguments for the command (2 arguments for SetTowards)
+   * @param args the arguments for the command (2 arguments for SetTowards)
    * @throws MissingArgumentException if the list of arguments does not contain enough arguments
    */
   public SetTowards(List<Value> args) throws MissingArgumentException {
@@ -36,8 +36,8 @@ public class SetTowards extends TurtleCommand {
   /**
    * Turns the turtle to face the given point.
    *
-   * @return the number of degrees the turtle rotates
    * @param turtle the Turtle that will be moved when the command is executed
+   * @return the number of degrees the turtle rotates
    */
   @Override
   public Value execute(Turtle turtle) {

@@ -10,8 +10,7 @@ import slogo.model.command.Value;
 import slogo.model.exception.MissingArgumentException;
 
 /**
- * Class that manages turtles
- * Used to determine active turtles and set myID
+ * Class that manages turtles Used to determine active turtles and set myID
  *
  * @author Jake Heller and Shaan Gondalia
  */
@@ -48,6 +47,7 @@ public class TurtleManager {
 
   /**
    * Returns the total number of turtles that have been created
+   *
    * @return the total number of turtles that have been created
    */
   public double numTurtles() {
@@ -67,7 +67,8 @@ public class TurtleManager {
   }
 
   /**
-   * Sets the turtles with the given ids to follow commands. Creates them if they do not already exist
+   * Sets the turtles with the given ids to follow commands. Creates them if they do not already
+   * exist
    *
    * @param ids the ids of the turtles that will follow commands.
    * @return
@@ -105,6 +106,7 @@ public class TurtleManager {
   /**
    * Executes a queue of commands on the following turtles. Assumes the following turtle does not
    * change during the run
+   *
    * @param innerQueue
    */
   public void executeCommandQueue(Deque<Command> innerQueue) throws MissingArgumentException {
@@ -122,7 +124,7 @@ public class TurtleManager {
    * Executes a body of commands per turtle if they meet the condition
    *
    * @param condition the condition to check for each turtle
-   * @param myBody the body of commands that qualifying turtles will run
+   * @param myBody    the body of commands that qualifying turtles will run
    */
   public void executeConditionally(Deque<Command> condition, Deque<Command> myBody)
       throws MissingArgumentException {
@@ -130,7 +132,7 @@ public class TurtleManager {
       for (Command command : condition) {
         command.execute(t);
       }
-      if (condition.peekLast().returnValue().getVal() != 0){ // TODO: Add tolerance here
+      if (condition.peekLast().returnValue().getVal() != 0) { // TODO: Add tolerance here
         for (Command command : myBody) {
           command.execute(t);
         }

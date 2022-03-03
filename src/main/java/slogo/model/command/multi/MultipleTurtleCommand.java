@@ -6,7 +6,6 @@ import slogo.model.command.AbstractCommand;
 import slogo.model.command.Command;
 import slogo.model.command.Value;
 import slogo.model.exception.MissingArgumentException;
-import slogo.model.turtle.TurtleManager;
 
 /**
  * Defines abstract class for any multiple turtle command with an arbitrary number of args.

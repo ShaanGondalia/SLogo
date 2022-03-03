@@ -173,7 +173,7 @@ public class CommandFactory {
    * @return the number of inputs the command takes.
    */
   public int getNumInputs(String command) throws SymbolNotFoundException {
-    if (command.equals("MakeUserInstruction")){
+    if (command.equals("MakeUserInstruction")) {
       return myParameterCounts.getOrDefault(lastAddedSymbol, 0);
     }
     if (!myParameterCounts.containsKey(command)) {
@@ -185,11 +185,13 @@ public class CommandFactory {
 
   /**
    * Adds the string associated with user command
+   *
    * @param program entire program that was run
-   * @param p parser used to parse program
+   * @param p       parser used to parse program
    */
   public void addUserDefinedCommandStrings(String program, Parser p) {
-    Map<String, String> userCommands = UserCommandFinder.findUserCommands(program, p, myUserCommands.keySet());
+    Map<String, String> userCommands = UserCommandFinder.findUserCommands(program, p,
+        myUserCommands.keySet());
     myUserCommandStrings.putAll(userCommands);
   }
 

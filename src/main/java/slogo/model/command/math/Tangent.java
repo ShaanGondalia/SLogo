@@ -12,13 +12,13 @@ import slogo.model.turtle.Turtle;
  */
 public class Tangent extends MathOperation {
 
-  private final Value arg1;
   private static final int NUM_ARGS = 1;
+  private final Value arg1;
 
   /**
    * Creates a Tangent command
    *
-   * @param args   the arguments that the command takes
+   * @param args the arguments that the command takes
    * @throws MissingArgumentException if the list of arguments does not contain enough arguments
    */
   public Tangent(List<Value> args) throws MissingArgumentException {
@@ -29,8 +29,8 @@ public class Tangent extends MathOperation {
   /**
    * Calculates the Tangent
    *
-   * @return tan(arg1)
    * @param turtle the Turtle that is attached to this command
+   * @return tan(arg1)
    */
   @Override
   public Value execute(Turtle turtle) {

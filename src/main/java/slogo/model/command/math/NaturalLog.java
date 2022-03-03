@@ -12,8 +12,8 @@ import slogo.model.turtle.Turtle;
  */
 public class NaturalLog extends MathOperation {
 
-  private final Value arg1;
   private static final int NUM_ARGS = 1;
+  private final Value arg1;
 
   /**
    * Creates a NaturalLog command
@@ -30,8 +30,8 @@ public class NaturalLog extends MathOperation {
   /**
    * Calculates the NaturalLog
    *
-   * @return ln(arg1)
    * @param turtle
+   * @return ln(arg1)
    */
   @Override
   public Value execute(Turtle turtle) {

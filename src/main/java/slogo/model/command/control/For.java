@@ -18,11 +18,11 @@ public class For extends ControlCommand {
   private static final int NUM_ARGS = 4;
   private static final int NUM_LISTS = 1;
 
-  private Deque<Command> myBody;
-  private Value myVariable;
-  private double myStart;
-  private double myEnd;
-  private double myIncrement;
+  private final Deque<Command> myBody;
+  private final Value myVariable;
+  private final double myStart;
+  private final double myEnd;
+  private final double myIncrement;
 
   /**
    * @param args
@@ -41,9 +41,9 @@ public class For extends ControlCommand {
   }
 
   /**
+   * @param turtle
    * @return the output of the last executed command in the loop
    * @throws MissingArgumentException
-   * @param turtle
    */
   @Override
   public Value execute(Turtle turtle) throws MissingArgumentException {

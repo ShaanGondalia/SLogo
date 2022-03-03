@@ -18,8 +18,7 @@ public record Color(int r, int g, int b) {
     String s = Integer.toHexString(a);
     if (s.length() == 1) {
       s = "0" + s;
-    }
-    else if (s.length() == 3) {
+    } else if (s.length() == 3) {
       s = s.substring(1);
     }
     return s;

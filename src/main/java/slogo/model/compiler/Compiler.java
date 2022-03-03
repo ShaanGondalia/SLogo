@@ -1,22 +1,17 @@
 package slogo.model.compiler;
 
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.Deque;
 import java.util.EmptyStackException;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.Stack;
-import java.util.regex.Pattern;
 import slogo.model.command.Command;
 import slogo.model.command.Value;
 import slogo.model.exception.MissingArgumentException;
 import slogo.model.exception.SymbolNotFoundException;
-import slogo.model.turtle.Turtle;
 import slogo.model.turtle.TurtleManager;
 
 /**
@@ -29,14 +24,11 @@ public class Compiler {
 
   public static final String WHITESPACE = "\\s+";
   private static final String EXCEPTION_RESOURCES = "model.exception.";
-
-  private Parser myParser;
-  private Map<String, Value> myVariables;
   private final TurtleManager myTurtleManager;
-
-  private CommandFactory commandFactory;
   private final ResourceBundle exceptionResources;
-
+  private final Parser myParser;
+  private final Map<String, Value> myVariables;
+  private final CommandFactory commandFactory;
   private Context activeContext;
   private Stack<Context> inactiveContexts;
 
@@ -69,16 +61,17 @@ public class Compiler {
       while (canBeResolved()) {
         String pendingCommand = activeContext.getPendingCommands().pop();
         int numInputs = commandFactory.getNumInputs(pendingCommand);
-        if(numInputs == -1) {
+        if (numInputs == -1) {
           numInputs = activeContext.getValues().size() - activeContext.getValuesBefore().peek();
         }
-        if(pendingCommand.equals("MakeUserInstruction")) {
+        if (pendingCommand.equals("MakeUserInstruction")) {
           commandFactory.makeCommand(waitingUserCommandName, numInputs);
         }
 
         activeContext.getValuesBefore().pop();
         activeContext.getListsBefore().pop();
-        Command command = commandFactory.getCommand(pendingCommand, activeContext.getValues(), activeContext.getLists(), numInputs);
+        Command command = commandFactory.getCommand(pendingCommand, activeContext.getValues(),
+            activeContext.getLists(), numInputs);
         activeContext.getValues().add(command.returnValue());
         if (!activeContext.getLists().empty()) {
           activeContext.getLists().peek().addLast(command);
@@ -93,12 +86,14 @@ public class Compiler {
     }
     if (!activeContext.getPendingCommands().empty()) {
       throw new MissingArgumentException(
-          String.format(exceptionResources.getString("MissingArgument"), activeContext.getPendingCommands().peek()));
+          String.format(exceptionResources.getString("MissingArgument"),
+              activeContext.getPendingCommands().peek()));
     }
     commandFactory.addUserDefinedCommandStrings(program, myParser);
 
     return constructResolvedCommandQueues();
   }
+
   //Returns true if the pending command can be resolved
   private boolean canBeResolved() throws SymbolNotFoundException {
     if (activeContext.getPendingCommands().isEmpty()) {
@@ -119,7 +114,7 @@ public class Compiler {
   private Deque<Deque<Command>> constructResolvedCommandQueues() {
     Deque<Deque<Command>> resolvedCommandQueues = new LinkedList<>();
     resolvedCommandQueues.add(new LinkedList<>());
-    for (Command c : activeContext.getResolvedCommands()){
+    for (Command c : activeContext.getResolvedCommands()) {
       // null delimits completed blocks of commands
       if (c == null) {
         resolvedCommandQueues.add(new LinkedList<>());
@@ -164,14 +159,14 @@ public class Compiler {
   }
 
   // Handles what happens when a command is detected by the parser
-  private void handleCommand(String symbol){
+  private void handleCommand(String symbol) {
     activeContext.getPendingCommands().push(symbol);
     activeContext.getValuesBefore().push(activeContext.getValues().size());
     activeContext.getListsBefore().push(activeContext.getLists().size());
   }
 
   // Handles what happens when a variable is detected by the parser
-  private void handleVariable(String value){
+  private void handleVariable(String value) {
     if (!myVariables.containsKey(value)) {
       myVariables.put(value, new Value());
     }
@@ -183,8 +178,7 @@ public class Compiler {
     try {
       if (commandFactory.isCommand(token)) {
         handleCommand(token);
-      }
-      else if (activeContext.getPendingCommands().peek().equals("MakeUserInstruction")) {
+      } else if (activeContext.getPendingCommands().peek().equals("MakeUserInstruction")) {
         waitingUserCommandName = token;
       } else {
         throw new SymbolNotFoundException(
@@ -210,7 +204,7 @@ public class Compiler {
 
   public Map<String, String> getVariables() {
     Map<String, String> variables = new LinkedHashMap<>();
-    for (String name: myVariables.keySet()) {
+    for (String name : myVariables.keySet()) {
       String val = String.format("%.2f", myVariables.get(name).getVal());
       variables.put(name, val);
     }

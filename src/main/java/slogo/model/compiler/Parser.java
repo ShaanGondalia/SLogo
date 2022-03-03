@@ -2,14 +2,11 @@ package slogo.model.compiler;
 
 import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.ResourceBundle;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import slogo.model.exception.SymbolNotFoundException;
 
 /**
  * Simple parser based on regular expressions that matches input strings to kinds of program
@@ -29,7 +26,7 @@ public class Parser {
   // note, it is a list because order matters (some patterns may be more generic)
   private List<Entry<String, Pattern>> mySymbols;
 
-  private ResourceBundle exceptionResources;
+  private final ResourceBundle exceptionResources;
 
 
   /**
@@ -61,9 +58,9 @@ public class Parser {
    */
   public String removeComments(String program) {
     StringBuilder finalProgram = new StringBuilder();
-    for (String line: program.split("\n")) {
+    for (String line : program.split("\n")) {
       for (Entry<String, Pattern> e : mySymbols) {
-        if(e.getKey().equals("Comment")){
+        if (e.getKey().equals("Comment")) {
           if (!match(line, e.getValue())) {
             finalProgram.append(line).append(" ");
           }

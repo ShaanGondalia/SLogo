@@ -17,7 +17,7 @@ public class IsShowing extends TurtleQuery {
   /**
    * Creates a IsShowing command attached to the given Turtle.
    *
-   * @param args   the arguments that the command takes
+   * @param args the arguments that the command takes
    * @throws MissingArgumentException if the list of arguments does not contain enough arguments
    */
   public IsShowing(List<Value> args) throws MissingArgumentException {
@@ -27,8 +27,8 @@ public class IsShowing extends TurtleQuery {
   /**
    * Returns the IsShowing of the queried turtle
    *
-   * @return 1 if turtle is showing, 0 otherwise
    * @param turtle the Turtle that is attached to this command
+   * @return 1 if turtle is showing, 0 otherwise
    */
   @Override
   public Value execute(Turtle turtle) throws MissingArgumentException {

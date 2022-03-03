@@ -12,13 +12,13 @@ import slogo.model.turtle.Turtle;
  */
 public class Right extends TurtleCommand {
 
-  private final Value degrees;
   private static final int NUM_ARGS = 1;
+  private final Value degrees;
 
   /**
    * Creates a right command. Takes a single argument
    *
-   * @param args   the arguments for the command (single argument for Right)
+   * @param args the arguments for the command (single argument for Right)
    * @throws MissingArgumentException if the list of arguments does not contain enough arguments
    */
   public Right(List<Value> args) throws MissingArgumentException {
@@ -29,8 +29,8 @@ public class Right extends TurtleCommand {
   /**
    * Rotates the turtle Right (CW) by the given number of degrees
    *
-   * @return the number of degrees the turtle will rotate
    * @param turtle the Turtle that will be rotated
+   * @return the number of degrees the turtle will rotate
    */
   @Override
   public Value execute(Turtle turtle) {

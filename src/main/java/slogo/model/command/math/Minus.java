@@ -12,8 +12,8 @@ import slogo.model.turtle.Turtle;
  */
 public class Minus extends MathOperation {
 
-  private final Value arg1;
   private static final int NUM_ARGS = 1;
+  private final Value arg1;
 
   /**
    * Creates a Minus command
@@ -30,8 +30,8 @@ public class Minus extends MathOperation {
   /**
    * Calculates the negative of arg1
    *
-   * @return -arg1
    * @param turtle
+   * @return -arg1
    */
   @Override
   public Value execute(Turtle turtle) {

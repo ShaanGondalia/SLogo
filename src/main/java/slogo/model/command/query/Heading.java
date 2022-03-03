@@ -17,7 +17,7 @@ public class Heading extends TurtleQuery {
   /**
    * Creates a Heading command attached to the given Turtle.
    *
-   * @param args   the arguments that the command takes
+   * @param args the arguments that the command takes
    * @throws MissingArgumentException if the list of arguments does not contain enough arguments
    */
   public Heading(List<Value> args) throws MissingArgumentException {
@@ -27,8 +27,8 @@ public class Heading extends TurtleQuery {
   /**
    * Returns the heading of the queried turtle
    *
-   * @return the heading of the queried turtle
    * @param turtle the Turtle that is attached to this command
+   * @return the heading of the queried turtle
    */
   @Override
   public Value execute(Turtle turtle) throws MissingArgumentException {

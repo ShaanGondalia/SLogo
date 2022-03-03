@@ -11,8 +11,8 @@ public class MakeUserInstruction extends ControlCommand {
 
   private static final int NUM_LISTS = 1;
 
-  private List<Value> myFormalParameters;
-  private List<Deque<Command>> bodies;
+  private final List<Value> myFormalParameters;
+  private final List<Deque<Command>> bodies;
 
 
   public MakeUserInstruction(List<Value> variables, List<Deque<Command>> lists)

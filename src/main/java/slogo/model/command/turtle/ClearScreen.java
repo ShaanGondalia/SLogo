@@ -19,7 +19,7 @@ public class ClearScreen extends TurtleCommand {
   /**
    * Creates a clear screen command. Takes no arguments
    *
-   * @param args   the arguments for the command (no arguments for ClearScreen)
+   * @param args the arguments for the command (no arguments for ClearScreen)
    * @throws MissingArgumentException if the list of arguments does not contain enough arguments
    */
   public ClearScreen(List<Value> args) throws MissingArgumentException {
@@ -29,8 +29,8 @@ public class ClearScreen extends TurtleCommand {
   /**
    * Shows the attached turtle
    *
-   * @return distance turtle moved
    * @param turtle the Turtle that will be rotated
+   * @return distance turtle moved
    */
   @Override
   public Value execute(Turtle turtle) {

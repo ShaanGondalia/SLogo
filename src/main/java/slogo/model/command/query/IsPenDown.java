@@ -28,8 +28,8 @@ public class IsPenDown extends TurtleQuery {
   /**
    * Returns the IsPenDown of the queried turtle
    *
-   * @return 1 if pen is down, 0 otherwise
    * @param turtle
+   * @return 1 if pen is down, 0 otherwise
    */
   @Override
   public Value execute(Turtle turtle) throws MissingArgumentException {
