@@ -56,14 +56,12 @@ public class Compiler {
    * Compiles and runs a program.
    *
    * @param program the string input of the program
-   * @param turtles list of turtles to attach commands to
    * @throws Exception if there is an issue running the program
    */
-  public Deque<Deque<Command>> compile(String program, List<Turtle> turtles) throws Exception {
+  public Deque<Deque<Command>> compile(String program) throws Exception {
     reset();
     program = program.replaceAll(COMMENT, ""); // TODO: verify if this actually works
     // will be changed when we can have multiple turtles
-    Turtle turtle = turtles.get(0);
 
     for (String token : program.split(WHITESPACE)) {
       handleToken(token);
@@ -85,7 +83,7 @@ public class Compiler {
         }
         activeContext.getValuesBefore().pop();
         activeContext.getListsBefore().pop();
-        Command command = commandFactory.getCommand(pendingCommand, turtle, activeContext.getValues(), activeContext.getLists());
+        Command command = commandFactory.getCommand(pendingCommand, activeContext.getValues(), activeContext.getLists());
         activeContext.getValues().add(command.returnValue());
         if (!activeContext.getLists().empty()) {
           activeContext.getLists().peek().addLast(command);

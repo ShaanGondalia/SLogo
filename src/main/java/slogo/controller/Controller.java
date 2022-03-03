@@ -30,11 +30,11 @@ public class Controller {
 
   public void runText(String program){
     try {
-      Deque<Deque<Command>> commands = myCompiler.compile(program, myTurtles);
+      Deque<Deque<Command>> commands = myCompiler.compile(program);
       while (!commands.isEmpty()) {
         Deque<Command> innerCommands = commands.removeFirst();
         while (!innerCommands.isEmpty()) {
-          innerCommands.removeFirst().execute();
+          innerCommands.removeFirst().execute(myTurtles.get(0));
         }
       }
     } catch (Exception e){

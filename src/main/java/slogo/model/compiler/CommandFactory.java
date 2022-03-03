@@ -16,7 +16,6 @@ import slogo.model.command.control.MakeUserInstruction;
 import slogo.model.command.control.UserCommand;
 import slogo.model.exception.MissingArgumentException;
 import slogo.model.exception.SymbolNotFoundException;
-import slogo.model.turtle.Turtle;
 
 /**
  * Factory that has methods that return commands using reflection.
@@ -63,12 +62,11 @@ public class CommandFactory {
    * Returns an instance of a command using reflection
    *
    * @param symbol the symbol of the command
-   * @param turtle the turtle attached to the command
    * @param values the stack of values to pass to the command
    * @return
    * @throws MissingArgumentException
    */
-  public Command getCommand(String symbol, Turtle turtle, Stack<Value> values,
+  public Command getCommand(String symbol, Stack<Value> values,
       Stack<Deque<Command>> commandLists)
       throws MissingArgumentException, SymbolNotFoundException {
     List<Value> args = new ArrayList<>();
@@ -86,20 +84,20 @@ public class CommandFactory {
     if (myUserCommands.containsKey(symbol)) {
       return getUserCommand(symbol, args);
     } else if (getNumListInputs(symbol) != 0) {
-      return getCommandListReflection(symbol, turtle, args, commandQueues);
+      return getCommandListReflection(symbol, args, commandQueues);
     }
-    return getCommandReflection(symbol, turtle, args);
+    return getCommandReflection(symbol, args);
   }
 
-  private Command getCommandListReflection(String symbol, Turtle turtle, List<Value> args,
+  private Command getCommandListReflection(String symbol, List<Value> args,
       List<Deque<Command>> commandQueues) {
     String command = reflectionResources.getString(symbol).trim();
     try {
       // convert string into Java object that represents that Java class
       Class<?> clazz = Class.forName(command);
       // use reflection to find the appropriate constructor of that class to call to create a new instance
-      Constructor<?> ctor = clazz.getDeclaredConstructor(Turtle.class, List.class, List.class);
-      Command c = (Command) ctor.newInstance(turtle, args, commandQueues);
+      Constructor<?> ctor = clazz.getDeclaredConstructor(List.class, List.class);
+      Command c = (Command) ctor.newInstance(args, commandQueues);
       if (symbol.equals("MakeUserInstruction")) {
         myUserCommands.put(lastAddedSymbol, (MakeUserInstruction) c);
       }
@@ -118,14 +116,14 @@ public class CommandFactory {
   }
 
   // Gets a command using reflection
-  private Command getCommandReflection(String symbol, Turtle turtle, List<Value> args) {
+  private Command getCommandReflection(String symbol, List<Value> args) {
     String command = reflectionResources.getString(symbol).trim();
     try {
       // convert string into Java object that represents that Java class
       Class<?> clazz = Class.forName(command);
       // use reflection to find the appropriate constructor of that class to call to create a new instance
-      Constructor<?> ctor = clazz.getDeclaredConstructor(Turtle.class, List.class);
-      return (Command) ctor.newInstance(turtle, args);
+      Constructor<?> ctor = clazz.getDeclaredConstructor(List.class);
+      return (Command) ctor.newInstance(args);
     } catch (ClassNotFoundException | InvocationTargetException | NoSuchMethodException |
         InstantiationException | IllegalAccessException e) {
       throw new InputMismatchException(

@@ -3,11 +3,9 @@ package slogo.model;
 import java.util.ArrayList;
 import java.util.Deque;
 import java.util.List;
-import java.util.Queue;
 import slogo.model.command.Command;
 import slogo.model.compiler.Compiler;
 import slogo.model.turtle.Turtle;
-import slogo.model.compiler.Compiler;
 
 public class ModelTester {
 
@@ -34,12 +32,12 @@ public class ModelTester {
     List<Turtle> turtles = new ArrayList<>();
     Turtle t = new Turtle();
     turtles.add(t);
-    Deque<Deque<Command>> q = c.compile(PROGRAM, turtles);
+    Deque<Deque<Command>> q = c.compile(PROGRAM);
 
     for (Deque<Command> innerQueue : q) {
       for (Command command : innerQueue) {
         System.out.println(command);
-        command.execute();
+        command.execute(t);
         System.out.println(t.getPose());
       }
     }
