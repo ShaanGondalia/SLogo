@@ -23,8 +23,15 @@ import slogo.model.turtle.TurtleManager;
 public class Compiler {
 
   public static final String WHITESPACE = "\\s+";
+
+  private static final String CONSTANT = "Constant";
+  private static final String VARIABLE = "Variable";
+  private static final String USER_COMMAND = "UserCommand";
+  private static final String LIST_START = "ListStart";
+  private static final String LIST_END = "ListEnd";
   private static final String EXCEPTION_RESOURCES = "model.exception.";
-  private final TurtleManager myTurtleManager;
+
+
   private final ResourceBundle exceptionResources;
   private final Parser myParser;
   private final Map<String, Value> myVariables;
@@ -44,7 +51,6 @@ public class Compiler {
     myParser.addPatterns("Syntax");
     myVariables = new LinkedHashMap<>(); // linked hashmap preserves insertion order for display
     commandFactory = new CommandFactory(language, turtleManager);
-    myTurtleManager = turtleManager;
   }
 
   /**
@@ -60,38 +66,51 @@ public class Compiler {
       handleToken(token);
       while (canBeResolved()) {
         String pendingCommand = activeContext.getPendingCommands().pop();
-        int numInputs = commandFactory.getNumInputs(pendingCommand);
-        if (numInputs == -1) {
-          numInputs = activeContext.getValues().size() - activeContext.getValuesBefore().peek();
-        }
+        int numInputs = getNumInputs(pendingCommand);
         if (pendingCommand.equals("MakeUserInstruction")) {
           commandFactory.makeUserCommand(waitingUserCommandName, numInputs);
         }
-
-        activeContext.getValuesBefore().pop();
-        activeContext.getListsBefore().pop();
-        Command command = commandFactory.getCommand(pendingCommand, activeContext.getValues(),
-            activeContext.getLists(), numInputs);
-        activeContext.getValues().add(command.returnValue());
-        if (!activeContext.getLists().empty()) {
-          activeContext.getLists().peek().addLast(command);
-        } else {
-          activeContext.getResolvedCommands().addLast(command);
-        }
-        if (activeContext.getPendingCommands().isEmpty()) {
-          activeContext.getValues().clear();
-          activeContext.getResolvedCommands().add(null);
-        }
+        resolveCommandInContext(pendingCommand, numInputs);
       }
     }
+    checkPendingCommandsEmpty();
+    commandFactory.addUserDefinedCommandStrings(program, myParser);
+    return constructResolvedCommandQueues();
+  }
+
+  // Throws an error if there are pending commands after the compiler loop ends
+  private void checkPendingCommandsEmpty() throws MissingArgumentException {
     if (!activeContext.getPendingCommands().empty()) {
       throw new MissingArgumentException(
           String.format(exceptionResources.getString("MissingArgument"),
               activeContext.getPendingCommands().peek()));
     }
-    commandFactory.addUserDefinedCommandStrings(program, myParser);
+  }
 
-    return constructResolvedCommandQueues();
+  // Builds and resolves a command's parameters in the active context.
+  private void resolveCommandInContext(String pendingCommand, int numInputs) throws MissingArgumentException {
+    activeContext.getValuesBefore().pop();
+    activeContext.getListsBefore().pop();
+    Command command = commandFactory.getCommand(pendingCommand, activeContext.getValues(),
+        activeContext.getLists(), numInputs);
+    activeContext.getValues().add(command.returnValue());
+    if (!activeContext.getLists().empty()) {
+      activeContext.getLists().peek().addLast(command);
+    } else {
+      activeContext.getResolvedCommands().addLast(command);
+    }
+    if (activeContext.getPendingCommands().isEmpty()) {
+      activeContext.getValues().clear();
+      activeContext.getResolvedCommands().add(null);
+    }
+  }
+
+  private int getNumInputs(String pendingCommand) throws SymbolNotFoundException {
+    int numInputs = commandFactory.getNumInputs(pendingCommand);
+    if (numInputs == -1) {
+      numInputs = activeContext.getValues().size() - activeContext.getValuesBefore().peek();
+    }
+    return numInputs;
   }
 
   //Returns true if the pending command can be resolved
@@ -141,21 +160,20 @@ public class Compiler {
     // TODO: Replace this conditional chain with reflective method calls
     if (commandFactory.isCommand(symbol)) {
       handleCommand(symbol);
-    } else if (symbol.equals("Constant")) {
+    } else if (symbol.equals(CONSTANT)) {
       activeContext.getValues().push(new Value(Double.parseDouble(token)));
-    } else if (symbol.equals("Variable")) {
+    } else if (symbol.equals(VARIABLE)) {
       handleVariable(token);
-    } else if (symbol.equals("UserCommand")) {
+    } else if (symbol.equals(USER_COMMAND)) {
       handleUserCommand(token);
-    } else if (symbol.equals("ListStart")) {
+    } else if (symbol.equals(LIST_START)) {
       swapContext();
-    } else if (symbol.equals("ListEnd")) {
+    } else if (symbol.equals(LIST_END)) {
       resolveContext();
     } else {
       throw new SymbolNotFoundException(
           String.format(exceptionResources.getString("SymbolNotFound"), token));
     }
-
   }
 
   // Handles what happens when a command is detected by the parser
