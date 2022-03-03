@@ -117,4 +117,24 @@ public class TurtleManager {
       }
     }
   }
+
+  /**
+   * Executes a body of commands per turtle if they meet the condition
+   *
+   * @param condition the condition to check for each turtle
+   * @param myBody the body of commands that qualifying turtles will run
+   */
+  public void executeConditionally(Deque<Command> condition, Deque<Command> myBody)
+      throws MissingArgumentException {
+    for (Turtle t : myTurtles.values()) {
+      for (Command command : condition) {
+        command.execute(t);
+      }
+      if (condition.peekLast().returnValue().getVal() != 0){ // TODO: Add tolerance here
+        for (Command command : myBody) {
+          command.execute(t);
+        }
+      }
+    }
+  }
 }
