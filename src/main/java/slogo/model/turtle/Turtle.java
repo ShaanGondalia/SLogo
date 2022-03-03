@@ -1,5 +1,7 @@
 package slogo.model.turtle;
 
+import slogo.model.color.Color;
+
 /**
  * Class that encapsulates the turtle in the back-end. Contains internal API methods for updating
  * and getting the status of the turtle. Depends on TurtleStatus.
@@ -10,9 +12,11 @@ public class Turtle extends Observable<TurtleStatus> {
 
   private double myX;
   private double myY;
+  private double myThickness;
   private double myBearing;
   private boolean myHasPen;
   private boolean myVisibility;
+  private Color myColor;
   private TurtleStatus myLastState;
 
   /**
