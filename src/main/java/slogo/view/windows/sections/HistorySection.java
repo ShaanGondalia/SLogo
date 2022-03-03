@@ -1,9 +1,13 @@
 package slogo.view.windows.sections;
 
+import static java.lang.Integer.MAX_VALUE;
+
 import java.util.List;
 import java.util.Stack;
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
@@ -23,10 +27,10 @@ public class HistorySection implements IDESection {
   private static final String STARTING_TEXT = "Past Commands:" + DELIMITER;
 
   private static final int WIDTH = 100;
+  private static final int MAX_WIDTH = 200;
 
   private ScrollPane myScrollPane;
   private List<String> commandList;
-  private Text myTextField;
   private Runner myRunner;
 
   private VBox myHistoryButtons;
@@ -34,12 +38,16 @@ public class HistorySection implements IDESection {
   public HistorySection(Runner runner) {
     myScrollPane = new ScrollPane();
     myScrollPane.setId(HISTORY_SECTION_ID);
+    Text descriptor = new Text(STARTING_TEXT);
+    BorderPane borderPane = new BorderPane();
+    borderPane.setTop(descriptor);
+
     myHistoryButtons = new VBox();
-    myHistoryButtons.setFillWidth(true);
-    myTextField = new Text(STARTING_TEXT);
-    myTextField.setId(TEXT_SECTION_ID);
-    myScrollPane.setContent(myTextField);
-    myScrollPane.setPrefViewportWidth(WIDTH);
+    myHistoryButtons.setMinWidth(WIDTH);
+    myHistoryButtons.setMaxWidth(MAX_WIDTH);
+    myHistoryButtons.setAlignment(Pos.CENTER);
+    borderPane.setCenter(myHistoryButtons);
+    myScrollPane.setContent(borderPane);
     commandList = new Stack<>();
     myRunner = runner;
   }
@@ -56,13 +64,14 @@ public class HistorySection implements IDESection {
    */
   public void setNewHistory(String newCommand) {
     commandList.add(newCommand);
-    setMyTextField();
+    makeHistoryButton(newCommand);
   }
 
   private void makeHistoryButton(String command){
-    Run run = new Run();
-    Button b = new Button();
-    b.setText(command);
+    Button b = new Button(command);
+    b.setOnAction((e) -> myRunner.runAndSave(command));
+    b.setMinWidth(WIDTH);
+    myHistoryButtons.getChildren().add(b);
   }
 
   /**
@@ -81,12 +90,4 @@ public class HistorySection implements IDESection {
     return s;
   }
 
-  private void setMyTextField() {
-    String toSet = STARTING_TEXT;
-    for (String s : commandList) {
-      toSet += s;
-      toSet += "\n";
-    }
-    myTextField.setText(toSet);
-  }
 }
