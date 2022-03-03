@@ -21,18 +21,19 @@ public class YCoordinate extends TurtleQuery {
    * @param args   the arguments that the command takes
    * @throws MissingArgumentException if the list of arguments does not contain enough arguments
    */
-  public YCoordinate(Turtle turtle, List<Value> args) throws MissingArgumentException {
-    super(turtle, args, NUM_ARGS);
+  public YCoordinate(List<Value> args) throws MissingArgumentException {
+    super(args, NUM_ARGS);
   }
 
   /**
    * Returns the y coordinate of the queried
    *
    * @return the y coordinate of the queried turtle
+   * @param turtle
    */
   @Override
-  public Value execute() throws MissingArgumentException {
-    setReturnValue(getTurtle().getPose().y());
+  public Value execute(Turtle turtle) throws MissingArgumentException {
+    setReturnValue(turtle.getPose().y());
     return returnValue();
   }
 }
