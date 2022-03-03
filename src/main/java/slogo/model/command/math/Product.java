@@ -23,8 +23,8 @@ public class Product extends MathOperation {
    * @param args   the arguments that the command takes
    * @throws MissingArgumentException if the list of arguments does not contain enough arguments
    */
-  public Product(Turtle turtle, List<Value> args) throws MissingArgumentException {
-    super(turtle, args, NUM_ARGS);
+  public Product(List<Value> args) throws MissingArgumentException {
+    super(args, NUM_ARGS);
     arg1 = args.get(0);
     arg2 = args.get(1);
   }
@@ -33,9 +33,10 @@ public class Product extends MathOperation {
    * Calculates the product of the two arguments
    *
    * @return arg1 * arg2
+   * @param turtle
    */
   @Override
-  public Value execute() {
+  public Value execute(Turtle turtle) {
     setReturnValue(arg1.getVal() * arg2.getVal());
     return returnValue();
   }

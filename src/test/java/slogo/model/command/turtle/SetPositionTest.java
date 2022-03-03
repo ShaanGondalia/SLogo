@@ -31,7 +31,7 @@ public class SetPositionTest {
   void testTooFewArgs() throws MissingArgumentException {
     List<Value> args = new ArrayList<>();
     args.add(new Value(1));
-    assertThrows(MissingArgumentException.class, () -> new SetPosition(myTurtle, args));
+    assertThrows(MissingArgumentException.class, () -> new SetPosition(args));
   }
 
   @Test
@@ -39,9 +39,9 @@ public class SetPositionTest {
     List<Value> args = new ArrayList<>();
     args.add(new Value(3));
     args.add(new Value(4));
-    Command setPos = new SetPosition(myTurtle, args);
+    Command setPos = new SetPosition(args);
     double distance = 5.0;
-    assertEquals(distance, setPos.execute().getVal(), Main.TOLERANCE);
+    assertEquals(distance, setPos.execute(myTurtle).getVal(), Main.TOLERANCE);
   }
 
   // this has caused turtle to disappear in GUI
@@ -50,12 +50,12 @@ public class SetPositionTest {
     List<Value> args = new ArrayList<>();
     args.add(new Value(3));
     args.add(new Value(4));
-    Command setPos = new SetPosition(myTurtle, args);
+    Command setPos = new SetPosition(args);
     double distance = 5.0;
-    assertEquals(distance, setPos.execute().getVal(), Main.TOLERANCE);
+    assertEquals(distance, setPos.execute(myTurtle).getVal(), Main.TOLERANCE);
     assertEquals(4, myTurtle.getPose().y(), Main.TOLERANCE);
 
-    setPos.execute();
+    setPos.execute(myTurtle);
     assertEquals(0.0, setPos.returnValue().getVal(), Main.TOLERANCE);
     assertEquals(4, myTurtle.getPose().y(), Main.TOLERANCE);
   }

@@ -2,6 +2,7 @@ package slogo.model.compiler;
 
 import java.util.Deque;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Stack;
 import slogo.model.command.Command;
 import slogo.model.command.Value;
@@ -15,6 +16,7 @@ import slogo.model.command.Value;
 public class Context {
   private final Stack<String> pendingCommands;
   private final Deque<Command> resolvedCommands;
+  private final Deque<Deque<Command>> resolvedCommandQueues;
   private final Stack<Value> values;
   private final Stack<Deque<Command>> lists;
   private final Stack<Integer> valuesBefore;
@@ -26,6 +28,7 @@ public class Context {
   public Context() {
     pendingCommands = new Stack<>();
     resolvedCommands = new LinkedList<>();
+    resolvedCommandQueues = new LinkedList<>();
     values = new Stack<>();
     lists = new Stack<>();
     valuesBefore = new Stack<>();
@@ -97,7 +100,17 @@ public class Context {
       values.addAll(previousContext.getValues());
     } else {
       // Add resolved commands of list to lists in outer context
-      lists.push(previousContext.getResolvedCommands());
+      Deque<Command> commandDeque = new LinkedList<>();
+      for (Command c : previousContext.getResolvedCommands()) {
+        if (c != null) {
+          commandDeque.add(c);
+        }
+      }
+      lists.push(commandDeque);
     }
+  }
+
+  public Deque<Deque<Command>> getResolvedCommandQueues() {
+    return resolvedCommandQueues;
   }
 }

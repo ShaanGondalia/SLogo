@@ -19,7 +19,7 @@ public abstract class MathOperation extends AbstractCommand {
    * @param numArgs the number of arguments that this command takes
    * @throws MissingArgumentException if the list of arguments does not contain enough arguments
    */
-  public MathOperation(Turtle turtle, List<Value> args, int numArgs)
+  public MathOperation(List<Value> args, int numArgs)
       throws MissingArgumentException {
     super();
     verifyArgs(args, numArgs);

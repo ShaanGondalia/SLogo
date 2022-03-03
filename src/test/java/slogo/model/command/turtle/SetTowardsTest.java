@@ -35,7 +35,7 @@ public class SetTowardsTest {
   @Test
   void testNotEnoughArgs() {
     List<Value> args = new ArrayList<>();
-    assertThrows(MissingArgumentException.class, () -> new SetTowards(myTurtle, args));
+    assertThrows(MissingArgumentException.class, () -> new SetTowards(args));
   }
 
   @Test
@@ -43,8 +43,8 @@ public class SetTowardsTest {
     List<Value> args = new ArrayList<>();
     args.add(new Value(X_POS));
     args.add(new Value(Y_POS));
-    SetTowards c = new SetTowards(myTurtle, args);
-    assertEquals(45, c.execute().getVal(), EPSILON);
+    SetTowards c = new SetTowards(args);
+    assertEquals(45, c.execute(myTurtle).getVal(), EPSILON);
   }
 
   @Test
@@ -52,8 +52,8 @@ public class SetTowardsTest {
     List<Value> args = new ArrayList<>();
     args.add(new Value(X_NEG));
     args.add(new Value(Y_NEG));
-    SetTowards c = new SetTowards(myTurtle, args);
-    assertEquals(225, c.execute().getVal(), EPSILON);
+    SetTowards c = new SetTowards(args);
+    assertEquals(225, c.execute(myTurtle).getVal(), EPSILON);
   }
 
   @Test
@@ -61,8 +61,8 @@ public class SetTowardsTest {
     List<Value> args = new ArrayList<>();
     args.add(new Value(X_NEG));
     args.add(new Value(Y_POS));
-    SetTowards c = new SetTowards(myTurtle, args);
-    assertEquals(45, c.execute().getVal(), EPSILON);
+    SetTowards c = new SetTowards(args);
+    assertEquals(45, c.execute(myTurtle).getVal(), EPSILON);
   }
 
 
@@ -73,8 +73,8 @@ public class SetTowardsTest {
     args.add(new Value(Y_POS));
     Pose pose = new Pose(0, 0, 60);
     myTurtle.setPose(pose);
-    SetTowards c = new SetTowards(myTurtle, args);
-    assertEquals(15, c.execute().getVal(), EPSILON);
+    SetTowards c = new SetTowards(args);
+    assertEquals(15, c.execute(myTurtle).getVal(), EPSILON);
   }
 
   @Test
@@ -84,8 +84,8 @@ public class SetTowardsTest {
     args.add(new Value(Y_NEG));
     Pose pose = new Pose(0, 0, 60);
     myTurtle.setPose(pose);
-    SetTowards c = new SetTowards(myTurtle, args);
-    assertEquals(165, c.execute().getVal(), EPSILON);
+    SetTowards c = new SetTowards(args);
+    assertEquals(165, c.execute(myTurtle).getVal(), EPSILON);
   }
 
 }

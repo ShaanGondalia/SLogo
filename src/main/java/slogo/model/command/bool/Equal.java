@@ -16,8 +16,8 @@ public class Equal extends BooleanOperation {
   private final Value arg2;
   private static final int NUM_ARGS = 2;
 
-  public Equal(Turtle turtle, List<Value> args) throws MissingArgumentException {
-    super(turtle, args, NUM_ARGS);
+  public Equal(List<Value> args) throws MissingArgumentException {
+    super(args, NUM_ARGS);
     arg1 = args.get(0);
     arg2 = args.get(1);
   }
@@ -26,9 +26,10 @@ public class Equal extends BooleanOperation {
    *
    * @return 1 if expr1 == expr2
    * @throws MissingArgumentException
+   * @param turtle
    */
   @Override
-  public Value execute() {
+  public Value execute(Turtle turtle) {
     double val = (arg1.equals(arg2)) ? 1.0 : 0.0;
     setReturnValue(val);
     return returnValue();

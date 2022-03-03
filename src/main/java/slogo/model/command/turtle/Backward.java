@@ -19,11 +19,10 @@ public class Backward extends TurtleCommand {
    * Creates a backward command
    *
    * @param args   the arguments for the command (single argument for BK)
-   * @param turtle the Turtle that will be moved when the command is executed
    * @throws MissingArgumentException if the list of arguments does not contain enough arguments
    */
-  public Backward(Turtle turtle, List<Value> args) throws MissingArgumentException {
-    super(turtle, args, NUM_ARGS);
+  public Backward(List<Value> args) throws MissingArgumentException {
+    super(args, NUM_ARGS);
     pixels = args.get(0);
   }
 
@@ -31,10 +30,11 @@ public class Backward extends TurtleCommand {
    * Moves the attached turtle backward the given number of pixels
    *
    * @return the number of pixels the turtle will move
+   * @param turtle the Turtle that will be moved when the command is executed
    */
   @Override
-  public Value execute() {
-    getTurtle().move(-pixels.getVal());
+  public Value execute(Turtle turtle) {
+    turtle.move(-pixels.getVal());
     setReturnValue(pixels.getVal());
     return returnValue();
   }

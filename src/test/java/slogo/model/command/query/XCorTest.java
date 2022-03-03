@@ -31,17 +31,17 @@ public class XCorTest {
   void testTooManyArgs() throws MissingArgumentException {
     List<Value> args = new ArrayList<>();
     args.add(new Value(ARG_1));
-    XCoordinate c = new XCoordinate(myTurtle, args);
+    XCoordinate c = new XCoordinate(args);
     assertEquals(myTurtle.getPose().x(), c.returnValue().getVal(), Main.TOLERANCE);
-    assertEquals(myTurtle.getPose().x(), c.execute().getVal(), Main.TOLERANCE);
+    assertEquals(myTurtle.getPose().x(), c.execute(myTurtle).getVal(), Main.TOLERANCE);
   }
 
   @Test
   void testCorrectArgs() throws MissingArgumentException {
     List<Value> args = new ArrayList<>();
-    XCoordinate c = new XCoordinate(myTurtle, args);
+    XCoordinate c = new XCoordinate(args);
     assertEquals(myTurtle.getPose().x(), c.returnValue().getVal(), Main.TOLERANCE);
-    assertEquals(myTurtle.getPose().x(), c.execute().getVal(), Main.TOLERANCE);
+    assertEquals(myTurtle.getPose().x(), c.execute(myTurtle).getVal(), Main.TOLERANCE);
   }
 
 }

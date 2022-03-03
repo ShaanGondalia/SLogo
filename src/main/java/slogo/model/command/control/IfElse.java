@@ -21,9 +21,9 @@ public class IfElse extends ControlCommand {
   private Deque<Command> myTrueBody;
   private Deque<Command> myFalseBody;
 
-  public IfElse(Turtle turtle, List<Value> args, List<Deque<Command>> lists)
+  public IfElse(List<Value> args, List<Deque<Command>> lists)
       throws MissingArgumentException {
-    super(turtle, args, NUM_ARGS);
+    super(args, NUM_ARGS);
     verifyCommandLists(lists, NUM_LISTS);
 
     myExpr = args.get(0);
@@ -32,7 +32,7 @@ public class IfElse extends ControlCommand {
   }
 
   @Override
-  public Value execute() throws MissingArgumentException {
+  public Value execute(Turtle turtle) throws MissingArgumentException {
     Deque<Command> body;
     if (myExpr.equals(new Value(0))) {
       body = myFalseBody;
@@ -40,7 +40,7 @@ public class IfElse extends ControlCommand {
       body = myTrueBody;
     }
     for (Command c : body) {
-      c.execute();
+      c.execute(turtle);
     }
     setReturnValue(body.peekLast().returnValue().getVal());
     return returnValue();

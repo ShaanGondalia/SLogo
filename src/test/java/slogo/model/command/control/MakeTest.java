@@ -33,7 +33,7 @@ public class MakeTest {
   void testNotEnoughArgs() {
     List<Value> args = new ArrayList<>();
     args.add(new Value(ARG_1));
-    assertThrows(MissingArgumentException.class, () -> new Make(myTurtle, args));
+    assertThrows(MissingArgumentException.class, () -> new Make(args));
   }
 
   @Test
@@ -42,8 +42,8 @@ public class MakeTest {
     args.add(new Value(ARG_1));
     args.add(new Value(ARG_2));
     args.add(new Value(ARG_3));
-    Make m = new Make(myTurtle, args);
-    assertEquals(ARG_2, m.execute().getVal());
+    Make m = new Make(args);
+    assertEquals(ARG_2, m.execute(myTurtle).getVal());
     assertEquals(ARG_2, m.returnValue().getVal());
   }
 
@@ -53,8 +53,8 @@ public class MakeTest {
     Value var = new Value(ARG_1);
     args.add(var);
     args.add(new Value(ARG_2));
-    Make m = new Make(myTurtle, args);
-    assertEquals(ARG_2, m.execute().getVal());
+    Make m = new Make(args);
+    assertEquals(ARG_2, m.execute(myTurtle).getVal());
     assertEquals(ARG_2, var.getVal());
   }
 

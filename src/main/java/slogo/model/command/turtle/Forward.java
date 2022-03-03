@@ -10,7 +10,7 @@ import slogo.model.turtle.Turtle;
  *
  * @author Shaan Gondalia
  */
-public class Forward extends TurtleCommand {
+public class  Forward extends TurtleCommand {
 
   private final Value pixels;
   private static final int NUM_ARGS = 1;
@@ -19,11 +19,10 @@ public class Forward extends TurtleCommand {
    * Creates a forward command
    *
    * @param args   the arguments for the command (single argument for FD)
-   * @param turtle the Turtle that will be moved when the command is executed
    * @throws MissingArgumentException if the list of arguments does not contain enough arguments
    */
-  public Forward(Turtle turtle, List<Value> args) throws MissingArgumentException {
-    super(turtle, args, NUM_ARGS);
+  public Forward(List<Value> args) throws MissingArgumentException {
+    super(args, NUM_ARGS);
     pixels = args.get(0);
   }
 
@@ -31,10 +30,11 @@ public class Forward extends TurtleCommand {
    * Moves the attached turtle forward given the arguments
    *
    * @return the number of pixels the turtle will move
+   * @param turtle the Turtle that will be moved when the command is executed
    */
   @Override
-  public Value execute() {
-    getTurtle().move(pixels.getVal());
+  public Value execute(Turtle turtle) {
+    turtle.move(pixels.getVal());
     setReturnValue(pixels.getVal());
     return returnValue();
   }

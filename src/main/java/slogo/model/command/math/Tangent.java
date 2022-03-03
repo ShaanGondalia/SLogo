@@ -18,12 +18,11 @@ public class Tangent extends MathOperation {
   /**
    * Creates a Tangent command
    *
-   * @param turtle the Turtle that is attached to this command
    * @param args   the arguments that the command takes
    * @throws MissingArgumentException if the list of arguments does not contain enough arguments
    */
-  public Tangent(Turtle turtle, List<Value> args) throws MissingArgumentException {
-    super(turtle, args, NUM_ARGS);
+  public Tangent(List<Value> args) throws MissingArgumentException {
+    super(args, NUM_ARGS);
     arg1 = args.get(0);
   }
 
@@ -31,10 +30,11 @@ public class Tangent extends MathOperation {
    * Calculates the Tangent
    *
    * @return tan(arg1)
+   * @param turtle the Turtle that is attached to this command
    */
   @Override
-  public Value execute() {
-    setReturnValue(Math.tan(arg1.getVal()));
+  public Value execute(Turtle turtle) {
+    setReturnValue(Math.tan(Math.toRadians(arg1.getVal())));
     return returnValue();
   }
 }

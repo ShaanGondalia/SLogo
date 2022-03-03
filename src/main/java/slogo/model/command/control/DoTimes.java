@@ -17,9 +17,9 @@ public class DoTimes extends ControlCommand {
   private static final int NUM_LISTS = 1;
   private Command myFor;
 
-  public DoTimes(Turtle turtle, List<Value> args, List<Deque<Command>> lists)
+  public DoTimes(List<Value> args, List<Deque<Command>> lists)
       throws MissingArgumentException {
-    super(turtle, args, NUM_ARGS);
+    super(args, NUM_ARGS);
     verifyCommandLists(lists, NUM_LISTS);
 
     Value start = new Value(1);
@@ -33,16 +33,17 @@ public class DoTimes extends ControlCommand {
     forArgs.add(end);
     forArgs.add(increment);
 
-    myFor = new For(turtle, forArgs, lists);
+    myFor = new For(forArgs, lists);
   }
 
   /**
    * @return value of last command run
    * @throws MissingArgumentException
+   * @param turtle
    */
   @Override
-  public Value execute() throws MissingArgumentException {
-    myFor.execute();
+  public Value execute(Turtle turtle) throws MissingArgumentException {
+    myFor.execute(turtle);
     setReturnValue(myFor.returnValue().getVal());
     return returnValue();
   }

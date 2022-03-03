@@ -34,7 +34,7 @@ public class ForwardTest {
   @Test
   void testNotEnoughArgs() {
     List<Value> args = new ArrayList<>();
-    assertThrows(MissingArgumentException.class, () -> new Forward(myTurtle, args));
+    assertThrows(MissingArgumentException.class, () -> new Forward(args));
   }
 
   @Test
@@ -42,9 +42,9 @@ public class ForwardTest {
     List<Value> args = new ArrayList<>();
     args.add(new Value(ARG_1));
     args.add(new Value(ARG_2));
-    Forward c = new Forward(myTurtle, args);
+    Forward c = new Forward(args);
     Value returnVal = c.returnValue();
-    assertEquals(ARG_1, c.execute().getVal());
+    assertEquals(ARG_1, c.execute(myTurtle).getVal());
     assertEquals(ARG_1, returnVal.getVal());
   }
 
@@ -52,11 +52,11 @@ public class ForwardTest {
   void testCorrectArgs() throws MissingArgumentException {
     List<Value> args = new ArrayList<>();
     args.add(new Value(ARG_1));
-    Forward c = new Forward(myTurtle, args);
+    Forward c = new Forward(args);
 
     double xBefore = myTurtle.getPose().x();
     double yBefore = myTurtle.getPose().y();
-    assertEquals(ARG_1, c.execute().getVal(), Main.TOLERANCE);
+    assertEquals(ARG_1, c.execute(myTurtle).getVal(), Main.TOLERANCE);
     assertEquals(xBefore, myTurtle.getPose().x(), Main.TOLERANCE);
     assertEquals(ARG_1, c.returnValue().getVal(), Main.TOLERANCE);
     assertEquals(yBefore + ARG_1, myTurtle.getPose().y(), Main.TOLERANCE);
@@ -66,15 +66,15 @@ public class ForwardTest {
   void testForward2() throws MissingArgumentException {
     List<Value> rotateArgs = new ArrayList<>();
     rotateArgs.add(new Value(45.0));
-    Command rotate = new Right(myTurtle, rotateArgs);
-    rotate.execute();
+    Command rotate = new Right(rotateArgs);
+    rotate.execute(myTurtle);
 
     List<Value> forwardArgs = new ArrayList<>();
 
     double fdAmount = 10;
     forwardArgs.add(new Value(fdAmount));
-    Command forward = new Forward(myTurtle, forwardArgs);
-    forward.execute();
+    Command forward = new Forward(forwardArgs);
+    forward.execute(myTurtle);
     Pose pose = myTurtle.getPose();
     double answer = Math.sqrt(Math.pow(fdAmount, 2) / 2.0);
     // String msg = String.format("Expected %f and got %f", answer, pose.x());

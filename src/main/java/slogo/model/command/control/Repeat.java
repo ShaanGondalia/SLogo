@@ -21,13 +21,12 @@ public class Repeat extends ControlCommand {
   private Value repetitions;
 
   /**
-   * @param turtle
    * @param args
    * @throws MissingArgumentException
    */
-  public Repeat(Turtle turtle, List<Value> args, List<Deque<Command>> lists)
+  public Repeat(List<Value> args, List<Deque<Command>> lists)
       throws MissingArgumentException {
-    super(turtle, args, NUM_ARGS);
+    super(args, NUM_ARGS);
     verifyCommandLists(lists, NUM_LISTS);
     //TODO: Figure out how to do :repcount incrementing
 
@@ -38,12 +37,13 @@ public class Repeat extends ControlCommand {
   /**
    * @return the output of the last executed command in the loop
    * @throws MissingArgumentException
+   * @param turtle
    */
   @Override
-  public Value execute() throws MissingArgumentException {
+  public Value execute(Turtle turtle) throws MissingArgumentException {
     for (int i = 0; i < repetitions.getVal(); i++) {
       for (Command c : myBody) {
-        c.execute();
+        c.execute(turtle);
       }
     }
     setReturnValue(myBody.peekLast().returnValue().getVal());

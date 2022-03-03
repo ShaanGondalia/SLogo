@@ -21,8 +21,8 @@ public class Pi extends MathOperation {
    * @param args   the arguments that the command takes (pi takes 0 args).
    * @throws MissingArgumentException if the list of arguments does not contain enough arguments
    */
-  public Pi(Turtle turtle, List<Value> args) throws MissingArgumentException {
-    super(turtle, args, NUM_ARGS);
+  public Pi(List<Value> args) throws MissingArgumentException {
+    super(args, NUM_ARGS);
     setReturnValue(Math.PI);
   }
 
@@ -30,9 +30,10 @@ public class Pi extends MathOperation {
    * Returns pi
    *
    * @return pi
+   * @param turtle
    */
   @Override
-  public Value execute() throws MissingArgumentException {
+  public Value execute(Turtle turtle) throws MissingArgumentException {
     return returnValue();
   }
 }
