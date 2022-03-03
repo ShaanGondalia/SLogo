@@ -11,38 +11,37 @@ import slogo.model.turtle.Turtle;
 import slogo.model.turtle.TurtleManager;
 
 /**
- * Class that represents a tell command. Depends on MultipleTurtleCommand, Turtle, and TurtleManager.
+ * Class that represents an id command. Depends on MultipleTurtleCommand, Turtle, and TurtleManager.
  *
  * @author Shaan Gondalia
  */
-public class Tell extends MultipleTurtleCommand {
+public class ID extends MultipleTurtleCommand {
 
+  private static final int NUM_ARGS = 0;
   private TurtleManager myTurtleManager;
-  private List<Value> ids;
 
   /**
-   * Tells turtles with given ids to follow future commands. Creates turtles if needed.
+   * Makes an id command, which returns the id of the active turtle
    *
-   * @param args The Ids of the turtles that will follow future commands
+   * @param args No args are required for this command
+   * @param turtleManager The turtle manager that manages the active and following turtles
    * @throws MissingArgumentException
    */
-  public Tell(List<Value> args, TurtleManager turtleManager)
+  public ID(List<Value> args, TurtleManager turtleManager)
       throws MissingArgumentException {
-    super(args, args.size());
-    ids = args;
+    super(args, NUM_ARGS);
     myTurtleManager = turtleManager;
   }
 
   /**
-   * Sets the turtles to follow the new commands
+   * Returns the id of the active turtle
    *
-   * @return the last value in the id list
+   * @return the id of the active turtle
    * @param turtle the turtle to execute the command on
    */
   @Override
   public Value execute(Turtle turtle) throws MissingArgumentException {
-    myTurtleManager.setFollowingIDs(ids);
-    setReturnValue(ids.get(ids.size() - 1 ).getVal());
+    setReturnValue(myTurtleManager.getActiveTurtleID());
     return returnValue();
   }
 }

@@ -76,6 +76,8 @@ public class Compiler {
 
       while (canBeResolved()) {
         String pendingCommand = activeContext.getPendingCommands().pop();
+        System.out.println(pendingCommand);
+        System.out.println(activeContext.getValues());
         int numInputs = commandFactory.getNumInputs(pendingCommand);
         if(numInputs == -1) {
           numInputs = activeContext.getValues().size() - activeContext.getValuesBefore().peek();

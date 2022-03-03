@@ -12,7 +12,7 @@ import slogo.model.turtle.TurtleManager;
 public class ModelTester {
 
   //public static final String PROGRAM = "make :random sum 1 random 100 fd :random";
-  public static final String PROGRAM = "fd 50 tell [ 0 1 ] fd 100";
+  public static final String PROGRAM = "tell [ 1 2 3 ] set :x 10 fd * id :x";
 
   public static void main(String[] args) throws Exception {
     TurtleManager tm = new TurtleManager();
