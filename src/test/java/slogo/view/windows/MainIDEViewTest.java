@@ -23,7 +23,7 @@ class MainIDEViewTest extends DukeApplicationTest {
   public void start(Stage stage) {
     TurtleWindowView v = new TurtleWindowView("light");
     TurtleViewManager tvm = new TurtleViewManager(v);
-    main = new MainIDEView("English", new Controller("English", tvm), "dark", stage);
+    main = new MainIDEView("English", new Controller("English", tvm), "dark", stage, tvm);
     TextInputControl area = lookup("#textArea").query();
     area.clear();
   }
