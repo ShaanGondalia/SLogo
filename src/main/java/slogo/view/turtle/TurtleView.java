@@ -21,6 +21,7 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.*;
 
+import slogo.model.turtle.PenState;
 import slogo.model.turtle.Pose;
 import slogo.model.turtle.TurtleStatus;
 import slogo.view.util.Coordinate;
@@ -72,7 +73,7 @@ public class TurtleView implements PropertyChangeListener  {
         instantiateLambdaMap();
     }
 
-    private Animation makeAnimation(Pose oldPose, Pose newPose, boolean penDown) {
+    private Animation makeAnimation(Pose oldPose, Pose newPose, PenState penState) {
         Coordinate start = ctm.mapPoint(new Coordinate(oldPose.x(), oldPose.y()));
         Coordinate end = ctm.mapPoint(new Coordinate(newPose.x(), newPose.y()));
 
@@ -87,7 +88,7 @@ public class TurtleView implements PropertyChangeListener  {
         double deltaS = normSquared(oldPose, newPose);
         PathTransition pt = new PathTransition(Duration.seconds(pathSpeed * Math.sqrt(deltaS)), path, turtleNode);
 
-        if (penDown && deltaS > epsilon) realTimeTrailAnimation(pt, start, end);
+        if (penState.penDown() && deltaS > epsilon) realTimeTrailAnimation(pt, penState, start, end);
 
         SequentialTransition st = new SequentialTransition(turtleNode);
         if (deltaS < epsilon) st.getChildren().add(rt);
@@ -95,14 +96,18 @@ public class TurtleView implements PropertyChangeListener  {
         return st;
     }
 
-    private void realTimeTrailAnimation(PathTransition pt, Coordinate start, Coordinate end) {
-        trailHistory.add(new Trail(new Line(start.x(), start.y(), end.x(), end.y()), trailColor));
+    private void realTimeTrailAnimation(PathTransition pt, PenState ps, Coordinate start, Coordinate end) {
+        trailHistory.add(new Trail(new Line(start.x(), start.y(), end.x(), end.y()), Color.web(ps.color().toString()), ps.thickness()));
         pt.currentTimeProperty().addListener(new ChangeListener<Duration>() {
+            Color color = Color.web(ps.color().toString());
+            double thickness = ps.thickness();
             double prevX = start.x();
             double prevY = start.y();
 
             @Override
             public void changed(ObservableValue<? extends Duration> observableValue, Duration duration, Duration t1) {
+                graphicsContext.setStroke(color);
+                graphicsContext.setLineWidth(thickness);
                 double x = turtleNode.getTranslateX();
                 double y = turtleNode.getTranslateY();
                 if (validTransitionStroke(prevX, x, prevY, y)) graphicsContext.strokeLine(prevX + CENTER_X, prevY + CENTER_Y, x + CENTER_X, y + CENTER_Y);
@@ -156,7 +161,8 @@ public class TurtleView implements PropertyChangeListener  {
     private void changePose(PropertyChangeEvent evt) {
         TurtleStatus oldT = (TurtleStatus) evt.getOldValue();
         TurtleStatus newT = (TurtleStatus) evt.getNewValue();
-        Animation anim = makeAnimation(oldT.pose(), newT.pose(), newT.penDown());
+        System.out.println(newT.penState().color().toString());
+        Animation anim = makeAnimation(oldT.pose(), newT.pose(), newT.penState());
         anim.setOnFinished(finish -> handleAnimationQueue());
         animationQueue.add(new TurtleAnimation(anim, newT.visibility()));
         if (!isAnimating) handleAnimation();
