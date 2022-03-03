@@ -66,7 +66,7 @@ public class CommandFactoryTest {
   @Test
   void testUnknownCommand() {
     assertFalse(commandFactory.isCommand(GIBBERISH));
-    assertThrows(SymbolNotFoundException.class, () -> commandFactory.getCommand(GIBBERISH, args, lists, 2));
+    assertThrows(SymbolNotFoundException.class, () -> commandFactory.getNumInputs(GIBBERISH));
   }
 
 
