@@ -60,7 +60,7 @@ public class CommandFactoryTest {
 
   @Test
   void testUserCommand() throws MissingArgumentException, SymbolNotFoundException {
-    commandFactory.makeCommand(GIBBERISH, 1);
+    commandFactory.makeUserCommand(GIBBERISH, 1);
   }
 
   @Test

@@ -30,7 +30,6 @@ public class CommandFactory {
   private static final String LIST_PARAMETER_RESOURCES = "model.ListParameter";
 
   private final ResourceBundle reflectionResources = ResourceBundle.getBundle(REFLECTION_RESOURCES);
-  private final ResourceBundle parameterResources = ResourceBundle.getBundle(PARAMETER_RESOURCES);
 
   private final Map<String, MakeUserInstruction> myUserCommands;
   private final Map<String, String> myUserCommandStrings;
@@ -57,6 +56,7 @@ public class CommandFactory {
     myParameterCounts = new HashMap<>();
 
     ResourceBundle listParameterResources = ResourceBundle.getBundle(LIST_PARAMETER_RESOURCES);
+    ResourceBundle parameterResources = ResourceBundle.getBundle(PARAMETER_RESOURCES);
     loadResources(myParameterCounts, parameterResources);
     loadResources(myListParameterCounts, listParameterResources);
   }
@@ -66,14 +66,43 @@ public class CommandFactory {
    *
    * @param symbol the symbol of the command
    * @param values the stack of values to pass to the command
-   * @return
+   * @return the command built from the given parameters.
    * @throws MissingArgumentException
    */
   public Command getCommand(String symbol, Stack<Value> values,
       Stack<Deque<Command>> commandLists, int numInputs)
-      throws MissingArgumentException, SymbolNotFoundException {
-    List<Value> args = new ArrayList<>();
+      throws MissingArgumentException {
+    List<Value> args = generateArgList(symbol, values, numInputs);
+    List<Deque<Command>> commandQueues = generateCommandQueueList(symbol, commandLists);
+    if (myUserCommands.containsKey(symbol)) {
+      return getUserCommand(symbol, args);
+    } else if (getNumListInputs(symbol) != 0) {
+      return getCommandListReflection(symbol, args, commandQueues);
+    } else {
+      return getCommandReflection(symbol, args);
+    }
+  }
+
+  // Generates list of command queues for a command
+  private List<Deque<Command>> generateCommandQueueList(String symbol,
+      Stack<Deque<Command>> commandLists) throws MissingArgumentException {
     List<Deque<Command>> commandQueues = new ArrayList<>();
+    int numLists = getNumListInputs(symbol);
+
+    if (commandLists.size() < numLists) {
+      throw new MissingArgumentException(
+          String.format(exceptionResources.getString("MissingArgument"), symbol));
+    }
+    for (int i = 0; i < getNumListInputs(symbol); i++) {
+      commandQueues.add(0, commandLists.pop()); // add element to start of args
+    }
+    return commandQueues;
+  }
+
+  // Generates list of args for a command
+  private List<Value> generateArgList(String symbol, Stack<Value> values, int numInputs)
+      throws MissingArgumentException {
+    List<Value> args = new ArrayList<>();
     if (values.size() < numInputs) {
       throw new MissingArgumentException(
           String.format(exceptionResources.getString("MissingArgument"), symbol));
@@ -81,24 +110,15 @@ public class CommandFactory {
     for (int i = 0; i < numInputs; i++) {
       args.add(0, values.pop()); // add element to start of args
     }
-    for (int i = 0; i < getNumListInputs(symbol); i++) {
-      commandQueues.add(0, commandLists.pop()); // add element to start of args
-    }
-    if (myUserCommands.containsKey(symbol)) {
-      return getUserCommand(symbol, args);
-    } else if (getNumListInputs(symbol) != 0) {
-      return getCommandListReflection(symbol, args, commandQueues);
-    }
-    return getCommandReflection(symbol, args);
+    return args;
   }
+
 
   private Command getCommandListReflection(String symbol, List<Value> args,
       List<Deque<Command>> commandQueues) {
     String command = reflectionResources.getString(symbol).trim();
     try {
-      // convert string into Java object that represents that Java class
       Class<?> clazz = Class.forName(command);
-      // use reflection to find the appropriate constructor of that class to call to create a new instance
       Constructor<?> ctor;
       try {
         // TODO: MAKE THIS LOGIC CLEANER
@@ -151,7 +171,7 @@ public class CommandFactory {
   /**
    * Makes a user defined command
    */
-  public void makeCommand(String symbol, int inputs) {
+  public void makeUserCommand(String symbol, int inputs) {
     myParameterCounts.put(symbol, inputs);
     lastAddedSymbol = symbol;
   }
