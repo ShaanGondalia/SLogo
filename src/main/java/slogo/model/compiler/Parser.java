@@ -2,6 +2,7 @@ package slogo.model.compiler;
 
 import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map.Entry;
@@ -19,6 +20,7 @@ import slogo.model.exception.SymbolNotFoundException;
 public class Parser {
 
   public static final String NO_MATCH = "NO MATCH";
+  public static final String COMMENT = "^#.*";
 
   // where to find resources specifically for this class
   private static final String RESOURCES_PACKAGE = "slogo.languages.";
@@ -49,6 +51,20 @@ public class Parser {
           // THIS IS THE IMPORTANT LINE
           Pattern.compile(resources.getString(key), Pattern.CASE_INSENSITIVE)));
     }
+  }
+
+  public String removeComments(String program) {
+    StringBuilder finalProgram = new StringBuilder();
+    for (String line: program.split("\n")) {
+      for (Entry<String, Pattern> e : mySymbols) {
+        if(e.getKey().equals("Comment")){
+          if (!match(line, e.getValue())) {
+            finalProgram.append(line).append(" ");
+          }
+        }
+      }
+    }
+    return finalProgram.toString();
   }
 
   /**

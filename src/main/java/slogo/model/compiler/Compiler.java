@@ -1,5 +1,6 @@
 package slogo.model.compiler;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Deque;
 import java.util.EmptyStackException;
@@ -27,7 +28,6 @@ import slogo.model.turtle.TurtleManager;
 public class Compiler {
 
   public static final String WHITESPACE = "\\s+";
-  public static final String COMMENT = "^#.*\n";
   private static final String EXCEPTION_RESOURCES = "model.exception.";
 
   private Parser myParser;
@@ -63,7 +63,8 @@ public class Compiler {
    */
   public Deque<Deque<Command>> compile(String program) throws Exception {
     reset();
-    program = program.replaceAll(COMMENT, ""); // TODO: verify if this actually works
+    program = myParser.removeComments(program);
+    System.out.println(program);
     // will be changed when we can have multiple turtles
 
     for (String token : program.split(WHITESPACE)) {

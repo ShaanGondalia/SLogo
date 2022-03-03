@@ -53,6 +53,7 @@ public class CompilerTest {
   private static final String TELL_PROGRAM = "fd 50 tell [ 1 ] fd 100 tell [ 0 ] fd 200";
   private static final String ID_PROGRAM = "tell [ 1 2 3 ] set :x 10 fd * id :x";
   private static final String ASK_PROGRAM = "tell [ 1 2 3 ] ask [ 4 5 ] [ fd 50 ] fd 100";
+  private static final String COMMENTS_PROGRAM = "# this is a comment\nfd 50 \n# this is another comment\n";
 
 
   private static final String LANGUAGE = "English";
@@ -154,6 +155,12 @@ public class CompilerTest {
     assertEquals(100, myTurtleManager.getFollowingTurtles().get(0).getPose().y(), Main.TOLERANCE);
     assertEquals(100, myTurtleManager.getFollowingTurtles().get(1).getPose().y(), Main.TOLERANCE);
     assertEquals(100, myTurtleManager.getFollowingTurtles().get(2).getPose().y(), Main.TOLERANCE);
+  }
+
+  @Test
+  void testComments() throws Exception {
+    run(compiler.compile(COMMENTS_PROGRAM));
+    assertEquals(50, myTurtleManager.getFollowingTurtles().get(0).getPose().y());
   }
 
   private void run(Deque<Deque<Command>> q) throws MissingArgumentException {
