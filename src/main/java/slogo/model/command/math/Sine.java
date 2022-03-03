@@ -35,7 +35,7 @@ public class Sine extends MathOperation {
    */
   @Override
   public Value execute(Turtle turtle) {
-    setReturnValue(Math.sin(arg1.getVal()));
+    setReturnValue(Math.sin(Math.toRadians(arg1.getVal())));
     return returnValue();
   }
 }

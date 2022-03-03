@@ -18,7 +18,6 @@ public class ArcTangent extends MathOperation {
   /**
    * Creates an ArcTangent command
    *
-   * @param turtle the Turtle that is attached to this command
    * @param args   the arguments that the command takes
    * @throws MissingArgumentException if the list of arguments does not contain enough arguments
    */
@@ -31,11 +30,11 @@ public class ArcTangent extends MathOperation {
    * Calculates the arctan of the first argument
    *
    * @return atan(arg1)
-   * @param turtle
+   * @param turtle the Turtle that is attached to this command
    */
   @Override
   public Value execute(Turtle turtle) {
-    setReturnValue(Math.atan(arg1.getVal()));
+    setReturnValue(Math.toDegrees(Math.atan(arg1.getVal())));
     return returnValue();
   }
 }

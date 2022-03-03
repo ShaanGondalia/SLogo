@@ -40,7 +40,7 @@ public class RandomRange extends MathOperation {
     double min = arg1.getVal();
     double max = arg2. getVal();
 
-    double rand = (max + 1 - min) * Math.random() + min;
+    double rand = (max - min) * Math.random() + min;
 
     setReturnValue(rand);
     return returnValue();

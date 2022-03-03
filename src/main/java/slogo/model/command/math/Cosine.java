@@ -34,7 +34,7 @@ public class Cosine extends MathOperation {
    */
   @Override
   public Value execute(Turtle turtle) {
-    setReturnValue(Math.cos(arg1.getVal()));
+    setReturnValue(Math.cos(Math.toRadians(arg1.getVal())));
     return returnValue();
   }
 }
