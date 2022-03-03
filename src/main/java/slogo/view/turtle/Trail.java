@@ -13,10 +13,12 @@ public class Trail {
 
     private Line line;
     private Color color;
+    private double thickness;
 
-    public Trail(Line line, Color color) {
+    public Trail(Line line, Color color, double thickness) {
         this.line = line;
         this.color = color;
+        this.thickness = thickness;
     }
 
     /**
@@ -33,6 +35,14 @@ public class Trail {
      */
     public Color getColor() {
         return color;
+    }
+
+    /**
+     * Getter method for a trails thickness
+     * @return trail thickness
+     */
+    public double getThickness() {
+        return thickness;
     }
 
 }
