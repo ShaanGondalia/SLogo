@@ -1,5 +1,7 @@
 package slogo.model.turtle;
 
+import slogo.model.color.Color;
+
 /**
  * Class that encapsulates the turtle in the back-end. Contains internal API methods for updating
  * and getting the status of the turtle. Depends on TurtleStatus.
@@ -10,9 +12,12 @@ public class Turtle extends Observable<TurtleStatus> {
 
   private double myX;
   private double myY;
+  private final double myID;
+  private double myThickness;
   private double myBearing;
   private boolean myHasPen;
   private boolean myVisibility;
+  private Color myColor;
   private TurtleStatus myLastState;
 
   /**
@@ -21,6 +26,22 @@ public class Turtle extends Observable<TurtleStatus> {
   public Turtle() {
     myX = 0;
     myY = 0;
+    myID = 0;
+    myBearing = 0;
+    myHasPen = false;
+    myVisibility = true;
+    myLastState = makeStatus();
+  }
+
+  /**
+   * Create a new turtle that starts at the center of the screen with the given ID.
+   *
+   * @param id the id of the turtle
+   */
+  public Turtle(double id) {
+    myX = 0;
+    myY = 0;
+    myID = id;
     myBearing = 0;
     myHasPen = false;
     myVisibility = true;
@@ -67,20 +88,21 @@ public class Turtle extends Observable<TurtleStatus> {
     change("Pose");
   }
 
-  public void setPose(Pose pose) {
-    myX = pose.x();
-    myY = pose.y();
-    myBearing = pose.bearing();
-    String property = "Pose";
-    change(property);
-  }
-
   /**
    * Clears the turtle's trails
    */
   public void clear() {
     String property = "Clear";
     change(property);
+  }
+
+  /**
+   * Gets the id of the turtle
+   *
+   * @return the id of the turtle
+   */
+  public double getMyID() {
+    return myID;
   }
 
   /**
@@ -107,6 +129,14 @@ public class Turtle extends Observable<TurtleStatus> {
 
   public Pose getPose() {
     return currentPose();
+  }
+
+  public void setPose(Pose pose) {
+    myX = pose.x();
+    myY = pose.y();
+    myBearing = pose.bearing();
+    String property = "Pose";
+    change(property);
   }
 
   public TurtleStatus getStatus() {

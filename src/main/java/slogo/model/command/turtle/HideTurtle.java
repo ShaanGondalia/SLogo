@@ -17,23 +17,23 @@ public class HideTurtle extends TurtleCommand {
   /**
    * Creates a hide turtle command. Takes no arguments
    *
-   * @param args   the arguments for the command (no arguments for HideTurtle)
-   * @param turtle the Turtle that will be rotated
+   * @param args the arguments for the command (no arguments for HideTurtle)
    * @throws MissingArgumentException if the list of arguments does not contain enough arguments
    */
-  public HideTurtle(Turtle turtle, List<Value> args) throws MissingArgumentException {
-    super(turtle, args, NUM_ARGS);
+  public HideTurtle(List<Value> args) throws MissingArgumentException {
+    super(args, NUM_ARGS);
     setReturnValue(0.0);
   }
 
   /**
    * Hides the attached turtle
    *
+   * @param turtle the Turtle that will be rotated
    * @return 0
    */
   @Override
-  public Value execute() {
-    getTurtle().setVisibility(false);
+  public Value execute(Turtle turtle) {
+    turtle.setVisibility(false);
     return returnValue();
   }
 }

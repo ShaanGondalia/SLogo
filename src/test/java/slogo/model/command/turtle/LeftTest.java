@@ -31,7 +31,7 @@ public class LeftTest {
   @Test
   void testNotEnoughArgs() {
     List<Value> args = new ArrayList<>();
-    assertThrows(MissingArgumentException.class, () -> new Left(myTurtle, args));
+    assertThrows(MissingArgumentException.class, () -> new Left(args));
   }
 
   @Test
@@ -39,8 +39,8 @@ public class LeftTest {
     List<Value> args = new ArrayList<>();
     args.add(new Value(ARG_1));
     args.add(new Value(ARG_2));
-    Left c = new Left(myTurtle, args);
-    assertEquals(ARG_1, c.execute().getVal());
+    Left c = new Left(args);
+    assertEquals(ARG_1, c.execute(myTurtle).getVal());
     assertEquals(ARG_1, c.returnValue().getVal());
   }
 
@@ -48,9 +48,9 @@ public class LeftTest {
   void testCorrectArgs() throws MissingArgumentException {
     List<Value> args = new ArrayList<>();
     args.add(new Value(ARG_1));
-    Left c = new Left(myTurtle, args);
+    Left c = new Left(args);
     double bearingBefore = myTurtle.getPose().bearing();
-    assertEquals(ARG_1, c.execute().getVal());
+    assertEquals(ARG_1, c.execute(myTurtle).getVal());
     assertEquals(ARG_1, c.returnValue().getVal());
     assertEquals(bearingBefore - ARG_1 + 360, myTurtle.getPose().bearing());
   }

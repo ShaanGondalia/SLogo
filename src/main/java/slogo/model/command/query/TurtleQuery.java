@@ -4,7 +4,6 @@ import java.util.List;
 import slogo.model.command.AbstractCommand;
 import slogo.model.command.Value;
 import slogo.model.exception.MissingArgumentException;
-import slogo.model.turtle.Turtle;
 
 /**
  * Defines abstract class for any turtle query with an arbitrary number of args.
@@ -13,30 +12,17 @@ import slogo.model.turtle.Turtle;
  */
 public abstract class TurtleQuery extends AbstractCommand {
 
-  private final Turtle attachedTurtle;
-
   /**
    * Default constructor for all Turtle Queries
    *
-   * @param turtle  the Turtle that is attached to this command
    * @param args    the arguments that the command takes
    * @param numArgs the number of arguments that this command takes
    * @throws MissingArgumentException if the list of arguments does not contain enough arguments
    */
-  public TurtleQuery(Turtle turtle, List<Value> args, int numArgs)
+  public TurtleQuery(List<Value> args, int numArgs)
       throws MissingArgumentException {
     super();
-    attachedTurtle = turtle;
     verifyArgs(args, numArgs);
-  }
-
-  /**
-   * Method for giving subclasses access to the attached Turtle
-   *
-   * @return the attached Turtle
-   */
-  protected Turtle getTurtle() {
-    return attachedTurtle;
   }
 
   //Verifies that the command received the correct number of arguments.

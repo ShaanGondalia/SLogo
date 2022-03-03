@@ -30,17 +30,17 @@ public class ShowTurtleTest {
   void testTooManyArgs() throws MissingArgumentException {
     List<Value> args = new ArrayList<>();
     args.add(new Value(ARG_1));
-    ShowTurtle c = new ShowTurtle(myTurtle, args);
+    ShowTurtle c = new ShowTurtle(args);
     assertEquals(1.0, c.returnValue().getVal());
-    assertEquals(1.0, c.execute().getVal());
+    assertEquals(1.0, c.execute(myTurtle).getVal());
   }
 
   @Test
   void testCorrectArgs() throws MissingArgumentException {
     List<Value> args = new ArrayList<>();
-    ShowTurtle c = new ShowTurtle(myTurtle, args);
+    ShowTurtle c = new ShowTurtle(args);
     assertEquals(1.0, c.returnValue().getVal());
-    assertEquals(1.0, c.execute().getVal());
+    assertEquals(1.0, c.execute(myTurtle).getVal());
   }
 
 }

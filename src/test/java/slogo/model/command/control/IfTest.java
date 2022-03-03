@@ -37,7 +37,7 @@ public class IfTest{
     List<Value> args = new ArrayList<>();
     Value variable = new Value(ARG_1);
     args.add(variable);
-    Command forward = new Forward(myTurtle, args);
+    Command forward = new Forward(args);
     body.add(forward);
     lists.add(body);
   }
@@ -47,8 +47,8 @@ public class IfTest{
     List<Value> ifArgs = new ArrayList<>();
     ifArgs.add(new Value(0));
 
-    Command ifCommand = new If(myTurtle, ifArgs, lists);
-    ifCommand.execute();
+    Command ifCommand = new If(ifArgs, lists);
+    ifCommand.execute(myTurtle);
     assertEquals(0, ifCommand.returnValue().getVal(), Main.TOLERANCE);
     assertEquals(0, myTurtle.getPose().y(), Main.TOLERANCE);
   }
@@ -58,8 +58,8 @@ public class IfTest{
     List<Value> ifArgs = new ArrayList<>();
     ifArgs.add(new Value(1));
 
-    Command ifCommand = new If(myTurtle, ifArgs, lists);
-    ifCommand.execute();
+    Command ifCommand = new If(ifArgs, lists);
+    ifCommand.execute(myTurtle);
     assertEquals(ARG_1, ifCommand.returnValue().getVal(), Main.TOLERANCE);
     assertEquals(ARG_1, myTurtle.getPose().y(), Main.TOLERANCE);
   }
@@ -69,13 +69,13 @@ public class IfTest{
     List<Value> ifArgs = new ArrayList<>();
     ifArgs.add(new Value(1));
     lists = new ArrayList<>();
-    assertThrows(MissingArgumentException.class, () -> new If(myTurtle, ifArgs, lists));
+    assertThrows(MissingArgumentException.class, () -> new If(ifArgs, lists));
   }
 
   @Test
   void testNotEnoughArgs(){
     List<Value> ifArgs = new ArrayList<>();
-    assertThrows(MissingArgumentException.class, () -> new If(myTurtle, ifArgs, lists));
+    assertThrows(MissingArgumentException.class, () -> new If(ifArgs, lists));
   }
 
 }

@@ -11,15 +11,18 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import slogo.Main;
 import slogo.model.turtle.Turtle;
+import slogo.model.turtle.TurtleManager;
 
 public class VariablesListTest {
 
+  TurtleManager myTurtleManager;
   Compiler myCompiler;
   List<Turtle> myTurtles;
 
   @BeforeEach
   void setup () {
-    myCompiler = new Compiler("English");
+    myTurtleManager = new TurtleManager();
+    myCompiler = new Compiler("English", myTurtleManager);
     myTurtles = new ArrayList<>();
     myTurtles.add(new Turtle());
   }
@@ -29,7 +32,7 @@ public class VariablesListTest {
     String program = "make :a 20.0142\n "
         + "make :b 30";
 
-    myCompiler.compile(program, myTurtles);
+    myCompiler.compile(program);
 
     Map<String, String> variables = myCompiler.getVariables();
     for (String name: variables.keySet()) {

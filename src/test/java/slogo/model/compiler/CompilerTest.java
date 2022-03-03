@@ -4,8 +4,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.ArrayList;
+import java.util.Deque;
 import java.util.List;
-import java.util.Queue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import slogo.Main;
@@ -13,7 +13,7 @@ import slogo.model.command.Command;
 import slogo.model.exception.MissingArgumentException;
 import slogo.model.exception.SymbolNotFoundException;
 import slogo.model.turtle.Turtle;
-import slogo.model.compiler.Compiler;
+import slogo.model.turtle.TurtleManager;
 
 /**
  * Tests for Compiler class
@@ -50,89 +50,123 @@ public class CompilerTest {
       + "  ]      \n]\n\n"
       + "cs\n\ndash 10 20\nrt 120\ndash 20 10\nrt 120\ndash 40 5\n";
 
+  private static final String TELL_PROGRAM = "fd 50 tell [ 1 ] fd 100 tell [ 0 ] fd 200";
+  private static final String ID_PROGRAM = "tell [ 1 2 3 ] set :x 10 fd * id :x";
+  private static final String ASK_PROGRAM = "tell [ 1 2 3 ] ask [ 4 5 ] [ fd 50 ] fd 100";
+  private static final String COMMENTS_PROGRAM = "# this is a comment\nfd 50 \n# this is another comment\n";
+
 
   private static final String LANGUAGE = "English";
 
-  private List<Turtle> myTurtles;
+  private TurtleManager myTurtleManager;
   private Compiler compiler;
 
   @BeforeEach
   void setUp() {
-    myTurtles = new ArrayList<>();
-    myTurtles.add(new Turtle());
-    compiler = new Compiler(LANGUAGE);
+    myTurtleManager = new TurtleManager();
+    compiler = new Compiler(LANGUAGE, myTurtleManager);
   }
 
   @Test
   void testIncorrect() {
     assertThrows(MissingArgumentException.class,
-        () -> compiler.compile(INCORRECT_PROGRAM, myTurtles));
+        () -> compiler.compile(INCORRECT_PROGRAM));
   }
 
   @Test
   void testBasic() throws Exception {
-    run(compiler.compile(BASIC_PROGRAM, myTurtles));
-    assertEquals(50, myTurtles.get(0).getPose().y());
+    run(compiler.compile(BASIC_PROGRAM));
+    assertEquals(50, myTurtleManager.getFollowingTurtles().get(0).getPose().y());
   }
 
   @Test
   void testTwoArg() throws Exception {
-    run(compiler.compile(TWO_ARG_PROGRAM, myTurtles));
-    assertEquals(100, myTurtles.get(0).getPose().y());
+    run(compiler.compile(TWO_ARG_PROGRAM));
+    assertEquals(100, myTurtleManager.getFollowingTurtles().get(0).getPose().y());
   }
 
   @Test
   void testMulti() throws Exception {
-    run(compiler.compile(MULTI_PROGRAM, myTurtles));
-    assertEquals(150, myTurtles.get(0).getPose().y());
+    run(compiler.compile(MULTI_PROGRAM));
+    assertEquals(150, myTurtleManager.getFollowingTurtles().get(0).getPose().y());
   }
 
   @Test
   void testComplex() throws Exception {
-    run(compiler.compile(COMPLEX_PROGRAM, myTurtles));
-    assertEquals(150, myTurtles.get(0).getPose().y());
-    assertEquals(270, myTurtles.get(0).getPose().bearing());
+    run(compiler.compile(COMPLEX_PROGRAM));
+    assertEquals(150, myTurtleManager.getFollowingTurtles().get(0).getPose().y());
+    assertEquals(270, myTurtleManager.getFollowingTurtles().get(0).getPose().bearing());
   }
 
   @Test
   void testLoop() throws Exception {
-    run(compiler.compile(LOOP_PROGRAM, myTurtles));
-    assertEquals(62.4117, myTurtles.get(0).getPose().x(), Main.TOLERANCE);
-    assertEquals(128.9302, myTurtles.get(0).getPose().y(), Main.TOLERANCE);
-    assertEquals(160, myTurtles.get(0).getPose().bearing(), Main.TOLERANCE);
+    run(compiler.compile(LOOP_PROGRAM));
+    assertEquals(62.4117, myTurtleManager.getFollowingTurtles().get(0).getPose().x(), Main.TOLERANCE);
+    assertEquals(128.9302, myTurtleManager.getFollowingTurtles().get(0).getPose().y(), Main.TOLERANCE);
+    assertEquals(160, myTurtleManager.getFollowingTurtles().get(0).getPose().bearing(), Main.TOLERANCE);
   }
 
   @Test
   void testProcedure() throws Exception {
-    run(compiler.compile(PROCEDURE_PROGRAM, myTurtles));
-    assertEquals(0, myTurtles.get(0).getPose().x(), Main.TOLERANCE);
-    assertEquals(480, myTurtles.get(0).getPose().y(), Main.TOLERANCE);
-    assertEquals(0, myTurtles.get(0).getPose().bearing(), Main.TOLERANCE);
+    run(compiler.compile(PROCEDURE_PROGRAM));
+    assertEquals(0, myTurtleManager.getFollowingTurtles().get(0).getPose().x(), Main.TOLERANCE);
+    assertEquals(480, myTurtleManager.getFollowingTurtles().get(0).getPose().y(), Main.TOLERANCE);
+    assertEquals(0, myTurtleManager.getFollowingTurtles().get(0).getPose().bearing(), Main.TOLERANCE);
   }
 
   @Test
   void testProcedureArgs() throws Exception {
-    run(compiler.compile(PROCEDURE_PROGRAM_ARGS, myTurtles));
-    assertEquals(0, myTurtles.get(0).getPose().x(), Main.TOLERANCE);
-    assertEquals(0, myTurtles.get(0).getPose().y(), Main.TOLERANCE);
-    assertEquals(240, myTurtles.get(0).getPose().bearing(), Main.TOLERANCE);
+    run(compiler.compile(PROCEDURE_PROGRAM_ARGS));
+    assertEquals(0, myTurtleManager.getFollowingTurtles().get(0).getPose().x(), Main.TOLERANCE);
+    assertEquals(0, myTurtleManager.getFollowingTurtles().get(0).getPose().y(), Main.TOLERANCE);
+    assertEquals(240, myTurtleManager.getFollowingTurtles().get(0).getPose().bearing(), Main.TOLERANCE);
   }
 
   @Test
   void testUnknown() throws Exception {
-    assertThrows(SymbolNotFoundException.class, () -> compiler.compile(UNKNOWN_PROGRAM, myTurtles));
+    assertThrows(SymbolNotFoundException.class, () -> compiler.compile(UNKNOWN_PROGRAM));
   }
 
   @Test
   void testParameterOrder() throws Exception {
     String program = "sum 50 fd";
-    assertThrows(MissingArgumentException.class, () -> compiler.compile(program, myTurtles));
+    assertThrows(MissingArgumentException.class, () -> compiler.compile(program));
   }
 
-  private void run(Queue<Command> q) throws MissingArgumentException {
-    while (!q.isEmpty()) {
-      Command command = q.remove();
-      command.execute();
+  @Test
+  void testTell() throws Exception {
+    run(compiler.compile(TELL_PROGRAM));
+    assertEquals(0, myTurtleManager.getFollowingTurtles().get(0).getPose().x(), Main.TOLERANCE);
+    assertEquals(250, myTurtleManager.getFollowingTurtles().get(0).getPose().y(), Main.TOLERANCE);
+    assertEquals(0, myTurtleManager.getFollowingTurtles().get(0).getPose().bearing(), Main.TOLERANCE);
+  }
+
+  @Test
+  void testId() throws Exception {
+    run(compiler.compile(ID_PROGRAM));
+    assertEquals(10, myTurtleManager.getFollowingTurtles().get(0).getPose().y(), Main.TOLERANCE);
+    assertEquals(20, myTurtleManager.getFollowingTurtles().get(1).getPose().y(), Main.TOLERANCE);
+    assertEquals(30, myTurtleManager.getFollowingTurtles().get(2).getPose().y(), Main.TOLERANCE);
+  }
+
+  @Test
+  void testAsk() throws Exception {
+    run(compiler.compile(ASK_PROGRAM));
+    assertEquals(100, myTurtleManager.getFollowingTurtles().get(0).getPose().y(), Main.TOLERANCE);
+    assertEquals(100, myTurtleManager.getFollowingTurtles().get(1).getPose().y(), Main.TOLERANCE);
+    assertEquals(100, myTurtleManager.getFollowingTurtles().get(2).getPose().y(), Main.TOLERANCE);
+  }
+
+  @Test
+  void testComments() throws Exception {
+    run(compiler.compile(COMMENTS_PROGRAM));
+    assertEquals(50, myTurtleManager.getFollowingTurtles().get(0).getPose().y());
+  }
+
+  private void run(Deque<Deque<Command>> q) throws MissingArgumentException {
+    System.out.println(q);
+    for (Deque<Command> innerQueue : q) {
+      myTurtleManager.executeCommandQueue(innerQueue);
     }
   }
 

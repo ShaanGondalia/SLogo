@@ -1,7 +1,5 @@
 package slogo.model.command;
 
-import slogo.Main;
-
 /**
  * Mutable class that wraps a double. Represents any value that can be passed to a SLogo command.
  * Required because Value is immutable. Has no Dependencies.
@@ -48,25 +46,28 @@ public class Value implements Comparable<Value> {
     val = d;
   }
 
+  /**
+   * @return value rounded to nearest int
+   */
+  public int asInt() {
+    return (int) Math.round(val);
+  }
+
   public boolean equals(Value a) {
     return (Math.abs(a.getVal() - val) < TOLERANCE);
   }
 
   /**
-   *
    * @param o Value to compare this to
-   * @return 0 if Values are equal, -1 if o is larger
-   * 1 if o is smaller
+   * @return 0 if Values are equal, -1 if o is larger 1 if o is smaller
    */
   @Override
   public int compareTo(Value o) {
     if (this.equals(o)) {
       return 0;
-    }
-    else if (this.val < o.getVal()) {
+    } else if (this.val < o.getVal()) {
       return -1;
-    }
-    else {
+    } else {
       return 1;
     }
   }

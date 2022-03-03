@@ -33,7 +33,7 @@ public class ProductTest {
   void testNotEnoughArgs() {
     List<Value> args = new ArrayList<>();
     args.add(new Value(ARG_1));
-    assertThrows(MissingArgumentException.class, () -> new Product(myTurtle, args));
+    assertThrows(MissingArgumentException.class, () -> new Product(args));
   }
 
   @Test
@@ -42,8 +42,8 @@ public class ProductTest {
     args.add(new Value(ARG_1));
     args.add(new Value(ARG_2));
     args.add(new Value(ARG_3));
-    Product s = new Product(myTurtle, args);
-    assertEquals(ARG_1 * ARG_2, s.execute().getVal());
+    Product s = new Product(args);
+    assertEquals(ARG_1 * ARG_2, s.execute(myTurtle).getVal());
     assertEquals(ARG_1 * ARG_2, s.returnValue().getVal());
   }
 
@@ -52,8 +52,8 @@ public class ProductTest {
     List<Value> args = new ArrayList<>();
     args.add(new Value(ARG_1));
     args.add(new Value(ARG_2));
-    Product s = new Product(myTurtle, args);
-    assertEquals(ARG_1 * ARG_2, s.execute().getVal());
+    Product s = new Product(args);
+    assertEquals(ARG_1 * ARG_2, s.execute(myTurtle).getVal());
     assertEquals(ARG_1 * ARG_2, s.returnValue().getVal());
   }
 

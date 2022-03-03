@@ -21,50 +21,51 @@ public class SetPosition extends TurtleCommand {
   private final Value myX;
   private final Value myY;
 
-  public SetPosition(Turtle turtle, List<Value> args) throws MissingArgumentException {
-    super(turtle, args, NUM_ARGS);
+  public SetPosition(List<Value> args) throws MissingArgumentException {
+    super(args, NUM_ARGS);
     myX = args.get(0);
     myY = args.get(1);
     myDistance = new Value();
   }
 
   /**
+   * @param turtle
    * @return distance travelled
    * @throws MissingArgumentException if less than 2 arguments given
    */
   @Override
-  public Value execute() throws MissingArgumentException {
-    Pose initialPose = getTurtle().getPose();
+  public Value execute(Turtle turtle) throws MissingArgumentException {
+    Pose initialPose = turtle.getPose();
     double initialBearing = initialPose.bearing();
 
-    setTowards(myX.getVal(), myY.getVal()).execute();
+    setTowards(myX.getVal(), myY.getVal()).execute(turtle);
 
-    Pose nextPose = new Pose(myX.getVal(), myY.getVal(), getTurtle().getPose().bearing());
-    getTurtle().setPose(nextPose);
+    Pose nextPose = new Pose(myX.getVal(), myY.getVal(), turtle.getPose().bearing());
+    turtle.setPose(nextPose);
 
-    setBearing(initialBearing).execute();
+    setBearing(initialBearing).execute(turtle);
 
     myDistance.setVal(distance(initialPose.x(), initialPose.y(), myX.getVal(), myY.getVal()));
     setReturnValue(myDistance.getVal());
     return returnValue();
   }
 
-  public Command setTowards(double x, double y) throws MissingArgumentException {
+  private Command setTowards(double x, double y) throws MissingArgumentException {
     List<Value> args = new ArrayList<>();
     args.add(new Value(x));
     args.add(new Value(y));
 
-    return new SetTowards(getTurtle(), args);
+    return new SetTowards(args);
   }
 
-  public Command setBearing(double bearing) throws MissingArgumentException {
+  private Command setBearing(double bearing) throws MissingArgumentException {
     List<Value> args = new ArrayList<>();
     args.add(new Value(bearing));
 
-    return new SetHeading(getTurtle(), args);
+    return new SetHeading(args);
   }
 
-  public double distance(double x1, double y1, double x2, double y2) {
+  private double distance(double x1, double y1, double x2, double y2) {
     return Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
   }
 

@@ -17,22 +17,22 @@ public class IsShowing extends TurtleQuery {
   /**
    * Creates a IsShowing command attached to the given Turtle.
    *
-   * @param turtle the Turtle that is attached to this command
-   * @param args   the arguments that the command takes
+   * @param args the arguments that the command takes
    * @throws MissingArgumentException if the list of arguments does not contain enough arguments
    */
-  public IsShowing(Turtle turtle, List<Value> args) throws MissingArgumentException {
-    super(turtle, args, NUM_ARGS);
+  public IsShowing(List<Value> args) throws MissingArgumentException {
+    super(args, NUM_ARGS);
   }
 
   /**
    * Returns the IsShowing of the queried turtle
    *
+   * @param turtle the Turtle that is attached to this command
    * @return 1 if turtle is showing, 0 otherwise
    */
   @Override
-  public Value execute() throws MissingArgumentException {
-    double val = getTurtle().getStatus().visibility() ? 1.0 : 0.0;
+  public Value execute(Turtle turtle) throws MissingArgumentException {
+    double val = turtle.getStatus().visibility() ? 1.0 : 0.0;
     setReturnValue(val);
     return returnValue();
   }

@@ -5,16 +5,16 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * Finds all user commands in a program
- * Used for retrieving the String as it is written by the user
+ * Finds all user commands in a program Used for retrieving the String as it is written by the user
  *
  * @author Jake Heller
  */
 public class UserCommandFinder {
 
-  private static int NUM_LISTS = 2;
+  private static final int NUM_LISTS = 2;
 
-  public static Map<String, String> findUserCommands(String program, Parser p, Set<String> compiledUserCommands) {
+  public static Map<String, String> findUserCommands(String program, Parser p,
+      Set<String> compiledUserCommands) {
     Map<String, String> userCommands = new HashMap<>();
     String[] tokens = program.split(Compiler.WHITESPACE);
 
@@ -24,7 +24,7 @@ public class UserCommandFinder {
 
       if (isToCommand(tokens[index], p)) {
         String userCommand = getUserCommand(tokens, index, p);
-        String commandName = tokens[index+1];
+        String commandName = tokens[index + 1];
         if (compiledUserCommands.contains(commandName)) {
           userCommands.put(commandName, userCommand);
         }

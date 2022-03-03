@@ -12,8 +12,8 @@ import slogo.model.turtle.Turtle;
  */
 public class Minus extends MathOperation {
 
-  private final Value arg1;
   private static final int NUM_ARGS = 1;
+  private final Value arg1;
 
   /**
    * Creates a Minus command
@@ -22,18 +22,19 @@ public class Minus extends MathOperation {
    * @param args   the arguments that the command takes
    * @throws MissingArgumentException if the list of arguments does not contain enough arguments
    */
-  public Minus(Turtle turtle, List<Value> args) throws MissingArgumentException {
-    super(turtle, args, NUM_ARGS);
+  public Minus(List<Value> args) throws MissingArgumentException {
+    super(args, NUM_ARGS);
     arg1 = args.get(0);
   }
 
   /**
    * Calculates the negative of arg1
    *
+   * @param turtle
    * @return -arg1
    */
   @Override
-  public Value execute() {
+  public Value execute(Turtle turtle) {
     setReturnValue(-1 * arg1.getVal());
     return returnValue();
   }
