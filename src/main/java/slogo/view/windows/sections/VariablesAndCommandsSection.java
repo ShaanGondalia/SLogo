@@ -41,23 +41,32 @@ public class VariablesAndCommandsSection implements IDESection {
     myLanguage = language;
     myRunner = runner;
 
-    variableTextField = new Text(VAR_STARTING_TEXT);
-    variableTextField.setId(VAR_TF_ID);
-    variableScrollPane = new ScrollPane();
-    variableScrollPane.setId(VAR_SP_ID);
-    variableScrollPane.setContent(variableTextField);
-    variableScrollPane.setPrefViewportWidth(VAR_WIDTH);
-
-    commandTextField = new Text(COM_STARTING_TEXT);
-    commandTextField.setId(COM_TF_ID);
-    commandScrollPane = new ScrollPane();
-    commandScrollPane.setId(COM_SP_ID);
-    commandScrollPane.setContent(commandTextField);
-    commandScrollPane.setPrefViewportWidth(COM_WIDTH);
+    setVariableSide();
+    setCommandSide();
 
     myVarAndComSec = new BorderPane();
     myVarAndComSec.setLeft(variableScrollPane);
     myVarAndComSec.setRight(commandScrollPane);
+  }
+
+  private void setVariableSide(){
+    variableTextField = new Text(VAR_STARTING_TEXT);
+    variableTextField.setId(VAR_TF_ID);
+
+    variableScrollPane = new ScrollPane();
+    variableScrollPane.setId(VAR_SP_ID);
+    variableScrollPane.setContent(variableTextField);
+    variableScrollPane.setPrefViewportWidth(VAR_WIDTH);
+  }
+
+  private void setCommandSide(){
+    commandTextField = new Text(COM_STARTING_TEXT);
+    commandTextField.setId(COM_TF_ID);
+
+    commandScrollPane = new ScrollPane();
+    commandScrollPane.setId(COM_SP_ID);
+    commandScrollPane.setContent(commandTextField);
+    commandScrollPane.setPrefViewportWidth(COM_WIDTH);
   }
 
   public void update() {
