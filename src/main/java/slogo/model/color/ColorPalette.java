@@ -9,18 +9,24 @@ import slogo.model.exception.MissingArgumentException;
 public class ColorPalette {
 
   Map<Double, ColorRecord> myColors;
+  double myLargestIndex;
 
   public ColorPalette() {
     myColors = new HashMap<>();
+    myLargestIndex = 0;
   }
 
-  public void addColor(List<Value> args) throws MissingArgumentException {
-    if (args.size() != 4) {
-      throw new MissingArgumentException("Message");
-    } else {
-      ColorRecord c = new ColorRecord(args.get(1).asInt(), args.get(2).asInt(), args.get(3).asInt());
-      myColors.put(args.get(0).getVal(), c);
+  public void addColor(double index, int r, int g, int b) throws MissingArgumentException {
+    ColorRecord color = new ColorRecord(r, g, b);
+    myColors.put(index, color);
+    if (index > myLargestIndex) {
+      myLargestIndex = index;
     }
+  }
+
+  public void addColor(int r, int g, int b) {
+    ColorRecord color = new ColorRecord(r, g, b);
+    myColors.put(myLargestIndex++, color);
   }
 
   public ColorRecord getColor(int key) {

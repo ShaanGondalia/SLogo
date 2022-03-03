@@ -13,7 +13,7 @@ public class Turtle extends Observable<TurtleStatus> {
   private double myX;
   private double myY;
   private final double myID;
-  private double myThickness;
+  private int myThickness;
   private double myBearing;
   private boolean myPenDown;
   private boolean myVisibility;
@@ -34,8 +34,10 @@ public class Turtle extends Observable<TurtleStatus> {
     myBearing = 0;
     myPenDown = false;
     myVisibility = true;
-    myLastState = makeStatus();
+    myColor = new ColorRecord(0,0,0);
     myActive = false;
+    myThickness = 0;
+    myLastState = makeStatus();
   }
 
   /**
