@@ -46,13 +46,13 @@ public class CommandFactoryTest {
 
   @Test
   void testBaseCommand() throws MissingArgumentException, SymbolNotFoundException {
-    Command c = commandFactory.getCommand(FORWARD, turtle, args, lists);
-    assertEquals(ARG_1, c.execute().getVal());
+    Command c = commandFactory.getCommand(FORWARD, args, lists);
+    assertEquals(ARG_1, c.execute(turtle).getVal());
   }
 
   @Test
   void testBaseNotEnoughArgs() {
-    assertThrows(MissingArgumentException.class, () -> commandFactory.getCommand(SUM, turtle, args, lists));
+    assertThrows(MissingArgumentException.class, () -> commandFactory.getCommand(SUM, args, lists));
   }
 
   @Test
@@ -63,7 +63,7 @@ public class CommandFactoryTest {
   @Test
   void testUnknownCommand() {
     assertFalse(commandFactory.isCommand(GIBBERISH));
-    assertThrows(SymbolNotFoundException.class, () -> commandFactory.getCommand(GIBBERISH, turtle, args, lists));
+    assertThrows(SymbolNotFoundException.class, () -> commandFactory.getCommand(GIBBERISH, args, lists));
   }
 
 

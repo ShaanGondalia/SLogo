@@ -32,7 +32,7 @@ public class SetHeadingTest {
   @Test
   void testNotEnoughArgs() {
     List<Value> args = new ArrayList<>();
-    assertThrows(MissingArgumentException.class, () -> new SetHeading(myTurtle, args));
+    assertThrows(MissingArgumentException.class, () -> new SetHeading(args));
   }
 
   @Test
@@ -40,8 +40,8 @@ public class SetHeadingTest {
     List<Value> args = new ArrayList<>();
     args.add(new Value(ARG_1));
     args.add(new Value(ARG_2));
-    Command c = new SetHeading(myTurtle, args);
-    assertEquals(ARG_1, c.execute().getVal());
+    Command c = new SetHeading(args);
+    assertEquals(ARG_1, c.execute(myTurtle).getVal());
     assertEquals(ARG_1, c.returnValue().getVal());
   }
 
@@ -50,8 +50,8 @@ public class SetHeadingTest {
     List<Value> args = new ArrayList<>();
     double arg = -15.0;
     args.add(new Value(arg));
-    Command c = new SetHeading(myTurtle, args);
-    assertEquals(arg, c.execute().getVal());
+    Command c = new SetHeading(args);
+    assertEquals(arg, c.execute(myTurtle).getVal());
     assertEquals(arg, c.returnValue().getVal());
   }
 

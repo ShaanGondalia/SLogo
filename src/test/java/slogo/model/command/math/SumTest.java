@@ -33,7 +33,7 @@ public class SumTest {
   void testNotEnoughArgs() {
     List<Value> args = new ArrayList<>();
     args.add(new Value(ARG_1));
-    assertThrows(MissingArgumentException.class, () -> new Sum(myTurtle, args));
+    assertThrows(MissingArgumentException.class, () -> new Sum(args));
   }
 
   @Test
@@ -42,10 +42,10 @@ public class SumTest {
     args.add(new Value(ARG_1));
     args.add(new Value(ARG_2));
     args.add(new Value(ARG_3));
-    Sum s = new Sum(myTurtle, args);
-    s.execute();
+    Sum s = new Sum(args);
+    s.execute(myTurtle);
     assertEquals(ARG_1 + ARG_2, s.returnValue().getVal());
-    assertEquals(ARG_1 + ARG_2, s.execute().getVal());
+    assertEquals(ARG_1 + ARG_2, s.execute(myTurtle).getVal());
   }
 
   @Test
@@ -53,10 +53,10 @@ public class SumTest {
     List<Value> args = new ArrayList<>();
     args.add(new Value(ARG_1));
     args.add(new Value(ARG_2));
-    Sum s = new Sum(myTurtle, args);
-    s.execute();
+    Sum s = new Sum(args);
+    s.execute(myTurtle);
     assertEquals(ARG_1 + ARG_2, s.returnValue().getVal());
-    assertEquals(ARG_1 + ARG_2, s.execute().getVal());
+    assertEquals(ARG_1 + ARG_2, s.execute(myTurtle).getVal());
   }
 
 }

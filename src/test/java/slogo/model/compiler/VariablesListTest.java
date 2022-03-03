@@ -29,7 +29,7 @@ public class VariablesListTest {
     String program = "make :a 20.0142\n "
         + "make :b 30";
 
-    myCompiler.compile(program, myTurtles);
+    myCompiler.compile(program);
 
     Map<String, String> variables = myCompiler.getVariables();
     for (String name: variables.keySet()) {

@@ -33,7 +33,7 @@ public class GreaterTest {
   void testNotEnoughArgs() {
     List<Value> args = new ArrayList<>();
     args.add(new Value(ARG_1));
-    assertThrows(MissingArgumentException.class, () -> new Greater(myTurtle, args));
+    assertThrows(MissingArgumentException.class, () -> new Greater(args));
   }
 
   @Test
@@ -42,8 +42,8 @@ public class GreaterTest {
     args.add(new Value(ARG_1));
     args.add(new Value(ARG_2));
     args.add(new Value(ARG_3));
-    Greater s = new Greater(myTurtle, args);
-    assertEquals(0.0, s.execute().getVal());
+    Greater s = new Greater(args);
+    assertEquals(0.0, s.execute(myTurtle).getVal());
     assertEquals(0.0, s.returnValue().getVal());
   }
 
@@ -52,8 +52,8 @@ public class GreaterTest {
     List<Value> args = new ArrayList<>();
     args.add(new Value(ARG_1));
     args.add(new Value(ARG_2));
-    Greater s = new Greater(myTurtle, args);
-    assertEquals(0.0, s.execute().getVal());
+    Greater s = new Greater(args);
+    assertEquals(0.0, s.execute(myTurtle).getVal());
     assertEquals(0.0, s.returnValue().getVal());
   }
 
@@ -62,8 +62,8 @@ public class GreaterTest {
     List<Value> args = new ArrayList<>();
     args.add(new Value(ARG_2));
     args.add(new Value(ARG_1));
-    Greater s = new Greater(myTurtle, args);
-    assertEquals(1.0, s.execute().getVal());
+    Greater s = new Greater(args);
+    assertEquals(1.0, s.execute(myTurtle).getVal());
     assertEquals(1.0, s.returnValue().getVal());
   }
 
@@ -72,8 +72,8 @@ public class GreaterTest {
     List<Value> args = new ArrayList<>();
     args.add(new Value(ARG_1));
     args.add(new Value(ARG_1));
-    Greater s = new Greater(myTurtle, args);
-    assertEquals(0.0, s.execute().getVal());
+    Greater s = new Greater(args);
+    assertEquals(0.0, s.execute(myTurtle).getVal());
     assertEquals(0.0, s.returnValue().getVal());
   }
 

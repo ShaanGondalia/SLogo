@@ -33,7 +33,7 @@ public class RightTest {
   @Test
   void testNotEnoughArgs() {
     List<Value> args = new ArrayList<>();
-    assertThrows(MissingArgumentException.class, () -> new Right(myTurtle, args));
+    assertThrows(MissingArgumentException.class, () -> new Right(args));
   }
 
   @Test
@@ -41,8 +41,8 @@ public class RightTest {
     List<Value> args = new ArrayList<>();
     args.add(new Value(ARG_1));
     args.add(new Value(ARG_2));
-    Right c = new Right(myTurtle, args);
-    assertEquals(ARG_1, c.execute().getVal());
+    Right c = new Right(args);
+    assertEquals(ARG_1, c.execute(myTurtle).getVal());
     assertEquals(ARG_1, c.returnValue().getVal());
   }
 
@@ -50,12 +50,12 @@ public class RightTest {
   void testCorrectArgs() throws MissingArgumentException {
     List<Value> args = new ArrayList<>();
     args.add(new Value(ARG_1));
-    Right c = new Right(myTurtle, args);
+    Right c = new Right(args);
     //assertEquals(ARG_1, c.returnValue().getVal());
     double bearingBefore = myTurtle.getPose().bearing();
     double xBefore = myTurtle.getPose().x();
     double yBefore = myTurtle.getPose().y();
-    assertEquals(ARG_1, c.execute().getVal());
+    assertEquals(ARG_1, c.execute(myTurtle).getVal());
     assertEquals(bearingBefore + ARG_1, myTurtle.getPose().bearing());
     assertEquals(xBefore, myTurtle.getPose().x(), Main.TOLERANCE);
     assertEquals(yBefore, myTurtle.getPose().y(), Main.TOLERANCE);
@@ -66,12 +66,12 @@ public class RightTest {
     List<Value> args = new ArrayList<>();
     double degreesToTurn = 45;
     args.add(new Value(degreesToTurn));
-    Command right = new Right(myTurtle, args);
+    Command right = new Right(args);
 
     // sanity check
     assertEquals( 0, myTurtle.getPose().bearing(), Main.TOLERANCE);
-    right.execute();
-    //assertEquals(degreesToTurn, right.execute().getVal(), Main.TOLERANCE);
+    right.execute(myTurtle);
+    //assertEquals(degreesToTurn, right.execute(myTurtle).getVal(), Main.TOLERANCE);
     assertEquals(degreesToTurn, myTurtle.getPose().bearing(), Main.TOLERANCE);
   }
 

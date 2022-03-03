@@ -12,7 +12,6 @@ import org.junit.jupiter.api.Test;
 import slogo.Main;
 import slogo.model.command.Command;
 import slogo.model.command.Value;
-import slogo.model.command.turtle.Backward;
 import slogo.model.command.turtle.Forward;
 import slogo.model.exception.MissingArgumentException;
 import slogo.model.turtle.Turtle;
@@ -44,8 +43,8 @@ public class RepeatTest{
     List<Value> args = new ArrayList<>();
     args.add(new Value(REPETITIONS));
 
-    Command repeatCommand = new Repeat(myTurtle, args, bodies);
-    repeatCommand.execute();
+    Command repeatCommand = new Repeat(args, bodies);
+    repeatCommand.execute(myTurtle);
     assertEquals(ARG_1, repeatCommand.returnValue().getVal(), Main.TOLERANCE);
     assertEquals(ARG_1 * REPETITIONS, myTurtle.getPose().y(), Main.TOLERANCE);
   }
@@ -54,19 +53,19 @@ public class RepeatTest{
   void testNotEnoughLists(){
     List<Value> args = new ArrayList<>();
     args.add(new Value(REPETITIONS));
-    assertThrows(MissingArgumentException.class, () -> new Repeat(myTurtle, args, bodies));
+    assertThrows(MissingArgumentException.class, () -> new Repeat(args, bodies));
   }
 
   @Test
   void testNotEnoughArgs(){
     List<Value> args = new ArrayList<>();
-    assertThrows(MissingArgumentException.class, () -> new Repeat(myTurtle, args, bodies));
+    assertThrows(MissingArgumentException.class, () -> new Repeat(args, bodies));
   }
 
   private void makeBody(Value v) throws MissingArgumentException {
     List<Value> forArgs = new ArrayList<>();
     forArgs.add(v);
-    Command forward = new Forward(myTurtle, forArgs);
+    Command forward = new Forward(forArgs);
     Deque<Command> body = new LinkedList<>();
     body.add(forward);
     bodies.add(body);

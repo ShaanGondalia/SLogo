@@ -31,7 +31,7 @@ public class RandomTest {
   @Test
   void testNotEnoughArgs() {
     List<Value> args = new ArrayList<>();
-    assertThrows(MissingArgumentException.class, () -> new Random(myTurtle, args));
+    assertThrows(MissingArgumentException.class, () -> new Random(args));
   }
 
   @Test
@@ -39,8 +39,8 @@ public class RandomTest {
     List<Value> args = new ArrayList<>();
     args.add(new Value(ARG_1));
     args.add(new Value(ARG_2));
-    Random r = new Random(myTurtle, args);
-    r.execute();
+    Random r = new Random(args);
+    r.execute(myTurtle);
     assertTrue(r.returnValue().getVal() < ARG_1 && r.returnValue().getVal() >= 0);
   }
 
@@ -48,8 +48,8 @@ public class RandomTest {
   void testCorrectArgs() throws MissingArgumentException {
     List<Value> args = new ArrayList<>();
     args.add(new Value(ARG_1));
-    Random r = new Random(myTurtle, args);
-    r.execute();
+    Random r = new Random(args);
+    r.execute(myTurtle);
     assertTrue(r.returnValue().getVal() < ARG_1 && r.returnValue().getVal() >= 0);
   }
 
