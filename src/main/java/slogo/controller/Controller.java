@@ -18,14 +18,12 @@ public class Controller {
   private Compiler myCompiler;
   private TurtleManager myTurtleManager;
   private List<Turtle> myTurtles;
-  private List<TurtleView> myTurtleViews;
   private Map<String, MapGetter<String, String>> myMapGetters;
 
   public Controller(String lan) {
     myTurtleManager = new TurtleManager();
     myCompiler = new Compiler(lan, myTurtleManager);
     myTurtles = new ArrayList<>();
-    myTurtleViews = new ArrayList<>();
     myMapGetters = new HashMap<>();
     myMapGetters.put("variables", () -> myCompiler.getVariables());
     myMapGetters.put("userCommands", () -> myCompiler.getUserCommandStrings());
@@ -42,7 +40,6 @@ public class Controller {
   }
 
   public void addTurtle(PropertyChangeListener turtleView) {
-    myTurtleViews.add((TurtleView) turtleView);
     Turtle turtle = new Turtle();
     myTurtles.add(turtle);
     turtle.addListener(turtleView);
@@ -61,7 +58,4 @@ public class Controller {
     return myMapGetters.getOrDefault(dataName, myMapGetters.get("default")).getMap();
   }
 
-  public List<TurtleView> getTurtleViews() {
-    return myTurtleViews;
-  }
 }

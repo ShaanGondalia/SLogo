@@ -94,7 +94,7 @@ public class Main extends Application {
     TurtleWindowView turtleWindowView = new TurtleWindowView(splashView.toString());
     TurtleViewManager tvm = new TurtleViewManager(turtleWindowView);
     Controller c = new Controller(languageProbe.toString(), tvm);
-    Display mainIDEView = new MainIDEView(languageProbe.toString(), c, splashView.toString(), stage);
+    Display mainIDEView = new MainIDEView(languageProbe.toString(), c, splashView.toString(), stage, tvm);
 
   }
 

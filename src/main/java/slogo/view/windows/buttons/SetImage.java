@@ -24,7 +24,7 @@ public class SetImage implements IDEButton {
       fc.setInitialDirectory(new File(imagePath));
       File file = fc.showOpenDialog(new Stage());
       if (file != null) {
-          for (TurtleView tv : info.c().getTurtleViews()) {
+          for (TurtleView tv : info.tvm().getTurtleViewList()) {
               tv.setTurtleImage(file.getName());
           }
       }
