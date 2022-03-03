@@ -53,6 +53,12 @@ public class Parser {
     }
   }
 
+  /**
+   * Removes all comments from a SLogo program
+   *
+   * @param program the String to remove the comments from
+   * @return a new string with the comments removed
+   */
   public String removeComments(String program) {
     StringBuilder finalProgram = new StringBuilder();
     for (String line: program.split("\n")) {
