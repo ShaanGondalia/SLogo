@@ -9,17 +9,20 @@ import slogo.model.command.Command;
 
 import slogo.model.compiler.Compiler;
 import slogo.model.turtle.Turtle;
+import slogo.model.turtle.TurtleManager;
 import slogo.view.turtle.TurtleView;
 
 public class Controller {
 
   private Compiler myCompiler;
+  private TurtleManager myTurtleManager;
   private List<Turtle> myTurtles;
   private List<TurtleView> myTurtleViews;
   private Map<String, MapGetter<String, String>> myMapGetters;
 
   public Controller(String lan) {
-    myCompiler = new Compiler(lan);
+    myTurtleManager = new TurtleManager();
+    myCompiler = new Compiler(lan, myTurtleManager);
     myTurtles = new ArrayList<>();
     myTurtleViews = new ArrayList<>();
     myMapGetters = new HashMap<>();
@@ -33,8 +36,10 @@ public class Controller {
       Deque<Deque<Command>> commands = myCompiler.compile(program);
       while (!commands.isEmpty()) {
         Deque<Command> innerCommands = commands.removeFirst();
-        while (!innerCommands.isEmpty()) {
-          innerCommands.removeFirst().execute(myTurtles.get(0));
+        for (Turtle t : myTurtleManager.getFollowingTurtles()) {
+          while (!innerCommands.isEmpty()) {
+            innerCommands.removeFirst().execute(t);
+          }
         }
       }
     } catch (Exception e){

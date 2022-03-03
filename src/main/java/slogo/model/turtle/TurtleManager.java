@@ -30,12 +30,12 @@ public class TurtleManager {
   }
 
   /**
-   * Gets the collection of turtles that are currently following commands
+   * Gets the list of turtles that are currently following commands
    *
-   * @return collection of turtles following commands
+   * @return list of turtles following commands
    */
-  public Collection<Turtle> getFollowingTurtles() {
-    Collection<Turtle> followingTurtles = new ArrayList<>();
+  public List<Turtle> getFollowingTurtles() {
+    List<Turtle> followingTurtles = new ArrayList<>();
     for (Double key : followingTurtleMap.keySet()) {
       if (followingTurtleMap.get(key)) {
         followingTurtles.add(myTurtles.get(key));

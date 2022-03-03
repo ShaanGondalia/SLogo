@@ -6,6 +6,7 @@ import java.util.List;
 import slogo.model.command.Command;
 import slogo.model.compiler.Compiler;
 import slogo.model.turtle.Turtle;
+import slogo.model.turtle.TurtleManager;
 
 public class ModelTester {
 
@@ -27,18 +28,19 @@ public class ModelTester {
       + "dash 40 5\n";
 
   public static void main(String[] args) throws Exception {
-    Compiler c = new Compiler("English");
+    TurtleManager tm = new TurtleManager();
+    Compiler c = new Compiler("English", tm);
 
     List<Turtle> turtles = new ArrayList<>();
-    Turtle t = new Turtle();
-    turtles.add(t);
     Deque<Deque<Command>> q = c.compile(PROGRAM);
 
     for (Deque<Command> innerQueue : q) {
-      for (Command command : innerQueue) {
-        System.out.println(command);
-        command.execute(t);
-        System.out.println(t.getPose());
+      for (Turtle t : tm.getFollowingTurtles()) {
+        for (Command command : innerQueue) {
+          System.out.println(command);
+          command.execute(t);
+          System.out.println(t.getPose());
+        }
       }
     }
   }

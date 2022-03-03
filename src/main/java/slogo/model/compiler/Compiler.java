@@ -16,6 +16,7 @@ import slogo.model.command.Value;
 import slogo.model.exception.MissingArgumentException;
 import slogo.model.exception.SymbolNotFoundException;
 import slogo.model.turtle.Turtle;
+import slogo.model.turtle.TurtleManager;
 
 /**
  * Compiles user input into a queue of commands that can be executed. Depends on Turtle, Parser, and
@@ -31,6 +32,7 @@ public class Compiler {
 
   private Parser myParser;
   private Map<String, Value> myVariables;
+  private final TurtleManager myTurtleManager;
 
   private CommandFactory commandFactory;
   private final ResourceBundle exceptionResources;
@@ -43,13 +45,14 @@ public class Compiler {
   /**
    * Creates an instance of a compiler for the given language.
    */
-  public Compiler(String language) {
+  public Compiler(String language, TurtleManager turtleManager) {
     exceptionResources = ResourceBundle.getBundle(EXCEPTION_RESOURCES + language);
     myParser = new Parser(language);
     myParser.addPatterns(language);
     myParser.addPatterns("Syntax");
     myVariables = new LinkedHashMap<>(); // linked hashmap preserves insertion order for display
     commandFactory = new CommandFactory(language);
+    myTurtleManager = turtleManager;
   }
 
   /**

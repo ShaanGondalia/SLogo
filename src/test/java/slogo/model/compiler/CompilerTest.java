@@ -13,6 +13,7 @@ import slogo.model.command.Command;
 import slogo.model.exception.MissingArgumentException;
 import slogo.model.exception.SymbolNotFoundException;
 import slogo.model.turtle.Turtle;
+import slogo.model.turtle.TurtleManager;
 
 /**
  * Tests for Compiler class
@@ -52,14 +53,13 @@ public class CompilerTest {
 
   private static final String LANGUAGE = "English";
 
-  private List<Turtle> myTurtles;
+  TurtleManager myTurtleManager;
   private Compiler compiler;
 
   @BeforeEach
   void setUp() {
-    myTurtles = new ArrayList<>();
-    myTurtles.add(new Turtle());
-    compiler = new Compiler(LANGUAGE);
+    myTurtleManager = new TurtleManager();
+    compiler = new Compiler(LANGUAGE, myTurtleManager);
   }
 
   @Test
@@ -71,50 +71,50 @@ public class CompilerTest {
   @Test
   void testBasic() throws Exception {
     run(compiler.compile(BASIC_PROGRAM));
-    assertEquals(50, myTurtles.get(0).getPose().y());
+    assertEquals(50, myTurtleManager.getFollowingTurtles().get(0).getPose().y());
   }
 
   @Test
   void testTwoArg() throws Exception {
     run(compiler.compile(TWO_ARG_PROGRAM));
-    assertEquals(100, myTurtles.get(0).getPose().y());
+    assertEquals(100, myTurtleManager.getFollowingTurtles().get(0).getPose().y());
   }
 
   @Test
   void testMulti() throws Exception {
     run(compiler.compile(MULTI_PROGRAM));
-    assertEquals(150, myTurtles.get(0).getPose().y());
+    assertEquals(150, myTurtleManager.getFollowingTurtles().get(0).getPose().y());
   }
 
   @Test
   void testComplex() throws Exception {
     run(compiler.compile(COMPLEX_PROGRAM));
-    assertEquals(150, myTurtles.get(0).getPose().y());
-    assertEquals(270, myTurtles.get(0).getPose().bearing());
+    assertEquals(150, myTurtleManager.getFollowingTurtles().get(0).getPose().y());
+    assertEquals(270, myTurtleManager.getFollowingTurtles().get(0).getPose().bearing());
   }
 
   @Test
   void testLoop() throws Exception {
     run(compiler.compile(LOOP_PROGRAM));
-    assertEquals(62.4117, myTurtles.get(0).getPose().x(), Main.TOLERANCE);
-    assertEquals(128.9302, myTurtles.get(0).getPose().y(), Main.TOLERANCE);
-    assertEquals(160, myTurtles.get(0).getPose().bearing(), Main.TOLERANCE);
+    assertEquals(62.4117, myTurtleManager.getFollowingTurtles().get(0).getPose().x(), Main.TOLERANCE);
+    assertEquals(128.9302, myTurtleManager.getFollowingTurtles().get(0).getPose().y(), Main.TOLERANCE);
+    assertEquals(160, myTurtleManager.getFollowingTurtles().get(0).getPose().bearing(), Main.TOLERANCE);
   }
 
   @Test
   void testProcedure() throws Exception {
     run(compiler.compile(PROCEDURE_PROGRAM));
-    assertEquals(0, myTurtles.get(0).getPose().x(), Main.TOLERANCE);
-    assertEquals(480, myTurtles.get(0).getPose().y(), Main.TOLERANCE);
-    assertEquals(0, myTurtles.get(0).getPose().bearing(), Main.TOLERANCE);
+    assertEquals(0, myTurtleManager.getFollowingTurtles().get(0).getPose().x(), Main.TOLERANCE);
+    assertEquals(480, myTurtleManager.getFollowingTurtles().get(0).getPose().y(), Main.TOLERANCE);
+    assertEquals(0, myTurtleManager.getFollowingTurtles().get(0).getPose().bearing(), Main.TOLERANCE);
   }
 
   @Test
   void testProcedureArgs() throws Exception {
     run(compiler.compile(PROCEDURE_PROGRAM_ARGS));
-    assertEquals(0, myTurtles.get(0).getPose().x(), Main.TOLERANCE);
-    assertEquals(0, myTurtles.get(0).getPose().y(), Main.TOLERANCE);
-    assertEquals(240, myTurtles.get(0).getPose().bearing(), Main.TOLERANCE);
+    assertEquals(0, myTurtleManager.getFollowingTurtles().get(0).getPose().x(), Main.TOLERANCE);
+    assertEquals(0, myTurtleManager.getFollowingTurtles().get(0).getPose().y(), Main.TOLERANCE);
+    assertEquals(240, myTurtleManager.getFollowingTurtles().get(0).getPose().bearing(), Main.TOLERANCE);
   }
 
   @Test
@@ -132,7 +132,7 @@ public class CompilerTest {
     System.out.println(q);
     for (Deque<Command> innerQueue : q) {
       for (Command command : innerQueue) {
-        command.execute(myTurtles.get(0));
+        command.execute(myTurtleManager.getFollowingTurtles().get(0));
       }
     }
   }
