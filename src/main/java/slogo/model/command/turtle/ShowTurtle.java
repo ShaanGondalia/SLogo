@@ -18,22 +18,22 @@ public class ShowTurtle extends TurtleCommand {
    * Creates a show turtle command. Takes no arguments
    *
    * @param args   the arguments for the command (no arguments for ShowTurtle)
-   * @param turtle the Turtle that will be rotated
    * @throws MissingArgumentException if the list of arguments does not contain enough arguments
    */
-  public ShowTurtle(Turtle turtle, List<Value> args) throws MissingArgumentException {
-    super(turtle, args, NUM_ARGS);
+  public ShowTurtle(List<Value> args) throws MissingArgumentException {
+    super(args, NUM_ARGS);
     setReturnValue(1.0);
   }
 
   /**
    * Shows the attached turtle
    *
+   * @param turtle the turtle to show
    * @return 1
    */
   @Override
-  public Value execute() {
-    getTurtle().setVisibility(true);
+  public Value execute(Turtle turtle) {
+    turtle.setVisibility(true);
     return returnValue();
   }
 }

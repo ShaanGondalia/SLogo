@@ -23,11 +23,10 @@ public class SetTowards extends TurtleCommand {
    * Creates a set towards command
    *
    * @param args   the arguments for the command (2 arguments for SetTowards)
-   * @param turtle the Turtle that will be moved when the command is executed
    * @throws MissingArgumentException if the list of arguments does not contain enough arguments
    */
-  public SetTowards(Turtle turtle, List<Value> args) throws MissingArgumentException {
-    super(turtle, args, NUM_ARGS);
+  public SetTowards(List<Value> args) throws MissingArgumentException {
+    super(args, NUM_ARGS);
     degrees = 0.0;
     x = args.get(0);
     y = args.get(1);
@@ -38,12 +37,13 @@ public class SetTowards extends TurtleCommand {
    * Turns the turtle to face the given point.
    *
    * @return the number of degrees the turtle rotates
+   * @param turtle the Turtle that will be moved when the command is executed
    */
   @Override
-  public Value execute() {
-    degrees = getDegreesToTurn();
+  public Value execute(Turtle turtle) {
+    degrees = getDegreesToTurn(turtle);
     degreesAbs.setVal(Math.abs(degrees));
-    getTurtle().rotate(degrees);
+    turtle.rotate(degrees);
 
     setReturnValue(degreesAbs.getVal());
     return returnValue();
@@ -51,9 +51,9 @@ public class SetTowards extends TurtleCommand {
 
   // Gets the number of degrees the turtle has to turn
   // See: https://stackoverflow.com/questions/23692077/rotate-object-to-face-point
-  private double getDegreesToTurn() {
-    double deltaX = x.getVal() - getTurtle().getPose().x();
-    double deltaY = y.getVal() - getTurtle().getPose().y();
+  private double getDegreesToTurn(Turtle turtle) {
+    double deltaX = x.getVal() - turtle.getPose().x();
+    double deltaY = y.getVal() - turtle.getPose().y();
 
     double newBearing;
 
@@ -66,7 +66,7 @@ public class SetTowards extends TurtleCommand {
       newBearing = getNewBearing(degreesFromVertical, deltaX, deltaY);
     }
 
-    double degreesToTurn = newBearing - getTurtle().getPose().bearing();
+    double degreesToTurn = newBearing - turtle.getPose().bearing();
 
     return degreesToTurn;
   }

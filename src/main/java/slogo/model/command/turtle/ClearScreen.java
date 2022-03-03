@@ -20,24 +20,24 @@ public class ClearScreen extends TurtleCommand {
    * Creates a clear screen command. Takes no arguments
    *
    * @param args   the arguments for the command (no arguments for ClearScreen)
-   * @param turtle the Turtle that will be rotated
    * @throws MissingArgumentException if the list of arguments does not contain enough arguments
    */
-  public ClearScreen(Turtle turtle, List<Value> args) throws MissingArgumentException {
-    super(turtle, args, NUM_ARGS);
+  public ClearScreen(List<Value> args) throws MissingArgumentException {
+    super(args, NUM_ARGS);
   }
 
   /**
    * Shows the attached turtle
    *
    * @return distance turtle moved
+   * @param turtle the Turtle that will be rotated
    */
   @Override
-  public Value execute() {
-    double x = getTurtle().getPose().x();
-    double y = getTurtle().getPose().y();
-    getTurtle().goHome();
-    getTurtle().clear();
+  public Value execute(Turtle turtle) {
+    double x = turtle.getPose().x();
+    double y = turtle.getPose().y();
+    turtle.goHome();
+    turtle.clear();
 
     setReturnValue(Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2)));
     return returnValue();
