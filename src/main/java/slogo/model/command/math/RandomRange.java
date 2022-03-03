@@ -23,8 +23,8 @@ public class RandomRange extends MathOperation {
    * @param args   the arguments that the command takes
    * @throws MissingArgumentException if the list of arguments does not contain enough arguments
    */
-  public RandomRange(Turtle turtle, List<Value> args) throws MissingArgumentException {
-    super(turtle, args, NUM_ARGS);
+  public RandomRange(List<Value> args) throws MissingArgumentException {
+    super(args, NUM_ARGS);
     arg1 = args.get(0);
     arg2 = args.get(1);
   }
@@ -33,9 +33,10 @@ public class RandomRange extends MathOperation {
    * Returns a random value between arg1 and arg2 inclusive
    *
    * @return random Value in range [arg1, arg2]
+   * @param turtle
    */
   @Override
-  public Value execute() {
+  public Value execute(Turtle turtle) {
     double min = arg1.getVal();
     double max = arg2. getVal();
 

@@ -22,8 +22,8 @@ public class Minus extends MathOperation {
    * @param args   the arguments that the command takes
    * @throws MissingArgumentException if the list of arguments does not contain enough arguments
    */
-  public Minus(Turtle turtle, List<Value> args) throws MissingArgumentException {
-    super(turtle, args, NUM_ARGS);
+  public Minus(List<Value> args) throws MissingArgumentException {
+    super(args, NUM_ARGS);
     arg1 = args.get(0);
   }
 
@@ -31,9 +31,10 @@ public class Minus extends MathOperation {
    * Calculates the negative of arg1
    *
    * @return -arg1
+   * @param turtle
    */
   @Override
-  public Value execute() {
+  public Value execute(Turtle turtle) {
     setReturnValue(-1 * arg1.getVal());
     return returnValue();
   }

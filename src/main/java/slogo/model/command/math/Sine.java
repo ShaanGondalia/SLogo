@@ -22,8 +22,8 @@ public class Sine extends MathOperation {
    * @param args   the arguments that the command takes
    * @throws MissingArgumentException if the list of arguments does not contain enough arguments
    */
-  public Sine(Turtle turtle, List<Value> args) throws MissingArgumentException {
-    super(turtle, args, NUM_ARGS);
+  public Sine(List<Value> args) throws MissingArgumentException {
+    super(args, NUM_ARGS);
     arg1 = args.get(0);
   }
 
@@ -31,9 +31,10 @@ public class Sine extends MathOperation {
    * Calculates the Sine
    *
    * @return sin(arg1)
+   * @param turtle
    */
   @Override
-  public Value execute() {
+  public Value execute(Turtle turtle) {
     setReturnValue(Math.sin(arg1.getVal()));
     return returnValue();
   }
