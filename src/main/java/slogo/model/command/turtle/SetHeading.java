@@ -19,25 +19,25 @@ public class SetHeading extends TurtleCommand {
   private final Value myBearing;
 
   /**
-   * @param turtle turtle to perform command on
-   * @param args   size 1 list containing bearing to set turtle to
+   * @param args size 1 list containing bearing to set turtle to
    * @throws MissingArgumentException if args contains less than 1 item
    */
-  public SetHeading(Turtle turtle, List<Value> args) throws MissingArgumentException {
-    super(turtle, args, NUM_ARGS);
+  public SetHeading(List<Value> args) throws MissingArgumentException {
+    super(args, NUM_ARGS);
     myBearing = args.get(0);
     myDegreesTurned = new Value();
   }
 
   /**
+   * @param turtle turtle to perform command on
    * @return the number of degrees turned to reach target bearing
    */
   @Override
-  public Value execute() {
-    Pose currPose = getTurtle().getPose();
+  public Value execute(Turtle turtle) {
+    Pose currPose = turtle.getPose();
     double currBearing = currPose.bearing();
     myDegreesTurned.setVal(myBearing.getVal() - currBearing);
-    getTurtle().rotate(myDegreesTurned.getVal());
+    turtle.rotate(myDegreesTurned.getVal());
 
     setReturnValue(myDegreesTurned.getVal());
     return returnValue();

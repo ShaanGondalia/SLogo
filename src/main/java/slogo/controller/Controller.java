@@ -4,21 +4,26 @@ import java.beans.PropertyChangeListener;
 import java.util.*;
 
 import java.util.Map;
+import slogo.Errors;
 import slogo.model.command.Command;
 
 import slogo.model.compiler.Compiler;
+import slogo.model.exception.MissingArgumentException;
 import slogo.model.turtle.Turtle;
+import slogo.model.turtle.TurtleManager;
 import slogo.view.turtle.TurtleView;
 
 public class Controller {
 
   private Compiler myCompiler;
+  private TurtleManager myTurtleManager;
   private List<Turtle> myTurtles;
   private List<TurtleView> myTurtleViews;
   private Map<String, MapGetter<String, String>> myMapGetters;
 
   public Controller(String lan) {
-    myCompiler = new Compiler(lan);
+    myTurtleManager = new TurtleManager();
+    myCompiler = new Compiler(lan, myTurtleManager);
     myTurtles = new ArrayList<>();
     myTurtleViews = new ArrayList<>();
     myMapGetters = new HashMap<>();
@@ -27,12 +32,13 @@ public class Controller {
     myMapGetters.put("default", () -> new HashMap<>());
   }
 
-  public void runText(String program) throws Exception{
-      Deque<Command> commands = myCompiler.compile(program, myTurtles);
-      while (!commands.isEmpty()) {
-        commands.removeFirst().execute();
-      }
 
+  public void runText(String program) throws Exception {
+    Deque<Deque<Command>> commands = myCompiler.compile(program);
+    while (!commands.isEmpty()) {
+      Deque<Command> innerCommands = commands.removeFirst();
+      myTurtleManager.executeCommandQueue(innerCommands);
+    }
   }
 
   public void addTurtle(PropertyChangeListener turtleView) {

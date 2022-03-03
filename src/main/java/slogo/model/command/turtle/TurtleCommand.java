@@ -13,39 +13,27 @@ import slogo.model.turtle.Turtle;
  */
 public abstract class TurtleCommand extends AbstractCommand {
 
-  private Turtle attachedTurtle;
-
   /**
    * Default constructor for all Turtle Commands (Forward, Back, etc.)
    *
-   * @param turtle  the Turtle that is attached to this command
    * @param args    the arguments that the command takes
    * @param numArgs the number of arguments that this command takes
    * @throws MissingArgumentException if the list of arguments does not contain enough arguments
    */
-  public TurtleCommand(Turtle turtle, List<Value> args, int numArgs)
+  public TurtleCommand(List<Value> args, int numArgs)
       throws MissingArgumentException {
     super();
-    attachedTurtle = turtle;
     verifyArgs(args, numArgs);
-  }
-
-  /**
-   * Method for giving subclasses access to the attached Turtle
-   *
-   * @return the attached Turtle
-   */
-  protected Turtle getTurtle() {
-    return attachedTurtle;
   }
 
   /**
    * Abstract method for when a command is executed. Implemented by subclasses.
    *
+   * @param turtle the turtle that this command executes on
    * @return the value that is returned when the command is executed
    */
   @Override
-  public abstract Value execute() throws MissingArgumentException;
+  public abstract Value execute(Turtle turtle) throws MissingArgumentException;
 
   //Verifies that the command received the correct number of arguments.
   private void verifyArgs(List<Value> args, int numArgs) throws MissingArgumentException {

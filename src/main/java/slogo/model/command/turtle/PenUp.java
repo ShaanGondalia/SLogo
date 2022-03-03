@@ -17,23 +17,23 @@ public class PenUp extends TurtleCommand {
   /**
    * Creates a pen up command. Takes no arguments
    *
-   * @param args   the arguments for the command (no arguments for PenUp)
-   * @param turtle the Turtle that will be rotated
+   * @param args the arguments for the command (no arguments for PenUp)
    * @throws MissingArgumentException if the list of arguments does not contain enough arguments
    */
-  public PenUp(Turtle turtle, List<Value> args) throws MissingArgumentException {
-    super(turtle, args, NUM_ARGS);
+  public PenUp(List<Value> args) throws MissingArgumentException {
+    super(args, NUM_ARGS);
     setReturnValue(0.0);
   }
 
   /**
    * Puts the attached turtle's pen up
    *
+   * @param turtle the Turtle that will be rotated
    * @return 0
    */
   @Override
-  public Value execute() {
-    getTurtle().setPen(false);
+  public Value execute(Turtle turtle) {
+    turtle.setPen(false);
     return returnValue();
   }
 }

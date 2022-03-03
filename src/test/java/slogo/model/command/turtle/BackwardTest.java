@@ -32,7 +32,7 @@ public class BackwardTest {
   @Test
   void testNotEnoughArgs() {
     List<Value> args = new ArrayList<>();
-    assertThrows(MissingArgumentException.class, () -> new Forward(myTurtle, args));
+    assertThrows(MissingArgumentException.class, () -> new Forward(args));
   }
 
   @Test
@@ -40,20 +40,20 @@ public class BackwardTest {
     List<Value> args = new ArrayList<>();
     args.add(new Value(ARG_1));
     args.add(new Value(ARG_2));
-    Backward c = new Backward(myTurtle, args);
+    Backward c = new Backward(args);
     assertEquals(ARG_1, c.returnValue().getVal(), Main.TOLERANCE);
-    assertEquals(ARG_1, c.execute().getVal(), Main.TOLERANCE);
+    assertEquals(ARG_1, c.execute(myTurtle).getVal(), Main.TOLERANCE);
   }
 
   @Test
   void testCorrectArgs() throws MissingArgumentException {
     List<Value> args = new ArrayList<>();
     args.add(new Value(ARG_1));
-    Backward c = new Backward(myTurtle, args);
+    Backward c = new Backward(args);
     assertEquals(ARG_1, c.returnValue().getVal(), Main.TOLERANCE);
     double xBefore = myTurtle.getPose().x();
     double yBefore = myTurtle.getPose().y();
-    assertEquals(ARG_1, c.execute().getVal(), Main.TOLERANCE);
+    assertEquals(ARG_1, c.execute(myTurtle).getVal(), Main.TOLERANCE);
     assertEquals(xBefore, myTurtle.getPose().x(), Main.TOLERANCE);
     assertEquals(yBefore - ARG_1, myTurtle.getPose().y(), Main.TOLERANCE);
   }

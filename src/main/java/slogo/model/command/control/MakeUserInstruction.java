@@ -11,29 +11,27 @@ public class MakeUserInstruction extends ControlCommand {
 
   private static final int NUM_LISTS = 1;
 
-  private List<Value> myFormalParameters;
-  private Turtle myTurtle;
-  private List<Deque<Command>> bodies;
+  private final List<Value> myFormalParameters;
+  private final List<Deque<Command>> bodies;
 
 
-  public MakeUserInstruction(Turtle turtle, List<Value> variables, List<Deque<Command>> lists)
+  public MakeUserInstruction(List<Value> variables, List<Deque<Command>> lists)
       throws MissingArgumentException {
-    super(turtle, variables, variables.size());
+    super(variables, variables.size());
     verifyCommandLists(lists, NUM_LISTS);
 
-    myTurtle = turtle;
     myFormalParameters = variables;
     bodies = lists;
   }
 
   public Command getUserCommand(List<Value> inputs) throws MissingArgumentException {
-    UserCommand userCommand = new UserCommand(myTurtle, myFormalParameters, bodies);
+    UserCommand userCommand = new UserCommand(myFormalParameters, bodies);
     userCommand.setActualParameters(inputs);
     return userCommand;
   }
 
   @Override
-  public Value execute() throws MissingArgumentException {
+  public Value execute(Turtle turtle) throws MissingArgumentException {
     setReturnValue(1);
     return returnValue();
   }

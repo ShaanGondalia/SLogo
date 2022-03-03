@@ -12,21 +12,21 @@ import slogo.model.turtle.Turtle;
  */
 public class Not extends BooleanOperation {
 
-  private final Value arg1;
   private static final int NUM_ARGS = 1;
+  private final Value arg1;
 
-  public Not(Turtle turtle, List<Value> args) throws MissingArgumentException {
-    super(turtle, args, NUM_ARGS);
+  public Not(List<Value> args) throws MissingArgumentException {
+    super(args, NUM_ARGS);
     arg1 = args.get(0);
   }
 
   /**
-   *
+   * @param turtle
    * @return 1 if both expr1 and expr2 are non-zero
    * @throws MissingArgumentException
    */
   @Override
-  public Value execute() {
+  public Value execute(Turtle turtle) {
     double val = (arg1.equals(new Value(0))) ? 1.0 : 0.0;
     setReturnValue(val);
     return returnValue();

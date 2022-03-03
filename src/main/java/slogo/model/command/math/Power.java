@@ -12,9 +12,9 @@ import slogo.model.turtle.Turtle;
  */
 public class Power extends MathOperation {
 
+  private static final int NUM_ARGS = 2;
   private final Value arg1;
   private final Value arg2;
-  private static final int NUM_ARGS = 2;
 
   /**
    * Creates a Power command
@@ -23,8 +23,8 @@ public class Power extends MathOperation {
    * @param args   the arguments that the command takes
    * @throws MissingArgumentException if the list of arguments does not contain enough arguments
    */
-  public Power(Turtle turtle, List<Value> args) throws MissingArgumentException {
-    super(turtle, args, NUM_ARGS);
+  public Power(List<Value> args) throws MissingArgumentException {
+    super(args, NUM_ARGS);
     arg1 = args.get(0);
     arg2 = args.get(1);
   }
@@ -32,10 +32,11 @@ public class Power extends MathOperation {
   /**
    * Calculates the Power
    *
+   * @param turtle
    * @return arg1 ^ arg2
    */
   @Override
-  public Value execute() {
+  public Value execute(Turtle turtle) {
     setReturnValue(Math.pow(arg1.getVal(), arg2.getVal()));
     return returnValue();
   }

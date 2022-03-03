@@ -6,9 +6,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.ResourceBundle;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import slogo.model.exception.SymbolNotFoundException;
 
 /**
  * Simple parser based on regular expressions that matches input strings to kinds of program
@@ -19,6 +17,7 @@ import slogo.model.exception.SymbolNotFoundException;
 public class Parser {
 
   public static final String NO_MATCH = "NO MATCH";
+  public static final String COMMENT = "^#.*";
 
   // where to find resources specifically for this class
   public static final String RESOURCES_PACKAGE = "slogo.languages.";
@@ -27,7 +26,7 @@ public class Parser {
   // note, it is a list because order matters (some patterns may be more generic)
   private List<Entry<String, Pattern>> mySymbols;
 
-  private ResourceBundle exceptionResources;
+  private final ResourceBundle exceptionResources;
 
 
   /**
@@ -49,6 +48,26 @@ public class Parser {
           // THIS IS THE IMPORTANT LINE
           Pattern.compile(resources.getString(key), Pattern.CASE_INSENSITIVE)));
     }
+  }
+
+  /**
+   * Removes all comments from a SLogo program
+   *
+   * @param program the String to remove the comments from
+   * @return a new string with the comments removed
+   */
+  public String removeComments(String program) {
+    StringBuilder finalProgram = new StringBuilder();
+    for (String line : program.split("\n")) {
+      for (Entry<String, Pattern> e : mySymbols) {
+        if (e.getKey().equals("Comment")) {
+          if (!match(line, e.getValue())) {
+            finalProgram.append(line).append(" ");
+          }
+        }
+      }
+    }
+    return finalProgram.toString();
   }
 
   /**

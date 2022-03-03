@@ -17,23 +17,23 @@ public class PenDown extends TurtleCommand {
   /**
    * Creates a pen down command. Takes no arguments
    *
-   * @param args   the arguments for the command (no arguments for PenDown)
-   * @param turtle the Turtle that will be rotated
+   * @param args the arguments for the command (no arguments for PenDown)
    * @throws MissingArgumentException if the list of arguments does not contain enough arguments
    */
-  public PenDown(Turtle turtle, List<Value> args) throws MissingArgumentException {
-    super(turtle, args, NUM_ARGS);
+  public PenDown(List<Value> args) throws MissingArgumentException {
+    super(args, NUM_ARGS);
     setReturnValue(1.0);
   }
 
   /**
    * Puts the attached turtle's pen down
    *
+   * @param turtle the Turtle that will be rotated
    * @return 1
    */
   @Override
-  public Value execute() {
-    getTurtle().setPen(true);
+  public Value execute(Turtle turtle) {
+    turtle.setPen(true);
     return returnValue();
   }
 }

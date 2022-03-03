@@ -34,15 +34,15 @@ public class ClearScreenTest {
   void testTooManyArgs() throws MissingArgumentException {
     List<Value> args = new ArrayList<>();
     args.add(new Value(ARG_1));
-    ClearScreen c = new ClearScreen(myTurtle, args);
-    assertEquals(0.0, c.execute().getVal());
+    ClearScreen c = new ClearScreen(args);
+    assertEquals(0.0, c.execute(myTurtle).getVal());
   }
 
   @Test
   void testCorrectArgs() throws MissingArgumentException {
     List<Value> args = new ArrayList<>();
-    ClearScreen c = new ClearScreen(myTurtle, args);
-    assertEquals(0.0, c.execute().getVal());
+    ClearScreen c = new ClearScreen(args);
+    assertEquals(0.0, c.execute(myTurtle).getVal());
   }
 
   @Test
@@ -50,8 +50,8 @@ public class ClearScreenTest {
     List<Value> args = new ArrayList<>();
     Pose p = new Pose(MOVE_X, MOVE_Y, BEARING);
     myTurtle.setPose(p);
-    ClearScreen c = new ClearScreen(myTurtle, args);
-    assertEquals(5, c.execute().getVal());
+    ClearScreen c = new ClearScreen(args);
+    assertEquals(5, c.execute(myTurtle).getVal());
   }
 
 }

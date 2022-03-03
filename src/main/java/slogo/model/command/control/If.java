@@ -12,12 +12,12 @@ public class If extends ControlCommand {
   private static final int NUM_ARGS = 1;
   private static final int NUM_LISTS = 1;
 
-  private Value myExpr;
-  private Deque<Command> myBody;
+  private final Value myExpr;
+  private final Deque<Command> myBody;
 
-  public If(Turtle turtle, List<Value> args, List<Deque<Command>> lists)
+  public If(List<Value> args, List<Deque<Command>> lists)
       throws MissingArgumentException {
-    super(turtle, args, NUM_ARGS);
+    super(args, NUM_ARGS);
     verifyCommandLists(lists, NUM_LISTS);
 
     myExpr = args.get(0);
@@ -25,13 +25,13 @@ public class If extends ControlCommand {
   }
 
   @Override
-  public Value execute() throws MissingArgumentException {
+  public Value execute(Turtle turtle) throws MissingArgumentException {
     Deque<Command> body;
     if (myExpr.equals(new Value(0))) {
       setReturnValue(0);
     } else {
       for (Command c : myBody) {
-        c.execute();
+        c.execute(turtle);
       }
       setReturnValue(myBody.peekLast().returnValue().getVal());
     }

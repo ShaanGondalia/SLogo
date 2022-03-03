@@ -19,7 +19,7 @@ import java.util.List;
  */
 public class Observable<T> {
 
-  private List<PropertyChangeListener> myListeners;
+  private final List<PropertyChangeListener> myListeners;
 
   public Observable() {
     myListeners = new ArrayList<>();

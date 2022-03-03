@@ -17,22 +17,22 @@ public class Heading extends TurtleQuery {
   /**
    * Creates a Heading command attached to the given Turtle.
    *
-   * @param turtle the Turtle that is attached to this command
-   * @param args   the arguments that the command takes
+   * @param args the arguments that the command takes
    * @throws MissingArgumentException if the list of arguments does not contain enough arguments
    */
-  public Heading(Turtle turtle, List<Value> args) throws MissingArgumentException {
-    super(turtle, args, NUM_ARGS);
+  public Heading(List<Value> args) throws MissingArgumentException {
+    super(args, NUM_ARGS);
   }
 
   /**
    * Returns the heading of the queried turtle
    *
+   * @param turtle the Turtle that is attached to this command
    * @return the heading of the queried turtle
    */
   @Override
-  public Value execute() throws MissingArgumentException {
-    setReturnValue(getTurtle().getPose().bearing());
+  public Value execute(Turtle turtle) throws MissingArgumentException {
+    setReturnValue(turtle.getPose().bearing());
     return returnValue();
   }
 }

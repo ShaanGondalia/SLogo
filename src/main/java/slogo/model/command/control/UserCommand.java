@@ -11,13 +11,13 @@ public class UserCommand extends ControlCommand {
 
   private static final int NUM_LISTS = 1;
 
-  private List<Value> myFormalParameters;
+  private final List<Value> myFormalParameters;
   private List<Value> myActualParameters;
-  private Deque<Command> myMethodBody;
+  private final Deque<Command> myMethodBody;
 
-  public UserCommand(Turtle turtle, List<Value> variables, List<Deque<Command>> lists)
+  public UserCommand(List<Value> variables, List<Deque<Command>> lists)
       throws MissingArgumentException {
-    super(turtle, variables, variables.size());
+    super(variables, variables.size());
     verifyCommandLists(lists, NUM_LISTS);
 
     myFormalParameters = variables;
@@ -45,15 +45,14 @@ public class UserCommand extends ControlCommand {
   }
 
   @Override
-  public Value execute() throws MissingArgumentException {
+  public Value execute(Turtle turtle) throws MissingArgumentException {
     if (myActualParameters == null) {
       throw new MissingArgumentException("No arguments specified");
     }
     for (Command c : myMethodBody) {
-      c.execute();
+      c.execute(turtle);
     }
     copyToActual();
-    myActualParameters = null;
     setReturnValue(myMethodBody.peekLast().returnValue().getVal());
     return returnValue();
   }

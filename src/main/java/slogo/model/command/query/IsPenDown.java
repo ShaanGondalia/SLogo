@@ -21,18 +21,19 @@ public class IsPenDown extends TurtleQuery {
    * @param args   the arguments that the command takes
    * @throws MissingArgumentException if the list of arguments does not contain enough arguments
    */
-  public IsPenDown(Turtle turtle, List<Value> args) throws MissingArgumentException {
-    super(turtle, args, NUM_ARGS);
+  public IsPenDown(List<Value> args) throws MissingArgumentException {
+    super(args, NUM_ARGS);
   }
 
   /**
    * Returns the IsPenDown of the queried turtle
    *
+   * @param turtle
    * @return 1 if pen is down, 0 otherwise
    */
   @Override
-  public Value execute() throws MissingArgumentException {
-    double val = getTurtle().getStatus().penDown() ? 1.0 : 0.0;
+  public Value execute(Turtle turtle) throws MissingArgumentException {
+    double val = turtle.getStatus().penDown() ? 1.0 : 0.0;
     setReturnValue(val);
     return returnValue();
   }

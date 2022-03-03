@@ -12,7 +12,6 @@ import org.junit.jupiter.api.Test;
 import slogo.Main;
 import slogo.model.command.Command;
 import slogo.model.command.Value;
-import slogo.model.command.turtle.Backward;
 import slogo.model.command.turtle.Forward;
 import slogo.model.exception.MissingArgumentException;
 import slogo.model.turtle.Turtle;
@@ -45,8 +44,8 @@ public class DoTimesTest{
     args.add(new Value());
     args.add(new Value(REPETITIONS));
 
-    Command doTimesCommand = new DoTimes(myTurtle, args, bodies);
-    doTimesCommand.execute();
+    Command doTimesCommand = new DoTimes(args, bodies);
+    doTimesCommand.execute(myTurtle);
     assertEquals(ARG_1, doTimesCommand.returnValue().getVal(), Main.TOLERANCE);
     assertEquals(ARG_1 * REPETITIONS, myTurtle.getPose().y(), Main.TOLERANCE);
   }
@@ -60,8 +59,8 @@ public class DoTimesTest{
     args.add(variable);
     args.add(new Value(REPETITIONS));
 
-    Command doTimesCommand = new DoTimes(myTurtle, args, bodies);
-    doTimesCommand.execute();
+    Command doTimesCommand = new DoTimes(args, bodies);
+    doTimesCommand.execute(myTurtle);
     assertEquals(REPETITIONS, doTimesCommand.returnValue().getVal(), Main.TOLERANCE);
     assertEquals(REPETITIONS * (REPETITIONS + 1) / 2, myTurtle.getPose().y(), Main.TOLERANCE);
   }
@@ -71,20 +70,20 @@ public class DoTimesTest{
     List<Value> args = new ArrayList<>();
     args.add(new Value());
     args.add(new Value(REPETITIONS));
-    assertThrows(MissingArgumentException.class, () -> new DoTimes(myTurtle, args, bodies));
+    assertThrows(MissingArgumentException.class, () -> new DoTimes(args, bodies));
   }
 
   @Test
   void testNotEnoughArgs(){
     List<Value> args = new ArrayList<>();
     args.add(new Value());
-    assertThrows(MissingArgumentException.class, () -> new DoTimes(myTurtle, args, bodies));
+    assertThrows(MissingArgumentException.class, () -> new DoTimes(args, bodies));
   }
 
   private void makeBody(Value v) throws MissingArgumentException {
     List<Value> forArgs = new ArrayList<>();
     forArgs.add(v);
-    Command forward = new Forward(myTurtle, forArgs);
+    Command forward = new Forward(forArgs);
     Deque<Command> body = new LinkedList<>();
     body.add(forward);
     bodies.add(body);
