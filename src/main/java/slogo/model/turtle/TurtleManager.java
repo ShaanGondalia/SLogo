@@ -1,7 +1,6 @@
 package slogo.model.turtle;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Deque;
 import java.util.HashMap;
 import java.util.List;
@@ -47,15 +46,6 @@ public class TurtleManager {
     return followingTurtles;
   }
 
-
-  /**
-   *
-   * @param turtle the turtle that is active
-   */
-  private void setActiveTurtle(Turtle turtle) {
-    activeTurtle = turtle;
-  }
-
   /**
    * Gets the ID of the active Turtle
    */
@@ -72,8 +62,16 @@ public class TurtleManager {
    * Sets the turtles with the given ids to follow commands. Creates them if they do not already exist
    *
    * @param ids the ids of the turtles that will follow commands.
+   * @return
    */
-  public void setFollowingIDs(List<Value> ids) {
+  public List<Value> swapFollowingIDs(List<Value> ids) {
+    List<Value> oldFollowers = new ArrayList<>();
+    for (Double key : followingTurtleMap.keySet()) {
+      if (followingTurtleMap.get(key)) {
+        oldFollowers.add(new Value(key));
+      }
+    }
+
     clearFollowers();
     for (Value id : ids) {
       if (!myTurtles.containsKey(id.getVal())) {
@@ -82,10 +80,20 @@ public class TurtleManager {
       }
       followingTurtleMap.put(id.getVal(), true);
     }
+
+    activateTurtle(getFollowingTurtles().get(0));
+
+    return oldFollowers;
   }
 
+  // Disables all turtles
   private void clearFollowers() {
     followingTurtleMap.replaceAll((k, v) -> false);
+  }
+
+  // Activates a turtle
+  private void activateTurtle(Turtle turtle) {
+    activeTurtle = turtle;
   }
 
 
@@ -96,11 +104,11 @@ public class TurtleManager {
    */
   public void executeCommandQueue(Deque<Command> innerQueue) throws MissingArgumentException {
     for (Turtle t : getFollowingTurtles()) {
-      setActiveTurtle(t);
+      activateTurtle(t);
       for (Command command : innerQueue) {
-        System.out.println(command);
+        //System.out.println(command);
         command.execute(t);
-        System.out.println(t.getPose());
+        //System.out.println(t.getPose());
       }
     }
   }

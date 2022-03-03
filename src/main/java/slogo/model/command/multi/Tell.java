@@ -1,11 +1,7 @@
 package slogo.model.command.multi;
 
-import java.util.Deque;
 import java.util.List;
-import slogo.Main;
-import slogo.model.command.Command;
 import slogo.model.command.Value;
-import slogo.model.command.multi.MultipleTurtleCommand;
 import slogo.model.exception.MissingArgumentException;
 import slogo.model.turtle.Turtle;
 import slogo.model.turtle.TurtleManager;
@@ -28,7 +24,7 @@ public class Tell extends MultipleTurtleCommand {
    */
   public Tell(List<Value> args, TurtleManager turtleManager)
       throws MissingArgumentException {
-    super(args, args.size());
+    super(args, args.size() > 0 ? args.size() : -1);
     ids = args;
     myTurtleManager = turtleManager;
   }
@@ -41,7 +37,7 @@ public class Tell extends MultipleTurtleCommand {
    */
   @Override
   public Value execute(Turtle turtle) throws MissingArgumentException {
-    myTurtleManager.setFollowingIDs(ids);
+    myTurtleManager.swapFollowingIDs(ids);
     setReturnValue(ids.get(ids.size() - 1 ).getVal());
     return returnValue();
   }

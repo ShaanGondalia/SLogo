@@ -13,7 +13,6 @@ import java.util.Stack;
 import slogo.model.command.Command;
 import slogo.model.command.Value;
 import slogo.model.command.control.MakeUserInstruction;
-import slogo.model.command.control.UserCommand;
 import slogo.model.exception.MissingArgumentException;
 import slogo.model.exception.SymbolNotFoundException;
 import slogo.model.turtle.TurtleManager;
@@ -100,7 +99,14 @@ public class CommandFactory {
       // convert string into Java object that represents that Java class
       Class<?> clazz = Class.forName(command);
       // use reflection to find the appropriate constructor of that class to call to create a new instance
-      Constructor<?> ctor = clazz.getDeclaredConstructor(List.class, List.class);
+      Constructor<?> ctor;
+      try {
+        // TODO: MAKE THIS LOGIC CLEANER
+        ctor = clazz.getDeclaredConstructor(List.class, List.class);
+      } catch (Exception e) {
+        ctor = clazz.getDeclaredConstructor(List.class, List.class, TurtleManager.class);
+        return (Command) ctor.newInstance(args, commandQueues, myTurtleManager);
+      }
       Command c = (Command) ctor.newInstance(args, commandQueues);
       if (symbol.equals("MakeUserInstruction")) {
         myUserCommands.put(lastAddedSymbol, (MakeUserInstruction) c);

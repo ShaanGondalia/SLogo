@@ -28,7 +28,7 @@ public abstract class MultipleTurtleCommand extends AbstractCommand {
 
   //Verifies that the command received the correct number of arguments.
   private void verifyArgs(List<Value> args, int numArgs) throws MissingArgumentException {
-    if (args.size() < numArgs) {
+    if (args.size() < numArgs || numArgs == -1) {
       throw new MissingArgumentException("NOT ENOUGH ARGS");
     }
   }
