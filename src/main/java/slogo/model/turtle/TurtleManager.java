@@ -47,6 +47,14 @@ public class TurtleManager {
   }
 
   /**
+   * Returns the total number of turtles that have been created
+   * @return the total number of turtles that have been created
+   */
+  public double numTurtles() {
+    return myTurtles.size();
+  }
+
+  /**
    * Gets the ID of the active Turtle
    */
   public double getActiveTurtleID() {
@@ -71,7 +79,6 @@ public class TurtleManager {
         oldFollowers.add(new Value(key));
       }
     }
-
     clearFollowers();
     for (Value id : ids) {
       if (!myTurtles.containsKey(id.getVal())) {
@@ -80,9 +87,7 @@ public class TurtleManager {
       }
       followingTurtleMap.put(id.getVal(), true);
     }
-
     activateTurtle(getFollowingTurtles().get(0));
-
     return oldFollowers;
   }
 
