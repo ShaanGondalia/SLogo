@@ -50,6 +50,8 @@ public class CompilerTest {
       + "  ]      \n]\n\n"
       + "cs\n\ndash 10 20\nrt 120\ndash 20 10\nrt 120\ndash 40 5\n";
 
+  private static final String TELL_PROGRAM = "fd 50 tell [ 1 ] fd 100 tell [ 0 ] fd 200";
+
 
   private static final String LANGUAGE = "English";
 
@@ -126,6 +128,14 @@ public class CompilerTest {
   void testParameterOrder() throws Exception {
     String program = "sum 50 fd";
     assertThrows(MissingArgumentException.class, () -> compiler.compile(program));
+  }
+
+  @Test
+  void testTell() throws Exception {
+    run(compiler.compile(TELL_PROGRAM));
+    assertEquals(0, myTurtleManager.getFollowingTurtles().get(0).getPose().x(), Main.TOLERANCE);
+    assertEquals(250, myTurtleManager.getFollowingTurtles().get(0).getPose().y(), Main.TOLERANCE);
+    assertEquals(0, myTurtleManager.getFollowingTurtles().get(0).getPose().bearing(), Main.TOLERANCE);
   }
 
   private void run(Deque<Deque<Command>> q) throws MissingArgumentException {

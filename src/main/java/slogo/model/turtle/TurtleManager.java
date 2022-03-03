@@ -98,9 +98,9 @@ public class TurtleManager {
     for (Turtle t : getFollowingTurtles()) {
       setActiveTurtle(t);
       for (Command command : innerQueue) {
-        System.out.println(command);
+        //System.out.println(command);
         command.execute(t);
-        System.out.println(t.getPose());
+        //System.out.println(t.getPose());
       }
     }
   }
