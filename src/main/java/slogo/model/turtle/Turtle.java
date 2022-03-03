@@ -13,7 +13,7 @@ public class Turtle extends Observable<TurtleStatus> {
   private double myX;
   private double myY;
   private final double myID;
-  private int myThickness;
+  private double myThickness;
   private double myBearing;
   private boolean myPenDown;
   private boolean myVisibility;
@@ -28,15 +28,7 @@ public class Turtle extends Observable<TurtleStatus> {
    * Create a new turtle that starts at the center of the screen. Initializes instance variables.
    */
   public Turtle() {
-    myX = 0;
-    myY = 0;
     myID = 0;
-    myBearing = 0;
-    myPenDown = false;
-    myVisibility = true;
-    myColor = new ColorRecord(0,0,0);
-    myActive = false;
-    myThickness = 0;
     myLastState = makeStatus();
   }
 
@@ -46,13 +38,19 @@ public class Turtle extends Observable<TurtleStatus> {
    * @param id the id of the turtle
    */
   public Turtle(double id) {
+    myID = id;
+    myLastState = makeStatus();
+  }
+
+  private void setDefaultParameters() {
     myX = 0;
     myY = 0;
-    myID = id;
     myBearing = 0;
     myPenDown = false;
     myVisibility = true;
-    myLastState = makeStatus();
+    myColor = new ColorRecord(0,0,0);
+    myActive = false;
+    myThickness = 0;
   }
 
   /**
@@ -128,7 +126,7 @@ public class Turtle extends Observable<TurtleStatus> {
     myPenG = color.g();
     myPenB = color.b();
     String property = "Color";
-
+    change(property);
   }
 
   /**
