@@ -25,12 +25,6 @@ import slogo.model.turtle.TurtleManager;
 public class Compiler {
 
   public static final String WHITESPACE = "\\s+";
-
-  private static final String CONSTANT = "Constant";
-  private static final String VARIABLE = "Variable";
-  private static final String USER_COMMAND = "UserCommand";
-  private static final String LIST_START = "ListStart";
-  private static final String LIST_END = "ListEnd";
   private static final String EXCEPTION_RESOURCES = "model.exception.";
   private static final String HANDLER_RESOURCES = "model.Handler";
 
