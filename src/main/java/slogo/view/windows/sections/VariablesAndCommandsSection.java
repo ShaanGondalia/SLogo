@@ -10,6 +10,11 @@ import slogo.controller.Controller;
 import slogo.model.compiler.Parser;
 import slogo.view.util.Runner;
 
+/**
+ * Section that displays to the user the user-defined commands and variables
+ *
+ * @author Andy S. He
+ */
 public class VariablesAndCommandsSection implements IDESection {
 
   private static final String DELIMITER = ": ";
@@ -36,6 +41,13 @@ public class VariablesAndCommandsSection implements IDESection {
   private String myLanguage;
   private Runner myRunner;
 
+  /**
+   * Constructor for the Variables and Commands Section
+   *
+   * @param c        The controller to get the variables and commands from the model
+   * @param language The language to run the commands in
+   * @param runner   The runner to run code by clicking on elements in this section
+   */
   public VariablesAndCommandsSection(Controller c, String language, Runner runner) {
     myController = c;
     myLanguage = language;
@@ -49,7 +61,7 @@ public class VariablesAndCommandsSection implements IDESection {
     myVarAndComSec.setRight(commandScrollPane);
   }
 
-  private void setVariableSide(){
+  private void setVariableSide() {
     variableTextField = new Text(VAR_STARTING_TEXT);
     variableTextField.setId(VAR_TF_ID);
 
@@ -59,7 +71,7 @@ public class VariablesAndCommandsSection implements IDESection {
     variableScrollPane.setPrefViewportWidth(VAR_WIDTH);
   }
 
-  private void setCommandSide(){
+  private void setCommandSide() {
     commandTextField = new Text(COM_STARTING_TEXT);
     commandTextField.setId(COM_TF_ID);
 
@@ -69,6 +81,9 @@ public class VariablesAndCommandsSection implements IDESection {
     commandScrollPane.setPrefViewportWidth(COM_WIDTH);
   }
 
+  /**
+   * Updates the display to display the current variables and user-defined section
+   */
   public void update() {
     updateVariables();
     updateUserCommands();
@@ -99,6 +114,11 @@ public class VariablesAndCommandsSection implements IDESection {
     commandTextField.setText(toDisplay);
   }
 
+  /**
+   * Allows for the writing to a file of correctly formatted syntax
+   *
+   * @return String to Write to a file
+   */
   public String getVariableAndCommandText() {
     String toReturn = "";
     for (String varName : myController.getMapData("variables").keySet()) {
