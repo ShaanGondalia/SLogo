@@ -64,21 +64,10 @@ public class Compiler {
   public Deque<Deque<Command>> compile(String program) throws Exception {
     reset();
     program = myParser.removeComments(program);
-    System.out.println(program);
-    // will be changed when we can have multiple turtles
-
     for (String token : program.split(WHITESPACE)) {
       handleToken(token);
-      // LOGIC:
-      // After a command is added, we can only resolve the commands arguments once numInputs values have been added to the value stack.
-      // We must keep track of how many values have been added to the stack after each command has been added.
-      // We know the number of inputs each command requires, and we know the size of the values stack when each command is added.
-      // We can create another data structure that tracks this information, and use it to determine when
-
       while (canBeResolved()) {
         String pendingCommand = activeContext.getPendingCommands().pop();
-        System.out.println(pendingCommand);
-        System.out.println(activeContext.getValues());
         int numInputs = commandFactory.getNumInputs(pendingCommand);
         if(numInputs == -1) {
           numInputs = activeContext.getValues().size() - activeContext.getValuesBefore().peek();
