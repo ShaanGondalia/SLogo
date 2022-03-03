@@ -29,7 +29,7 @@ public class MainIDEView extends Display {
     myPane = new BorderPane();
     myPane.setId(ROOT_ID);
     Runner runner = new Runner();
-    IDESection variablesSection = new VariablesAndCommandsSection(c);
+    IDESection variablesSection = new VariablesAndCommandsSection(c, language, runner);
     IDESection textSection = new TextSection();
     IDESection historySection = new HistorySection(runner);
 
