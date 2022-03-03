@@ -24,6 +24,7 @@ public class Runner {
     }
     catch (Exception e){
       Errors.showError(e.getMessage());
+      return;
     }
     myUserDefinedSection.update();
     myHistorySection.setNewHistory(program);
