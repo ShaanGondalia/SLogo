@@ -129,7 +129,6 @@ public class Compiler {
     return numInputs <= activeContext.getValues().size() - activeContext.getValuesBefore().peek()
         && commandFactory.getNumListInputs(activeContext.getPendingCommands().peek())
         <= activeContext.getLists().size() - activeContext.getListsBefore().peek();
-
   }
 
   // Returns a queue of queues of commands. Each inner queue represents a chunk of commands that
