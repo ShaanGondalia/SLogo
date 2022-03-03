@@ -17,14 +17,13 @@ import slogo.model.turtle.Turtle;
 import slogo.model.turtle.TurtleManager;
 
 /**
- * Tests for Tell Command
+ * Tests for ID Command
  *
  * @author Shaan Gondalia
  */
-public class TellTest {
+public class IDTest {
 
   private static final double ARG_1 = 50;
-  private static final double ARG_2 = 100;
 
   private TurtleManager myTurtleManager;
   private Turtle myTurtle;
@@ -39,25 +38,27 @@ public class TellTest {
   }
 
   @Test
-  void testNoArgs() {
-    assertThrows(MissingArgumentException.class, () -> new Tell(args, myTurtleManager));
+  void testNoArgs() throws MissingArgumentException {
+    Command id = new ID(args, myTurtleManager);
+    assertEquals(0, id.execute(myTurtle).getVal());
+  }
+
+  @Test
+  void testTooManyArgs() throws MissingArgumentException {
+    args.add(new Value(ARG_1));
+    Command id = new ID(args, myTurtleManager);
+    assertEquals(0, id.execute(myTurtle).getVal());
   }
 
   @Test
   void testSetOneActiveTurtle() throws MissingArgumentException {
-    args.add(new Value(ARG_1));
-    Command tell = new Tell(args, myTurtleManager);
-    tell.execute(myTurtle);
-    assertEquals(ARG_1, tell.execute(myTurtle).getVal());
+    List<Value> newIds = new ArrayList<>();
+    newIds.add(new Value(ARG_1));
+    List<Value> oldIds = myTurtleManager.swapFollowingIDs(newIds);
+    Command id = new ID(args, myTurtleManager);
+    assertEquals(ARG_1, id.execute(myTurtle).getVal());
+    myTurtleManager.swapFollowingIDs(oldIds);
+    assertEquals(0, id.execute(myTurtle).getVal());
   }
-
-  @Test
-  void testSetTwoActiveTurtles() throws MissingArgumentException {
-    args.add(new Value(ARG_1));
-    args.add(new Value(ARG_2));
-    Command tell = new Tell(args, myTurtleManager);
-    assertEquals(ARG_2, tell.execute(myTurtle).getVal());
-  }
-
 
 }

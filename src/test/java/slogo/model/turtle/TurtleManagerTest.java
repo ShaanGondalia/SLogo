@@ -42,7 +42,7 @@ public class TurtleManagerTest {
     followingTurtleIds.add(new Value(3));
     followingTurtleIds.add(new Value(2));
 
-    myTurtleManager.setFollowingIDs(followingTurtleIds);
+    myTurtleManager.swapFollowingIDs(followingTurtleIds);
     turtles = myTurtleManager.getFollowingTurtles();
     assertEquals(3, turtles.size());
   }
@@ -56,7 +56,7 @@ public class TurtleManagerTest {
     followingTurtleIds.add(new Value(0));
     followingTurtleIds.add(new Value(1));
 
-    myTurtleManager.setFollowingIDs(followingTurtleIds);
+    myTurtleManager.swapFollowingIDs(followingTurtleIds);
     turtles = myTurtleManager.getFollowingTurtles();
     assertEquals(2, turtles.size());
   }
@@ -76,7 +76,7 @@ public class TurtleManagerTest {
     args.add(variable);
     commandDeque.add(new Forward(args));
 
-    myTurtleManager.setFollowingIDs(followingTurtleIds);
+    myTurtleManager.swapFollowingIDs(followingTurtleIds);
     turtles = myTurtleManager.getFollowingTurtles();
     assertEquals(2, turtles.size());
     myTurtleManager.executeCommandQueue(commandDeque);
