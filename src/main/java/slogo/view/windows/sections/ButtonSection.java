@@ -5,6 +5,7 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.TilePane;
 import slogo.controller.Controller;
+import slogo.view.turtle.TurtleViewManager;
 import slogo.view.util.ButtonUtil;
 import slogo.view.util.Runner;
 import slogo.view.windows.buttons.IDEButtonFactory;
@@ -31,14 +32,14 @@ public class ButtonSection implements IDESection {
    * @param textSec  Text Section to get the text
    * @see IDEButtonFactory
    */
-  public ButtonSection(String language, Controller c, HistorySection histSec, TextSection textSec, VariablesAndCommandsSection userDefinedSection, Runner runner) {
+  public ButtonSection(String language, Controller c, HistorySection histSec, TextSection textSec, VariablesAndCommandsSection userDefinedSection, Runner runner, TurtleViewManager tvm) {
     myTilePane = new TilePane();
     myTilePane.setId(BUTTON_SECTION_ID);
     myResources = ResourceBundle.getBundle(RESOURCE_PREFIX + language);
     IDEButtonFactory factory = new IDEButtonFactory();
     for (String button : myResources.keySet()) {
       myTilePane.getChildren()
-          .add(factory.createButton(new ButtonUtil(button, c, myResources, histSec, textSec, userDefinedSection, runner)));
+          .add(factory.createButton(new ButtonUtil(button, c, myResources, histSec, textSec, userDefinedSection, runner, tvm)));
     }
   }
 

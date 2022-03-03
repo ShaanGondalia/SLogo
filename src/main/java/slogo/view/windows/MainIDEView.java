@@ -4,6 +4,7 @@ import java.awt.Dimension;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import slogo.controller.Controller;
+import slogo.view.turtle.TurtleViewManager;
 import slogo.view.util.Runner;
 import slogo.view.windows.sections.ButtonSection;
 import slogo.view.windows.sections.HistorySection;
@@ -25,7 +26,7 @@ public class MainIDEView extends Display {
 
   private BorderPane myPane;
 
-  public MainIDEView(String language, Controller c, String css, Stage stage) {
+  public MainIDEView(String language, Controller c, String css, Stage stage, TurtleViewManager tvm) {
     myPane = new BorderPane();
     myPane.setId(ROOT_ID);
     Runner runner = new Runner();
@@ -36,7 +37,7 @@ public class MainIDEView extends Display {
     runner.setParameters(c, (VariablesAndCommandsSection) variablesSection,
         (HistorySection) historySection);
     IDESection buttonSection = new ButtonSection(language, c, (HistorySection) historySection,
-        (TextSection) textSection, (VariablesAndCommandsSection) variablesSection, runner);
+        (TextSection) textSection, (VariablesAndCommandsSection) variablesSection, runner, tvm);
 
     myPane.setBottom(buttonSection.getSection());
     myPane.setRight(historySection.getSection());

@@ -49,7 +49,7 @@ public class TurtleAnimationController extends Display {
 
     private void togglePlayPause(ButtonUtil info) {
         play = !play;
-        for (TurtleView tv : info.c().getTurtleViews()) {
+        for (TurtleView tv : info.tvm().getTurtleViewList()) {
             if (tv.isAnimating()) {
                 if (!play) tv.getAnimationQueue().peek().getAnimation().pause();
                 else tv.getAnimationQueue().peek().getAnimation().play();
@@ -58,8 +58,8 @@ public class TurtleAnimationController extends Display {
     }
 
     private void changeSpeed(ButtonUtil info, int speed) {
-        int speedMultiplier = (speed/10) + 1;
-        for (TurtleView tv : info.c().getTurtleViews()) {
+        int speedMultiplier = (speed/50) + 1;
+        for (TurtleView tv : info.tvm().getTurtleViewList()) {
             for (TurtleAnimation anim : tv.getAnimationQueue()) {
                 anim.getAnimation().setRate(speedMultiplier);
             }
