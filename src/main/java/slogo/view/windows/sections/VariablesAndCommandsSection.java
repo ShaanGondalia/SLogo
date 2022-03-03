@@ -10,6 +10,7 @@ import javafx.scene.text.Text;
 import slogo.controller.Controller;
 import slogo.model.compiler.Parser;
 import slogo.view.util.Runner;
+import slogo.view.windows.MainIDEView;
 
 /**
  * Section that displays to the user the user-defined commands and variables
@@ -22,10 +23,10 @@ public class VariablesAndCommandsSection implements IDESection {
   private static final String NEW_LINE = "\n";
   private static final String VAR_SP_ID = "var_pane";
   private static final String VAR_TF_ID = "var_text";
-  private static final String VAR_STARTING_TEXT = "Variables: \n";
+  private static final String VAR_STARTING_TEXT = "Variables";
   private static final String COM_SP_ID = "com_pane";
   private static final String COM_TF_ID = "com_text";
-  private static final String COM_STARTING_TEXT = "User-Defined Commands: \n";
+  private static final String COM_STARTING_TEXT = "Commands";
 
   private static final int VAR_WIDTH = 100;
   private static final int COM_WIDTH = 200;
@@ -41,6 +42,7 @@ public class VariablesAndCommandsSection implements IDESection {
   private BorderPane myVarAndComSec;
   private String myLanguage;
   private Runner myRunner;
+  private ResourceBundle myResources;
 
   /**
    * Constructor for the Variables and Commands Section
@@ -53,7 +55,7 @@ public class VariablesAndCommandsSection implements IDESection {
     myController = c;
     myLanguage = language;
     myRunner = runner;
-
+    myResources = ResourceBundle.getBundle(MainIDEView.IDE_RESOURCES_ROOT + language);
     setVariableSide();
     setCommandSide();
 
@@ -63,7 +65,7 @@ public class VariablesAndCommandsSection implements IDESection {
   }
 
   private void setVariableSide() {
-    variableTextField = new Text(VAR_STARTING_TEXT);
+    variableTextField = new Text(myResources.getString(VAR_STARTING_TEXT));
     variableTextField.setId(VAR_TF_ID);
 
     variableScrollPane = new ScrollPane();
@@ -73,7 +75,7 @@ public class VariablesAndCommandsSection implements IDESection {
   }
 
   private void setCommandSide() {
-    commandTextField = new Text(COM_STARTING_TEXT);
+    commandTextField = new Text(myResources.getString(COM_STARTING_TEXT));
     commandTextField.setId(COM_TF_ID);
 
     commandScrollPane = new ScrollPane();
@@ -100,7 +102,7 @@ public class VariablesAndCommandsSection implements IDESection {
 
   private void updateVariables() {
     Map<String, String> varList = myController.getMapData("variables");
-    String toDisplay = VAR_STARTING_TEXT;
+    String toDisplay = myResources.getString(VAR_STARTING_TEXT) + NEW_LINE;
     for (String variableName : varList.keySet()) {
       String variableValue = varList.get(variableName);
       toDisplay += variableName.substring(1);
@@ -123,7 +125,7 @@ public class VariablesAndCommandsSection implements IDESection {
 
   private void updateUserCommands() {
     Map<String, String> commandList = myController.getMapData("userCommands");
-    String toDisplay = COM_STARTING_TEXT;
+    String toDisplay = myResources.getString(COM_STARTING_TEXT) + NEW_LINE;
     for (String commandName : commandList.keySet()) {
       String commandValue = commandList.get(commandName);
       toDisplay += commandValue;

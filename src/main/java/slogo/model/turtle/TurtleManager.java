@@ -112,11 +112,7 @@ public class TurtleManager {
   public void executeCommandQueue(Deque<Command> innerQueue) throws MissingArgumentException {
     for (Turtle t : getFollowingTurtles()) {
       activateTurtle(t);
-      for (Command command : innerQueue) {
-        //System.out.println(command);
-        command.execute(t);
-        //System.out.println(t.getPose());
-      }
+      executeCommandsOnTurtle(innerQueue, t);
     }
   }
 
@@ -133,10 +129,20 @@ public class TurtleManager {
         command.execute(t);
       }
       if (condition.peekLast().returnValue().getVal() != 0) { // TODO: Add tolerance here
-        for (Command command : myBody) {
-          command.execute(t);
-        }
+        executeCommandsOnTurtle(myBody, t);
       }
     }
   }
+
+  // Executes Queue of commands on a turtle
+  private void executeCommandsOnTurtle(Deque<Command> commands, Turtle turtle)
+      throws MissingArgumentException {
+    for (Command command : commands) {
+      //System.out.println(command);
+      command.execute(turtle);
+      //System.out.println(t.getPose());
+    }
+  }
+
+
 }

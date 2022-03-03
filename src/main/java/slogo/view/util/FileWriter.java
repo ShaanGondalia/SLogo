@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import slogo.Errors;
 
 public class FileWriter {
   private static final String TITLE = "Save";
@@ -17,7 +18,7 @@ public class FileWriter {
         myWriter.write(toWrite);
         myWriter.close();
       } catch (IOException e) {
-        e.printStackTrace();
+        Errors.showError(e.getMessage());
       }
     }
   }

@@ -3,6 +3,7 @@ package slogo.view.windows.sections;
 import static java.lang.Integer.MAX_VALUE;
 
 import java.util.List;
+import java.util.ResourceBundle;
 import java.util.Stack;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -12,6 +13,7 @@ import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import slogo.view.util.Runner;
+import slogo.view.windows.MainIDEView;
 import slogo.view.windows.buttons.Run;
 
 /**
@@ -24,7 +26,7 @@ public class HistorySection implements IDESection {
   private static final String HISTORY_SECTION_ID = "history_sec";
   private static final String TEXT_SECTION_ID = "history_text";
   private static final String DELIMITER = "\n";
-  private static final String STARTING_TEXT = "Past Commands:" + DELIMITER;
+  private static final String STARTING_TEXT = "History";
 
   private static final int WIDTH = 100;
   private static final int MAX_WIDTH = 200;
@@ -35,10 +37,11 @@ public class HistorySection implements IDESection {
 
   private VBox myHistoryButtons;
 
-  public HistorySection(Runner runner) {
+  public HistorySection(Runner runner, String language) {
     myScrollPane = new ScrollPane();
     myScrollPane.setId(HISTORY_SECTION_ID);
-    Text descriptor = new Text(STARTING_TEXT);
+    Text descriptor = new Text(ResourceBundle.getBundle(MainIDEView.IDE_RESOURCES_ROOT + language)
+        .getString(STARTING_TEXT));
     descriptor.setId(TEXT_SECTION_ID);
     BorderPane borderPane = new BorderPane();
     borderPane.setTop(descriptor);
@@ -67,7 +70,7 @@ public class HistorySection implements IDESection {
     makeHistoryButton(newCommand);
   }
 
-  private void makeHistoryButton(String command){
+  private void makeHistoryButton(String command) {
     Button b = new Button(command);
     b.setOnAction((e) -> myRunner.runAndSave(command));
     b.setMinWidth(WIDTH);
@@ -77,13 +80,13 @@ public class HistorySection implements IDESection {
   /**
    * Returns the text of the history as to print it out to a file
    *
-   * @see slogo.view.windows.buttons.CommandHistoryOut
    * @return formatted text that can be rerun
+   * @see slogo.view.windows.buttons.CommandHistoryOut
    */
-  public String getHistoryText(){
+  public String getHistoryText() {
     String s = "";
 
-    for(String command : commandList){
+    for (String command : commandList) {
       s += command + DELIMITER;
     }
 

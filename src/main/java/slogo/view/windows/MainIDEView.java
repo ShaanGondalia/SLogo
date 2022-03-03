@@ -21,6 +21,7 @@ public class MainIDEView extends Display {
   private static final String TITLE = "SLOGO TEAM 3";
   private static final Dimension MAIN_SIZE = new Dimension(700, 400);
   private static final String ROOT_ID = "root";
+  public static final String IDE_RESOURCES_ROOT = "view.defaultIdeText.";
 
 
   private BorderPane myPane;
@@ -31,7 +32,7 @@ public class MainIDEView extends Display {
     Runner runner = new Runner();
     IDESection variablesSection = new VariablesAndCommandsSection(c, language, runner);
     IDESection textSection = new TextSection();
-    IDESection historySection = new HistorySection(runner);
+    IDESection historySection = new HistorySection(runner, language);
 
     runner.setParameters(c, (VariablesAndCommandsSection) variablesSection,
         (HistorySection) historySection);
