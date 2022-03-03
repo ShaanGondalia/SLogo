@@ -14,8 +14,6 @@ public class ClearScreen extends TurtleCommand {
 
   private static final int NUM_ARGS = 0;
 
-  private Value distance;
-
   /**
    * Creates a clear screen command. Takes no arguments
    *
