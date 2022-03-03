@@ -21,11 +21,11 @@ public class Controller {
   private List<TurtleView> myTurtleViews;
   private Map<String, MapGetter<String, String>> myMapGetters;
 
-  public Controller(String lan) {
+  public Controller(String lan, TurtleViewManager turtleViewManager) {
     myTurtleManager = new TurtleManager();
+    myTurtleManager.addListener((PropertyChangeListener) turtleViewManager);
     myCompiler = new Compiler(lan, myTurtleManager);
     myTurtles = new ArrayList<>();
-    myTurtleViews = new ArrayList<>();
     myMapGetters = new HashMap<>();
     myMapGetters.put("variables", () -> myCompiler.getVariables());
     myMapGetters.put("userCommands", () -> myCompiler.getUserCommandStrings());
