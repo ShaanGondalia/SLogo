@@ -55,18 +55,9 @@ public class CompilerTest {
   private static final String DISPLAY_PROGRAM = "setpalette 3 0 200 255";
   private static final String EXTENDED_SYNTAX_PROGRAM = "fd ( sum 10 20 30 40 )";
   private static final String EXTENDED_SYNTAX_COMPLEX_PROGRAM = "setxy ( setxy 0 20 300 20 300 220 ) 15";
-  private static final String PARAM_PROGRAM = "to paramTest [ :a :b :c ]\n"
-      + "[ set :d sum :a :b ]\n"
-      + "\n"
-      + "set :a 1\n"
-      + "set :b 2\n"
-      + "set :c 3\n"
-      + "\n"
-      + "set :e 4\n"
-      + "set :f 5\n"
-      + "set :g 6\n"
-      + "\n"
-      + "paramTest [ :e :f :g ]";
+  private static final String REDEFINE_FUNCTION_PROGRAM_1 = "to test [ :a :b :c ] "
+      + "[ set :d sum :a :b ] \n test 4 5 6";
+  private static final String REDEFINE_FUNCTION_PROGRAM_2 =  "to test [ :e :f ] [ fd 50 ] test 7 8";
 
 
   private static final String LANGUAGE = "English";
@@ -198,11 +189,12 @@ public class CompilerTest {
 
   @Test
   void testParamProgram() throws Exception {
-    run(compiler.compile(PARAM_PROGRAM));
+    run(compiler.compile(REDEFINE_FUNCTION_PROGRAM_1));
+    run(compiler.compile(REDEFINE_FUNCTION_PROGRAM_2));
+    assertEquals(50, myTurtleManager.getFollowingTurtles().get(0).getPose().y());
   }
 
   private void run(Deque<Deque<Command>> q) throws MissingArgumentException {
-    System.out.println(q);
     for (Deque<Command> innerQueue : q) {
       myTurtleManager.executeCommandQueue(innerQueue);
     }

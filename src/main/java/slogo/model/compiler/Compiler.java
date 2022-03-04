@@ -64,7 +64,6 @@ public class Compiler {
       handleToken(token);
       while (canBeResolved()) {
         String pendingCommand = activeContext.pendingCommand();
-        // int numInputs = getNumInputs(pendingCommand);
         int numInputs = activeContext.numberNewValues(); // Not sure if this works
         if (pendingCommand.equals("MakeUserInstruction")) {
           commandFactory.makeUserCommand(waitingUserCommandName, numInputs);
@@ -153,10 +152,12 @@ public class Compiler {
   // Handles what happens when a user command is detected by the parser. Called with reflection
   private void handleUserCommand(String token) throws SymbolNotFoundException {
     try {
-      if (commandFactory.isCommand(token)) {
-        handleCommand(token);
-      } else if (activeContext.pendingCommand().equals("MakeUserInstruction")) {
-        waitingUserCommandName = token;
+      String pendingCommand = activeContext.pendingCommand();
+      if (pendingCommand != null && pendingCommand.equals("MakeUserInstruction")) {
+          commandFactory.clearUserCommand(token);
+          waitingUserCommandName = token;
+      } else if (commandFactory.isCommand(token)) {
+          handleCommand(token);
       } else {
         throw new SymbolNotFoundException(
             String.format(exceptionResources.getString("SymbolNotFound"), token));
