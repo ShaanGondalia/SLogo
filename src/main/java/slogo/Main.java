@@ -16,6 +16,7 @@ import slogo.view.windows.MainIDEView;
 import slogo.view.windows.CSSSplash;
 import slogo.view.windows.Splash;
 import slogo.view.turtle.TurtleView;
+import slogo.view.windows.TurtleNumSplash;
 import slogo.view.windows.TurtleWindowView;
 
 
@@ -91,6 +92,8 @@ public class Main extends Application {
     languageProbe.show();
     Splash splashView = new CSSSplash(languageProbe.toString());
     splashView.show();
+    Splash turtleNumSplash = new TurtleNumSplash(languageProbe.toString());
+    turtleNumSplash.show();
     TurtleWindowView turtleWindowView = new TurtleWindowView(splashView.toString());
     TurtleViewManager tvm = new TurtleViewManager(turtleWindowView);
     Controller c = new Controller(languageProbe.toString(), tvm);
