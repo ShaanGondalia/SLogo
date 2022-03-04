@@ -1,5 +1,6 @@
 package slogo.model.turtle;
 
+import java.awt.Color;
 import slogo.model.color.ColorRecord;
 
 /**
@@ -119,10 +120,16 @@ public class Turtle extends Observable<TurtleStatus> {
   /**
    * Sets the status of the turtle's pen.
    *
-   * @param hasPen If true, the pen is down. If false, the pen is up.
+   * @param PenState If true, the pen is down. If false, the pen is up.
    */
-  public void setPen(boolean hasPen) {
-    myPenDown = hasPen;
+  public void setPen(PenState penState) {
+    myPenDown = penState.penDown();
+    myThickness = penState.thickness();
+    ColorRecord color = penState.color();
+    myPenR = color.r();
+    myPenG = color.g();
+    myPenB = color.b();
+
     String property = "Pen";
     change(property);
   }
