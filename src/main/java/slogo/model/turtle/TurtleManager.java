@@ -35,7 +35,7 @@ public class TurtleManager extends Observable<Turtle> {
 
   private void addStartingTurtles(int num) {
     for (int i = 0; i < num; i++) {
-      Turtle t = new Turtle();
+      Turtle t = new Turtle(i);
       t.move(i * 20);
       addTurtle(t);
       myTurtles.put(1.0 * i, t);
@@ -109,7 +109,7 @@ public class TurtleManager extends Observable<Turtle> {
     clearFollowers();
     for (Value id : ids) {
       if (!myTurtles.containsKey(id.getVal())) {
-        Turtle turtle = new Turtle();
+        Turtle turtle = new Turtle(id.getVal());
         addTurtle(turtle);
         myTurtles.put(id.getVal(), turtle);
       }

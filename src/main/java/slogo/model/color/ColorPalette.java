@@ -1,6 +1,7 @@
 package slogo.model.color;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -42,6 +43,14 @@ public class ColorPalette {
 
   public ColorRecord getColor(double key) {
     return myColors.get(key);
+  }
+
+  public Map<String, String> getStringMap() {
+    Map<String, String> map = new LinkedHashMap<>();
+    for (double key: myColors.keySet()) {
+      map.put(Double.toString(key), myColors.get(key).toString());
+    }
+    return map;
   }
 
 
