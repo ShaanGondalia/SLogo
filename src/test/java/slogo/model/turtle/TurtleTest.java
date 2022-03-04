@@ -78,6 +78,4 @@ public class TurtleTest {
     status = (TurtleStatus) listener.getChange().getNewValue();
     assertEquals(status.penState().color().toString(), "#320000");
   }
-
-
 }
