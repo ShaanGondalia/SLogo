@@ -9,7 +9,8 @@ open module slogo_app {
 
   // allow other classes to access listed packages in your project
     exports slogo;
-  exports slogo.model;
+  exports slogo.model.color;
+  exports slogo.model.exception;
   exports slogo.model.turtle;
   exports slogo.model.command;
   exports slogo.model.compiler;

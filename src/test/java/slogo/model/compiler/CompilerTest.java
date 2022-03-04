@@ -3,16 +3,14 @@ package slogo.model.compiler;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import java.util.ArrayList;
 import java.util.Deque;
-import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import slogo.Main;
+import slogo.model.color.ColorPalette;
 import slogo.model.command.Command;
 import slogo.model.exception.MissingArgumentException;
 import slogo.model.exception.SymbolNotFoundException;
-import slogo.model.turtle.Turtle;
 import slogo.model.turtle.TurtleManager;
 
 /**
@@ -64,7 +62,8 @@ public class CompilerTest {
   @BeforeEach
   void setUp() {
     myTurtleManager = new TurtleManager();
-    compiler = new Compiler(LANGUAGE, myTurtleManager);
+    ColorPalette myColorPalette = new ColorPalette();
+    compiler = new Compiler(LANGUAGE, myTurtleManager, myColorPalette);
   }
 
   @Test

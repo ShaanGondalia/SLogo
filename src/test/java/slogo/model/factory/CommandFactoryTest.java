@@ -9,6 +9,7 @@ import java.util.Deque;
 import java.util.Stack;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import slogo.model.color.ColorPalette;
 import slogo.model.command.Command;
 import slogo.model.command.Value;
 import slogo.model.compiler.CommandFactory;
@@ -34,7 +35,7 @@ public class CommandFactoryTest {
   private Stack<Deque<Command>> lists;
   private Turtle turtle;
   private CommandFactory commandFactory;
-  private TurtleManager myTurtleManager;
+
 
   @BeforeEach
   void setUp() {
@@ -43,8 +44,9 @@ public class CommandFactoryTest {
     lists = new Stack<>();
     lists.add(null);
     turtle = new Turtle();
-    myTurtleManager = new TurtleManager();
-    commandFactory = new CommandFactory(LANGUAGE, myTurtleManager);
+    ColorPalette myColorPalette = new ColorPalette();
+    TurtleManager myTurtleManager = new TurtleManager();
+    commandFactory = new CommandFactory(LANGUAGE, myTurtleManager, myColorPalette);
   }
 
   @Test

@@ -5,6 +5,7 @@ import java.util.*;
 
 import java.util.Map;
 import slogo.Errors;
+import slogo.model.color.ColorPalette;
 import slogo.model.command.Command;
 
 import slogo.model.compiler.Compiler;
@@ -18,12 +19,14 @@ public class Controller {
 
   private Compiler myCompiler;
   private TurtleManager myTurtleManager;
+  private ColorPalette myColorPalette;
   private List<Turtle> myTurtles;
   private Map<String, MapGetter<String, String>> myMapGetters;
 
   public Controller(String language, TurtleManager turtleManager) {
     myTurtleManager = turtleManager;
-    myCompiler = new Compiler(language, myTurtleManager);
+    myColorPalette = new ColorPalette();
+    myCompiler = new Compiler(language, myTurtleManager, myColorPalette);
     myTurtles = new ArrayList<>();
     myMapGetters = new HashMap<>();
     myMapGetters.put("variables", () -> myCompiler.getVariables());

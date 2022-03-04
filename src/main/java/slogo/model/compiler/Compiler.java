@@ -8,6 +8,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.Stack;
+import slogo.model.color.ColorPalette;
 import slogo.model.command.Command;
 import slogo.model.command.Value;
 import slogo.model.exception.MissingArgumentException;
@@ -39,14 +40,14 @@ public class Compiler {
   /**
    * Creates an instance of a compiler for the given language.
    */
-  public Compiler(String language, TurtleManager turtleManager) {
+  public Compiler(String language, TurtleManager turtleManager, ColorPalette colorPalette) {
     exceptionResources = ResourceBundle.getBundle(EXCEPTION_RESOURCES + language);
     handlerResources = ResourceBundle.getBundle(HANDLER_RESOURCES);
     myParser = new Parser(language);
     myParser.addPatterns(language);
     myParser.addPatterns("Syntax");
     myVariables = new LinkedHashMap<>(); // linked hashmap preserves insertion order for display
-    commandFactory = new CommandFactory(language, turtleManager);
+    commandFactory = new CommandFactory(language, turtleManager, colorPalette);
   }
 
   /**

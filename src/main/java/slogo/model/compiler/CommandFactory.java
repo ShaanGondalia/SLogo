@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.Stack;
+import slogo.model.color.ColorPalette;
 import slogo.model.command.Command;
 import slogo.model.command.Value;
 import slogo.model.command.control.MakeUserInstruction;
@@ -39,8 +40,8 @@ public class CommandFactory {
   private final Map<String, Integer> myListParameterCounts;
   private final Map<String, Integer> myParameterCounts;
 
-
   private final TurtleManager myTurtleManager;
+  private final ColorPalette myColorPalette;
 
   private final ResourceBundle exceptionResources;
 
@@ -51,9 +52,10 @@ public class CommandFactory {
    *
    * @param language the language of the command factory
    */
-  public CommandFactory(String language, TurtleManager turtleManager) {
+  public CommandFactory(String language, TurtleManager turtleManager, ColorPalette colorPalette) {
     exceptionResources = ResourceBundle.getBundle(EXCEPTION_RESOURCES + language);
     myTurtleManager = turtleManager;
+    myColorPalette = colorPalette;
     myUserCommands = new HashMap<>();
     myUserCommandStrings = new HashMap<>();
     myListParameterCounts = new HashMap<>();
@@ -168,12 +170,11 @@ public class CommandFactory {
     return (Command) ctor.newInstance(args, myTurtleManager);
   }
 
-  // TODO: Implement this
   private Command makeArgColorCommand(Class<?> commandClass, List<Value> args,
       List<Deque<Command>> commandQueues)
       throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
-    Constructor<?> ctor = commandClass.getDeclaredConstructor(List.class, TurtleManager.class);
-    return (Command) ctor.newInstance(args, myTurtleManager);
+    Constructor<?> ctor = commandClass.getDeclaredConstructor(ColorPalette.class, List.class);
+    return (Command) ctor.newInstance(myColorPalette, args);
   }
 
   /**
