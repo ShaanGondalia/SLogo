@@ -23,6 +23,7 @@ import java.util.*;
 
 import slogo.model.turtle.PenState;
 import slogo.model.turtle.Pose;
+import slogo.model.turtle.Turtle;
 import slogo.model.turtle.TurtleStatus;
 import slogo.view.util.Coordinate;
 import slogo.view.util.Matrix;
@@ -71,6 +72,17 @@ public class TurtleView implements PropertyChangeListener  {
         graphicsContext.setFill(trailColor);
         graphicsContext.setStroke(trailColor);
         instantiateLambdaMap();
+    }
+
+    public TurtleView(Turtle turtle) {
+        this();
+        // moves turtle to starting position
+        Pose startPose = new Pose(0, 0, 0);
+        TurtleStatus newValue = turtle.getStatus();
+        TurtleStatus oldValue = new TurtleStatus(startPose, newValue.penState(), newValue.isActive(),
+            newValue.isActive());
+        PropertyChangeEvent evt = new PropertyChangeEvent(turtle, "Pose", oldValue, newValue);
+        changePose(evt);
     }
 
     private Animation makeAnimation(Pose oldPose, Pose newPose, PenState penState) {

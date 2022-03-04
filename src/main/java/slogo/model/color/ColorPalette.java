@@ -3,6 +3,7 @@ package slogo.model.color;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import slogo.model.command.Value;
 import slogo.model.exception.MissingArgumentException;
 
@@ -30,12 +31,16 @@ public class ColorPalette {
     }
   }
 
+  public Set<Double> getIndices() {
+    return myColors.keySet();
+  }
+
   public void addColor(int r, int g, int b) {
     ColorRecord color = new ColorRecord(r, g, b);
     myColors.put(myLargestIndex++, color);
   }
 
-  public ColorRecord getColor(int key) {
+  public ColorRecord getColor(double key) {
     return myColors.get(key);
   }
 

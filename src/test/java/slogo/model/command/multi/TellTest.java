@@ -33,7 +33,7 @@ public class TellTest {
 
   @BeforeEach
   void setUp() {
-    myTurtleManager = new TurtleManager();
+    myTurtleManager = new TurtleManager(1);
     args = new ArrayList<>();
     myTurtle = new Turtle();
   }

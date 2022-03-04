@@ -37,7 +37,7 @@ public class ModelTester {
       + "fd 100\n";
 
   public static void main(String[] args) throws Exception {
-    TurtleManager tm = new TurtleManager();
+    TurtleManager tm = new TurtleManager(1);
     Compiler c = new Compiler("English", tm);
 
     Deque<Deque<Command>> q = c.compile(PROGRAM);

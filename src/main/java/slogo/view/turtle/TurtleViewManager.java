@@ -3,33 +3,43 @@ package slogo.view.turtle;
 import java.util.ArrayList;
 import javafx.scene.Group;
 import slogo.model.turtle.Turtle;
+import slogo.model.turtle.TurtleManager;
 import slogo.view.windows.TurtleWindowView;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.util.ArrayList;
 import java.util.List;
 
 public class TurtleViewManager implements PropertyChangeListener {
 
-    private TurtleWindowView turvleViewWindow;
-    private List<TurtleView> turtleViewList;
+    private List<TurtleView> myTurtleViewList;
+    private TurtleManager myTurtleManager;
 
     private Group myNode = new Group();
 
-    public TurtleViewManager(TurtleWindowView turtleViewWindow) {
-        this.turvleViewWindow = turtleViewWindow;
-        turtleViewList = new ArrayList<>();
+    public TurtleViewManager(TurtleManager turtleManager) {
+        myTurtleViewList = new ArrayList<>();
+        myTurtleManager = turtleManager;
+
+        addStartingTurtles();
+        turtleManager.addListener(this);
     }
 
-    public TurtleView createTurtleView() {
-        TurtleView tv = new TurtleView();
-        turtleViewList.add(tv);
-        myNode.getChildren().add(tv.getTurtleNode());
+    private void addStartingTurtles() {
+        if (myTurtleManager.numTurtles() > 0) {
+            for (Turtle t : myTurtleManager.getTurtles()) {
+                createTurtleView(t);
+            }
+        }
+    }
 
-        // this line would become irrelevant
-        turvleViewWindow.addTurtleView(tv);
-        return tv;
+    public TurtleView createTurtleView(Turtle turtle) {
+        TurtleView turtleView = new TurtleView(turtle);
+        turtle.addListener(turtleView);
+        myTurtleViewList.add(turtleView);
+        myNode.getChildren().add(turtleView.getTurtleNode());
+
+        return turtleView;
     }
 
     public Group getNode() {
@@ -39,10 +49,10 @@ public class TurtleViewManager implements PropertyChangeListener {
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         Turtle t = (Turtle) evt.getNewValue();
-        t.addListener(createTurtleView());
+        createTurtleView(t);
     }
 
-    public List<TurtleView> getTurtleViewList() {
-        return turtleViewList;
+    public List<TurtleView> getMyTurtleViewList() {
+        return myTurtleViewList;
     }
 }

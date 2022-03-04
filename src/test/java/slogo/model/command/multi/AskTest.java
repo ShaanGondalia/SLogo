@@ -38,7 +38,7 @@ public class AskTest {
 
   @BeforeEach
   void setUp() throws MissingArgumentException {
-    myTurtleManager = new TurtleManager();
+    myTurtleManager = new TurtleManager(1);
     args = new ArrayList<>();
     lists = new ArrayList<>();
     myTurtle = new Turtle();

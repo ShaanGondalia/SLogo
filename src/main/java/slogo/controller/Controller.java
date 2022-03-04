@@ -21,10 +21,9 @@ public class Controller {
   private List<Turtle> myTurtles;
   private Map<String, MapGetter<String, String>> myMapGetters;
 
-  public Controller(String lan, TurtleViewManager turtleViewManager) {
-    myTurtleManager = new TurtleManager();
-    myTurtleManager.addListener((PropertyChangeListener) turtleViewManager);
-    myCompiler = new Compiler(lan, myTurtleManager);
+  public Controller(String language, TurtleManager turtleManager) {
+    myTurtleManager = turtleManager;
+    myCompiler = new Compiler(language, myTurtleManager);
     myTurtles = new ArrayList<>();
     myMapGetters = new HashMap<>();
     myMapGetters.put("variables", () -> myCompiler.getVariables());

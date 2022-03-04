@@ -9,6 +9,7 @@ import java.util.*;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import slogo.controller.Controller;
+import slogo.model.turtle.TurtleManager;
 import slogo.view.turtle.TurtleViewManager;
 import slogo.view.windows.Display;
 import slogo.view.windows.LanguageSplash;
@@ -92,12 +93,13 @@ public class Main extends Application {
     Splash splashView = new CSSSplash(languageProbe.toString());
     splashView.show();
     TurtleWindowView turtleWindowView = new TurtleWindowView(splashView.toString());
-    TurtleViewManager turtleViewManager = new TurtleViewManager(turtleWindowView);
 
-    // add this line, now TurtleViewManager can have a void constructor
-    //turtleWindowView.addGroup(turtleViewManager.getNode());
+    TurtleManager turtleManager = new TurtleManager(2);
+    TurtleViewManager turtleViewManager = new TurtleViewManager(turtleManager);
 
-    Controller controller = new Controller(languageProbe.toString(), turtleViewManager);
+    turtleWindowView.addGroup(turtleViewManager.getNode());
+
+    Controller controller = new Controller(languageProbe.toString(), turtleManager);
     Display mainIDEView = new MainIDEView(languageProbe.toString(), controller, splashView.toString(), stage, turtleViewManager);
 
   }

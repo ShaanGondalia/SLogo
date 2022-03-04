@@ -1,7 +1,5 @@
 package slogo.view.windows.buttons;
 
-import javafx.scene.shape.Line;
-import slogo.view.turtle.Trail;
 import slogo.view.turtle.TurtleView;
 import slogo.view.util.ButtonUtil;
 import javafx.stage.FileChooser;
@@ -24,7 +22,7 @@ public class SetImage implements IDEButton {
       fc.setInitialDirectory(new File(imagePath));
       File file = fc.showOpenDialog(new Stage());
       if (file != null) {
-          for (TurtleView tv : info.tvm().getTurtleViewList()) {
+          for (TurtleView tv : info.tvm().getMyTurtleViewList()) {
               tv.setTurtleImage(file.getName());
           }
       }

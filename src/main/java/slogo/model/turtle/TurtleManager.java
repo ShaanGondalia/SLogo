@@ -1,6 +1,7 @@
 package slogo.model.turtle;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Deque;
 import java.util.HashMap;
 import java.util.List;
@@ -22,13 +23,25 @@ public class TurtleManager extends Observable<Turtle> {
   private final Map<Double, Boolean> followingTurtleMap;
   private Turtle activeTurtle;
 
-  public TurtleManager() {
+  public TurtleManager(int startingTurtles) {
     myTurtles = new HashMap<>();
     followingTurtleMap = new HashMap<>();
-    activeTurtle = new Turtle();
-    addTurtle(activeTurtle);
-    myTurtles.put((double) 0, activeTurtle);
-    followingTurtleMap.put((double) 0, true);
+    addStartingTurtles(startingTurtles);
+  }
+
+  public TurtleManager() {
+    this(1);
+  }
+
+  private void addStartingTurtles(int num) {
+    for (int i = 0; i < num; i++) {
+      Turtle t = new Turtle();
+      t.move(i * 20);
+      addTurtle(t);
+      myTurtles.put(1.0 * i, t);
+      followingTurtleMap.put(1.0 * i, true);
+    }
+    activeTurtle = myTurtles.get(0.0);
   }
 
   private void addTurtle(Turtle turtle) {
@@ -48,6 +61,14 @@ public class TurtleManager extends Observable<Turtle> {
       }
     }
     return followingTurtles;
+  }
+
+  /**
+   * Returns List of all turtles in turtle manager
+   * @return list of all turtles
+   */
+  public Collection<Turtle> getTurtles() {
+    return myTurtles.values().stream().toList();
   }
 
   /**
