@@ -8,6 +8,11 @@ import javafx.stage.Stage;
 import org.junit.jupiter.api.Test;
 import util.DukeApplicationTest;
 
+/**
+ * Testing the initial state of the helpView
+ *
+ * @author Andy S. He
+ */
 class HelpViewTest extends DukeApplicationTest {
 
   private Text content;

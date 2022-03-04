@@ -13,11 +13,19 @@ import slogo.view.windows.sections.HistorySection;
 import slogo.view.windows.sections.TextSection;
 import util.DukeApplicationTest;
 
+/**
+ * Testing the running of the runner, and the fact that clicking on the Click-to-Exectue GUI does
+ * not save to history
+ *
+ * @author Andy S. He
+ */
 class RunnerAndClickToExecuteGUITest extends DukeApplicationTest {
+
   private Runner runner;
   private HistorySection hs;
+
   @Override
-  public void start(Stage stage){
+  public void start(Stage stage) {
     runner = new Runner();
     Controller c = new Controller("English", null);
     hs = new HistorySection(runner, "English");
@@ -42,7 +50,7 @@ class RunnerAndClickToExecuteGUITest extends DukeApplicationTest {
   }
 
   @Test
-  void forward(){
+  void forward() {
     clickOn(lookup("Forward ").query());
     assertEquals("", hs.getHistoryText());
   }

@@ -7,6 +7,11 @@ import javafx.stage.Stage;
 import org.junit.jupiter.api.Test;
 import util.DukeApplicationTest;
 
+/**
+ * Testing the turtleNumberSplash
+ *
+ * @author Andy S. He
+ */
 class TurtleNumSplashTest extends DukeApplicationTest {
   private Splash ls;
   private Button two;
