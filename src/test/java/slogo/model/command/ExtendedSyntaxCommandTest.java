@@ -66,6 +66,16 @@ public class ExtendedSyntaxCommandTest {
   }
 
   @Test
+  void testSumThreeArgs() throws MissingArgumentException {
+    args.add(new Value(ARG_1));
+    args.add(new Value(ARG_2));
+    args.add(new Value(ARG_3));
+    Command sum = new Sum(args);
+
+    assertThrows(MissingArgumentException.class, () -> new ExtendedSyntaxCommand(args, sum, NUM_SUM_ARGS));
+  }
+
+  @Test
   void testSumFourArgs() throws MissingArgumentException {
     args.add(new Value(ARG_1));
     args.add(new Value(ARG_2));

@@ -25,11 +25,15 @@ public class ExtendedSyntaxCommand extends AbstractCommand {
    * @param command The command that will be executed multiple times
    * @param commandArgs The number of arguments that the command normally takes.
    */
-  public ExtendedSyntaxCommand(List<Value> args, Command command, int commandArgs) {
+  public ExtendedSyntaxCommand(List<Value> args, Command command, int commandArgs)
+      throws MissingArgumentException {
     super();
     argsPerCommand = commandArgs;
     myCommand = command;
     myArgs = args;
+    if (!validInputCount()) {
+      throw new MissingArgumentException();
+    }
   }
 
   /**
@@ -43,9 +47,6 @@ public class ExtendedSyntaxCommand extends AbstractCommand {
   @Override
   public Value execute(Turtle turtle) throws MissingArgumentException {
     double sumOfExecutions = 0;
-    if (!validInputCount()) {
-      throw new MissingArgumentException();
-    }
     int numExecutions = myArgs.size() / argsPerCommand;
     for (int i = 0; i < numExecutions; i++) {
       for (int j = 0; j < argsPerCommand; j++) {
