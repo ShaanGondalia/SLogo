@@ -182,10 +182,21 @@ public class CommandFactory {
 
   /**
    * Makes a user defined command
+   *
+   * @param symbol the name of the command
+   * @param inputs the number of inputs to the command
    */
   public void makeUserCommand(String symbol, int inputs) {
     myParameterCounts.put(symbol, inputs);
     lastAddedSymbol = symbol;
+  }
+
+  /**
+   * Removes a user command from the map of user commands. Necessary for command redefinition.
+   * @param symbol the name of the command
+   */
+  public void clearUserCommand(String symbol) {
+    myParameterCounts.remove(symbol);
   }
 
   /**
