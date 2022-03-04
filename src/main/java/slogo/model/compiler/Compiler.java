@@ -34,6 +34,7 @@ public class Compiler {
   private final CommandFactory commandFactory;
   private Context activeContext;
   private Stack<Context> inactiveContexts;
+  private boolean inGroup;
 
   private String waitingUserCommandName;
 
@@ -63,7 +64,8 @@ public class Compiler {
       handleToken(token);
       while (canBeResolved()) {
         String pendingCommand = activeContext.pendingCommand();
-        int numInputs = getNumInputs(pendingCommand);
+        // int numInputs = getNumInputs(pendingCommand);
+        int numInputs = activeContext.numberNewValues(); // Not sure if this works
         if (pendingCommand.equals("MakeUserInstruction")) {
           commandFactory.makeUserCommand(waitingUserCommandName, numInputs);
         }
@@ -94,7 +96,7 @@ public class Compiler {
 
   //Returns true if the pending command can be resolved
   private boolean canBeResolved() throws SymbolNotFoundException {
-    if (activeContext.pendingCommand() == null) {
+    if (activeContext.pendingCommand() == null || inGroup) {
       return false;
     }
     int numInputs = commandFactory.getNumInputs(activeContext.pendingCommand());
@@ -110,6 +112,7 @@ public class Compiler {
   private void reset() {
     activeContext = new Context();
     inactiveContexts = new Stack<>();
+    inGroup = false;
   }
 
   // Handles a token
@@ -176,12 +179,14 @@ public class Compiler {
     activeContext = inactiveContexts.pop();
   }
 
+  // Handles what happens when a group start ( symbol is recognized
   private void handleGroupStart(String token) {
-
+    inGroup = true;
   }
 
+  // Handles what happens when a group end ) symbol is recognized
   private void handleGroupEnd(String token) {
-
+    inGroup = false;
   }
 
   public Map<String, String> getVariables() {

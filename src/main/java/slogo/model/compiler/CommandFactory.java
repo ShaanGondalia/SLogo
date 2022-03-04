@@ -12,6 +12,7 @@ import java.util.ResourceBundle;
 import java.util.Stack;
 import slogo.model.color.ColorPalette;
 import slogo.model.command.Command;
+import slogo.model.command.ExtendedSyntaxCommand;
 import slogo.model.command.Value;
 import slogo.model.command.control.MakeUserInstruction;
 import slogo.model.exception.MissingArgumentException;
@@ -133,6 +134,8 @@ public class CommandFactory {
       Command c = (Command) handle.invoke(this, Class.forName(command), args, queues);
       if (symbol.equals("MakeUserInstruction")) {
         myUserCommands.put(lastAddedSymbol, (MakeUserInstruction) c);
+      } else if (getNumInputs(symbol) != args.size() && getNumInputs(symbol) != -1) {
+        return new ExtendedSyntaxCommand(args, c, getNumInputs(symbol));
       }
       return c;
     } catch (Exception e) {
