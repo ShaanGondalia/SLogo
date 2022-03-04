@@ -209,10 +209,15 @@ public class Compiler {
     return new HashMap<>(commandFactory.getUserCommandStrings());
   }
 
+  // Handles building the implicit variables of a program
   private void buildImplicitVariables() {
     Value repcount = new Value();
     implicitVariables.put(":repcount", repcount);
     myVariables.put(":repcount", repcount);
+  }
+
+  public Map<String, String> getColorPaletteStrings() {
+    return commandFactory.getPalette().getStringMap();
   }
 
 }

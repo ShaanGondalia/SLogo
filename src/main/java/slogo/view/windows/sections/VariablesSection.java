@@ -1,5 +1,8 @@
 package slogo.view.windows.sections;
 
+import static slogo.view.windows.sections.DataSection.DELIMITER;
+import static slogo.view.windows.sections.DataSection.NEW_LINE;
+
 import java.util.Map;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -16,64 +19,35 @@ import slogo.model.compiler.Parser;
 import slogo.view.util.Runner;
 import slogo.view.windows.MainIDEView;
 
-/**
- * Section that displays to the user the user-defined commands and variables
- *
- * @author Andy S. He
- */
-public class VariablesAndCommandsSection implements IDESection {
+public class VariablesSection implements IDESection {
 
-  private static final String DELIMITER = ": ";
-  private static final String NEW_LINE = "\n";
   private static final String VAR_SP_ID = "var_pane";
   private static final String VAR_TF_ID = "var_text";
   private static final String VAR_STARTING_TEXT = "Variables";
-  private static final String COM_SP_ID = "com_pane";
-  private static final String COM_TF_ID = "com_text";
-  private static final String COM_STARTING_TEXT = "Commands";
+  private static final int VAR_WIDTH = 100;
+
   private static final String DIA_TITLE = "title";
   private static final String DIA_DESC = "desc";
   private static final String DIA_RESOURCES_PATH = "view.variableDialog.";
 
-  private static final int VAR_WIDTH = 100;
-  private static final int COM_WIDTH = 200;
+  private Controller myController;
+  private String myLanguage;
+  private Runner myRunner;
+  private ResourceBundle myResources;
 
   private ScrollPane variableScrollPane;
   private Text variableTextField;
   private VBox variableVBox;
 
-  private ScrollPane commandScrollPane;
-  private Text commandTextField;
-
-  private Controller myController;
-
-  private BorderPane myVarAndComSec;
-  private String myLanguage;
-  private Runner myRunner;
-  private ResourceBundle myResources;
-
-  /**
-   * Constructor for the Variables and Commands Section
-   *
-   * @param c        The controller to get the variables and commands from the model
-   * @param language The language to run the commands in
-   * @param runner   The runner to run code by clicking on elements in this section
-   */
-  public VariablesAndCommandsSection(Controller c, String language, Runner runner) {
+  public VariablesSection(Controller c, String language, Runner runner) {
     myController = c;
     myLanguage = language;
     myRunner = runner;
     myResources = ResourceBundle.getBundle(MainIDEView.IDE_RESOURCES_ROOT + language);
     setVariableSide();
-    setCommandSide();
-
-    myVarAndComSec = new BorderPane();
-    myVarAndComSec.setLeft(variableScrollPane);
-    myVarAndComSec.setRight(commandScrollPane);
   }
 
   private void setVariableSide() {
-
     variableTextField = new Text(myResources.getString(VAR_STARTING_TEXT));
     variableTextField.setId(VAR_TF_ID);
     variableVBox = new VBox();
@@ -84,16 +58,6 @@ public class VariablesAndCommandsSection implements IDESection {
     variableScrollPane.setId(VAR_SP_ID);
     variableScrollPane.setContent(variableBorderPane);
     variableScrollPane.setPrefViewportWidth(VAR_WIDTH);
-  }
-
-  private void setCommandSide() {
-    commandTextField = new Text(myResources.getString(COM_STARTING_TEXT));
-    commandTextField.setId(COM_TF_ID);
-
-    commandScrollPane = new ScrollPane();
-    commandScrollPane.setId(COM_SP_ID);
-    commandScrollPane.setContent(commandTextField);
-    commandScrollPane.setPrefViewportWidth(COM_WIDTH);
   }
 
   private void makeVariableButton(String variableName, String value) {
@@ -123,17 +87,19 @@ public class VariablesAndCommandsSection implements IDESection {
     }
   }
 
-  /**
-   * Updates the display to display the current variables and user-defined section
-   */
-  public void update() {
-    updateVariables();
-    updateUserCommands();
+  protected String getVarText() {
+    String toReturn = "";
+    Map<String, String> mapData = myController.getMapData(Controller.VARIABLE_GETTER);
+    for (String varName : mapData.keySet()) {
+      toReturn += makeVariableSetCommand(varName,
+          mapData.get(varName));
+    }
+    return toReturn;
   }
 
-  private void updateVariables() {
+  protected void updateVariables() {
     variableVBox.getChildren().clear();
-    Map<String, String> varList = myController.getMapData("variables");
+    Map<String, String> varList = myController.getMapData(Controller.VARIABLE_GETTER);
     for (String variableName : varList.keySet()) {
       makeVariableButton(variableName, varList.get(variableName));
     }
@@ -148,33 +114,6 @@ public class VariablesAndCommandsSection implements IDESection {
     return s;
   }
 
-  private void updateUserCommands() {
-    Map<String, String> commandList = myController.getMapData("userCommands");
-    String toDisplay = myResources.getString(COM_STARTING_TEXT) + NEW_LINE;
-    for (String commandName : commandList.keySet()) {
-      String commandValue = commandList.get(commandName);
-      toDisplay += commandValue;
-      toDisplay += NEW_LINE + NEW_LINE;
-    }
-    commandTextField.setText(toDisplay);
-  }
-
-  /**
-   * Allows for the writing to a file of correctly formatted syntax
-   *
-   * @return String to Write to a file
-   */
-  public String getVariableAndCommandText() {
-    String toReturn = "";
-    for (String varName : myController.getMapData("variables").keySet()) {
-      toReturn += makeVariableSetCommand(varName,
-          myController.getMapData("variables").get(varName));
-    }
-
-    toReturn += commandTextField.getText().substring(COM_STARTING_TEXT.length());
-    return toReturn;
-  }
-
   private String makeVariableSetCommand(String varName, String value) {
     ResourceBundle parserResources = ResourceBundle.getBundle(
         Parser.RESOURCES_PACKAGE + myLanguage);
@@ -184,9 +123,8 @@ public class VariablesAndCommandsSection implements IDESection {
         + NEW_LINE;
   }
 
-
   @Override
   public Region getSection() {
-    return myVarAndComSec;
+    return variableScrollPane;
   }
 }
