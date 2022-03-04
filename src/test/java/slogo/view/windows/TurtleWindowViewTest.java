@@ -34,11 +34,6 @@ class TurtleWindowViewTest extends DukeApplicationTest {
   }
 
   @Test
-  void createStage() {
-    assertTrue(true);
-  }
-
-  @Test
   void addTurtleView() {
     TurtleView tv = new TurtleView();
     Platform.runLater(() -> window.addTurtleView(tv));

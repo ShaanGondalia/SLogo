@@ -4,6 +4,7 @@ import java.awt.Dimension;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.BorderPane;
@@ -23,6 +24,7 @@ public class HelpView extends Display {
   private static final Dimension DIM = new Dimension(400, 400);
   private static final String FILE_PATH = "src/main/resources/view/reference";
   private static final String DEFAULT_CONTENT = "click a command to see help";
+  private static final String CONTENT_ID = "content";
 
   private String myContent;
   private Text myContentTextBox;
@@ -47,7 +49,7 @@ public class HelpView extends Display {
 
     ScrollPane description = new ScrollPane();
     myContentTextBox = new Text(myContent);
-
+    myContentTextBox.setId(CONTENT_ID);
     description.setContent(myContentTextBox);
     Stage stage = createStage(TITLE, DIM, borderPane, "light");
 
@@ -86,4 +88,5 @@ public class HelpView extends Display {
     }
     myContentTextBox.setText(myContent);
   }
+
 }
