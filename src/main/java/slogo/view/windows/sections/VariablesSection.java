@@ -1,7 +1,7 @@
 package slogo.view.windows.sections;
 
-import static slogo.view.windows.sections.VariablesAndCommandsSection.DELIMITER;
-import static slogo.view.windows.sections.VariablesAndCommandsSection.NEW_LINE;
+import static slogo.view.windows.sections.DataSection.DELIMITER;
+import static slogo.view.windows.sections.DataSection.NEW_LINE;
 
 import java.util.Map;
 import java.util.Optional;
@@ -19,7 +19,7 @@ import slogo.model.compiler.Parser;
 import slogo.view.util.Runner;
 import slogo.view.windows.MainIDEView;
 
-public class VariablesSection implements IDESection{
+public class VariablesSection implements IDESection {
 
   private static final String VAR_SP_ID = "var_pane";
   private static final String VAR_TF_ID = "var_text";
@@ -39,7 +39,7 @@ public class VariablesSection implements IDESection{
   private Text variableTextField;
   private VBox variableVBox;
 
-  public VariablesSection(Controller c, String language, Runner runner){
+  public VariablesSection(Controller c, String language, Runner runner) {
     myController = c;
     myLanguage = language;
     myRunner = runner;
@@ -87,7 +87,7 @@ public class VariablesSection implements IDESection{
     }
   }
 
-  protected String getVarText(){
+  protected String getVarText() {
     String toReturn = "";
     for (String varName : myController.getMapData("variables").keySet()) {
       toReturn += makeVariableSetCommand(varName,

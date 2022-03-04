@@ -1,40 +1,25 @@
 package slogo.view.windows.sections;
 
-import java.util.Map;
-import java.util.Optional;
-import java.util.ResourceBundle;
-import javafx.scene.control.Button;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.TextInputDialog;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Region;
-import javafx.scene.layout.VBox;
-import javafx.scene.text.Text;
-import slogo.Errors;
 import slogo.controller.Controller;
-import slogo.model.compiler.Parser;
 import slogo.view.util.Runner;
-import slogo.view.windows.MainIDEView;
 
 /**
  * Section that displays to the user the user-defined commands and variables
  *
  * @author Andy S. He
  */
-public class VariablesAndCommandsSection implements IDESection {
+public class DataSection implements IDESection {
 
   protected static final String DELIMITER = ": ";
   protected static final String NEW_LINE = "\n";
 
 
-
-
-
-
-
-  private BorderPane myVarAndComSec;
+  private BorderPane myDataSec;
   private VariablesSection myVarSec;
   private CommandsSection myComSec;
+  private TurtlesAndColorsSection myTAndCSec;
 
   /**
    * Constructor for the Variables and Commands Section
@@ -43,12 +28,14 @@ public class VariablesAndCommandsSection implements IDESection {
    * @param language The language to run the commands in
    * @param runner   The runner to run code by clicking on elements in this section
    */
-  public VariablesAndCommandsSection(Controller c, String language, Runner runner) {
-    myVarAndComSec = new BorderPane();
-    myVarSec = new VariablesSection(c, language,runner);
-    myComSec = new CommandsSection(c, language,runner);
-    myVarAndComSec.setLeft(myVarSec.getSection());
-    myVarAndComSec.setRight(myComSec.getSection());
+  public DataSection(Controller c, String language, Runner runner) {
+    myDataSec = new BorderPane();
+    myVarSec = new VariablesSection(c, language, runner);
+    myComSec = new CommandsSection(c, language);
+    myTAndCSec = new TurtlesAndColorsSection(c, language);
+    myDataSec.setLeft(myVarSec.getSection());
+    myDataSec.setCenter(myComSec.getSection());
+    myDataSec.setRight(myTAndCSec.getSection());
   }
 
 
@@ -61,7 +48,6 @@ public class VariablesAndCommandsSection implements IDESection {
   }
 
 
-
   /**
    * Allows for the writing to a file of correctly formatted syntax
    *
@@ -72,10 +58,8 @@ public class VariablesAndCommandsSection implements IDESection {
   }
 
 
-
-
   @Override
   public Region getSection() {
-    return myVarAndComSec;
+    return myDataSec;
   }
 }

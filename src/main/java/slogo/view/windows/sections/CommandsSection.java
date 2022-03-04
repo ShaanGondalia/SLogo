@@ -1,6 +1,6 @@
 package slogo.view.windows.sections;
 
-import static slogo.view.windows.sections.VariablesAndCommandsSection.NEW_LINE;
+import static slogo.view.windows.sections.DataSection.NEW_LINE;
 
 import java.util.Map;
 import java.util.ResourceBundle;
@@ -22,17 +22,13 @@ public class CommandsSection implements IDESection{
 
 
   private static final int COM_WIDTH = 200;
-  private String myLanguage;
-  private Runner myRunner;
   private ResourceBundle myResources;
   private ScrollPane commandScrollPane;
   private Text commandTextField;
 
   private Controller myController;
-  public CommandsSection(Controller c, String language, Runner runner){
+  public CommandsSection(Controller c, String language){
     myController = c;
-    myLanguage = language;
-    myRunner = runner;
     myResources = ResourceBundle.getBundle(MainIDEView.IDE_RESOURCES_ROOT + language);
     setCommandSide();
   }
