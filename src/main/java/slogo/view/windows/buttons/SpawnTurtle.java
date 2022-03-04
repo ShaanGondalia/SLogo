@@ -1,14 +1,29 @@
 package slogo.view.windows.buttons;
 
+import java.util.ResourceBundle;
+import slogo.model.compiler.Parser;
 import slogo.view.turtle.TurtleView;
 import slogo.view.util.ButtonUtil;
 
 public class SpawnTurtle implements IDEButton {
 
-    @Override
-    public void doAction(ButtonUtil info) {
-        TurtleView tv = new TurtleView();
-        info.c().addTurtle(tv);
-        //addTurtleView(tv);
-    }
+  private static final String COMMAND = "Tell";
+  private static final int SCALING_FACTOR = 1000;
+  private static final String DELIMITER = " ";
+  private static final String SYNTAX_1 = "[";
+  private static final String SYNTAX_2 = "]";
+
+  @Override
+  public void doAction(ButtonUtil info) {
+    ResourceBundle resourceBundle = ResourceBundle.getBundle(
+        Parser.RESOURCES_PACKAGE + info.language());
+    int NEW_ID = (int) (Math.random() * SCALING_FACTOR);
+    String command =
+        resourceBundle.getString(COMMAND).contains("|") ? resourceBundle.getString(COMMAND)
+            .split("\\|")[0] : resourceBundle.getString(COMMAND);
+
+    info.runner()
+        .runAndSave(command + DELIMITER + SYNTAX_1 + DELIMITER + NEW_ID + DELIMITER + SYNTAX_2);
+  }
+
 }
