@@ -1,6 +1,7 @@
 package slogo.view.turtle;
 
 import java.util.ArrayList;
+import javafx.scene.Group;
 import slogo.model.turtle.Turtle;
 import slogo.view.windows.TurtleWindowView;
 
@@ -14,16 +15,25 @@ public class TurtleViewManager implements PropertyChangeListener {
     private TurtleWindowView turvleViewWindow;
     private List<TurtleView> turtleViewList;
 
-    public TurtleViewManager(TurtleWindowView turvleViewWindow) {
-        this.turvleViewWindow = turvleViewWindow;
+    private Group myNode = new Group();
+
+    public TurtleViewManager(TurtleWindowView turtleViewWindow) {
+        this.turvleViewWindow = turtleViewWindow;
         turtleViewList = new ArrayList<>();
     }
 
     public TurtleView createTurtleView() {
         TurtleView tv = new TurtleView();
         turtleViewList.add(tv);
+        myNode.getChildren().add(tv.getTurtleNode());
+
+        // this line would become irrelevant
         turvleViewWindow.addTurtleView(tv);
         return tv;
+    }
+
+    public Group getNode() {
+        return myNode;
     }
 
     @Override

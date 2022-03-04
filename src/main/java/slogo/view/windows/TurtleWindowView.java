@@ -1,6 +1,7 @@
 package slogo.view.windows;
 
 import java.awt.Dimension;
+import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.layout.Pane;
@@ -33,4 +34,9 @@ public class TurtleWindowView extends Display {
       myPane.getChildren().add(tv.getTurtleNode());
   }
 
+  // use this class instead of addTurtleView, because there is no
+  // reason TurtleViewWindow needs to know what a TurtleView is
+  public void addGroup(Group group) {
+    myPane.getChildren().add(group);
+  }
 }

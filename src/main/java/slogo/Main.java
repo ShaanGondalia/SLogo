@@ -92,9 +92,13 @@ public class Main extends Application {
     Splash splashView = new CSSSplash(languageProbe.toString());
     splashView.show();
     TurtleWindowView turtleWindowView = new TurtleWindowView(splashView.toString());
-    TurtleViewManager tvm = new TurtleViewManager(turtleWindowView);
-    Controller c = new Controller(languageProbe.toString(), tvm);
-    Display mainIDEView = new MainIDEView(languageProbe.toString(), c, splashView.toString(), stage, tvm);
+    TurtleViewManager turtleViewManager = new TurtleViewManager(turtleWindowView);
+
+    // add this line, now TurtleViewManager can have a void constructor
+    //turtleWindowView.addGroup(turtleViewManager.getNode());
+
+    Controller c = new Controller(languageProbe.toString(), turtleViewManager);
+    Display mainIDEView = new MainIDEView(languageProbe.toString(), c, splashView.toString(), stage, turtleViewManager);
 
   }
 
