@@ -29,7 +29,7 @@ public class SetBkColor extends Display implements IDEButton{
         gc.setFill(cpg.getCp().getValue());
         gc.setStroke(cpg.getCp().getValue());
         gc.fillRect(0, 0, TurtleWindowView.CANVAS.getWidth(), TurtleWindowView.CANVAS.getHeight());
-        for (TurtleView tv : info.c().getTurtleViews()) {
+        for (TurtleView tv : info.tvm().getTurtleViewList()) {
             for (Trail trail : tv.getTrailHistory()) {
                 Line line = trail.getLine();
                 gc.setFill(trail.getColor());

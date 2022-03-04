@@ -1,7 +1,7 @@
 package slogo.model.turtle;
 
-import slogo.model.color.Color;
+import slogo.model.color.ColorRecord;
 
-public record PenState(boolean penDown, Color color, double thickness) {
+public record PenState(boolean penDown, ColorRecord color, double thickness) {
 
 }

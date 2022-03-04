@@ -1,5 +1,8 @@
 package slogo.model.command;
 
+import java.util.List;
+import slogo.model.exception.MissingArgumentException;
+
 /**
  * abstract class that formalizes how return values should be used
  *
@@ -25,5 +28,11 @@ public abstract class AbstractCommand implements Command {
 
   protected void setReturnValue(double val) {
     myReturnValue.setVal(val);
+  }
+
+  protected void verifyArgs(List<Value> args, int numArgs) throws MissingArgumentException {
+    if (args.size() < numArgs) {
+      throw new MissingArgumentException("NOT ENOUGH ARGS");
+    }
   }
 }

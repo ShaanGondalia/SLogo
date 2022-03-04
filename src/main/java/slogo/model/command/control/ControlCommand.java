@@ -25,13 +25,6 @@ public abstract class ControlCommand extends AbstractCommand {
     verifyArgs(args, numArgs);
   }
 
-  //Verifies that the command received the correct number of arguments.
-  private void verifyArgs(List<Value> args, int numArgs) throws MissingArgumentException {
-    if (args.size() < numArgs) {
-      throw new MissingArgumentException("NOT ENOUGH ARGS");
-    }
-  }
-
   protected void verifyCommandLists(List<Deque<Command>> lists, int numCommandLists)
       throws MissingArgumentException {
     if (lists.size() < numCommandLists) {

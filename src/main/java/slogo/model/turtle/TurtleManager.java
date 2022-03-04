@@ -14,7 +14,7 @@ import slogo.model.exception.MissingArgumentException;
  *
  * @author Jake Heller and Shaan Gondalia
  */
-public class TurtleManager {
+public class TurtleManager extends Observable<Turtle> {
 
   // maybe list or map from IDs to turtles
 
@@ -26,8 +26,13 @@ public class TurtleManager {
     myTurtles = new HashMap<>();
     followingTurtleMap = new HashMap<>();
     activeTurtle = new Turtle();
+    addTurtle(activeTurtle);
     myTurtles.put((double) 0, activeTurtle);
     followingTurtleMap.put((double) 0, true);
+  }
+
+  private void addTurtle(Turtle turtle) {
+    notifyListeners("Add Turtle", null, turtle);
   }
 
   /**
@@ -84,6 +89,7 @@ public class TurtleManager {
     for (Value id : ids) {
       if (!myTurtles.containsKey(id.getVal())) {
         Turtle turtle = new Turtle();
+        addTurtle(turtle);
         myTurtles.put(id.getVal(), turtle);
       }
       followingTurtleMap.put(id.getVal(), true);

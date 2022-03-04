@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import slogo.model.color.ColorRecord;
 
 /**
  * Tests for Turtle class
@@ -65,4 +66,16 @@ public class TurtleTest {
     assertEquals(0, myTurtle.getPose().x(), EPSILON);
   }
 
+  @Test
+  void testColorListener() {
+    TestListener listener = new TestListener();
+    myTurtle.addListener(listener);
+    myTurtle.move(20);
+    TurtleStatus status = (TurtleStatus) listener.getChange().getNewValue();
+    assertEquals(status.penState().color().toString(), "#000000");
+
+    myTurtle.setPenColor(new ColorRecord(50, 0, 0));
+    status = (TurtleStatus) listener.getChange().getNewValue();
+    assertEquals(status.penState().color().toString(), "#320000");
+  }
 }
