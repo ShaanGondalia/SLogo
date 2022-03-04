@@ -18,7 +18,7 @@ import slogo.view.windows.buttons.IDEButtonFactory;
 public class ButtonSection implements IDESection {
 
   private static final String BUTTON_SECTION_ID = "button_sec";
-  private static final String RESOURCE_PREFIX = "view.buttons.";
+  public static final String RESOURCE_PREFIX = "view.buttons.";
 
   private TilePane myTilePane;
   private ResourceBundle myResources;
@@ -39,7 +39,7 @@ public class ButtonSection implements IDESection {
     IDEButtonFactory factory = new IDEButtonFactory();
     for (String button : myResources.keySet()) {
       myTilePane.getChildren()
-          .add(factory.createButton(new ButtonUtil(button, c, myResources, histSec, textSec, userDefinedSection, runner, tvm)));
+          .add(factory.createButton(new ButtonUtil(button, c, language, histSec, textSec, userDefinedSection, runner, tvm)));
     }
   }
 
