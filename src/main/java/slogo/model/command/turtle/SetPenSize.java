@@ -7,6 +7,9 @@ import slogo.model.exception.MissingArgumentException;
 import slogo.model.turtle.PenState;
 import slogo.model.turtle.Turtle;
 
+/**
+ * @author Jake Heller
+ */
 public class SetPenSize extends TurtleCommand {
 
   public static final int NUM_ARGS = 1;
