@@ -18,7 +18,6 @@ public class SetPalette extends ColorPaletteCommand {
 
   public SetPalette(ColorPalette palette, List<Value> args) throws MissingArgumentException {
     super(palette, args, NUM_ARGS);
-    System.out.println(args);
   }
 
   @Override

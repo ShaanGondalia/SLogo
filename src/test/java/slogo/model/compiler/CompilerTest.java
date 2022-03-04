@@ -55,6 +55,18 @@ public class CompilerTest {
   private static final String DISPLAY_PROGRAM = "setpalette 3 0 200 255";
   private static final String EXTENDED_SYNTAX_PROGRAM = "fd ( sum 10 20 30 40 )";
   private static final String EXTENDED_SYNTAX_COMPLEX_PROGRAM = "setxy ( setxy 0 20 300 20 300 220 ) 15";
+  private static final String PARAM_PROGRAM = "to paramTest [ :a :b :c ]\n"
+      + "[ set :d sum :a :b ]\n"
+      + "\n"
+      + "set :a 1\n"
+      + "set :b 2\n"
+      + "set :c 3\n"
+      + "\n"
+      + "set :e 4\n"
+      + "set :f 5\n"
+      + "set :g 6\n"
+      + "\n"
+      + "paramTest [ :e :f :g ]";
 
 
   private static final String LANGUAGE = "English";
@@ -182,6 +194,11 @@ public class CompilerTest {
     run(compiler.compile(EXTENDED_SYNTAX_COMPLEX_PROGRAM));
     assertEquals(520, myTurtleManager.getFollowingTurtles().get(0).getPose().x());
     assertEquals(15, myTurtleManager.getFollowingTurtles().get(0).getPose().y());
+  }
+
+  @Test
+  void testParamProgram() throws Exception {
+    run(compiler.compile(PARAM_PROGRAM));
   }
 
   private void run(Deque<Deque<Command>> q) throws MissingArgumentException {

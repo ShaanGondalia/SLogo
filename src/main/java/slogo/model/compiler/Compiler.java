@@ -67,6 +67,7 @@ public class Compiler {
         // int numInputs = getNumInputs(pendingCommand);
         int numInputs = activeContext.numberNewValues(); // Not sure if this works
         if (pendingCommand.equals("MakeUserInstruction")) {
+          System.out.printf("%s: %d \n", waitingUserCommandName, numInputs);
           commandFactory.makeUserCommand(waitingUserCommandName, numInputs);
         }
         activeContext.resolveCommand(commandFactory, numInputs);

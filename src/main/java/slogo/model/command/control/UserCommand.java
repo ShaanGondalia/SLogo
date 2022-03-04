@@ -29,11 +29,6 @@ public class UserCommand extends ControlCommand {
     if (myActualParameters.size() != myFormalParameters.size()) {
       throw new MissingArgumentException();
     }
-    for (int i = 0; i < myFormalParameters.size(); i++) {
-      Value formal = myFormalParameters.get(i);
-      Value actual = myActualParameters.get(i);
-      formal.setVal(actual.getVal());
-    }
   }
 
   private void copyToActual() {
@@ -44,8 +39,17 @@ public class UserCommand extends ControlCommand {
     }
   }
 
+  private void copyActualToFormal() {
+    for (int i = 0; i < myFormalParameters.size(); i++) {
+      Value formal = myFormalParameters.get(i);
+      Value actual = myActualParameters.get(i);
+      formal.setVal(actual.getVal());
+    }
+  }
+
   @Override
   public Value execute(Turtle turtle) throws MissingArgumentException {
+    copyActualToFormal();
     if (myActualParameters == null) {
       throw new MissingArgumentException();
     }
