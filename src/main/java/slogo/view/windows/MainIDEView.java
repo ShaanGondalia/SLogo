@@ -24,26 +24,26 @@ public class MainIDEView extends Display {
   private static final String ROOT_ID = "root";
   public static final String IDE_RESOURCES_ROOT = "view.defaultIdeText.";
 
-
   private BorderPane myPane;
 
   public MainIDEView(String language, Controller c, String css, Stage stage, TurtleViewManager tvm) {
     myPane = new BorderPane();
     myPane.setId(ROOT_ID);
+
     Runner runner = new Runner();
-    IDESection variablesSection = new DataSection(c, language, runner);
+    IDESection dataSection = new DataSection(c, language, runner);
     IDESection textSection = new TextSection();
     IDESection historySection = new HistorySection(runner, language);
 
-    runner.setParameters(c, (DataSection) variablesSection,
+    runner.setParameters(c, (DataSection) dataSection,
         (HistorySection) historySection);
     IDESection buttonSection = new ButtonSection(language, c, (HistorySection) historySection,
-        (TextSection) textSection, (DataSection) variablesSection, runner, tvm);
+        (TextSection) textSection, (DataSection) dataSection, runner, tvm);
 
     myPane.setBottom(buttonSection.getSection());
     myPane.setRight(historySection.getSection());
     myPane.setCenter(textSection.getSection());
-    myPane.setLeft(variablesSection.getSection());
+    myPane.setLeft(dataSection.getSection());
 
     stage = createStage(TITLE, MAIN_SIZE, myPane, css);
     stage.show();

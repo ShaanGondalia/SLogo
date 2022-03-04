@@ -1,13 +1,20 @@
 package slogo.view.windows;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import com.sun.javafx.scene.control.LabeledText;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextInputControl;
 import javafx.stage.Stage;
 import org.junit.jupiter.api.Test;
 import slogo.controller.Controller;
 import slogo.view.turtle.TurtleViewManager;
+import slogo.view.windows.sections.ButtonSection;
+import slogo.view.windows.sections.DataSection;
+import slogo.view.windows.sections.HistorySection;
+import slogo.view.windows.sections.TextSection;
 import util.DukeApplicationTest;
 
 /**
@@ -29,17 +36,23 @@ class MainIDEViewTest extends DukeApplicationTest {
   }
 
   @Test
-  void createStage() {
-    assertTrue(true);
+  void rawCommandText() {
+    String toWrite = "fd 50";
+    TextInputControl area = lookup("#textArea").query();
+    clickOn(area).write(toWrite);
+    clickOn(lookup("run").query());
+    Button b = lookup("fd 50").query();
+    assertEquals(b.getText(), "fd 50");
   }
 
-//  @Test
-//  void rawCommandText() {
-//    String toWrite = "fd 50";
-//    TextInputControl area = lookup("#textArea").query();
-//
-//    clickOn(area).write(toWrite);
-//    assertTrue(main.getRawCommandText().equals("fd 50"));
-//  }
+  @Test
+  void setVariable(){
+    String toWrite = "set :rr 40";
+    TextInputControl area = lookup("#textArea").query();
+    clickOn(area).write(toWrite);
+    clickOn(lookup("run").query());
+    Button b = lookup("rr: 40.00\n").query();
+    assertEquals(b.getText(), "rr: 40.00\n");
+  }
 
 }
