@@ -13,18 +13,13 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  */
 class CSSSplashTest extends DukeApplicationTest {
 
-  CSSSplash window;
+  private CSSSplash window;
 
   @Override
   public void start(Stage stage) {
     window = new CSSSplash("English");
     stage.setScene(window.getMyScene());
     stage.show();
-  }
-
-  @Test
-  void createStage() {
-    assertTrue(true);
   }
 
   @Test
