@@ -17,7 +17,6 @@ import java.util.regex.Pattern;
 public class Parser {
 
   public static final String NO_MATCH = "NO MATCH";
-  public static final String COMMENT = "^#.*";
 
   // where to find resources specifically for this class
   public static final String RESOURCES_PACKAGE = "slogo.languages.";
@@ -26,15 +25,11 @@ public class Parser {
   // note, it is a list because order matters (some patterns may be more generic)
   private List<Entry<String, Pattern>> mySymbols;
 
-  private final ResourceBundle exceptionResources;
-
-
   /**
    * Create an empty parser
    */
   public Parser(String language) {
     reset();
-    exceptionResources = ResourceBundle.getBundle(EXCEPTION_RESOURCES + language);
     addPatterns(language);
   }
 
@@ -59,15 +54,18 @@ public class Parser {
   public String removeComments(String program) {
     StringBuilder finalProgram = new StringBuilder();
     for (String line : program.split("\n")) {
-      for (Entry<String, Pattern> e : mySymbols) {
-        if (e.getKey().equals("Comment")) {
-          if (!match(line, e.getValue())) {
-            finalProgram.append(line).append(" ");
-          }
-        }
-      }
+      checkIfLineIsComment(finalProgram, line);
     }
     return finalProgram.toString();
+  }
+
+  // Checks if a line is a comment. If not, the line is added to the final program
+  private void checkIfLineIsComment(StringBuilder finalProgram, String line) {
+    for (Entry<String, Pattern> e : mySymbols) {
+      if (e.getKey().equals("Comment") && !match(line, e.getValue())) {
+        finalProgram.append(line).append(" ");
+      }
+    }
   }
 
   /**

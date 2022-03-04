@@ -15,6 +15,7 @@ public class DoTimes extends ControlCommand {
 
   private static final int NUM_ARGS = 2;
   private static final int NUM_LISTS = 1;
+  private static final double LOOP_ADJUST = 0.5;
   private final Command myFor;
 
   public DoTimes(List<Value> args, List<Deque<Command>> lists)
@@ -24,7 +25,7 @@ public class DoTimes extends ControlCommand {
 
     Value start = new Value(1);
     Value end = new Value(
-        args.get(1).getVal() + 0.5); // 0.5 to ensure that loop gets run correct number of times
+        args.get(1).getVal() + LOOP_ADJUST); // 0.5 to ensure that loop gets run correct number of times
     Value increment = new Value(1);
 
     List<Value> forArgs = new ArrayList<>();

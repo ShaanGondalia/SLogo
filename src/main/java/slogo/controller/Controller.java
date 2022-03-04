@@ -12,20 +12,20 @@ import slogo.model.exception.MissingArgumentException;
 import slogo.model.turtle.Turtle;
 import slogo.model.turtle.TurtleManager;
 import slogo.view.turtle.TurtleView;
+import slogo.view.turtle.TurtleViewManager;
 
 public class Controller {
 
   private Compiler myCompiler;
   private TurtleManager myTurtleManager;
   private List<Turtle> myTurtles;
-  private List<TurtleView> myTurtleViews;
   private Map<String, MapGetter<String, String>> myMapGetters;
 
-  public Controller(String lan) {
+  public Controller(String lan, TurtleViewManager turtleViewManager) {
     myTurtleManager = new TurtleManager();
+    myTurtleManager.addListener((PropertyChangeListener) turtleViewManager);
     myCompiler = new Compiler(lan, myTurtleManager);
     myTurtles = new ArrayList<>();
-    myTurtleViews = new ArrayList<>();
     myMapGetters = new HashMap<>();
     myMapGetters.put("variables", () -> myCompiler.getVariables());
     myMapGetters.put("userCommands", () -> myCompiler.getUserCommandStrings());
@@ -42,7 +42,6 @@ public class Controller {
   }
 
   public void addTurtle(PropertyChangeListener turtleView) {
-    myTurtleViews.add((TurtleView) turtleView);
     Turtle turtle = new Turtle();
     myTurtles.add(turtle);
     turtle.addListener(turtleView);
@@ -61,7 +60,4 @@ public class Controller {
     return myMapGetters.getOrDefault(dataName, myMapGetters.get("default")).getMap();
   }
 
-  public List<TurtleView> getTurtleViews() {
-    return myTurtleViews;
-  }
 }

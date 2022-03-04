@@ -12,21 +12,26 @@ public class Runner {
   private HistorySection myHistorySection;
 
   public void setParameters(Controller c, VariablesAndCommandsSection userDefinedSection,
-      HistorySection historySection){
+      HistorySection historySection) {
     myController = c;
     myUserDefinedSection = userDefinedSection;
     myHistorySection = historySection;
   }
 
   public void runAndSave(String program) {
+    if (runQuietly(program)) {
+      myHistorySection.setNewHistory(program);
+    }
+  }
+
+  public boolean runQuietly(String program) {
     try {
       myController.runText(program);
-    }
-    catch (Exception e){
+    } catch (Exception e) {
       Errors.showError(e.getMessage());
-      return;
+      return false;
     }
     myUserDefinedSection.update();
-    myHistorySection.setNewHistory(program);
+    return true;
   }
 }

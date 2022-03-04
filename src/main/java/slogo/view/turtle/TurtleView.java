@@ -19,11 +19,9 @@ import javafx.util.Duration;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Queue;
+import java.util.*;
 
+import slogo.model.turtle.PenState;
 import slogo.model.turtle.Pose;
 import slogo.model.turtle.TurtleStatus;
 import slogo.view.util.Coordinate;
@@ -41,15 +39,17 @@ import slogo.view.windows.TurtleWindowView;
  */
 public class TurtleView implements PropertyChangeListener  {
 
-    private static double centerX = TurtleWindowView.WIDTH / 2;
-    private static double centerY = TurtleWindowView.HEIGHT / 2;
-    private static Matrix ctm = new Matrix(1, 0, centerX, 0, -1, centerY);
+    private static final double CENTER_X = TurtleWindowView.WIDTH / 2;
+    private static final double CENTER_Y = TurtleWindowView.HEIGHT / 2;
+    private static final Matrix ctm = new Matrix(1, 0, CENTER_X, 0, -1, CENTER_Y);
+
+    private static Map<String, TurtleConsumer> ACTION_MAP;
     private Coordinate origin = ctm.mapPoint(new Coordinate(0, 0));
     private Image turtleImage;
     private Image invisibleTurtle;
     private ImageView turtleNode;
     private List<Trail> trailHistory;
-    private GraphicsContext gc;
+    private GraphicsContext graphicsContext;
     private Queue<TurtleAnimation> animationQueue = new LinkedList<>();
     private boolean isAnimating = false;
     private double epsilon = 0.001;
@@ -66,13 +66,14 @@ public class TurtleView implements PropertyChangeListener  {
         turtleNode.setX(origin.x() - turtleImage.getWidth()/2);
         turtleNode.setY(origin.y() - turtleImage.getHeight()/2);
         trailHistory = new ArrayList<>();
-        gc = TurtleWindowView.CANVAS.getGraphicsContext2D();
-        gc.setLineWidth(thickness);
-        gc.setFill(trailColor);
-        gc.setStroke(trailColor);
+        graphicsContext = TurtleWindowView.CANVAS.getGraphicsContext2D();
+        graphicsContext.setLineWidth(thickness);
+        graphicsContext.setFill(trailColor);
+        graphicsContext.setStroke(trailColor);
+        instantiateLambdaMap();
     }
 
-    private Animation makeAnimation(Pose oldPose, Pose newPose, boolean penDown) {
+    private Animation makeAnimation(Pose oldPose, Pose newPose, PenState penState) {
         Coordinate start = ctm.mapPoint(new Coordinate(oldPose.x(), oldPose.y()));
         Coordinate end = ctm.mapPoint(new Coordinate(newPose.x(), newPose.y()));
 
@@ -87,7 +88,7 @@ public class TurtleView implements PropertyChangeListener  {
         double deltaS = normSquared(oldPose, newPose);
         PathTransition pt = new PathTransition(Duration.seconds(pathSpeed * Math.sqrt(deltaS)), path, turtleNode);
 
-        if (penDown && deltaS > epsilon) realTimeTrailAnimation(pt, start, end);
+        if (penState.penDown() && deltaS > epsilon) realTimeTrailAnimation(pt, penState, start, end);
 
         SequentialTransition st = new SequentialTransition(turtleNode);
         if (deltaS < epsilon) st.getChildren().add(rt);
@@ -95,17 +96,21 @@ public class TurtleView implements PropertyChangeListener  {
         return st;
     }
 
-    private void realTimeTrailAnimation(PathTransition pt, Coordinate start, Coordinate end) {
-        trailHistory.add(new Trail(new Line(start.x(), start.y(), end.x(), end.y()), trailColor));
+    private void realTimeTrailAnimation(PathTransition pt, PenState ps, Coordinate start, Coordinate end) {
+        trailHistory.add(new Trail(new Line(start.x(), start.y(), end.x(), end.y()), Color.web(ps.color().toString()), ps.thickness()));
         pt.currentTimeProperty().addListener(new ChangeListener<Duration>() {
+            Color color = Color.web(ps.color().toString());
+            double thickness = ps.thickness();
             double prevX = start.x();
             double prevY = start.y();
 
             @Override
             public void changed(ObservableValue<? extends Duration> observableValue, Duration duration, Duration t1) {
+                graphicsContext.setStroke(color);
+                graphicsContext.setLineWidth(thickness);
                 double x = turtleNode.getTranslateX();
                 double y = turtleNode.getTranslateY();
-                if (validTransitionStroke(prevX, x, prevY, y)) gc.strokeLine(prevX + centerX, prevY + centerY, x + centerX, y + centerY);
+                if (validTransitionStroke(prevX, x, prevY, y)) graphicsContext.strokeLine(prevX + CENTER_X, prevY + CENTER_Y, x + CENTER_X, y + CENTER_Y);
                 prevX = x;
                 prevY = y;
             }
@@ -145,6 +150,36 @@ public class TurtleView implements PropertyChangeListener  {
         else turtleNode.setImage(invisibleTurtle);
     }
 
+    private static void instantiateLambdaMap() {
+        ACTION_MAP = new HashMap<>();
+        ACTION_MAP.put("Pose", (turtle, evt) -> turtle.changePose(evt));
+        ACTION_MAP.put("Visibility", (turtle, evt) -> turtle.changeVisibility(evt));
+        ACTION_MAP.put("Clear", (turtle, evt) -> turtle.changeClear(evt));
+        ACTION_MAP.put("Default", (turtle, evt) -> {});
+    }
+
+    private void changePose(PropertyChangeEvent evt) {
+        TurtleStatus oldT = (TurtleStatus) evt.getOldValue();
+        TurtleStatus newT = (TurtleStatus) evt.getNewValue();
+        System.out.println(newT.penState().color().toString());
+        Animation anim = makeAnimation(oldT.pose(), newT.pose(), newT.penState());
+        anim.setOnFinished(finish -> handleAnimationQueue());
+        animationQueue.add(new TurtleAnimation(anim, newT.visibility()));
+        if (!isAnimating) handleAnimation();
+    }
+
+    private void changeVisibility(PropertyChangeEvent evt) {
+        TurtleStatus newT = (TurtleStatus) evt.getNewValue();
+        handleTurtleImage(newT.visibility());
+    }
+
+    private void changeClear(PropertyChangeEvent evt) {
+        trailHistory = new ArrayList<>();
+        graphicsContext.setFill(Color.WHITE);
+        graphicsContext.fillRect(0, 0, TurtleWindowView.CANVAS.getWidth(), TurtleWindowView.CANVAS.getHeight());
+    }
+
+
     /**
      * Listens to changes in the backend turtle and reflects those changes in an animated manner
      * Turtles get animated from the old pose to a new pose
@@ -154,17 +189,7 @@ public class TurtleView implements PropertyChangeListener  {
      */
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        TurtleStatus oldT = (TurtleStatus) evt.getOldValue();
-        TurtleStatus newT = (TurtleStatus) evt.getNewValue();
-        if (normSquared(oldT.pose(), newT.pose()) > epsilon || Math.abs(changeInBearing(oldT.pose(), newT.pose())) > epsilon) {
-            Animation anim = makeAnimation(oldT.pose(), newT.pose(), newT.penDown());
-            anim.setOnFinished(finish -> handleAnimationQueue());
-            animationQueue.add(new TurtleAnimation(anim, newT.visibility()));
-            if (!isAnimating) handleAnimation();
-        }
-        else if (oldT.visibility() ^ newT.visibility()) {
-            handleTurtleImage(newT.visibility());
-        }
+        ACTION_MAP.getOrDefault(evt.getPropertyName(), ACTION_MAP.get("Default")).accept(this, evt);
     }
 
     /**
@@ -181,8 +206,8 @@ public class TurtleView implements PropertyChangeListener  {
      */
     public void setTrailColor(Color color) {
         trailColor = color;
-        gc.setFill(trailColor);
-        gc.setStroke(trailColor);
+        graphicsContext.setFill(trailColor);
+        graphicsContext.setStroke(trailColor);
     }
 
     /**

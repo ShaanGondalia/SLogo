@@ -14,6 +14,9 @@ import slogo.model.turtle.Turtle;
 public class SetTowards extends TurtleCommand {
 
   private static final int NUM_ARGS = 2;
+  private static final double ROTATION_X_POS = 90;
+  private static final double ROTATION_X_NEG = 270;
+  private static final double QUADRANT_III_IV_ADJUST = 180;
   private final Value x;
   private final Value y;
   private double degrees;
@@ -59,16 +62,14 @@ public class SetTowards extends TurtleCommand {
 
     // division by 0
     if (Math.abs(deltaY) < Main.TOLERANCE) {
-      newBearing = (deltaX > 0 ? 90 : 270); // either 90 or 270
+      newBearing = (deltaX > 0 ? ROTATION_X_POS : ROTATION_X_NEG); // either 90 or 270
     } else {
       double radsFromVertical = Math.atan((deltaX) / (deltaY));
       double degreesFromVertical = Math.toDegrees(radsFromVertical);
       newBearing = getNewBearing(degreesFromVertical, deltaX, deltaY);
     }
 
-    double degreesToTurn = newBearing - turtle.getPose().bearing();
-
-    return degreesToTurn;
+    return newBearing - turtle.getPose().bearing();
   }
 
   // Gets the new bearing of the turtle given the degrees from vertical and delta x and y
@@ -76,7 +77,7 @@ public class SetTowards extends TurtleCommand {
     if (deltaY >= 0) { // quadrant 1 and 2
       return degreesFromVertical;
     } else { // quadrant 3 and 4
-      return 180 + degreesFromVertical;
+      return QUADRANT_III_IV_ADJUST + degreesFromVertical;
     }
   }
 }

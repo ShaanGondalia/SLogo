@@ -53,6 +53,11 @@ public class Value implements Comparable<Value> {
     return (int) Math.round(val);
   }
 
+  /**
+   * Return whether the value of this object is equal to the value of the parameter
+   * @param a the value to compare to
+   * @return whether the value of this object is equal to the value of the parameter
+   */
   public boolean equals(Value a) {
     return (Math.abs(a.getVal() - val) < TOLERANCE);
   }

@@ -100,18 +100,20 @@ public class Context {
     if (previousContext.getResolvedCommands().isEmpty()) {
       values.addAll(previousContext.getValues());
     } else {
-      // Add resolved commands of list to lists in outer context
-      Deque<Command> commandDeque = new LinkedList<>();
-      for (Command c : previousContext.getResolvedCommands()) {
-        if (c != null) {
-          commandDeque.add(c);
-        }
-      }
-      lists.push(commandDeque);
+      addResolvedCommands(previousContext);
     }
   }
 
-  public Deque<Deque<Command>> getResolvedCommandQueues() {
-    return resolvedCommandQueues;
+  // Add resolved commands of a list to lists in outer context
+  private void addResolvedCommands(Context previousContext) {
+    Deque<Command> commandDeque = new LinkedList<>();
+    for (Command c : previousContext.getResolvedCommands()) {
+      // Removes null commands that are inserted to delimit resolved commands
+      if (c != null) {
+        commandDeque.add(c);
+      }
+    }
+    lists.push(commandDeque);
   }
+
 }

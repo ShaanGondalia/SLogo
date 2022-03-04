@@ -24,12 +24,5 @@ public abstract class BooleanOperation extends AbstractCommand {
     super();
     verifyArgs(args, numArgs);
   }
-
-  //Verifies that the command received the correct number of arguments.
-  private void verifyArgs(List<Value> args, int numArgs) throws MissingArgumentException {
-    if (args.size() < numArgs) {
-      throw new MissingArgumentException("NOT ENOUGH ARGS");
-    }
-  }
 }
 

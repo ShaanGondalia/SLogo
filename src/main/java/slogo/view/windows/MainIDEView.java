@@ -4,6 +4,7 @@ import java.awt.Dimension;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import slogo.controller.Controller;
+import slogo.view.turtle.TurtleViewManager;
 import slogo.view.util.Runner;
 import slogo.view.windows.sections.ButtonSection;
 import slogo.view.windows.sections.HistorySection;
@@ -21,22 +22,23 @@ public class MainIDEView extends Display {
   private static final String TITLE = "SLOGO TEAM 3";
   private static final Dimension MAIN_SIZE = new Dimension(700, 400);
   private static final String ROOT_ID = "root";
+  public static final String IDE_RESOURCES_ROOT = "view.defaultIdeText.";
 
 
   private BorderPane myPane;
 
-  public MainIDEView(String language, Controller c, String css, Stage stage) {
+  public MainIDEView(String language, Controller c, String css, Stage stage, TurtleViewManager tvm) {
     myPane = new BorderPane();
     myPane.setId(ROOT_ID);
     Runner runner = new Runner();
     IDESection variablesSection = new VariablesAndCommandsSection(c, language, runner);
     IDESection textSection = new TextSection();
-    IDESection historySection = new HistorySection(runner);
+    IDESection historySection = new HistorySection(runner, language);
 
     runner.setParameters(c, (VariablesAndCommandsSection) variablesSection,
         (HistorySection) historySection);
     IDESection buttonSection = new ButtonSection(language, c, (HistorySection) historySection,
-        (TextSection) textSection, (VariablesAndCommandsSection) variablesSection, runner);
+        (TextSection) textSection, (VariablesAndCommandsSection) variablesSection, runner, tvm);
 
     myPane.setBottom(buttonSection.getSection());
     myPane.setRight(historySection.getSection());

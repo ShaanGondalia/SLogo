@@ -17,7 +17,6 @@ public class IsPenDown extends TurtleQuery {
   /**
    * Creates a IsPenDown command attached to the given Turtle.
    *
-   * @param turtle the Turtle that is attached to this command
    * @param args   the arguments that the command takes
    * @throws MissingArgumentException if the list of arguments does not contain enough arguments
    */
@@ -33,7 +32,7 @@ public class IsPenDown extends TurtleQuery {
    */
   @Override
   public Value execute(Turtle turtle) throws MissingArgumentException {
-    double val = turtle.getStatus().penDown() ? 1.0 : 0.0;
+    double val = turtle.getStatus().penState().penDown() ? 1.0 : 0.0;
     setReturnValue(val);
     return returnValue();
   }
