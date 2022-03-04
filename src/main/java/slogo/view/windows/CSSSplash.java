@@ -20,7 +20,7 @@ import slogo.view.util.OptionGenerator;
  */
 public class CSSSplash extends Splash {
 
-  private static final String TITLE = "Choose CSS";
+  private static final String TITLE = "css";
   private static final Dimension SIZE = new Dimension(200, 200);
   private static final Set<String> IMPLEMENTED = Set.of("light", "dark");
   private static final String SPLASH_TYPE = "CSS";
@@ -37,8 +37,9 @@ public class CSSSplash extends Splash {
    */
   public CSSSplash(String language) {
     myResources = ResourceBundle.getBundle(RESOURCE_PREFIX + language);
+    ResourceBundle titles = ResourceBundle.getBundle(Display.TITLES_RESOURCES_PATH + language);
     myStage = new Stage();
-    myStage = createStage(myStage, TITLE, SIZE,
+    myStage = createStage(myStage, titles.getString(TITLE), SIZE,
         makeOptions(new OptionGenerator(myStage, myResources, SPLASH_TYPE, IMPLEMENTED)),
         DEFAULT_SPLASH_CSS);
   }
