@@ -1,5 +1,7 @@
 package slogo.model.compiler;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.Deque;
 import java.util.EmptyStackException;
 import java.util.HashMap;
@@ -24,8 +26,10 @@ public class Compiler {
 
   public static final String WHITESPACE = "\\s+";
   private static final String EXCEPTION_RESOURCES = "model.exception.";
-  private final TurtleManager myTurtleManager;
+  private static final String HANDLER_RESOURCES = "model.Handler";
+
   private final ResourceBundle exceptionResources;
+  private final ResourceBundle handlerResources;
   private final Parser myParser;
   private final Map<String, Value> myVariables;
   private final CommandFactory commandFactory;
@@ -39,12 +43,12 @@ public class Compiler {
    */
   public Compiler(String language, TurtleManager turtleManager) {
     exceptionResources = ResourceBundle.getBundle(EXCEPTION_RESOURCES + language);
+    handlerResources = ResourceBundle.getBundle(HANDLER_RESOURCES);
     myParser = new Parser(language);
     myParser.addPatterns(language);
     myParser.addPatterns("Syntax");
     myVariables = new LinkedHashMap<>(); // linked hashmap preserves insertion order for display
     commandFactory = new CommandFactory(language, turtleManager);
-    myTurtleManager = turtleManager;
   }
 
   /**
@@ -60,38 +64,52 @@ public class Compiler {
       handleToken(token);
       while (canBeResolved()) {
         String pendingCommand = activeContext.getPendingCommands().pop();
-        int numInputs = commandFactory.getNumInputs(pendingCommand);
-        if (numInputs == -1) {
-          numInputs = activeContext.getValues().size() - activeContext.getValuesBefore().peek();
-        }
+        int numInputs = getNumInputs(pendingCommand);
         if (pendingCommand.equals("MakeUserInstruction")) {
-          commandFactory.makeCommand(waitingUserCommandName, numInputs);
+          commandFactory.makeUserCommand(waitingUserCommandName, numInputs);
         }
-
-        activeContext.getValuesBefore().pop();
-        activeContext.getListsBefore().pop();
-        Command command = commandFactory.getCommand(pendingCommand, activeContext.getValues(),
-            activeContext.getLists(), numInputs);
-        activeContext.getValues().add(command.returnValue());
-        if (!activeContext.getLists().empty()) {
-          activeContext.getLists().peek().addLast(command);
-        } else {
-          activeContext.getResolvedCommands().addLast(command);
-        }
-        if (activeContext.getPendingCommands().isEmpty()) {
-          activeContext.getValues().clear();
-          activeContext.getResolvedCommands().add(null);
-        }
+        resolveCommandInContext(pendingCommand, numInputs);
       }
     }
+    checkPendingCommandsEmpty();
+    commandFactory.addUserDefinedCommandStrings(program, myParser);
+    return constructResolvedCommandQueues();
+  }
+
+  // Throws an error if there are pending commands after the compiler loop ends
+  private void checkPendingCommandsEmpty() throws MissingArgumentException {
     if (!activeContext.getPendingCommands().empty()) {
       throw new MissingArgumentException(
           String.format(exceptionResources.getString("MissingArgument"),
               activeContext.getPendingCommands().peek()));
     }
-    commandFactory.addUserDefinedCommandStrings(program, myParser);
+  }
 
-    return constructResolvedCommandQueues();
+  // Builds and resolves a command's parameters in the active context.
+  private void resolveCommandInContext(String pendingCommand, int numInputs)
+      throws MissingArgumentException, SymbolNotFoundException {
+    activeContext.getValuesBefore().pop();
+    activeContext.getListsBefore().pop();
+    Command command = commandFactory.getCommand(pendingCommand, activeContext.getValues(),
+        activeContext.getLists(), numInputs);
+    activeContext.getValues().add(command.returnValue());
+    if (!activeContext.getLists().empty()) {
+      activeContext.getLists().peek().addLast(command);
+    } else {
+      activeContext.getResolvedCommands().addLast(command);
+    }
+    if (activeContext.getPendingCommands().isEmpty()) {
+      activeContext.getValues().clear();
+      activeContext.getResolvedCommands().add(null);
+    }
+  }
+
+  private int getNumInputs(String pendingCommand) throws SymbolNotFoundException {
+    int numInputs = commandFactory.getNumInputs(pendingCommand);
+    if (numInputs == -1) {
+      numInputs = activeContext.getValues().size() - activeContext.getValuesBefore().peek();
+    }
+    return numInputs;
   }
 
   //Returns true if the pending command can be resolved
@@ -106,7 +124,6 @@ public class Compiler {
     return numInputs <= activeContext.getValues().size() - activeContext.getValuesBefore().peek()
         && commandFactory.getNumListInputs(activeContext.getPendingCommands().peek())
         <= activeContext.getLists().size() - activeContext.getListsBefore().peek();
-
   }
 
   // Returns a queue of queues of commands. Each inner queue represents a chunk of commands that
@@ -135,27 +152,21 @@ public class Compiler {
     inactiveContexts = new Stack<>();
   }
 
-
+  // Handles a token
   private void handleToken(String token) throws SymbolNotFoundException {
     String symbol = myParser.getSymbol(token);
-    // TODO: Replace this conditional chain with reflective method calls
     if (commandFactory.isCommand(symbol)) {
       handleCommand(symbol);
-    } else if (symbol.equals("Constant")) {
-      activeContext.getValues().push(new Value(Double.parseDouble(token)));
-    } else if (symbol.equals("Variable")) {
-      handleVariable(token);
-    } else if (symbol.equals("UserCommand")) {
-      handleUserCommand(token);
-    } else if (symbol.equals("ListStart")) {
-      swapContext();
-    } else if (symbol.equals("ListEnd")) {
-      resolveContext();
     } else {
-      throw new SymbolNotFoundException(
-          String.format(exceptionResources.getString("SymbolNotFound"), token));
+      try {
+        String handlerMethod = handlerResources.getString(symbol);
+        Method handle = Compiler.class.getDeclaredMethod(handlerMethod, String.class);
+        handle.invoke(this, token);
+      } catch (Exception e) {
+          throw new SymbolNotFoundException(
+              String.format(exceptionResources.getString("SymbolNotFound"), token));
+      }
     }
-
   }
 
   // Handles what happens when a command is detected by the parser
@@ -165,7 +176,12 @@ public class Compiler {
     activeContext.getListsBefore().push(activeContext.getLists().size());
   }
 
-  // Handles what happens when a variable is detected by the parser
+  // Handles what happens when a constant is detected by the parser. Called with reflection
+  private void handleConstant(String token) {
+    activeContext.getValues().push(new Value(Double.parseDouble(token)));
+  }
+
+  // Handles what happens when a variable is detected by the parser. Called with reflection
   private void handleVariable(String value) {
     if (!myVariables.containsKey(value)) {
       myVariables.put(value, new Value());
@@ -173,7 +189,7 @@ public class Compiler {
     activeContext.getValues().push(myVariables.get(value));
   }
 
-  // Handles what happens when a user command is detected by the parser
+  // Handles what happens when a user command is detected by the parser. Called with reflection
   private void handleUserCommand(String token) throws SymbolNotFoundException {
     try {
       if (commandFactory.isCommand(token)) {
@@ -190,16 +206,24 @@ public class Compiler {
     }
   }
 
-  // Swaps the context of the compiler in the case of a list
-  private void swapContext() {
+  // Swaps the context of the compiler in the case of a list. Called with reflection
+  private void swapContext(String token) {
     inactiveContexts.push(activeContext);
     activeContext = new Context();
   }
 
-  // Resolves the context of the compiler in the case of a list ending
-  private void resolveContext() {
+  // Resolves the context of the compiler in the case of a list ending. Called with reflection
+  private void resolveContext(String token) {
     inactiveContexts.peek().resolve(activeContext);
     activeContext = inactiveContexts.pop();
+  }
+
+  private void handleGroupStart(String token) {
+
+  }
+
+  private void handleGroupEnd(String token) {
+
   }
 
   public Map<String, String> getVariables() {

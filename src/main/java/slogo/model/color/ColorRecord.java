@@ -1,8 +1,15 @@
 package slogo.model.color;
 
-import slogo.model.command.Value;
-
+/**
+ * Record class representing opaque color
+ *
+ * @author Jake Heller
+ */
 public record ColorRecord(int r, int g, int b) {
+
+  private static final int COLOR_RANGE = 256;
+  private static final int HEX_TRIPLE = 3;
+  private static final String HEX_PREFIX = "0";
 
   @Override
   public String toString() {
@@ -10,11 +17,11 @@ public record ColorRecord(int r, int g, int b) {
   }
 
   private String toHex(int a) {
-    a = a % 256;
+    a = a % COLOR_RANGE;
     String s = Integer.toHexString(a);
     if (s.length() == 1) {
-      s = "0" + s;
-    } else if (s.length() == 3) {
+      s = HEX_PREFIX + s;
+    } else if (s.length() == HEX_TRIPLE) {
       s = s.substring(1);
     }
     return s;

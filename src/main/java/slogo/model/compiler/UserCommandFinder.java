@@ -11,7 +11,10 @@ import java.util.Set;
  */
 public class UserCommandFinder {
 
-  private static final int NUM_LISTS = 2;
+  // Private constructor for util class
+  private UserCommandFinder(){
+    super();
+  }
 
   public static Map<String, String> findUserCommands(String program, Parser p,
       Set<String> compiledUserCommands) {
@@ -25,34 +28,38 @@ public class UserCommandFinder {
       if (isToCommand(tokens[index], p)) {
         String userCommand = getUserCommand(tokens, index, p);
         String commandName = tokens[index + 1];
-        if (compiledUserCommands.contains(commandName)) {
-          userCommands.put(commandName, userCommand);
-        }
+        addUserCommand(compiledUserCommands, userCommands, commandName, userCommand);
       }
       index++;
     }
     return userCommands;
   }
 
+  private static void addUserCommand(Set<String> compiledUserCommands, Map<String, String> userCommands, String commandName, String userCommand) {
+    if (compiledUserCommands.contains(commandName)) {
+      userCommands.put(commandName, userCommand);
+    }
+  }
+
   private static String getUserCommand(String[] programTokens, int index, Parser p) {
     int completeLists = 0;
     int openLists = 0;
-    String command = "";
+    StringBuilder command = new StringBuilder();
     while (completeLists < 2) {
       String token = programTokens[index];
-      command += token + " ";
+      command.append(token).append(" ");
       if (isListStart(token, p)) {
         openLists++;
       } else if (isListEnd(token, p)) {
         openLists--;
         if (openLists == 0) {
           completeLists++;
-          command += "\n";
+          command.append("\n");
         }
       }
       index++;
     }
-    return command;
+    return command.toString();
   }
 
   private static boolean isToCommand(String token, Parser p) {

@@ -11,12 +11,18 @@ public class ColorPalette {
   Map<Double, ColorRecord> myColors;
   double myLargestIndex;
 
+  private static final int NUM_ARGS = 4;
+  private static final int PALETTE_ID_INDEX = 0;
+  private static final int R_INDEX = 1;
+  private static final int G_INDEX = 2;
+  private static final int B_INDEX = 3;
+
   public ColorPalette() {
     myColors = new HashMap<>();
     myLargestIndex = 0;
   }
 
-  public void addColor(double index, int r, int g, int b) throws MissingArgumentException {
+  public void addColor(double index, int r, int g, int b) {
     ColorRecord color = new ColorRecord(r, g, b);
     myColors.put(index, color);
     if (index > myLargestIndex) {
