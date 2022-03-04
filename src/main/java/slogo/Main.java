@@ -97,8 +97,8 @@ public class Main extends Application {
     // add this line, now TurtleViewManager can have a void constructor
     //turtleWindowView.addGroup(turtleViewManager.getNode());
 
-    Controller c = new Controller(languageProbe.toString(), turtleViewManager);
-    Display mainIDEView = new MainIDEView(languageProbe.toString(), c, splashView.toString(), stage, turtleViewManager);
+    Controller controller = new Controller(languageProbe.toString(), turtleViewManager);
+    Display mainIDEView = new MainIDEView(languageProbe.toString(), controller, splashView.toString(), stage, turtleViewManager);
 
   }
 
