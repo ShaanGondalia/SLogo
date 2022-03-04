@@ -32,7 +32,7 @@ public abstract class AbstractCommand implements Command {
 
   protected void verifyArgs(List<Value> args, int numArgs) throws MissingArgumentException {
     if (args.size() < numArgs) {
-      throw new MissingArgumentException("NOT ENOUGH ARGS");
+      throw new MissingArgumentException();
     }
   }
 }

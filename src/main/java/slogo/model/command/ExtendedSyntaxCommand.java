@@ -43,6 +43,9 @@ public class ExtendedSyntaxCommand extends AbstractCommand {
   @Override
   public Value execute(Turtle turtle) throws MissingArgumentException {
     double sumOfExecutions = 0;
+    if (!validInputCount()) {
+      throw new MissingArgumentException();
+    }
     int numExecutions = myArgs.size() / argsPerCommand;
     for (int i = 0; i < numExecutions; i++) {
       for (int j = 0; j < argsPerCommand; j++) {
@@ -52,6 +55,10 @@ public class ExtendedSyntaxCommand extends AbstractCommand {
     }
     setReturnValue(sumOfExecutions);
     return returnValue();
+  }
+
+  private boolean validInputCount() {
+    return myArgs.size() % argsPerCommand == 0;
   }
 
 }

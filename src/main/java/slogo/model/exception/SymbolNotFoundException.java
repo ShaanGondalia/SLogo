@@ -7,6 +7,15 @@ package slogo.model.exception;
  */
 public class SymbolNotFoundException extends Exception {
 
+  private static final String DEFAULT_ERROR_MESSAGE = "Symbol Not Found";
+
+  /**
+   * Creates custom exception with default error message
+   */
+  public SymbolNotFoundException() {
+    super(DEFAULT_ERROR_MESSAGE);
+  }
+
   /**
    * Creates custom exception with given error message
    *

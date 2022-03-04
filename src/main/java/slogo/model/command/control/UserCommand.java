@@ -27,7 +27,7 @@ public class UserCommand extends ControlCommand {
   public void setActualParameters(List<Value> inputs) throws MissingArgumentException {
     myActualParameters = inputs;
     if (myActualParameters.size() != myFormalParameters.size()) {
-      throw new MissingArgumentException("Wrong number of inputs");
+      throw new MissingArgumentException();
     }
     for (int i = 0; i < myFormalParameters.size(); i++) {
       Value formal = myFormalParameters.get(i);
@@ -47,7 +47,7 @@ public class UserCommand extends ControlCommand {
   @Override
   public Value execute(Turtle turtle) throws MissingArgumentException {
     if (myActualParameters == null) {
-      throw new MissingArgumentException("No arguments specified");
+      throw new MissingArgumentException();
     }
     for (Command c : myMethodBody) {
       c.execute(turtle);

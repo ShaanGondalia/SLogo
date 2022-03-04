@@ -7,6 +7,15 @@ package slogo.model.exception;
  */
 public class MissingArgumentException extends Exception {
 
+  private static final String DEFAULT_ERROR_MESSAGE = "Not Enough Arguments";
+
+  /**
+   * Creates custom exception with default error message
+   */
+  public MissingArgumentException() {
+    super(DEFAULT_ERROR_MESSAGE);
+  }
+
   /**
    * Creates custom exception with given error message
    *
