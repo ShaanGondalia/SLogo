@@ -1,4 +1,4 @@
-package slogo;
+package slogo.model.turtle;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -7,19 +7,17 @@ import slogo.model.turtle.TurtleStatus;
 
 public class TestListener implements PropertyChangeListener {
 
-  String lastChange;
+  PropertyChangeEvent lastChange = null;
 
   @Override
   public void propertyChange(PropertyChangeEvent evt) {
-    lastChange = evt.getPropertyName();
+    lastChange = evt;
     Pose pOld = ((TurtleStatus) evt.getOldValue()).pose();
     Pose pNew = ((TurtleStatus) evt.getNewValue()).pose();
     System.out.println(evt.getNewValue());
-    System.out.println(pOld);
-    System.out.println(pNew);
   }
 
-  public String getChange () {
+  public PropertyChangeEvent getChange () {
     return lastChange;
   }
 

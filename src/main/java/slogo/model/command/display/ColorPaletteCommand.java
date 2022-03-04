@@ -5,6 +5,7 @@ import java.util.List;
 import slogo.model.color.ColorPalette;
 import slogo.model.command.AbstractCommand;
 import slogo.model.command.Value;
+import slogo.model.exception.MissingArgumentException;
 
 /**
  * Abstract class for all display related commands
@@ -16,7 +17,10 @@ public abstract class ColorPaletteCommand extends AbstractCommand {
   private ColorPalette myPalette;
   private List<Value> myArgs;
 
-  public ColorPaletteCommand(ColorPalette palette, List<Value> args) {
+  public ColorPaletteCommand(ColorPalette palette, List<Value> args, int numArgs)
+      throws MissingArgumentException {
+    super();
+    verifyArgs(args, numArgs);
   }
 
   protected ColorPalette getPalette() {
