@@ -35,7 +35,7 @@ public class ClearScreen extends TurtleCommand {
     double x = turtle.getPose().x();
     double y = turtle.getPose().y();
     turtle.goHome();
-    turtle.clear();
+    turtle.clearTrails();
 
     setReturnValue(Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2)));
     return returnValue();

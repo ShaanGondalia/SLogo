@@ -252,4 +252,12 @@ public class CommandFactory {
     }
   }
 
+  /**
+   *
+   * @return color palette being used by CommandFactory instance
+   */
+  public ColorPalette getPalette() {
+    return myColorPalette;
+  }
+
 }

@@ -10,7 +10,7 @@ import slogo.view.windows.sections.ButtonSection;
 import slogo.view.windows.sections.HistorySection;
 import slogo.view.windows.sections.IDESection;
 import slogo.view.windows.sections.TextSection;
-import slogo.view.windows.sections.VariablesAndCommandsSection;
+import slogo.view.windows.sections.DataSection;
 
 /**
  * Creates the central window to display where the user can type in text commands
@@ -20,7 +20,7 @@ import slogo.view.windows.sections.VariablesAndCommandsSection;
 public class MainIDEView extends Display {
 
   private static final String TITLE = "SLOGO TEAM 3";
-  private static final Dimension MAIN_SIZE = new Dimension(700, 400);
+  private static final Dimension MAIN_SIZE = new Dimension(900, 400);
   private static final String ROOT_ID = "root";
   public static final String IDE_RESOURCES_ROOT = "view.defaultIdeText.";
 
@@ -31,14 +31,24 @@ public class MainIDEView extends Display {
     myPane = new BorderPane();
     myPane.setId(ROOT_ID);
     Runner runner = new Runner();
-    IDESection variablesSection = new VariablesAndCommandsSection(controller, language, runner);
+//<<<<<<< HEAD
+//    IDESection variablesSection = new VariablesAndCommandsSection(controller, language, runner);
+//    IDESection textSection = new TextSection();
+//    IDESection historySection = new HistorySection(runner, language);
+//
+//    runner.setParameters(controller, (VariablesAndCommandsSection) variablesSection,
+//        (HistorySection) historySection);
+//    IDESection buttonSection = new ButtonSection(language, controller, (HistorySection) historySection,
+//        (TextSection) textSection, (VariablesAndCommandsSection) variablesSection, runner, turtleViewManager);
+//=======
+    IDESection variablesSection = new DataSection(controller, language, runner);
     IDESection textSection = new TextSection();
     IDESection historySection = new HistorySection(runner, language);
 
-    runner.setParameters(controller, (VariablesAndCommandsSection) variablesSection,
+    runner.setParameters(controller, (DataSection) variablesSection,
         (HistorySection) historySection);
     IDESection buttonSection = new ButtonSection(language, controller, (HistorySection) historySection,
-        (TextSection) textSection, (VariablesAndCommandsSection) variablesSection, runner, turtleViewManager);
+        (TextSection) textSection, (DataSection) variablesSection, runner, turtleViewManager);
 
     myPane.setBottom(buttonSection.getSection());
     myPane.setRight(historySection.getSection());

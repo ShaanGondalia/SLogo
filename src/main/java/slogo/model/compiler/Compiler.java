@@ -205,4 +205,8 @@ public class Compiler {
     return new HashMap<>(commandFactory.getUserCommandStrings());
   }
 
+  public Map<String, String> getColorPaletteStrings() {
+    return commandFactory.getPalette().getStringMap();
+  }
+
 }

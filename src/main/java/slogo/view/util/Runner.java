@@ -3,15 +3,15 @@ package slogo.view.util;
 import slogo.Errors;
 import slogo.controller.Controller;
 import slogo.view.windows.sections.HistorySection;
-import slogo.view.windows.sections.VariablesAndCommandsSection;
+import slogo.view.windows.sections.DataSection;
 
 public class Runner {
 
   private Controller myController;
-  private VariablesAndCommandsSection myUserDefinedSection;
+  private DataSection myUserDefinedSection;
   private HistorySection myHistorySection;
 
-  public void setParameters(Controller c, VariablesAndCommandsSection userDefinedSection,
+  public void setParameters(Controller c, DataSection userDefinedSection,
       HistorySection historySection) {
     myController = c;
     myUserDefinedSection = userDefinedSection;
