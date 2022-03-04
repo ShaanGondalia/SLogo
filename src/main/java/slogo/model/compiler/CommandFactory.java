@@ -6,12 +6,13 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Deque;
 import java.util.HashMap;
-import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.Stack;
+import slogo.model.color.ColorPalette;
 import slogo.model.command.Command;
+import slogo.model.command.ExtendedSyntaxCommand;
 import slogo.model.command.Value;
 import slogo.model.command.control.MakeUserInstruction;
 import slogo.model.exception.MissingArgumentException;
@@ -32,15 +33,16 @@ public class CommandFactory {
   private static final String CONSTRUCTOR_RESOURCES = "model.Constructor";
 
   private final ResourceBundle reflectionResources = ResourceBundle.getBundle(REFLECTION_RESOURCES);
-  private final ResourceBundle constructorResources = ResourceBundle.getBundle(CONSTRUCTOR_RESOURCES);
+  private final ResourceBundle constructorResources = ResourceBundle.getBundle(
+      CONSTRUCTOR_RESOURCES);
 
   private final Map<String, MakeUserInstruction> myUserCommands;
   private final Map<String, String> myUserCommandStrings;
   private final Map<String, Integer> myListParameterCounts;
   private final Map<String, Integer> myParameterCounts;
 
-
   private final TurtleManager myTurtleManager;
+  private final ColorPalette myColorPalette;
 
   private final ResourceBundle exceptionResources;
 
@@ -51,9 +53,10 @@ public class CommandFactory {
    *
    * @param language the language of the command factory
    */
-  public CommandFactory(String language, TurtleManager turtleManager) {
+  public CommandFactory(String language, TurtleManager turtleManager, ColorPalette colorPalette) {
     exceptionResources = ResourceBundle.getBundle(EXCEPTION_RESOURCES + language);
     myTurtleManager = turtleManager;
+    myColorPalette = colorPalette;
     myUserCommands = new HashMap<>();
     myUserCommandStrings = new HashMap<>();
     myListParameterCounts = new HashMap<>();
@@ -70,18 +73,20 @@ public class CommandFactory {
    *
    * @param symbol the symbol of the command
    * @param values the stack of values to pass to the command
+   * @param implicitVariables the implicit variables of the command (empty if none)
    * @return the command built from the given parameters.
    * @throws MissingArgumentException
    */
   public Command getCommand(String symbol, Stack<Value> values,
-      Stack<Deque<Command>> commandLists, int numInputs)
+      Stack<Deque<Command>> commandLists,
+      Map<String, Value> implicitVariables, int numInputs)
       throws MissingArgumentException, SymbolNotFoundException {
     List<Value> args = generateArgList(symbol, values, numInputs);
     List<Deque<Command>> commandQueues = generateCommandQueueList(symbol, commandLists);
     if (myUserCommands.containsKey(symbol)) {
       return getUserCommand(symbol, args);
     } else {
-      return generateCommand(symbol, args, commandQueues);
+      return generateCommand(symbol, args, commandQueues, implicitVariables);
     }
   }
 
@@ -121,15 +126,19 @@ public class CommandFactory {
   }
 
   // Generates a command using reflection
-  private Command generateCommand(String symbol, List<Value> args, List<Deque<Command>> queues)
+  private Command generateCommand(String symbol, List<Value> args, List<Deque<Command>> queues,
+      Map<String, Value> implicitVariables)
       throws SymbolNotFoundException {
     String command = reflectionResources.getString(symbol).trim();
     try {
       String handlerMethod = constructorResources.getString(symbol);
-      Method handle = CommandFactory.class.getDeclaredMethod(handlerMethod, Class.class, List.class, List.class);
-      Command c = (Command) handle.invoke(this, Class.forName(command), args, queues);
+      Method handle = CommandFactory.class.getDeclaredMethod(handlerMethod, Class.class, List.class,
+          List.class, Map.class);
+      Command c = (Command) handle.invoke(this, Class.forName(command), args, queues, implicitVariables);
       if (symbol.equals("MakeUserInstruction")) {
         myUserCommands.put(lastAddedSymbol, (MakeUserInstruction) c);
+      } else if (getNumInputs(symbol) != args.size() && getNumInputs(symbol) != -1) {
+        return new ExtendedSyntaxCommand(args, c, getNumInputs(symbol));
       }
       return c;
     } catch (Exception e) {
@@ -138,43 +147,66 @@ public class CommandFactory {
     }
   }
 
-  private Command makeArgCommand(Class<?> commandClass, List<Value> args, List<Deque<Command>> commandQueues)
+  private Command makeArgCommand(Class<?> commandClass, List<Value> args,
+      List<Deque<Command>> commandQueues, Map<String, Value> implicitVariables)
       throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
     Constructor<?> ctor = commandClass.getDeclaredConstructor(List.class);
     return (Command) ctor.newInstance(args);
   }
 
-  private Command makeListCommand(Class<?> commandClass, List<Value> args, List<Deque<Command>> commandQueues)
+  private Command makeListCommand(Class<?> commandClass, List<Value> args,
+      List<Deque<Command>> commandQueues, Map<String, Value> implicitVariables)
       throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
     Constructor<?> ctor = commandClass.getDeclaredConstructor(List.class, List.class);
     return (Command) ctor.newInstance(args, commandQueues);
   }
 
-  private Command makeListMultiCommand(Class<?> commandClass, List<Value> args, List<Deque<Command>> commandQueues)
+  private Command makeListMultiCommand(Class<?> commandClass, List<Value> args,
+      List<Deque<Command>> commandQueues, Map<String, Value> implicitVariables)
       throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
-    Constructor<?> ctor = commandClass.getDeclaredConstructor(List.class, List.class, TurtleManager.class);
+    Constructor<?> ctor = commandClass.getDeclaredConstructor(List.class, List.class,
+        TurtleManager.class);
     return (Command) ctor.newInstance(args, commandQueues, myTurtleManager);
   }
 
-  private Command makeArgMultiCommand(Class<?> commandClass, List<Value> args, List<Deque<Command>> commandQueues)
+  private Command makeArgMultiCommand(Class<?> commandClass, List<Value> args,
+      List<Deque<Command>> commandQueues, Map<String, Value> implicitVariables)
       throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
     Constructor<?> ctor = commandClass.getDeclaredConstructor(List.class, TurtleManager.class);
     return (Command) ctor.newInstance(args, myTurtleManager);
   }
 
-  // TODO: Implement this
-  private Command makeArgColorCommand(Class<?> commandClass, List<Value> args, List<Deque<Command>> commandQueues)
+  private Command makeArgColorCommand(Class<?> commandClass, List<Value> args,
+      List<Deque<Command>> commandQueues, Map<String, Value> implicitVariables)
       throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
-    Constructor<?> ctor = commandClass.getDeclaredConstructor(List.class, TurtleManager.class);
-    return (Command) ctor.newInstance(args, myTurtleManager);
+    Constructor<?> ctor = commandClass.getDeclaredConstructor(ColorPalette.class, List.class);
+    return (Command) ctor.newInstance(myColorPalette, args);
+  }
+
+  private Command makeListImplicitCommand(Class<?> commandClass, List<Value> args,
+      List<Deque<Command>> commandQueues, Map<String, Value> implicitVariables)
+      throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
+    Constructor<?> ctor = commandClass.getDeclaredConstructor(List.class, List.class, Map.class);
+    return (Command) ctor.newInstance(args, commandQueues, implicitVariables);
   }
 
   /**
    * Makes a user defined command
+   *
+   * @param symbol the name of the command
+   * @param inputs the number of inputs to the command
    */
   public void makeUserCommand(String symbol, int inputs) {
     myParameterCounts.put(symbol, inputs);
     lastAddedSymbol = symbol;
+  }
+
+  /**
+   * Removes a user command from the map of user commands. Necessary for command redefinition.
+   * @param symbol the name of the command
+   */
+  public void clearUserCommand(String symbol) {
+    myParameterCounts.remove(symbol);
   }
 
   /**
@@ -239,6 +271,14 @@ public class CommandFactory {
       Integer value = Integer.parseInt(resource.getString(key));
       map.put(key, value);
     }
+  }
+
+  /**
+   *
+   * @return color palette being used by CommandFactory instance
+   */
+  public ColorPalette getPalette() {
+    return myColorPalette;
   }
 
 }

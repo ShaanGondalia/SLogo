@@ -3,6 +3,7 @@ package slogo.model.command.turtle;
 import java.util.List;
 import slogo.model.command.Value;
 import slogo.model.exception.MissingArgumentException;
+import slogo.model.turtle.PenState;
 import slogo.model.turtle.Turtle;
 
 /**
@@ -33,7 +34,9 @@ public class PenUp extends TurtleCommand {
    */
   @Override
   public Value execute(Turtle turtle) {
-    turtle.setPen(false);
+    PenState current = turtle.getStatus().penState();
+    PenState newState = new PenState(false, current.color(), current.thickness());
+    turtle.setPen(newState);
     return returnValue();
   }
 }

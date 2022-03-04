@@ -20,6 +20,8 @@ public abstract class ColorPaletteCommand extends AbstractCommand {
   public ColorPaletteCommand(ColorPalette palette, List<Value> args, int numArgs)
       throws MissingArgumentException {
     super();
+    myPalette = palette;
+    myArgs = args;
     verifyArgs(args, numArgs);
   }
 

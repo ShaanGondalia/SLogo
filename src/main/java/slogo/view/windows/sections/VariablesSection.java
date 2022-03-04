@@ -89,16 +89,17 @@ public class VariablesSection implements IDESection {
 
   protected String getVarText() {
     String toReturn = "";
-    for (String varName : myController.getMapData("variables").keySet()) {
+    Map<String, String> mapData = myController.getMapData(Controller.VARIABLE_GETTER);
+    for (String varName : mapData.keySet()) {
       toReturn += makeVariableSetCommand(varName,
-          myController.getMapData("variables").get(varName));
+          mapData.get(varName));
     }
     return toReturn;
   }
 
   protected void updateVariables() {
     variableVBox.getChildren().clear();
-    Map<String, String> varList = myController.getMapData("variables");
+    Map<String, String> varList = myController.getMapData(Controller.VARIABLE_GETTER);
     for (String variableName : varList.keySet()) {
       makeVariableButton(variableName, varList.get(variableName));
     }

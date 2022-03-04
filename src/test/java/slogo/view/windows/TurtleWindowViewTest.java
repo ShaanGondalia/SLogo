@@ -6,6 +6,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.testfx.api.FxRobot;
 import slogo.controller.Controller;
+import slogo.model.turtle.TurtleManager;
 import slogo.view.turtle.TurtleView;
 import slogo.view.turtle.TurtleViewManager;
 import slogo.view.windows.LanguageSplash;
@@ -26,9 +27,10 @@ class TurtleWindowViewTest extends DukeApplicationTest {
 
   @Override
   public void start(Stage stage) {
-    window = new TurtleWindowView("light");
-    TurtleViewManager tvm = new TurtleViewManager(window);
-    c = new Controller("English", tvm);
+    //window = new TurtleWindowView("light");
+    TurtleManager turtleManager = new TurtleManager();
+    TurtleViewManager tvm = new TurtleViewManager(turtleManager);
+    c = new Controller("English", turtleManager);
     stage.setScene(window.getMyScene());
     stage.show();
   }

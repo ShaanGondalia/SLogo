@@ -5,6 +5,7 @@ import java.util.*;
 
 import java.util.Map;
 import slogo.Errors;
+import slogo.model.color.ColorPalette;
 import slogo.model.command.Command;
 
 import slogo.model.compiler.Compiler;
@@ -16,20 +17,30 @@ import slogo.view.turtle.TurtleViewManager;
 
 public class Controller {
 
+  public static final String VARIABLE_GETTER = "variables";
+  public static final String USER_COMMAND_GETTER = "userCommands";
+  public static final String COLOR_PALETTE_GETTER = "colorPalette";
+  public static final String TURTLE_GETTER = "turtles";
+  public static final String DEFAULT_GETTER = "default";
+
+
   private Compiler myCompiler;
   private TurtleManager myTurtleManager;
+  private ColorPalette myColorPalette;
   private List<Turtle> myTurtles;
   private Map<String, MapGetter<String, String>> myMapGetters;
 
-  public Controller(String lan, TurtleViewManager turtleViewManager) {
-    myTurtleManager = new TurtleManager();
-    myTurtleManager.addListener((PropertyChangeListener) turtleViewManager);
-    myCompiler = new Compiler(lan, myTurtleManager);
+  public Controller(String language, TurtleManager turtleManager) {
+    myTurtleManager = turtleManager;
+    myColorPalette = new ColorPalette();
+    myCompiler = new Compiler(language, myTurtleManager, myColorPalette);
     myTurtles = new ArrayList<>();
     myMapGetters = new HashMap<>();
-    myMapGetters.put("variables", () -> myCompiler.getVariables());
-    myMapGetters.put("userCommands", () -> myCompiler.getUserCommandStrings());
-    myMapGetters.put("default", () -> new HashMap<>());
+    myMapGetters.put(VARIABLE_GETTER, () -> myCompiler.getVariables());
+    myMapGetters.put(USER_COMMAND_GETTER, () -> myCompiler.getUserCommandStrings());
+    myMapGetters.put(COLOR_PALETTE_GETTER, () -> myCompiler.getColorPaletteStrings());
+    myMapGetters.put(TURTLE_GETTER, () -> new HashMap<>());
+    myMapGetters.put(DEFAULT_GETTER, () -> new HashMap<>());
   }
 
 

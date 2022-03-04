@@ -10,6 +10,7 @@ import javafx.scene.control.TextInputControl;
 import javafx.stage.Stage;
 import org.junit.jupiter.api.Test;
 import slogo.controller.Controller;
+import slogo.model.turtle.TurtleManager;
 import slogo.view.turtle.TurtleViewManager;
 import slogo.view.windows.sections.ButtonSection;
 import slogo.view.windows.sections.DataSection;
@@ -28,9 +29,9 @@ class MainIDEViewTest extends DukeApplicationTest {
 
   @Override
   public void start(Stage stage) {
-    TurtleWindowView v = new TurtleWindowView("light");
+    TurtleManager v = new TurtleManager();
     TurtleViewManager tvm = new TurtleViewManager(v);
-    main = new MainIDEView("English", new Controller("English", tvm), "dark", stage, tvm);
+    main = new MainIDEView("English", new Controller("English", v), "dark", stage, tvm);
     TextInputControl area = lookup("#textArea").query();
     area.clear();
   }

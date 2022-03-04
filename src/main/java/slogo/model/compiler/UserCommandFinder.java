@@ -12,7 +12,7 @@ import java.util.Set;
 public class UserCommandFinder {
 
   // Private constructor for util class
-  private UserCommandFinder(){
+  private UserCommandFinder() {
     super();
   }
 
@@ -35,7 +35,8 @@ public class UserCommandFinder {
     return userCommands;
   }
 
-  private static void addUserCommand(Set<String> compiledUserCommands, Map<String, String> userCommands, String commandName, String userCommand) {
+  private static void addUserCommand(Set<String> compiledUserCommands,
+      Map<String, String> userCommands, String commandName, String userCommand) {
     if (compiledUserCommands.contains(commandName)) {
       userCommands.put(commandName, userCommand);
     }

@@ -13,7 +13,6 @@ import slogo.model.exception.MissingArgumentException;
 public abstract class MathOperation extends AbstractCommand {
 
   /**
-   * @param turtle  the Turtle that is attached to this command
    * @param args    the arguments that the command takes
    * @param numArgs the number of arguments that this command takes
    * @throws MissingArgumentException if the list of arguments does not contain enough arguments

@@ -28,7 +28,7 @@ public abstract class ControlCommand extends AbstractCommand {
   protected void verifyCommandLists(List<Deque<Command>> lists, int numCommandLists)
       throws MissingArgumentException {
     if (lists.size() < numCommandLists) {
-      throw new MissingArgumentException("NOT ENOUGH LISTS");
+      throw new MissingArgumentException();
     }
   }
 }
