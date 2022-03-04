@@ -5,6 +5,8 @@ import java.util.LinkedList;
 import java.util.Stack;
 import slogo.model.command.Command;
 import slogo.model.command.Value;
+import slogo.model.exception.MissingArgumentException;
+import slogo.model.exception.SymbolNotFoundException;
 
 /**
  * Class that represents a single context of a program. A new context is defined every time the
@@ -37,15 +39,6 @@ public class Context {
   }
 
   /**
-   * Returns a stack of pending command symbols
-   *
-   * @return a stack of pending command symbols
-   */
-  public Stack<String> getPendingCommands() {
-    return pendingCommands;
-  }
-
-  /**
    * Returns a queue of resolved commands
    *
    * @return a queue of resolved commands
@@ -64,30 +57,101 @@ public class Context {
   }
 
   /**
-   * Returns the list stack
+   * Resolves a command in the given context
    *
-   * @return the list stack
+   * @param commandFactory the command factory that will build the command
+   * @param numInputs      the number of inputs for the command
    */
-  public Stack<Deque<Command>> getLists() {
-    return lists;
+  public void resolveCommand(CommandFactory commandFactory, int numInputs)
+      throws MissingArgumentException, SymbolNotFoundException {
+    String pendingCommand = pendingCommands.pop();
+    valuesBefore.pop();
+    listsBefore.pop();
+    Command command = commandFactory.getCommand(pendingCommand, values, lists, numInputs);
+    values.add(command.returnValue());
+    if (!lists.empty()) {
+      lists.peek().addLast(command);
+    } else {
+      resolvedCommands.addLast(command);
+    }
+    if (pendingCommands.isEmpty()) {
+      values.clear();
+      resolvedCommands.add(null);
+    }
   }
 
   /**
-   * Returns the number of values that exist before a command is parsed
+   * Returns a queue of queues of commands. Each inner queue represents a chunk of commands that oes
+   * not rely on any other commands
    *
-   * @return the number of values that exist before a command is parsed
+   * @return a queue of queues of resolved commands.
    */
-  public Stack<Integer> getValuesBefore() {
-    return valuesBefore;
+  public Deque<Deque<Command>> constructResolvedCommandQueues() {
+    Deque<Deque<Command>> resolvedCommandQueues = new LinkedList<>();
+    resolvedCommandQueues.add(new LinkedList<>());
+    for (Command c : getResolvedCommands()) {
+      // null delimits completed blocks of commands
+      if (c == null) {
+        resolvedCommandQueues.add(new LinkedList<>());
+      } else {
+        resolvedCommandQueues.peekLast().add(c);
+      }
+    }
+    if (resolvedCommandQueues.peekLast().isEmpty()) {
+      resolvedCommandQueues.removeLast();
+    }
+
+    return resolvedCommandQueues;
   }
 
   /**
-   * Returns the number of lists that exist before a command is parsed
+   * Returns the pending command, or null if pendingCommands is empty
    *
-   * @return the number of lists that exist before a command is parsed
+   * @return the pending command, or null if pendingCommands is empty
    */
-  public Stack<Integer> getListsBefore() {
-    return listsBefore;
+  public String pendingCommand() {
+    if (pendingCommands.empty()) {
+      return null;
+    }
+    return pendingCommands.peek();
+  }
+
+  /**
+   * Finds the number of new values in between a command's resolution
+   *
+   * @return the number of new values in between a command's resolution
+   */
+  public int numberNewValues() {
+    return values.size() - valuesBefore.peek();
+  }
+
+  /**
+   * Finds the number of new values in between a command's resolution
+   *
+   * @return the number of new values in between a command's resolution
+   */
+  public int numberNewLists() {
+    return lists.size() - listsBefore.peek();
+  }
+
+  /**
+   * Handles the addition of a pending command to the pending commands list
+   *
+   * @param symbol The symbol of the command
+   */
+  public void addPendingCommand(String symbol) {
+    pendingCommands.push(symbol);
+    valuesBefore.push(values.size());
+    listsBefore.push(lists.size());
+  }
+
+  /**
+   * Adds a value to the value stack
+   *
+   * @param val the value to add to the value stack
+   */
+  public void addValue(Value val) {
+    values.push(val);
   }
 
   /**
@@ -96,7 +160,6 @@ public class Context {
    * @param previousContext the previous context that we wish to compare to
    */
   public void resolve(Context previousContext) {
-    // If list only contained values (no commands) add values to values in previous context
     if (previousContext.getResolvedCommands().isEmpty()) {
       values.addAll(previousContext.getValues());
     } else {

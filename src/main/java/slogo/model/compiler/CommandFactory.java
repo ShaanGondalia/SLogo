@@ -6,7 +6,6 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Deque;
 import java.util.HashMap;
-import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
@@ -32,7 +31,8 @@ public class CommandFactory {
   private static final String CONSTRUCTOR_RESOURCES = "model.Constructor";
 
   private final ResourceBundle reflectionResources = ResourceBundle.getBundle(REFLECTION_RESOURCES);
-  private final ResourceBundle constructorResources = ResourceBundle.getBundle(CONSTRUCTOR_RESOURCES);
+  private final ResourceBundle constructorResources = ResourceBundle.getBundle(
+      CONSTRUCTOR_RESOURCES);
 
   private final Map<String, MakeUserInstruction> myUserCommands;
   private final Map<String, String> myUserCommandStrings;
@@ -126,7 +126,8 @@ public class CommandFactory {
     String command = reflectionResources.getString(symbol).trim();
     try {
       String handlerMethod = constructorResources.getString(symbol);
-      Method handle = CommandFactory.class.getDeclaredMethod(handlerMethod, Class.class, List.class, List.class);
+      Method handle = CommandFactory.class.getDeclaredMethod(handlerMethod, Class.class, List.class,
+          List.class);
       Command c = (Command) handle.invoke(this, Class.forName(command), args, queues);
       if (symbol.equals("MakeUserInstruction")) {
         myUserCommands.put(lastAddedSymbol, (MakeUserInstruction) c);
@@ -138,32 +139,38 @@ public class CommandFactory {
     }
   }
 
-  private Command makeArgCommand(Class<?> commandClass, List<Value> args, List<Deque<Command>> commandQueues)
+  private Command makeArgCommand(Class<?> commandClass, List<Value> args,
+      List<Deque<Command>> commandQueues)
       throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
     Constructor<?> ctor = commandClass.getDeclaredConstructor(List.class);
     return (Command) ctor.newInstance(args);
   }
 
-  private Command makeListCommand(Class<?> commandClass, List<Value> args, List<Deque<Command>> commandQueues)
+  private Command makeListCommand(Class<?> commandClass, List<Value> args,
+      List<Deque<Command>> commandQueues)
       throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
     Constructor<?> ctor = commandClass.getDeclaredConstructor(List.class, List.class);
     return (Command) ctor.newInstance(args, commandQueues);
   }
 
-  private Command makeListMultiCommand(Class<?> commandClass, List<Value> args, List<Deque<Command>> commandQueues)
+  private Command makeListMultiCommand(Class<?> commandClass, List<Value> args,
+      List<Deque<Command>> commandQueues)
       throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
-    Constructor<?> ctor = commandClass.getDeclaredConstructor(List.class, List.class, TurtleManager.class);
+    Constructor<?> ctor = commandClass.getDeclaredConstructor(List.class, List.class,
+        TurtleManager.class);
     return (Command) ctor.newInstance(args, commandQueues, myTurtleManager);
   }
 
-  private Command makeArgMultiCommand(Class<?> commandClass, List<Value> args, List<Deque<Command>> commandQueues)
+  private Command makeArgMultiCommand(Class<?> commandClass, List<Value> args,
+      List<Deque<Command>> commandQueues)
       throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
     Constructor<?> ctor = commandClass.getDeclaredConstructor(List.class, TurtleManager.class);
     return (Command) ctor.newInstance(args, myTurtleManager);
   }
 
   // TODO: Implement this
-  private Command makeArgColorCommand(Class<?> commandClass, List<Value> args, List<Deque<Command>> commandQueues)
+  private Command makeArgColorCommand(Class<?> commandClass, List<Value> args,
+      List<Deque<Command>> commandQueues)
       throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
     Constructor<?> ctor = commandClass.getDeclaredConstructor(List.class, TurtleManager.class);
     return (Command) ctor.newInstance(args, myTurtleManager);
