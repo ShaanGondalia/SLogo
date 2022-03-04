@@ -54,6 +54,7 @@ public class CompilerTest {
   private static final String COMMENTS_PROGRAM = "# this is a comment\nfd 50 \n# this is another comment\n";
   private static final String DISPLAY_PROGRAM = "setpalette 3 0 200 255";
   private static final String EXTENDED_SYNTAX_PROGRAM = "fd ( sum 10 20 30 40 )";
+  private static final String EXTENDED_SYNTAX_COMPLEX_PROGRAM = "setxy ( setxy 0 20 300 20 300 220 ) 15";
 
 
   private static final String LANGUAGE = "English";
@@ -174,6 +175,13 @@ public class CompilerTest {
   void testExtendedSyntax() throws Exception {
     run(compiler.compile(EXTENDED_SYNTAX_PROGRAM));
     assertEquals(100, myTurtleManager.getFollowingTurtles().get(0).getPose().y());
+  }
+
+  @Test
+  void testExtendedSyntaxComplex() throws Exception {
+    run(compiler.compile(EXTENDED_SYNTAX_COMPLEX_PROGRAM));
+    assertEquals(520, myTurtleManager.getFollowingTurtles().get(0).getPose().x());
+    assertEquals(15, myTurtleManager.getFollowingTurtles().get(0).getPose().y());
   }
 
   private void run(Deque<Deque<Command>> q) throws MissingArgumentException {
