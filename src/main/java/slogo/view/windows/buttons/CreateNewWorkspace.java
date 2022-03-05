@@ -5,6 +5,14 @@ import slogo.Errors;
 import slogo.Main;
 import slogo.view.util.ButtonUtil;
 
+/**
+ * Button that creates a new workspace - created reflectively
+ *
+ * @author Andy S. He
+ * @see slogo.view.windows.buttons.IDEButton
+ * @see IDEButtonFactory
+ * @see slogo.view.windows.sections.ButtonSection
+ */
 public class CreateNewWorkspace implements IDEButton {
 
   @Override

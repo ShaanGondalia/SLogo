@@ -7,7 +7,15 @@ import javafx.stage.Stage;
 import slogo.view.util.ButtonUtil;
 import slogo.view.windows.HelpView;
 
-public class Help implements IDEButton{
+/**
+ * Button that opens a help menu to display all the commands in english - created reflectively
+ *
+ * @author Andy S. He
+ * @see slogo.view.windows.buttons.IDEButton
+ * @see IDEButtonFactory
+ * @see slogo.view.windows.sections.ButtonSection
+ */
+public class Help implements IDEButton {
 
   @Override
   public void doAction(ButtonUtil info) {
