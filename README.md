@@ -24,9 +24,13 @@ Andy : 30 hours
 
 Shaan: 40 hours
 
+Zack: 30 hours
+
 ### Primary Roles
 
 Andy : Front-End: General Views, Buttons, Displays, Resources, Styling, Design
+
+Zack : Front-End: Front-end Turtle, Front-end Turtle management, Some Buttons, Some Displays
 
 Shaan : Back-end: Compiler, Parser, Reflection for creating commands and invoking methods, Turtle Manager, Many commands, Testing.
 
