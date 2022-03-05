@@ -9,8 +9,7 @@ import javafx.stage.Stage;
 import slogo.view.turtle.TurtleView;
 import slogo.view.util.ButtonUtil;
 import slogo.view.util.TurtleAnimation;
-
-import java.awt.*;
+import java.awt.Dimension;
 
 /**
  * A window containing different controls pertaining to a turtle's animation
