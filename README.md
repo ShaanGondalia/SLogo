@@ -12,7 +12,7 @@ Andy He
 
 Jake Heller
 
-Zachary Schrage
+Zackary Schrage
 
 ### Timeline
 
