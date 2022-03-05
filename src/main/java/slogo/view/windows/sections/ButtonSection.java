@@ -19,8 +19,7 @@ public class ButtonSection implements IDESection {
   private static final String BUTTON_SECTION_ID = "button_sec";
   public static final String RESOURCE_PREFIX = "view.buttons.";
 
-  private TilePane myTilePane;
-  private ResourceBundle myResources;
+  private final TilePane myTilePane;
 
   /**
    * Default constructor used to generate the buttons and the button section
@@ -31,17 +30,25 @@ public class ButtonSection implements IDESection {
    * @param textSec  Text Section to get the text
    * @see IDEButtonFactory
    */
-  public ButtonSection(String language, Controller c, HistorySection histSec, TextSection textSec, DataSection userDefinedSection, Runner runner, TurtleViewManager tvm) {
+  public ButtonSection(String language, Controller c, HistorySection histSec, TextSection textSec,
+      DataSection userDefinedSection, Runner runner, TurtleViewManager tvm) {
     myTilePane = new TilePane();
     myTilePane.setId(BUTTON_SECTION_ID);
-    myResources = ResourceBundle.getBundle(RESOURCE_PREFIX + language);
+    ResourceBundle myResources = ResourceBundle.getBundle(RESOURCE_PREFIX + language);
     IDEButtonFactory factory = new IDEButtonFactory();
     for (String button : myResources.keySet()) {
       myTilePane.getChildren()
-          .add(factory.createButton(new ButtonUtil(button, c, language, histSec, textSec, userDefinedSection, runner, tvm)));
+          .add(factory.createButton(
+              new ButtonUtil(button, c, language, histSec, textSec, userDefinedSection, runner,
+                  tvm)));
     }
   }
 
+  /**
+   * get the region that can be set to a specific location on the MainIDEView
+   *
+   * @return a TilePane, for example
+   */
   @Override
   public Region getSection() {
     return myTilePane;

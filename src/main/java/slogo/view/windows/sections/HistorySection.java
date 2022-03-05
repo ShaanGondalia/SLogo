@@ -14,10 +14,9 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import slogo.view.util.Runner;
 import slogo.view.windows.MainIDEView;
-import slogo.view.windows.buttons.Run;
 
 /**
- * Section for History
+ * Section for History - Displayed on the right of the screen
  *
  * @author Andy S. He
  */
@@ -31,12 +30,18 @@ public class HistorySection implements IDESection {
   private static final int WIDTH = 100;
   private static final int MAX_WIDTH = 200;
 
-  private ScrollPane myScrollPane;
-  private List<String> commandList;
-  private Runner myRunner;
+  private final ScrollPane myScrollPane;
+  private final List<String> commandList;
+  private final Runner myRunner;
 
-  private VBox myHistoryButtons;
+  private final VBox myHistoryButtons;
 
+  /**
+   * Default constructor that creates the history section
+   *
+   * @param runner   allows for commands to be run on-click
+   * @param language determines display language
+   */
   public HistorySection(Runner runner, String language) {
     myScrollPane = new ScrollPane();
     myScrollPane.setId(HISTORY_SECTION_ID);
@@ -55,6 +60,11 @@ public class HistorySection implements IDESection {
     myRunner = runner;
   }
 
+  /**
+   * get the region that can be set to a specific location on the MainIDEView
+   *
+   * @return a ScrollPane
+   */
   @Override
   public Region getSection() {
     return myScrollPane;
@@ -70,6 +80,7 @@ public class HistorySection implements IDESection {
     makeHistoryButton(newCommand);
   }
 
+  //makes a button that can be run on-click
   private void makeHistoryButton(String command) {
     Button b = new Button(command);
     b.setOnAction((e) -> myRunner.runAndSave(command));
