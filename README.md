@@ -5,12 +5,14 @@ This project implements a development environment that helps users write program
 turtle.
 
 Names:
-<<<<<<< HEAD
 
 Shaan Gondalia
-=======
+
 Andy He
->>>>>>> 18930d0fdeb4b4bb40160c74a7deb7916c8dcc33
+
+Jake Heller
+
+Zachary Schrage
 
 ### Timeline
 
@@ -20,15 +22,19 @@ Finish Date: 3/4/2022
 
 Hours Spent:
 
-Andy : 30 hours
+Andy: 30 hours
 
 Shaan: 40 hours
+
+Jake: 30 hours
 
 ### Primary Roles
 
 Andy : Front-End: General Views, Buttons, Displays, Resources, Styling, Design
 
 Shaan : Back-end: Compiler, Parser, Reflection for creating commands and invoking methods, Turtle Manager, Many commands, Testing.
+
+Jake : Turtle, Controller, Color Commands, Color Palette, Compiler, Value, 
 
 ### Resources Used
 
@@ -108,7 +114,7 @@ Noteworthy Features:
     - All multiple turtle commands are implemented, and the creation of any turtle via a command
       will also create a new turtle in the view
     - Context object is flexible object that basically tells compiler what to do based on its state.
-  This design allowed us to easily extend
+  This design allowed us to easily extend to different types of syntax and commands
 
 ### Impressions
 
