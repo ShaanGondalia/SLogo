@@ -120,7 +120,7 @@ public class VariablesSection implements IDESection {
   /**
    * Used to update the VBox of buttons to display new variables if a program is run
    */
-  protected void updateVariables() {
+  protected void update() {
     variableVBox.getChildren().clear();
     Map<String, String> varList = myController.getMapData(Controller.VARIABLE_GETTER);
     for (String variableName : varList.keySet()) {

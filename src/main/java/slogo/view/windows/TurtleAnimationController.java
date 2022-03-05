@@ -9,8 +9,7 @@ import javafx.stage.Stage;
 import slogo.view.turtle.TurtleView;
 import slogo.view.util.ButtonUtil;
 import slogo.view.util.TurtleAnimation;
-
-import java.awt.*;
+import java.awt.Dimension;
 
 /**
  * A window containing different controls pertaining to a turtle's animation
@@ -30,10 +29,11 @@ public class TurtleAnimationController extends Display {
 
         Button togglePlay = new Button("Pause");
         togglePlay.setOnAction(actionEvent ->  {
-            togglePlayPause(info);
+            togglePlayPause(info, togglePlay);
         });
 
         Slider speed = new Slider();
+        speed.setLayoutX(50);
         speed.valueProperty().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> observableValue, Number number, Number t1) {
@@ -47,18 +47,24 @@ public class TurtleAnimationController extends Display {
         s.show();
     }
 
-    private void togglePlayPause(ButtonUtil info) {
+    private void togglePlayPause(ButtonUtil info, Button togglePlay) {
         play = !play;
         for (TurtleView tv : info.tvm().getMyTurtleViewList()) {
             if (tv.isAnimating()) {
-                if (!play) tv.getAnimationQueue().peek().getAnimation().pause();
-                else tv.getAnimationQueue().peek().getAnimation().play();
+                if (!play) {
+                    tv.getAnimationQueue().peek().getAnimation().pause();
+                    togglePlay.setText("Play");
+                }
+                else {
+                    tv.getAnimationQueue().peek().getAnimation().play();
+                    togglePlay.setText("Pause");
+                }
             }
         }
     }
 
     private void changeSpeed(ButtonUtil info, int speed) {
-        int speedMultiplier = (speed/50) + 1;
+        int speedMultiplier = (speed/10) + 1;
         for (TurtleView tv : info.tvm().getMyTurtleViewList()) {
             for (TurtleAnimation anim : tv.getAnimationQueue()) {
                 anim.getAnimation().setRate(speedMultiplier);

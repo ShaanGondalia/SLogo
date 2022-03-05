@@ -5,12 +5,14 @@ This project implements a development environment that helps users write program
 turtle.
 
 Names:
-<<<<<<< HEAD
 
 Shaan Gondalia
-=======
+
 Andy He
->>>>>>> 18930d0fdeb4b4bb40160c74a7deb7916c8dcc33
+
+Jake Heller
+
+Zackary Schrage
 
 ### Timeline
 
@@ -20,15 +22,23 @@ Finish Date: 3/4/2022
 
 Hours Spent:
 
-Andy : 30 hours
+Andy: 30 hours
 
 Shaan: 40 hours
+
+Zack: 30 hours
+
+Jake: 30 hours
 
 ### Primary Roles
 
 Andy : Front-End: General Views, Buttons, Displays, Resources, Styling, Design
 
+Zack : Front-End: Front-end Turtle, Front-end Turtle management, Some Buttons, Some Displays
+
 Shaan : Back-end: Compiler, Parser, Reflection for creating commands and invoking methods, Turtle Manager, Many commands, Testing.
+
+Jake : Turtle, Controller, Color Commands, Color Palette, Compiler, Value, 
 
 ### Resources Used
 
@@ -54,6 +64,7 @@ Data files needed:
     - slogo.languages
         - Defines the keywords for commands in each language, as well as syntax
 - View
+  - turtle.png file (can have any name) inside of resources/view/img
 
 Features implemented:
 
@@ -97,6 +108,7 @@ Assumptions or Simplifications:
 - CSS only changed at the beginning of creation of workspace
 - Languages other than English / Spanish can be implemented in the future
 - Help Screen only requires English - no translations
+- Appropriately sized image is used for the turtle (17x22 pixels)
 
 Interesting data files:
 
@@ -107,10 +119,12 @@ Noteworthy Features:
 - Support for multiple turtles
     - All multiple turtle commands are implemented, and the creation of any turtle via a command
       will also create a new turtle in the view
+    - Context object is flexible object that basically tells compiler what to do based on its state.
+  This design allowed us to easily extend to different types of syntax and commands
 
 ### Impressions
 
-Shaan - This project was challenging and required a lot of though about creating a modular and
+Shaan - This project was challenging and required a lot of thought about creating a modular and
 extendable design. Reflection had a bit of a learning curve, and building the compiler to be
 readible and modifiable was a big challenge. I also learned the importance of creating a
 well-defined API and sticking with it, as that is necessary for integration between teams.

@@ -99,7 +99,7 @@ public class Main extends Application {
     TurtleWindowView turtleWindowView = new TurtleWindowView(splashView.toString());
 
     TurtleManager turtleManager = new TurtleManager(startingTurtles);
-    TurtleViewManager turtleViewManager = new TurtleViewManager(turtleManager);
+    TurtleViewManager turtleViewManager = new TurtleViewManager(turtleManager, turtleWindowView);
 
     turtleWindowView.addGroup(turtleViewManager.getNode());
 

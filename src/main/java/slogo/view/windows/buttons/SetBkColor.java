@@ -10,7 +10,6 @@ import slogo.view.turtle.TurtleView;
 import slogo.view.util.ButtonUtil;
 import slogo.view.util.ColorPickerGenerator;
 import slogo.view.windows.Display;
-import slogo.view.windows.TurtleWindowView;
 
 /**
  * Button that opens a window with a color picker that sets the background color of the turtle canvas window
@@ -25,15 +24,16 @@ public class SetBkColor extends Display implements IDEButton{
     Stage s = cpg.cpStage();
 
     EventHandler<ActionEvent> colorChangeEvent = e -> {
-        GraphicsContext gc = TurtleWindowView.CANVAS.getGraphicsContext2D();
+        GraphicsContext gc = info.tvm().getTurtleWindowView().canvas.getGraphicsContext2D();
         gc.setFill(cpg.getCp().getValue());
         gc.setStroke(cpg.getCp().getValue());
-        gc.fillRect(0, 0, TurtleWindowView.CANVAS.getWidth(), TurtleWindowView.CANVAS.getHeight());
+        gc.fillRect(0, 0, info.tvm().getTurtleWindowView().canvas.getWidth(), info.tvm().getTurtleWindowView().canvas.getHeight());
         for (TurtleView tv : info.tvm().getMyTurtleViewList()) {
             for (Trail trail : tv.getTrailHistory()) {
                 Line line = trail.getLine();
                 gc.setFill(trail.getColor());
                 gc.setStroke(trail.getColor());
+                gc.setLineWidth(trail.getThickness());
                 gc.strokeLine(line.getStartX(), line.getStartY(), line.getEndX(), line.getEndY());
             }
         }

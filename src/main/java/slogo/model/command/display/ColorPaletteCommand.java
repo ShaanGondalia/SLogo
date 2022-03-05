@@ -17,6 +17,13 @@ public abstract class ColorPaletteCommand extends AbstractCommand {
   private ColorPalette myPalette;
   private List<Value> myArgs;
 
+  /**
+   *
+   * @param palette the color palette used by this workspace
+   * @param args the arguments to the command
+   * @param numArgs number of arguments this command takes
+   * @throws MissingArgumentException
+   */
   public ColorPaletteCommand(ColorPalette palette, List<Value> args, int numArgs)
       throws MissingArgumentException {
     super();

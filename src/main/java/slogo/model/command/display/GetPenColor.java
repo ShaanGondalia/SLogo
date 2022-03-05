@@ -8,14 +8,24 @@ import slogo.model.exception.MissingArgumentException;
 import slogo.model.turtle.Turtle;
 
 /**
+ * Creates Pen Color Command
+ *
  * @author Jake Heller
  */
 public class GetPenColor extends ColorPaletteCommand{
 
   public static final int NUM_ARGS = 0;
+
+  /**
+   *
+   * @param palette palette used by workspace
+   * @param args arguments to command
+   * @throws MissingArgumentException
+   */
   public GetPenColor(ColorPalette palette, List<Value> args) throws MissingArgumentException {
     super(palette, args, NUM_ARGS);
   }
+
   @Override
   public Value execute(Turtle turtle) throws MissingArgumentException {
     Set<Double> indices = getPalette().getIndices();

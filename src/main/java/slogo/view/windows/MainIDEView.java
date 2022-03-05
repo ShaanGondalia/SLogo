@@ -41,13 +41,14 @@ public class MainIDEView extends Display {
 
     Runner runner = new Runner();
 
-    DataSection dataSection = new DataSection(controller, language, runner);
-    TextSection textSection = new TextSection();
-    HistorySection historySection = new HistorySection(runner, language);
+    IDESection dataSection = new DataSection(controller, language, runner);
+    IDESection textSection = new TextSection();
+    IDESection historySection = new HistorySection(runner, language);
 
-    runner.setParameters(controller, dataSection, historySection);
-    IDESection buttonSection = new ButtonSection(language, controller, historySection, textSection,
-        dataSection, runner, turtleViewManager);
+    runner.setParameters(controller, (DataSection) dataSection,
+        (HistorySection) historySection);
+    IDESection buttonSection = new ButtonSection(language, controller, (HistorySection) historySection,
+        (TextSection) textSection, (DataSection) dataSection, runner, turtleViewManager);
 
     myPane.setBottom(buttonSection.getSection());
     myPane.setRight(historySection.getSection());
