@@ -44,7 +44,7 @@ public class CommandsSection implements IDESection{
   }
 
   protected void updateUserCommands() {
-    Map<String, String> commandList = myController.getMapData("userCommands");
+    Map<String, String> commandList = myController.getMapData(Controller.USER_COMMAND_GETTER);
     String toDisplay = myResources.getString(COM_STARTING_TEXT) + NEW_LINE;
     for (String commandName : commandList.keySet()) {
       String commandValue = commandList.get(commandName);

@@ -9,6 +9,7 @@ import java.util.*;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import slogo.controller.Controller;
+import slogo.model.turtle.TurtleManager;
 import slogo.view.turtle.TurtleViewManager;
 import slogo.view.windows.Display;
 import slogo.view.windows.LanguageSplash;
@@ -94,10 +95,16 @@ public class Main extends Application {
     splashView.show();
     Splash turtleNumSplash = new TurtleNumSplash(languageProbe.toString());
     turtleNumSplash.show();
+    int startingTurtles = Integer.parseInt(turtleNumSplash.toString());
     TurtleWindowView turtleWindowView = new TurtleWindowView(splashView.toString());
-    TurtleViewManager tvm = new TurtleViewManager(turtleWindowView);
-    Controller c = new Controller(languageProbe.toString(), tvm);
-    Display mainIDEView = new MainIDEView(languageProbe.toString(), c, splashView.toString(), stage, tvm);
+
+    TurtleManager turtleManager = new TurtleManager(startingTurtles);
+    TurtleViewManager turtleViewManager = new TurtleViewManager(turtleManager);
+
+    turtleWindowView.addGroup(turtleViewManager.getNode());
+
+    Controller controller = new Controller(languageProbe.toString(), turtleManager);
+    Display mainIDEView = new MainIDEView(languageProbe.toString(), controller, splashView.toString(), stage, turtleViewManager);
 
   }
 

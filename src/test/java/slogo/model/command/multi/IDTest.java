@@ -32,7 +32,7 @@ public class IDTest {
 
   @BeforeEach
   void setUp() {
-    myTurtleManager = new TurtleManager();
+    myTurtleManager = new TurtleManager(1);
     args = new ArrayList<>();
     myTurtle = new Turtle();
   }

@@ -23,6 +23,7 @@ import java.util.*;
 
 import slogo.model.turtle.PenState;
 import slogo.model.turtle.Pose;
+import slogo.model.turtle.Turtle;
 import slogo.model.turtle.TurtleStatus;
 import slogo.view.util.Coordinate;
 import slogo.view.util.Matrix;
@@ -41,6 +42,9 @@ public class TurtleView implements PropertyChangeListener  {
 
     private static final double CENTER_X = TurtleWindowView.WIDTH / 2;
     private static final double CENTER_Y = TurtleWindowView.HEIGHT / 2;
+
+    public static final String DEFAULT_ACTION = "Default";
+
     private static final Matrix ctm = new Matrix(1, 0, CENTER_X, 0, -1, CENTER_Y);
 
     private static Map<String, TurtleConsumer> ACTION_MAP;
@@ -71,6 +75,17 @@ public class TurtleView implements PropertyChangeListener  {
         graphicsContext.setFill(trailColor);
         graphicsContext.setStroke(trailColor);
         instantiateLambdaMap();
+    }
+
+    public TurtleView(Turtle turtle) {
+        this();
+        // moves turtle to starting position
+        Pose startPose = new Pose(0, 0, 0);
+        TurtleStatus newValue = turtle.getStatus();
+        TurtleStatus oldValue = new TurtleStatus(startPose, newValue.penState(), newValue.isActive(),
+            newValue.isActive());
+        PropertyChangeEvent evt = new PropertyChangeEvent(turtle, "Pose", oldValue, newValue);
+        changePose(evt);
     }
 
     private Animation makeAnimation(Pose oldPose, Pose newPose, PenState penState) {
@@ -152,10 +167,10 @@ public class TurtleView implements PropertyChangeListener  {
 
     private static void instantiateLambdaMap() {
         ACTION_MAP = new HashMap<>();
-        ACTION_MAP.put("Pose", (turtle, evt) -> turtle.changePose(evt));
-        ACTION_MAP.put("Visibility", (turtle, evt) -> turtle.changeVisibility(evt));
-        ACTION_MAP.put("Clear", (turtle, evt) -> turtle.changeClear(evt));
-        ACTION_MAP.put("Default", (turtle, evt) -> {});
+        ACTION_MAP.put(Turtle.POSE_CHANGED, (turtle, evt) -> turtle.changePose(evt));
+        ACTION_MAP.put(Turtle.VISIBILITY_CHANGED, (turtle, evt) -> turtle.changeVisibility(evt));
+        ACTION_MAP.put(Turtle.TRAILS_CLEARED, (turtle, evt) -> turtle.changeClear(evt));
+        ACTION_MAP.put(DEFAULT_ACTION, (turtle, evt) -> {});
     }
 
     private void changePose(PropertyChangeEvent evt) {

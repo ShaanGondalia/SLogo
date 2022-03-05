@@ -3,16 +3,14 @@ package slogo.model.compiler;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import java.util.ArrayList;
 import java.util.Deque;
-import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import slogo.Main;
+import slogo.model.color.ColorPalette;
 import slogo.model.command.Command;
 import slogo.model.exception.MissingArgumentException;
 import slogo.model.exception.SymbolNotFoundException;
-import slogo.model.turtle.Turtle;
 import slogo.model.turtle.TurtleManager;
 
 /**
@@ -54,6 +52,12 @@ public class CompilerTest {
   private static final String ID_PROGRAM = "tell [ 1 2 3 ] set :x 10 fd * id :x";
   private static final String ASK_PROGRAM = "tell [ 1 2 3 ] ask [ 4 5 ] [ fd 50 ] fd 100";
   private static final String COMMENTS_PROGRAM = "# this is a comment\nfd 50 \n# this is another comment\n";
+  private static final String DISPLAY_PROGRAM = "setpalette 3 0 200 255";
+  private static final String EXTENDED_SYNTAX_PROGRAM = "fd ( sum 10 20 30 40 )";
+  private static final String EXTENDED_SYNTAX_COMPLEX_PROGRAM = "setxy ( setxy 0 20 300 20 300 220 ) 15";
+  private static final String REDEFINE_FUNCTION_PROGRAM_1 = "to test [ :a :b :c ] "
+      + "[ set :d sum :a :b ] \n test 4 5 6";
+  private static final String REDEFINE_FUNCTION_PROGRAM_2 =  "to test [ :e :f ] [ fd 50 ] test 7 8";
 
 
   private static final String LANGUAGE = "English";
@@ -64,7 +68,8 @@ public class CompilerTest {
   @BeforeEach
   void setUp() {
     myTurtleManager = new TurtleManager();
-    compiler = new Compiler(LANGUAGE, myTurtleManager);
+    ColorPalette myColorPalette = new ColorPalette();
+    compiler = new Compiler(LANGUAGE, myTurtleManager, myColorPalette);
   }
 
   @Test
@@ -163,8 +168,33 @@ public class CompilerTest {
     assertEquals(50, myTurtleManager.getFollowingTurtles().get(0).getPose().y());
   }
 
+  @Test
+  void testDisplay() throws Exception {
+    run(compiler.compile(DISPLAY_PROGRAM));
+    //assertEquals(50, myTurtleManager.getFollowingTurtles().get(0).getPose().y());
+  }
+
+  @Test
+  void testExtendedSyntax() throws Exception {
+    run(compiler.compile(EXTENDED_SYNTAX_PROGRAM));
+    assertEquals(100, myTurtleManager.getFollowingTurtles().get(0).getPose().y());
+  }
+
+  @Test
+  void testExtendedSyntaxComplex() throws Exception {
+    run(compiler.compile(EXTENDED_SYNTAX_COMPLEX_PROGRAM));
+    assertEquals(520, myTurtleManager.getFollowingTurtles().get(0).getPose().x());
+    assertEquals(15, myTurtleManager.getFollowingTurtles().get(0).getPose().y());
+  }
+
+  @Test
+  void testParamProgram() throws Exception {
+    run(compiler.compile(REDEFINE_FUNCTION_PROGRAM_1));
+    run(compiler.compile(REDEFINE_FUNCTION_PROGRAM_2));
+    assertEquals(50, myTurtleManager.getFollowingTurtles().get(0).getPose().y());
+  }
+
   private void run(Deque<Deque<Command>> q) throws MissingArgumentException {
-    System.out.println(q);
     for (Deque<Command> innerQueue : q) {
       myTurtleManager.executeCommandQueue(innerQueue);
     }

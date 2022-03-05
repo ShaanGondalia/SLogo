@@ -6,9 +6,11 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Deque;
+import java.util.Map;
 import java.util.Stack;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import slogo.model.color.ColorPalette;
 import slogo.model.command.Command;
 import slogo.model.command.Value;
 import slogo.model.compiler.CommandFactory;
@@ -34,7 +36,8 @@ public class CommandFactoryTest {
   private Stack<Deque<Command>> lists;
   private Turtle turtle;
   private CommandFactory commandFactory;
-  private TurtleManager myTurtleManager;
+  private Map<String, Value> implicitVariables;
+
 
   @BeforeEach
   void setUp() {
@@ -43,19 +46,21 @@ public class CommandFactoryTest {
     lists = new Stack<>();
     lists.add(null);
     turtle = new Turtle();
-    myTurtleManager = new TurtleManager();
-    commandFactory = new CommandFactory(LANGUAGE, myTurtleManager);
+    ColorPalette myColorPalette = new ColorPalette();
+    TurtleManager myTurtleManager = new TurtleManager();
+    commandFactory = new CommandFactory(LANGUAGE, myTurtleManager, myColorPalette);
   }
 
   @Test
   void testBaseCommand() throws MissingArgumentException, SymbolNotFoundException {
-    Command c = commandFactory.getCommand(FORWARD, args, lists, 1);
+    Command c = commandFactory.getCommand(FORWARD, args, lists, implicitVariables, 1);
     assertEquals(ARG_1, c.execute(turtle).getVal());
   }
 
   @Test
   void testBaseNotEnoughArgs() {
-    assertThrows(MissingArgumentException.class, () -> commandFactory.getCommand(SUM, args, lists, 2));
+    assertThrows(MissingArgumentException.class, () -> commandFactory.getCommand(SUM, args, lists,
+        implicitVariables, 2));
   }
 
   @Test

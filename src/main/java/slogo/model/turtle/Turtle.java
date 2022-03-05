@@ -13,6 +13,11 @@ public class Turtle extends Observable<TurtleStatus> {
   private static final double ROTATION_ADJUST = 90;
   private static final double FULL_ROTATION = 360;
 
+  public static final String POSE_CHANGED = "Pose";
+  public static final String VISIBILITY_CHANGED = "Visibility";
+  public static final String PEN_CHANGED = "Pen";
+  public static final String TRAILS_CLEARED = "Clear";
+
   private double myX;
   private double myY;
   private final double myID;
@@ -69,7 +74,7 @@ public class Turtle extends Observable<TurtleStatus> {
     double radians = Math.toRadians(theta);
     myX += distance * Math.cos(radians);
     myY += distance * Math.sin(radians);
-    change("Pose");
+    change(POSE_CHANGED);
   }
 
   /**
@@ -80,7 +85,7 @@ public class Turtle extends Observable<TurtleStatus> {
   public void rotate(double degrees) {
     // needs to make sure difference from last bearing has same sign as input
     myBearing = myBearing + degrees;
-    change("Pose");
+    change(POSE_CHANGED);
     // "silently" change bearing and myLastState
     myBearing = myBearing % FULL_ROTATION;
     if (myBearing < 0) {
@@ -96,14 +101,14 @@ public class Turtle extends Observable<TurtleStatus> {
     myX = 0;
     myY = 0;
     myBearing = 0;
-    change("Pose");
+    change(POSE_CHANGED);
   }
 
   /**
    * Clears the turtle's trails
    */
-  public void clear() {
-    String property = "Clear";
+  public void clearTrails() {
+    String property = TRAILS_CLEARED;
     change(property);
   }
 
@@ -119,20 +124,44 @@ public class Turtle extends Observable<TurtleStatus> {
   /**
    * Sets the status of the turtle's pen.
    *
-   * @param hasPen If true, the pen is down. If false, the pen is up.
+   * @param penState Sets pen color, thickness, and if down
    */
-  public void setPen(boolean hasPen) {
-    myPenDown = hasPen;
-    String property = "Pen";
-    change(property);
+  public void setPen(PenState penState) {
+    myPenDown = penState.penDown();
+    myThickness = penState.thickness();
+    ColorRecord color = penState.color();
+    myPenR = color.r();
+    myPenG = color.g();
+    myPenB = color.b();
+
+    change(PEN_CHANGED);
   }
 
   public void setPenColor(ColorRecord color) {
     myPenR = color.r();
     myPenG = color.g();
     myPenB = color.b();
-    String property = "Color";
+
+    String property = PEN_CHANGED;
     change(property);
+  }
+
+  /**
+   * sets turtle to inactive
+   */
+  public void makeInactive() {
+    myActive = false;
+
+    change(VISIBILITY_CHANGED);
+  }
+
+  /**
+   * sets turtle to active
+   */
+  public void makeActive() {
+    myActive = true;
+
+    change(VISIBILITY_CHANGED);
   }
 
   /**
@@ -142,7 +171,7 @@ public class Turtle extends Observable<TurtleStatus> {
    */
   public void setVisibility(boolean visibility) {
     myVisibility = visibility;
-    String property = "Visibility";
+    String property = VISIBILITY_CHANGED;
     change(property);
   }
 
@@ -154,7 +183,7 @@ public class Turtle extends Observable<TurtleStatus> {
     myX = pose.x();
     myY = pose.y();
     myBearing = pose.bearing();
-    String property = "Pose";
+    String property = POSE_CHANGED;
     change(property);
   }
 

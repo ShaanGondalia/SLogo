@@ -29,14 +29,14 @@ public abstract class MultipleTurtleCommand extends AbstractCommand {
   @Override
   public void verifyArgs(List<Value> args, int numArgs) throws MissingArgumentException {
     if (args.size() < numArgs || numArgs == -1) {
-      throw new MissingArgumentException("NOT ENOUGH ARGS");
+      throw new MissingArgumentException();
     }
   }
 
   protected void verifyCommandLists(List<Deque<Command>> lists, int numCommandLists)
       throws MissingArgumentException {
     if (lists.size() < numCommandLists) {
-      throw new MissingArgumentException("NOT ENOUGH LISTS");
+      throw new MissingArgumentException();
     }
   }
 }

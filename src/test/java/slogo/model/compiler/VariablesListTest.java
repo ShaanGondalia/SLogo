@@ -10,11 +10,12 @@ import java.util.Queue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import slogo.Main;
+import slogo.model.color.ColorPalette;
 import slogo.model.turtle.Turtle;
 import slogo.model.turtle.TurtleManager;
 
 public class VariablesListTest {
-
+  ColorPalette myColorPalette;
   TurtleManager myTurtleManager;
   Compiler myCompiler;
   List<Turtle> myTurtles;
@@ -22,7 +23,8 @@ public class VariablesListTest {
   @BeforeEach
   void setup () {
     myTurtleManager = new TurtleManager();
-    myCompiler = new Compiler("English", myTurtleManager);
+    myColorPalette = new ColorPalette();
+    myCompiler = new Compiler("English", myTurtleManager, myColorPalette);
     myTurtles = new ArrayList<>();
     myTurtles.add(new Turtle());
   }
