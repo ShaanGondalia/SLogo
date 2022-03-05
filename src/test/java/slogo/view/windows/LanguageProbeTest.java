@@ -17,7 +17,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 class LanguageProbeTest extends DukeApplicationTest {
 
   private Splash ls;
-  private Button fs;
   private Button eng;
 
   @Override
@@ -26,14 +25,9 @@ class LanguageProbeTest extends DukeApplicationTest {
     stage = new Stage();
     stage.setScene(ls.getMyScene());
     stage.show();
-    fs = lookup("#French").query();
     eng = lookup("#English").query();
   }
 
-  @Test
-  void createStage() {
-    assertTrue(true);
-  }
 
   @Test
   void testImplemented() {

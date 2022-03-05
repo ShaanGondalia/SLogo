@@ -95,9 +95,10 @@ public class Main extends Application {
     splashView.show();
     Splash turtleNumSplash = new TurtleNumSplash(languageProbe.toString());
     turtleNumSplash.show();
+    int startingTurtles = Integer.parseInt(turtleNumSplash.toString());
     TurtleWindowView turtleWindowView = new TurtleWindowView(splashView.toString());
 
-    TurtleManager turtleManager = new TurtleManager(2);
+    TurtleManager turtleManager = new TurtleManager(startingTurtles);
     TurtleViewManager turtleViewManager = new TurtleViewManager(turtleManager, turtleWindowView);
 
     turtleWindowView.addGroup(turtleViewManager.getNode());

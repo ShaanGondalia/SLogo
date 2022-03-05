@@ -17,6 +17,7 @@ public abstract class Display {
   public static final String CSS_FILE_ENDING = ".css";
   public static final String TITLES_RESOURCES_PATH = "view.titles.";
   private Scene myScene;
+
   /**
    * Used to standardize creation of stages so no duplicate code. Can initialize without a previous
    * stage, or with one, if the stage needs to be referenced in creating the root.
@@ -46,9 +47,10 @@ public abstract class Display {
 
   /**
    * Used only for testing purposes
-   * @return
+   *
+   * @return the scene that can be added to the testing stage
    */
-  protected Scene getMyScene(){
+  protected Scene getMyScene() {
     return myScene;
   }
 }

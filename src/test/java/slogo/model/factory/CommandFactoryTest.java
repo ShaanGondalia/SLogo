@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Deque;
+import java.util.Map;
 import java.util.Stack;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -35,6 +36,7 @@ public class CommandFactoryTest {
   private Stack<Deque<Command>> lists;
   private Turtle turtle;
   private CommandFactory commandFactory;
+  private Map<String, Value> implicitVariables;
 
 
   @BeforeEach
@@ -51,13 +53,14 @@ public class CommandFactoryTest {
 
   @Test
   void testBaseCommand() throws MissingArgumentException, SymbolNotFoundException {
-    Command c = commandFactory.getCommand(FORWARD, args, lists, 1);
+    Command c = commandFactory.getCommand(FORWARD, args, lists, implicitVariables, 1);
     assertEquals(ARG_1, c.execute(turtle).getVal());
   }
 
   @Test
   void testBaseNotEnoughArgs() {
-    assertThrows(MissingArgumentException.class, () -> commandFactory.getCommand(SUM, args, lists, 2));
+    assertThrows(MissingArgumentException.class, () -> commandFactory.getCommand(SUM, args, lists,
+        implicitVariables, 2));
   }
 
   @Test
