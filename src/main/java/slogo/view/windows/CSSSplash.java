@@ -25,18 +25,17 @@ public class CSSSplash extends Splash {
   private static final Set<String> IMPLEMENTED = Set.of("light", "dark");
   private static final String SPLASH_TYPE = "CSS";
   private static final String RESOURCE_PREFIX = "view.cssprops.";
-  private ResourceBundle myResources;
   private Stage myStage;
 
   /**
    * Creates a Splash screen to determine what style of nodes to have for MainIDEView
    *
-   * @param language
+   * @param language language that the title is displayed in
    * @see LanguageSplash
    * @see MainIDEView
    */
   public CSSSplash(String language) {
-    myResources = ResourceBundle.getBundle(RESOURCE_PREFIX + language);
+    ResourceBundle myResources = ResourceBundle.getBundle(RESOURCE_PREFIX + language);
     ResourceBundle titles = ResourceBundle.getBundle(Display.TITLES_RESOURCES_PATH + language);
     myStage = new Stage();
     myStage = createStage(myStage, titles.getString(TITLE), SIZE,
@@ -44,6 +43,11 @@ public class CSSSplash extends Splash {
         DEFAULT_SPLASH_CSS);
   }
 
+  /**
+   * Shows the stage using the super-class method
+   *
+   * @see Splash
+   */
   public void show() {
     super.show(myStage);
   }
