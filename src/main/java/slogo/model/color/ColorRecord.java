@@ -12,11 +12,20 @@ public record ColorRecord(int r, int g, int b) {
   private static final String HEX_PREFIX = "0";
   private static final int EQUALS_THRESHHOLD = 5;
 
+  /**
+   *
+   * @return color in hexadecimal format
+   */
   @Override
   public String toString() {
     return "#" + toHex(r) + toHex(g) + toHex(b);
   }
 
+  /**
+   *
+   * @param obj
+   * @return true if each component of colors is within threshold
+   */
   @Override
   // https://stackoverflow.com/questions/8180430/how-to-override-equals-method-in-java
   public boolean equals(Object obj) {

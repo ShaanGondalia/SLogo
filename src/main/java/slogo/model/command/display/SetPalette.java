@@ -19,8 +19,6 @@ public class SetPalette extends ColorPaletteCommand {
   private static final int G_INDEX = 2;
   private static final int B_INDEX = 3;
 
-  // (args.get(R_INDEX), args.get(G_INDEX), args.get(B_INDEX));
-
   /**
    *
    * @param palette palette used by workspace
