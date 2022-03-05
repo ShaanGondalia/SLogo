@@ -41,30 +41,19 @@ public class MainIDEView extends Display {
 
     Runner runner = new Runner();
 
-//<<<<<<< HEAD
-    IDESection variablesSection = new DataSection(controller, language, runner);
+    IDESection dataSection = new DataSection(controller, language, runner);
     IDESection textSection = new TextSection();
     IDESection historySection = new HistorySection(runner, language);
 
-    runner.setParameters(controller, (DataSection) variablesSection,
+    runner.setParameters(controller, (DataSection) dataSection,
         (HistorySection) historySection);
     IDESection buttonSection = new ButtonSection(language, controller, (HistorySection) historySection,
-        (TextSection) textSection, (DataSection) variablesSection, runner, turtleViewManager);
-//=======
-//    DataSection dataSection = new DataSection(controller, language, runner);
-//    TextSection textSection = new TextSection();
-//    HistorySection historySection = new HistorySection(runner, language);
-//
-//    runner.setParameters(controller, dataSection, historySection);
-//    IDESection buttonSection = new ButtonSection(language, controller, historySection, textSection,
-//        dataSection, runner, turtleViewManager);
-//>>>>>>> 4075dc1d6b2e0ab1156c13e281d3628d9652ec46
+        (TextSection) textSection, (DataSection) dataSection, runner, turtleViewManager);
 
     myPane.setBottom(buttonSection.getSection());
     myPane.setRight(historySection.getSection());
     myPane.setCenter(textSection.getSection());
-    //myPane.setLeft(dataSection.getSection());
-    myPane.setLeft(variablesSection.getSection());
+    myPane.setLeft(dataSection.getSection());
 
     stage = createStage(TITLE, MAIN_SIZE, myPane, css);
     stage.show();
