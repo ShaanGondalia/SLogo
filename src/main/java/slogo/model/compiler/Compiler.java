@@ -31,6 +31,7 @@ public class Compiler {
   private final ResourceBundle handlerResources;
   private final Parser myParser;
   private final Map<String, Value> myVariables;
+  private final Map<String, Value> implicitVariables;
   private final CommandFactory commandFactory;
   private Context activeContext;
   private Stack<Context> inactiveContexts;
@@ -48,6 +49,8 @@ public class Compiler {
     myParser.addPatterns(language);
     myParser.addPatterns("Syntax");
     myVariables = new LinkedHashMap<>(); // linked hashmap preserves insertion order for display
+    implicitVariables = new LinkedHashMap<>();
+    buildImplicitVariables();
     commandFactory = new CommandFactory(language, turtleManager, colorPalette);
   }
 
@@ -68,7 +71,7 @@ public class Compiler {
         if (pendingCommand.equals("MakeUserInstruction")) {
           commandFactory.makeUserCommand(waitingUserCommandName, numInputs);
         }
-        activeContext.resolveCommand(commandFactory, numInputs);
+        activeContext.resolveCommand(commandFactory, numInputs, implicitVariables);
       }
     }
     checkPendingCommandsEmpty();
@@ -204,6 +207,13 @@ public class Compiler {
    */
   public Map<String, String> getUserCommandStrings() {
     return new HashMap<>(commandFactory.getUserCommandStrings());
+  }
+
+  // Handles building the implicit variables of a program
+  private void buildImplicitVariables() {
+    Value repcount = new Value();
+    implicitVariables.put(":repcount", repcount);
+    myVariables.put(":repcount", repcount);
   }
 
   public Map<String, String> getColorPaletteStrings() {

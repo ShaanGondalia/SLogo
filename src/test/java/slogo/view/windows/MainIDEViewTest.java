@@ -30,7 +30,7 @@ class MainIDEViewTest extends DukeApplicationTest {
   @Override
   public void start(Stage stage) {
     TurtleManager v = new TurtleManager();
-    TurtleViewManager tvm = new TurtleViewManager(v);
+    TurtleViewManager tvm = new TurtleViewManager(v, new TurtleWindowView("light"));
     main = new MainIDEView("English", new Controller("English", v), "dark", stage, tvm);
     TextInputControl area = lookup("#textArea").query();
     area.clear();

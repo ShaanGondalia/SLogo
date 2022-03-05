@@ -14,12 +14,15 @@ public class TurtleViewManager implements PropertyChangeListener {
 
     private List<TurtleView> myTurtleViewList;
     private TurtleManager myTurtleManager;
-
+    private TurtleWindowView myTurtleWindowView;
     private Group myNode = new Group();
+    private int mouseDelta = 5;
 
-    public TurtleViewManager(TurtleManager turtleManager) {
+    public TurtleViewManager(TurtleManager turtleManager, TurtleWindowView turtleWindowView) {
         myTurtleViewList = new ArrayList<>();
         myTurtleManager = turtleManager;
+        myTurtleWindowView = turtleWindowView;
+        appendListenerToWindow(myTurtleWindowView);
 
         addStartingTurtles();
         turtleManager.addListener(this);
@@ -33,13 +36,32 @@ public class TurtleViewManager implements PropertyChangeListener {
         }
     }
 
+    private void appendListenerToWindow(TurtleWindowView myTurtleWindowView) {
+        myTurtleWindowView.getPane().setOnMouseMoved(e -> {
+            for (TurtleView tv : myTurtleViewList) {
+                if (withinTurtleCenter(e.getX(), e.getY(), tv)) {
+
+                }
+            }
+        });
+    }
+
+    private boolean withinTurtleCenter(double x, double y, TurtleView tv) {
+       // return Math.abs(x - tv.getTurtleNode().getLayoutBounds().getCenterX());
+        return false;
+    }
+
     public TurtleView createTurtleView(Turtle turtle) {
-        TurtleView turtleView = new TurtleView(turtle);
+        TurtleView turtleView = new TurtleView(turtle, myTurtleWindowView);
         turtle.addListener(turtleView);
         myTurtleViewList.add(turtleView);
         myNode.getChildren().add(turtleView.getTurtleNode());
 
         return turtleView;
+    }
+
+    public TurtleWindowView getTurtleWindowView() {
+        return myTurtleWindowView;
     }
 
     public Group getNode() {

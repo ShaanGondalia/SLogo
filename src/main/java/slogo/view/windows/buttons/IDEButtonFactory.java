@@ -12,12 +12,17 @@ import slogo.view.util.ButtonUtil;
  * Factory to create IDEButtons - utilizing the design patterns shown in class
  *
  * @author Andy S. He
+ * @see IDEButton
  */
 public class IDEButtonFactory {
 
   public static final String FILE_PATH_DELIMITER = ".";
+
   /**
    * Creates a new Button using reflection - the main factory method
+   * <p>
+   * Note, each of the buttons are added in a resource file, for a name to display, adn then a class
+   * in teh buttons package is created to supplement that addition
    *
    * @param info contains all the information each of the buttons need to function
    * @return a Button object that will be added to the ButtonSection soon

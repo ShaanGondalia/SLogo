@@ -2,6 +2,7 @@ package slogo.model.compiler;
 
 import java.util.Deque;
 import java.util.LinkedList;
+import java.util.Map;
 import java.util.Stack;
 import slogo.model.command.Command;
 import slogo.model.command.Value;
@@ -58,16 +59,17 @@ public class Context {
 
   /**
    * Resolves a command in the given context
-   *
-   * @param commandFactory the command factory that will build the command
+   *  @param commandFactory the command factory that will build the command
    * @param numInputs      the number of inputs for the command
+   * @param implicitVariables the implicit variables for the command
    */
-  public void resolveCommand(CommandFactory commandFactory, int numInputs)
+  public void resolveCommand(CommandFactory commandFactory, int numInputs,
+      Map<String, Value> implicitVariables)
       throws MissingArgumentException, SymbolNotFoundException {
     String pendingCommand = pendingCommands.pop();
     valuesBefore.pop();
     listsBefore.pop();
-    Command command = commandFactory.getCommand(pendingCommand, values, lists, numInputs);
+    Command command = commandFactory.getCommand(pendingCommand, values, lists, implicitVariables, numInputs);
     values.add(command.returnValue());
     if (!lists.empty()) {
       lists.peek().addLast(command);

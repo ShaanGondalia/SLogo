@@ -73,18 +73,20 @@ public class CommandFactory {
    *
    * @param symbol the symbol of the command
    * @param values the stack of values to pass to the command
+   * @param implicitVariables the implicit variables of the command (empty if none)
    * @return the command built from the given parameters.
    * @throws MissingArgumentException
    */
   public Command getCommand(String symbol, Stack<Value> values,
-      Stack<Deque<Command>> commandLists, int numInputs)
+      Stack<Deque<Command>> commandLists,
+      Map<String, Value> implicitVariables, int numInputs)
       throws MissingArgumentException, SymbolNotFoundException {
     List<Value> args = generateArgList(symbol, values, numInputs);
     List<Deque<Command>> commandQueues = generateCommandQueueList(symbol, commandLists);
     if (myUserCommands.containsKey(symbol)) {
       return getUserCommand(symbol, args);
     } else {
-      return generateCommand(symbol, args, commandQueues);
+      return generateCommand(symbol, args, commandQueues, implicitVariables);
     }
   }
 
@@ -124,14 +126,15 @@ public class CommandFactory {
   }
 
   // Generates a command using reflection
-  private Command generateCommand(String symbol, List<Value> args, List<Deque<Command>> queues)
+  private Command generateCommand(String symbol, List<Value> args, List<Deque<Command>> queues,
+      Map<String, Value> implicitVariables)
       throws SymbolNotFoundException {
     String command = reflectionResources.getString(symbol).trim();
     try {
       String handlerMethod = constructorResources.getString(symbol);
       Method handle = CommandFactory.class.getDeclaredMethod(handlerMethod, Class.class, List.class,
-          List.class);
-      Command c = (Command) handle.invoke(this, Class.forName(command), args, queues);
+          List.class, Map.class);
+      Command c = (Command) handle.invoke(this, Class.forName(command), args, queues, implicitVariables);
       if (symbol.equals("MakeUserInstruction")) {
         myUserCommands.put(lastAddedSymbol, (MakeUserInstruction) c);
       } else if (getNumInputs(symbol) != args.size() && getNumInputs(symbol) != -1) {
@@ -145,21 +148,21 @@ public class CommandFactory {
   }
 
   private Command makeArgCommand(Class<?> commandClass, List<Value> args,
-      List<Deque<Command>> commandQueues)
+      List<Deque<Command>> commandQueues, Map<String, Value> implicitVariables)
       throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
     Constructor<?> ctor = commandClass.getDeclaredConstructor(List.class);
     return (Command) ctor.newInstance(args);
   }
 
   private Command makeListCommand(Class<?> commandClass, List<Value> args,
-      List<Deque<Command>> commandQueues)
+      List<Deque<Command>> commandQueues, Map<String, Value> implicitVariables)
       throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
     Constructor<?> ctor = commandClass.getDeclaredConstructor(List.class, List.class);
     return (Command) ctor.newInstance(args, commandQueues);
   }
 
   private Command makeListMultiCommand(Class<?> commandClass, List<Value> args,
-      List<Deque<Command>> commandQueues)
+      List<Deque<Command>> commandQueues, Map<String, Value> implicitVariables)
       throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
     Constructor<?> ctor = commandClass.getDeclaredConstructor(List.class, List.class,
         TurtleManager.class);
@@ -167,17 +170,24 @@ public class CommandFactory {
   }
 
   private Command makeArgMultiCommand(Class<?> commandClass, List<Value> args,
-      List<Deque<Command>> commandQueues)
+      List<Deque<Command>> commandQueues, Map<String, Value> implicitVariables)
       throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
     Constructor<?> ctor = commandClass.getDeclaredConstructor(List.class, TurtleManager.class);
     return (Command) ctor.newInstance(args, myTurtleManager);
   }
 
   private Command makeArgColorCommand(Class<?> commandClass, List<Value> args,
-      List<Deque<Command>> commandQueues)
+      List<Deque<Command>> commandQueues, Map<String, Value> implicitVariables)
       throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
     Constructor<?> ctor = commandClass.getDeclaredConstructor(ColorPalette.class, List.class);
     return (Command) ctor.newInstance(myColorPalette, args);
+  }
+
+  private Command makeListImplicitCommand(Class<?> commandClass, List<Value> args,
+      List<Deque<Command>> commandQueues, Map<String, Value> implicitVariables)
+      throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
+    Constructor<?> ctor = commandClass.getDeclaredConstructor(List.class, List.class, Map.class);
+    return (Command) ctor.newInstance(args, commandQueues, implicitVariables);
   }
 
   /**

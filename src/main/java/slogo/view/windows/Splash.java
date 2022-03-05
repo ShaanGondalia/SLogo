@@ -19,12 +19,13 @@ public abstract class Splash extends Display {
   private String value;
   private static final String ERROR_MESSAGE = " not Implemented. Choose out of the following: ";
   public static final String DEFAULT_SPLASH_CSS = "splash";
+
   /**
    * Makes the buttons to select from using a Record that contains all the relevant information
    *
    * @param gen parameters for creating the buttons
-   * @see OptionGenerator
    * @return the created pane
+   * @see OptionGenerator
    */
   protected TilePane makeOptions(OptionGenerator gen) {
     TilePane root = new TilePane();
@@ -35,6 +36,7 @@ public abstract class Splash extends Display {
     return root;
   }
 
+  // uses reflection to make each of the options on the splash
   private void makeOption(TilePane root, String key, OptionGenerator gen) {
     Button b = new Button();
     b.setText(gen.res().getString(key));
@@ -58,9 +60,18 @@ public abstract class Splash extends Display {
     return value;
   }
 
+  /**
+   * Used to show the splash to the outside world
+   */
   public abstract void show();
 
-  protected void show(Stage stage){
+  /**
+   * Used to say that the stage should be shown and waited - strange system due to testing and
+   * elimination of duplicate code
+   *
+   * @param stage Stage to be shown
+   */
+  protected void show(Stage stage) {
     try {
       stage.showAndWait();
     } catch (Exception e) {

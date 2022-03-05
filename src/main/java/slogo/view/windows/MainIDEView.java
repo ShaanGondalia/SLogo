@@ -24,10 +24,19 @@ public class MainIDEView extends Display {
   private static final String ROOT_ID = "root";
   public static final String IDE_RESOURCES_ROOT = "view.defaultIdeText.";
 
-  private BorderPane myPane;
 
-  public MainIDEView(String language, Controller controller, String css, Stage stage, TurtleViewManager turtleViewManager) {
-    myPane = new BorderPane();
+  /**
+   * Class that creates and stores all the elements in the Main IDE
+   *
+   * @param language          language to display text
+   * @param controller        controller to run commands from the front-end
+   * @param css               css that the main-ide should be styled to
+   * @param stage             stage that can be used for testing
+   * @param turtleViewManager contains all the information about turtles
+   */
+  public MainIDEView(String language, Controller controller, String css, Stage stage,
+      TurtleViewManager turtleViewManager) {
+    BorderPane myPane = new BorderPane();
     myPane.setId(ROOT_ID);
 
     Runner runner = new Runner();

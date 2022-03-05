@@ -16,9 +16,9 @@ public class DataSection implements IDESection {
   protected static final String NEW_LINE = "\n";
 
 
-  private BorderPane myDataSec;
-  private VariablesSection myVarSec;
-  private CommandsSection myComSec;
+  private final BorderPane myDataSec;
+  private final VariablesSection myVarSec;
+  private final CommandsSection myComSec;
   private TurtlesAndColorsSection myTAndCSec;
 
   /**
@@ -57,7 +57,11 @@ public class DataSection implements IDESection {
     return myVarSec.getVarText() + myComSec.getComText();
   }
 
-
+  /**
+   * get the region that can be set to a specific location on the MainIDEView
+   *
+   * @return a BorderPane
+   */
   @Override
   public Region getSection() {
     return myDataSec;

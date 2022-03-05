@@ -20,7 +20,7 @@ public class TurtlesAndColorsSection implements IDESection{
   public TurtlesAndColorsSection(Controller c, String language){
     resourceBundle = ResourceBundle.getBundle(MainIDEView.IDE_RESOURCES_ROOT + language);
     tAndCPane = new ScrollPane();
-    tAndCText = new Text(resourceBundle.getString(TC_DEFAULT_TEXT));
+    tAndCText = new Text(TC_DEFAULT_TEXT);
     tAndCPane.setContent(tAndCText);
     tAndCPane.setPrefViewportWidth(TC_WIDTH);
     myController = c;
