@@ -75,17 +75,6 @@ public class Main extends Application {
     }
   }
 
-
-  /**
-   * Start of the program.
-   */
-//    public static void main (String[] args) {
-//        Main m = new Main();
-//        System.out.println(m.getVersion());
-//        System.out.println(m.getCommand("English", "Forward"));
-//        System.out.println(m.getExampleProgram("loops", "star"));
-//    }
-
   @Override
   public void start(Stage stage) throws ClassNotFoundException {
 
