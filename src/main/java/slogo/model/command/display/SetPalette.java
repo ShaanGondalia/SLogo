@@ -6,6 +6,11 @@ import slogo.model.command.Value;
 import slogo.model.exception.MissingArgumentException;
 import slogo.model.turtle.Turtle;
 
+/**
+ * Adds color to Color palette
+ *
+ * @author Jake Heller
+ */
 public class SetPalette extends ColorPaletteCommand {
 
   private static final int NUM_ARGS = 4;
@@ -16,6 +21,12 @@ public class SetPalette extends ColorPaletteCommand {
 
   // (args.get(R_INDEX), args.get(G_INDEX), args.get(B_INDEX));
 
+  /**
+   *
+   * @param palette palette used by workspace
+   * @param args arguments to command
+   * @throws MissingArgumentException
+   */
   public SetPalette(ColorPalette palette, List<Value> args) throws MissingArgumentException {
     super(palette, args, NUM_ARGS);
   }
