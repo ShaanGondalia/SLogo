@@ -25,9 +25,10 @@ public class ClickToExecuteGUI extends Display {
 
   private ButtonUtil myInfo;
 
-  public ClickToExecuteGUI(ButtonUtil info) {
+  public ClickToExecuteGUI(ButtonUtil info, Stage stage) {
     BorderPane pane = new BorderPane();
-    Stage stage = createStage(TITLE, DIMENSION, pane, CSS_STYLE);
+    pane.setId("hello");
+    stage = createStage(TITLE, DIMENSION, pane, CSS_STYLE);
     myInfo = info;
     pane.setTop(makeCommandButton(FORWARD_COMMAND, info.language()));
     pane.setBottom(makeCommandButton(BACKWARD_COMMAND, info.language()));

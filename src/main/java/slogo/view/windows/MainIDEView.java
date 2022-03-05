@@ -24,36 +24,27 @@ public class MainIDEView extends Display {
   private static final String ROOT_ID = "root";
   public static final String IDE_RESOURCES_ROOT = "view.defaultIdeText.";
 
-
   private BorderPane myPane;
 
   public MainIDEView(String language, Controller controller, String css, Stage stage, TurtleViewManager turtleViewManager) {
     myPane = new BorderPane();
     myPane.setId(ROOT_ID);
+
     Runner runner = new Runner();
-//<<<<<<< HEAD
-//    IDESection variablesSection = new VariablesAndCommandsSection(controller, language, runner);
-//    IDESection textSection = new TextSection();
-//    IDESection historySection = new HistorySection(runner, language);
-//
-//    runner.setParameters(controller, (VariablesAndCommandsSection) variablesSection,
-//        (HistorySection) historySection);
-//    IDESection buttonSection = new ButtonSection(language, controller, (HistorySection) historySection,
-//        (TextSection) textSection, (VariablesAndCommandsSection) variablesSection, runner, turtleViewManager);
-//=======
-    IDESection variablesSection = new DataSection(controller, language, runner);
+
+    IDESection dataSection = new DataSection(controller, language, runner);
     IDESection textSection = new TextSection();
     IDESection historySection = new HistorySection(runner, language);
 
-    runner.setParameters(controller, (DataSection) variablesSection,
+    runner.setParameters(controller, (DataSection) dataSection,
         (HistorySection) historySection);
     IDESection buttonSection = new ButtonSection(language, controller, (HistorySection) historySection,
-        (TextSection) textSection, (DataSection) variablesSection, runner, turtleViewManager);
+        (TextSection) textSection, (DataSection) dataSection, runner, turtleViewManager);
 
     myPane.setBottom(buttonSection.getSection());
     myPane.setRight(historySection.getSection());
     myPane.setCenter(textSection.getSection());
-    myPane.setLeft(variablesSection.getSection());
+    myPane.setLeft(dataSection.getSection());
 
     stage = createStage(TITLE, MAIN_SIZE, myPane, css);
     stage.show();

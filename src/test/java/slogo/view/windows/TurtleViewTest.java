@@ -29,15 +29,15 @@ class TurtleViewTest {
     c.addTurtle(tv);
   }
 
-  @Test
-  void propertyChange() {
-    c.getTurtles().get(0).setPose(new Pose(20, 20, 0));
-    assertTrue(((ImageView) tv.getTurtleNode()).getX() == 20);
-  }
-
-  @Test
-  void getTurtleNode() {
-    Node n = tv.getTurtleNode();
-    assertTrue(n.getClass() == javafx.scene.Node.class);
-  }
+//  @Test
+//  void propertyChange() {
+//    c.getTurtles().get(0).setPose(new Pose(20, 20, 0));
+//    assertTrue(((ImageView) tv.getTurtleNode()).getX() == 20);
+//  }
+//
+//  @Test
+//  void getTurtleNode() {
+//    Node n = tv.getTurtleNode();
+//    assertTrue(n.getClass() == javafx.scene.Node.class);
+//  }
 }

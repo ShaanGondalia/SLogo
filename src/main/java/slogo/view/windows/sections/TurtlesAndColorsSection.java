@@ -10,7 +10,7 @@ import slogo.view.windows.MainIDEView;
 
 public class TurtlesAndColorsSection implements IDESection{
   private static final int TC_WIDTH = 150;
-  private static final String TC_DEFAULT_TEXT = "Color Palette";
+  private static final String TC_DEFAULT_TEXT = "ColorPalette";
 
   private Text tAndCText;
   private ScrollPane tAndCPane;
