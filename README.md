@@ -107,10 +107,12 @@ Noteworthy Features:
 - Support for multiple turtles
     - All multiple turtle commands are implemented, and the creation of any turtle via a command
       will also create a new turtle in the view
+    - Context object is flexible object that basically tells compiler what to do based on its state.
+  This design allowed us to easily extend
 
 ### Impressions
 
-Shaan - This project was challenging and required a lot of though about creating a modular and
+Shaan - This project was challenging and required a lot of thought about creating a modular and
 extendable design. Reflection had a bit of a learning curve, and building the compiler to be
 readible and modifiable was a big challenge. I also learned the importance of creating a
 well-defined API and sticking with it, as that is necessary for integration between teams.

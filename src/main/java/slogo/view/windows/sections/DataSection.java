@@ -43,8 +43,9 @@ public class DataSection implements IDESection {
    * Updates the display to display the current variables and user-defined section
    */
   public void update() {
-    myVarSec.updateVariables();
-    myComSec.updateUserCommands();
+    myVarSec.update();
+    myComSec.update();
+    myTAndCSec.update();
   }
 
 

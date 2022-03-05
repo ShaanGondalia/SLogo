@@ -55,7 +55,7 @@ public class CommandsSection implements IDESection {
   /**
    * Used in the Data Section to update what user commands exist and display it formatted
    */
-  protected void updateUserCommands() {
+  protected void update() {
     Map<String, String> commandList = myController.getMapData(Controller.USER_COMMAND_GETTER);
     String toDisplay = myResources.getString(COM_STARTING_TEXT) + NEW_LINE;
     for (String commandName : commandList.keySet()) {

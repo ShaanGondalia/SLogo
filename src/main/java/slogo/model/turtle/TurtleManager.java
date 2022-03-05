@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Deque;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import slogo.model.command.Command;
@@ -17,14 +18,14 @@ import slogo.model.exception.MissingArgumentException;
  */
 public class TurtleManager extends Observable<Turtle> {
 
-  // maybe list or map from IDs to turtles
+  private static final double STARTING_POSITION_INCREMENT = 30;
 
   private final Map<Double, Turtle> myTurtles;
   private final Map<Double, Boolean> followingTurtleMap;
   private Turtle activeTurtle;
 
   public TurtleManager(int startingTurtles) {
-    myTurtles = new HashMap<>();
+    myTurtles = new LinkedHashMap<>();
     followingTurtleMap = new HashMap<>();
     addStartingTurtles(startingTurtles);
   }
@@ -36,7 +37,7 @@ public class TurtleManager extends Observable<Turtle> {
   private void addStartingTurtles(int num) {
     for (int i = 0; i < num; i++) {
       Turtle t = new Turtle(i);
-      t.move(i * 20);
+      t.move(i * STARTING_POSITION_INCREMENT);
       addTurtle(t);
       myTurtles.put(1.0 * i, t);
       followingTurtleMap.put(1.0 * i, true);
@@ -115,8 +116,22 @@ public class TurtleManager extends Observable<Turtle> {
       }
       followingTurtleMap.put(id.getVal(), true);
     }
+    setActive();
     activateTurtle(getFollowingTurtles().get(0));
     return oldFollowers;
+  }
+
+  // sets all turtles to correct active or inactive state
+  private void setActive() {
+    for (Double turtleID: myTurtles.keySet()) {
+      Turtle turtle = myTurtles.get(turtleID);
+      if (followingTurtleMap.get(turtleID)) {
+        turtle.makeActive();
+      }
+      else {
+        turtle.makeInactive();
+      }
+    }
   }
 
   // Disables all turtles
@@ -129,6 +144,23 @@ public class TurtleManager extends Observable<Turtle> {
     activeTurtle = turtle;
   }
 
+  /**
+   * Retrieves a map from ID to turtle pose (both as strings) for
+   * use in the front end
+   *
+   * @return map where key string is ID, and value string is pose
+   */
+  public Map<String, String> getTurtleData() {
+    Map<String, String> map = new LinkedHashMap<>();
+
+    for (double id: myTurtles.keySet()) {
+      Turtle turtle = myTurtles.get(id);
+      Pose pose = turtle.getPose();
+      String poseString = String.format("(%.0f, %.0f, %.0f)", pose.x(), pose.y(), pose.bearing());
+      map.put(Double.toString(id), poseString);
+    }
+    return map;
+  }
 
   /**
    * Executes a queue of commands on the following turtles. Assumes the following turtle does not
