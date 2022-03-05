@@ -12,6 +12,7 @@ public interface IDESection {
 
   /**
    * get the region that can be set to a specific location on the MainIDEView
+   *
    * @return a TilePane, for example
    */
   Region getSection();
