@@ -39,7 +39,7 @@ public class Controller {
     myMapGetters.put(VARIABLE_GETTER, () -> myCompiler.getVariables());
     myMapGetters.put(USER_COMMAND_GETTER, () -> myCompiler.getUserCommandStrings());
     myMapGetters.put(COLOR_PALETTE_GETTER, () -> myCompiler.getColorPaletteStrings());
-    myMapGetters.put(TURTLE_GETTER, () -> new HashMap<>());
+    myMapGetters.put(TURTLE_GETTER, () -> myTurtleManager.getTurtleData());
     myMapGetters.put(DEFAULT_GETTER, () -> new HashMap<>());
   }
 

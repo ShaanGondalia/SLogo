@@ -208,6 +208,7 @@ public class TurtleView implements PropertyChangeListener  {
 
     private void changeClear(PropertyChangeEvent evt) {
         trailHistory = new ArrayList<>();
+        lastDrawnTrailId = 0;
         graphicsContext.setFill(Color.WHITE);
         graphicsContext.fillRect(0, 0, turtleWindowView.canvas.getWidth(), turtleWindowView.canvas.getHeight());
     }
