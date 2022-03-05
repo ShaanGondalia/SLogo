@@ -1,5 +1,6 @@
 package slogo.model.color;
 
+import java.awt.Color;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -75,7 +76,8 @@ public class ColorPalette {
    * @return ColorRecord associated with given key
    */
   public ColorRecord getColor(double key) {
-    return myColors.get(key);
+    ColorRecord color = myColors.getOrDefault(key, new ColorRecord(0, 0, 0));
+    return color;
   }
 
   /**
