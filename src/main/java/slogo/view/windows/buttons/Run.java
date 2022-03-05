@@ -12,6 +12,11 @@ import slogo.view.util.ButtonUtil;
  */
 public class Run implements IDEButton {
 
+  /**
+   * see above
+   *
+   * @param info contains the information that each of the buttons need to function
+   */
   @Override
   public void doAction(ButtonUtil info) {
     info.runner().runAndSave(info.textSec().getRawCommandText());

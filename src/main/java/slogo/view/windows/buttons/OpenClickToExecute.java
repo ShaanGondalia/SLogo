@@ -14,6 +14,11 @@ import slogo.view.util.ClickToExecuteGUI;
  */
 public class OpenClickToExecute implements IDEButton {
 
+  /**
+   * see above
+   *
+   * @param info contains the information that each of the buttons need to function
+   */
   @Override
   public void doAction(ButtonUtil info) {
     ClickToExecuteGUI gui = new ClickToExecuteGUI(info, new Stage());

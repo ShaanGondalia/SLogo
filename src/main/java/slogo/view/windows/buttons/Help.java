@@ -17,6 +17,11 @@ import slogo.view.windows.HelpView;
  */
 public class Help implements IDEButton {
 
+  /**
+   * see above
+   *
+   * @param info contains the information that each of the buttons need to function
+   */
   @Override
   public void doAction(ButtonUtil info) {
     HelpView helpView = new HelpView();

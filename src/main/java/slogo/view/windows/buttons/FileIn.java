@@ -18,6 +18,11 @@ import slogo.view.util.ButtonUtil;
  */
 public class FileIn implements IDEButton {
 
+  /**
+   * see above
+   *
+   * @param info contains the information that each of the buttons need to function
+   */
   @Override
   public void doAction(ButtonUtil info) {
     FileChooser fileChooser = new FileChooser();

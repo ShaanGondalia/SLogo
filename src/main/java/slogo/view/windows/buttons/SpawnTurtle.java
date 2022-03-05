@@ -21,6 +21,11 @@ public class SpawnTurtle implements IDEButton {
   private static final String SYNTAX_1 = "[";
   private static final String SYNTAX_2 = "]";
 
+  /**
+   * see above
+   *
+   * @param info contains the information that each of the buttons need to function
+   */
   @Override
   public void doAction(ButtonUtil info) {
     ResourceBundle resourceBundle = ResourceBundle.getBundle(

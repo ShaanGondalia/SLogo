@@ -148,6 +148,11 @@ public class VariablesSection implements IDESection {
         + NEW_LINE;
   }
 
+  /**
+   * get the region that can be set to a specific location on the MainIDEView
+   *
+   * @return a ScrollPane
+   */
   @Override
   public Region getSection() {
     return variableScrollPane;

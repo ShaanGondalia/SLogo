@@ -75,6 +75,11 @@ public class CommandsSection implements IDESection {
     return commandTextField.getText().substring(COM_STARTING_TEXT.length());
   }
 
+  /**
+   * get the region that can be set to a specific location on the MainIDEView
+   *
+   * @return a ScrollPane
+   */
   @Override
   public Region getSection() {
     return commandScrollPane;

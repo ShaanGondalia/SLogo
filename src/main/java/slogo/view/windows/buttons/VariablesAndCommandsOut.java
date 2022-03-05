@@ -14,6 +14,11 @@ import slogo.view.util.FileWriter;
  */
 public class VariablesAndCommandsOut implements IDEButton {
 
+  /**
+   * see above
+   *
+   * @param info contains the information that each of the buttons need to function
+   */
   @Override
   public void doAction(ButtonUtil info) {
     FileWriter fw = new FileWriter(info.userDefinedSection().getVariableAndCommandText());

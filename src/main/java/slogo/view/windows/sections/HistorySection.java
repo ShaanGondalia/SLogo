@@ -60,6 +60,11 @@ public class HistorySection implements IDESection {
     myRunner = runner;
   }
 
+  /**
+   * get the region that can be set to a specific location on the MainIDEView
+   *
+   * @return a ScrollPane
+   */
   @Override
   public Region getSection() {
     return myScrollPane;

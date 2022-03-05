@@ -15,6 +15,11 @@ import slogo.view.util.ButtonUtil;
  */
 public class CreateNewWorkspace implements IDEButton {
 
+  /**
+   * see above
+   *
+   * @param info contains the information that each of the buttons need to function
+   */
   @Override
   public void doAction(ButtonUtil info) {
     Stage stage = new Stage();

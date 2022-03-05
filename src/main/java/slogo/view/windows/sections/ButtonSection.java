@@ -44,6 +44,11 @@ public class ButtonSection implements IDESection {
     }
   }
 
+  /**
+   * get the region that can be set to a specific location on the MainIDEView
+   *
+   * @return a TilePane, for example
+   */
   @Override
   public Region getSection() {
     return myTilePane;
