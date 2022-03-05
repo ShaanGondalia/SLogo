@@ -34,9 +34,9 @@ import slogo.view.windows.TurtleAnimationController;
 import slogo.view.windows.TurtleWindowView;
 
 /**
- * Front end representation of the Turtle. It implements PropertyChangeListener and is tied to a backend turtle.
+ * Front end representation of the Turtle. It implements PropertyChangeListener and is tied to a backend turtle
  * Its propertyChange method is invoked upon a property change occurring in the backend turtle
- * and that animation is reflected in this front end turtle
+ * That animation is reflected in this front end turtle
  *
  * @author Zack Schrage
  */
@@ -68,6 +68,12 @@ public class TurtleView implements PropertyChangeListener  {
     private int thickness = 2; //Hard coded default for now
     private Color trailColor = Color.BLACK; //Hard coded default for now
 
+    /**
+     * Front end representation of the Turtle. It implements PropertyChangeListener and is tied to a backend turtle
+     * Its propertyChange method is invoked upon a property change occurring in the backend turtle
+     * That animation is reflected in this front end turtle
+     * @param turtleWindowViewIn window that the front end turtle lives on
+     */
     public TurtleView(TurtleWindowView turtleWindowViewIn) {
         turtleImage = new Image(getClass().getResourceAsStream("/view/img/turtle.png"));
         invisibleTurtle = new Image(getClass().getResourceAsStream("/view/img/invisibleTurtle.png"));
@@ -83,6 +89,13 @@ public class TurtleView implements PropertyChangeListener  {
         instantiateLambdaMap();
     }
 
+    /**
+     * Front end representation of the Turtle. It implements PropertyChangeListener and is tied to a backend turtle
+     * Its propertyChange method is invoked upon a property change occurring in the backend turtle
+     * That animation is reflected in this front end turtle
+     * @param turtle backend turtle
+     * @param turtleWindowView window that the front end turtle lives on
+     */
     public TurtleView(Turtle turtle, TurtleWindowView turtleWindowView) {
         this(turtleWindowView);
         this.turtle = turtle;

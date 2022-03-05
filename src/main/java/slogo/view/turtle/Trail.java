@@ -15,6 +15,13 @@ public class Trail {
     private Color color;
     private double thickness;
 
+    /**
+     * Outlines a Trail Graphical Component
+     * Trails are a 2D Line segment with a particular given color
+     * @param line JavaFX line segment representing a trail
+     * @param color JavaFX color of the trail
+     * @param thickness numerical width in pixels of the trail
+     */
     public Trail(Line line, Color color, double thickness) {
         this.line = line;
         this.color = color;

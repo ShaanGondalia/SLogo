@@ -14,6 +14,12 @@ public class TurtleTooltip {
     private Rectangle background;
     private Text text;
 
+    /**
+     * A turtle tooltip displays the information about a turtle when a turtle is hovered over
+     * A turtle tooltip contains a background JavaFX rectangle and a JavaFX text segment containing a turtle status description
+     * @param x coordinate
+     * @param y coordinate
+     */
     public TurtleTooltip(int x, int y) {
         background = new Rectangle(x, y, 80, 60);
         text = new Text();

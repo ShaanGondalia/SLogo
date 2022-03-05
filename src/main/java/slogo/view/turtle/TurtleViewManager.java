@@ -1,9 +1,7 @@
 package slogo.view.turtle;
 
-import java.awt.*;
 import java.util.ArrayList;
 import javafx.scene.Group;
-import javafx.scene.shape.Rectangle;
 import slogo.model.turtle.Turtle;
 import slogo.model.turtle.TurtleManager;
 import slogo.view.windows.TurtleWindowView;
@@ -13,6 +11,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Manager class for the TurtleViews
+ *
+ * @author Zack Schrage
+ */
 public class TurtleViewManager implements PropertyChangeListener {
 
     private List<TurtleView> myTurtleViewList;
@@ -22,13 +25,17 @@ public class TurtleViewManager implements PropertyChangeListener {
     private Group myNode = new Group();
     private int mouseDelta = 10;
 
+    /**
+     * Turtle View Manager that manages a list of turtle views on a particular window
+     * @param turtleManager backend turtle manager
+     * @param turtleWindowView turtle view window
+     */
     public TurtleViewManager(TurtleManager turtleManager, TurtleWindowView turtleWindowView) {
         myTurtleViewList = new ArrayList<>();
         tooltipMap = new HashMap<>();
         myTurtleManager = turtleManager;
         myTurtleWindowView = turtleWindowView;
         appendListenerToWindow(myTurtleWindowView);
-
         addStartingTurtles();
         turtleManager.addListener(this);
     }
@@ -76,6 +83,11 @@ public class TurtleViewManager implements PropertyChangeListener {
         return String.format("ID: %.0f\nx: %.0f\ny: %.0f", id, x, y);
     }
 
+    /**
+     * Turtle view factory that associates a front end turtle with a back end turtle and appends it to the JavaFX turtle group
+     * @param turtle backend turtle
+     * @return frontend turtle
+     */
     public TurtleView createTurtleView(Turtle turtle) {
         TurtleView turtleView = new TurtleView(turtle, myTurtleWindowView);
         turtle.addListener(turtleView);
@@ -85,21 +97,33 @@ public class TurtleViewManager implements PropertyChangeListener {
         return turtleView;
     }
 
+    /**
+     * Getter method for the turtle view window
+     * @return turtle view window
+     */
     public TurtleWindowView getTurtleWindowView() {
         return myTurtleWindowView;
     }
 
+    /**
+     * Getter method for the node containing the turtle views
+     * @return turtle view group node
+     */
     public Group getNode() {
         return myNode;
+    }
+
+    /**
+     * Getter method for the list of turtle views
+     * @return list of turtle views
+     */
+    public List<TurtleView> getMyTurtleViewList() {
+        return myTurtleViewList;
     }
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         Turtle t = (Turtle) evt.getNewValue();
         createTurtleView(t);
-    }
-
-    public List<TurtleView> getMyTurtleViewList() {
-        return myTurtleViewList;
     }
 }

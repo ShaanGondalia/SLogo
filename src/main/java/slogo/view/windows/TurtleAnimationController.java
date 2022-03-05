@@ -24,6 +24,12 @@ public class TurtleAnimationController extends Display {
     public static final int SIZE_Y = 400;
     private static boolean play = true;
 
+    /**
+     * A window containing different controls pertaining to a turtle's animation
+     * A button toggles the playing and pausing of the animations
+     * A slider changes the speed of the turtle's animation
+     * @param info Button utility record
+     */
     public TurtleAnimationController(ButtonUtil info) {
         Pane root = new Pane();
 
