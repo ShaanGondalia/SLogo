@@ -24,6 +24,11 @@ public class TextSection implements IDESection {
     myTextArea.setId(TEXT_SECTION_ID);
   }
 
+  /**
+   * get the region that can be set to a specific location on the MainIDEView
+   *
+   * @return a TextArea
+   */
   @Override
   public Region getSection() {
     return myTextArea;

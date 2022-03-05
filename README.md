@@ -5,8 +5,12 @@ This project implements a development environment that helps users write program
 turtle.
 
 Names:
+<<<<<<< HEAD
 
 Shaan Gondalia
+=======
+Andy He
+>>>>>>> 18930d0fdeb4b4bb40160c74a7deb7916c8dcc33
 
 ### Timeline
 
@@ -16,10 +20,13 @@ Finish Date: 3/4/2022
 
 Hours Spent:
 
+Andy : 30 hours
 
 Shaan: 40 hours
 
 ### Primary Roles
+
+Andy : Front-End: General Views, Buttons, Displays, Resources, Styling, Design
 
 Shaan : Back-end: Compiler, Parser, Reflection for creating commands and invoking methods, Turtle Manager, Many commands, Testing.
 
@@ -87,6 +94,9 @@ Assumptions or Simplifications:
     - All commands run once for every turtle that is told or asked to follow a command
     - Commands that follow the extended syntax (i.e. indefinite number of parameters using
       parenthesis) return the sum of the independent execution of each command.
+- CSS only changed at the beginning of creation of workspace
+- Languages other than English / Spanish can be implemented in the future
+- Help Screen only requires English - no translations
 
 Interesting data files:
 
