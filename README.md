@@ -12,7 +12,7 @@ Andy He
 
 Jake Heller
 
-Zachary Schrage
+Zackary Schrage
 
 ### Timeline
 
@@ -26,11 +26,15 @@ Andy: 30 hours
 
 Shaan: 40 hours
 
+Zack: 30 hours
+
 Jake: 30 hours
 
 ### Primary Roles
 
 Andy : Front-End: General Views, Buttons, Displays, Resources, Styling, Design
+
+Zack : Front-End: Front-end Turtle, Front-end Turtle management, Some Buttons, Some Displays
 
 Shaan : Back-end: Compiler, Parser, Reflection for creating commands and invoking methods, Turtle Manager, Many commands, Testing.
 
@@ -60,6 +64,7 @@ Data files needed:
     - slogo.languages
         - Defines the keywords for commands in each language, as well as syntax
 - View
+  - turtle.png file (can have any name) inside of resources/view/img
 
 Features implemented:
 
@@ -103,6 +108,7 @@ Assumptions or Simplifications:
 - CSS only changed at the beginning of creation of workspace
 - Languages other than English / Spanish can be implemented in the future
 - Help Screen only requires English - no translations
+- Appropriately sized image is used for the turtle (17x22 pixels)
 
 Interesting data files:
 

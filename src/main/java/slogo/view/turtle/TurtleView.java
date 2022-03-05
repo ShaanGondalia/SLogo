@@ -11,15 +11,17 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Line;
-import javafx.scene.shape.LineTo;
-import javafx.scene.shape.MoveTo;
-import javafx.scene.shape.Path;
+import javafx.scene.shape.*;
 import javafx.util.Duration;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.util.*;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Queue;
+import java.util.LinkedList;
+import java.util.Map;
+import java.util.HashMap;
 
 import slogo.model.turtle.PenState;
 import slogo.model.turtle.Pose;
@@ -32,22 +34,23 @@ import slogo.view.windows.TurtleAnimationController;
 import slogo.view.windows.TurtleWindowView;
 
 /**
- * Front end representation of the Turtle. It implements PropertyChangeListener and is tied to a backend turtle.
+ * Front end representation of the Turtle. It implements PropertyChangeListener and is tied to a backend turtle
  * Its propertyChange method is invoked upon a property change occurring in the backend turtle
- * and that animation is reflected in this front end turtle
+ * That animation is reflected in this front end turtle
  *
  * @author Zack Schrage
  */
 public class TurtleView implements PropertyChangeListener  {
 
-    private static final double CENTER_X = TurtleWindowView.WIDTH / 2;
-    private static final double CENTER_Y = TurtleWindowView.HEIGHT / 2;
+    public static final double CENTER_X = TurtleWindowView.WIDTH / 2;
+    public static final double CENTER_Y = TurtleWindowView.HEIGHT / 2;
 
     public static final String DEFAULT_ACTION = "Default";
 
     private static final Matrix ctm = new Matrix(1, 0, CENTER_X, 0, -1, CENTER_Y);
     private static Map<String, TurtleConsumer> ACTION_MAP;
 
+    private Turtle turtle;
     private TurtleWindowView turtleWindowView;
     private Coordinate origin = ctm.mapPoint(new Coordinate(0, 0));
     private Image turtleImage;
@@ -65,6 +68,12 @@ public class TurtleView implements PropertyChangeListener  {
     private int thickness = 2; //Hard coded default for now
     private Color trailColor = Color.BLACK; //Hard coded default for now
 
+    /**
+     * Front end representation of the Turtle. It implements PropertyChangeListener and is tied to a backend turtle
+     * Its propertyChange method is invoked upon a property change occurring in the backend turtle
+     * That animation is reflected in this front end turtle
+     * @param turtleWindowViewIn window that the front end turtle lives on
+     */
     public TurtleView(TurtleWindowView turtleWindowViewIn) {
         turtleImage = new Image(getClass().getResourceAsStream("/view/img/turtle.png"));
         invisibleTurtle = new Image(getClass().getResourceAsStream("/view/img/invisibleTurtle.png"));
@@ -80,12 +89,19 @@ public class TurtleView implements PropertyChangeListener  {
         instantiateLambdaMap();
     }
 
+    /**
+     * Front end representation of the Turtle. It implements PropertyChangeListener and is tied to a backend turtle
+     * Its propertyChange method is invoked upon a property change occurring in the backend turtle
+     * That animation is reflected in this front end turtle
+     * @param turtle backend turtle
+     * @param turtleWindowView window that the front end turtle lives on
+     */
     public TurtleView(Turtle turtle, TurtleWindowView turtleWindowView) {
         this(turtleWindowView);
-        // moves turtle to starting position
+        this.turtle = turtle;
         Pose startPose = new Pose(0, 0, 0);
         TurtleStatus newValue = turtle.getStatus();
-        TurtleStatus oldValue = new TurtleStatus(startPose, newValue.penState(), newValue.isActive(),
+        TurtleStatus oldValue = new TurtleStatus(newValue.id(), startPose, newValue.penState(), newValue.isActive(),
             newValue.isActive());
         PropertyChangeEvent evt = new PropertyChangeEvent(turtle, "Pose", oldValue, newValue);
         changePose(evt);
@@ -233,16 +249,14 @@ public class TurtleView implements PropertyChangeListener  {
     public Node getTurtleNode() {
         return turtleNode;
     }
-//
-//    /**
-//     * Setter method for the turtle's trail color
-//     * @param color new trail color
-//     */
-//    public void setTrailColor(Color color) {
-//        trailColor = color;
-//        graphicsContext.setFill(trailColor);
-//        graphicsContext.setStroke(trailColor);
-//    }
+
+    /**
+     * Getter method for the turtle's status
+     * @return turtle status
+     */
+    public TurtleStatus getStatus() {
+        return turtle.getStatus();
+    }
 
     /**
      * Getter method for a turtle's trail history
@@ -261,10 +275,18 @@ public class TurtleView implements PropertyChangeListener  {
         handleTurtleImage(true, true);
     }
 
+    /**
+     * Getter method for if a turtle is currently animating
+     * @return turtle in animation
+     */
     public boolean isAnimating() {
         return isAnimating;
     }
 
+    /**
+     * Getter method for the animation queue
+     * @return turtle animation queue
+     */
     public Queue<TurtleAnimation> getAnimationQueue() {
         return animationQueue;
     }

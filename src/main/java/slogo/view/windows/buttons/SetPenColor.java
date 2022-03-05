@@ -4,7 +4,6 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.stage.Stage;
 import javafx.scene.paint.Color;
-import slogo.view.turtle.TurtleView;
 import slogo.view.util.ButtonUtil;
 import slogo.view.util.ColorPickerGenerator;
 

@@ -175,6 +175,10 @@ public class Turtle extends Observable<TurtleStatus> {
     change(property);
   }
 
+  /**
+   *
+   * @return current pose of turtle
+   */
   public Pose getPose() {
     return currentPose();
   }
@@ -193,7 +197,7 @@ public class Turtle extends Observable<TurtleStatus> {
 
   private TurtleStatus makeStatus() {
     Pose pose = currentPose();
-    TurtleStatus status = new TurtleStatus(pose, makePenState(), myActive, myVisibility);
+    TurtleStatus status = new TurtleStatus(myID, pose, makePenState(), myActive, myVisibility);
     return status;
   }
 
