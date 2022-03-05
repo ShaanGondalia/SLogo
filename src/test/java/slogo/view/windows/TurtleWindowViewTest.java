@@ -29,7 +29,7 @@ class TurtleWindowViewTest extends DukeApplicationTest {
   public void start(Stage stage) {
     //window = new TurtleWindowView("light");
     TurtleManager turtleManager = new TurtleManager();
-    TurtleViewManager tvm = new TurtleViewManager(turtleManager);
+    TurtleViewManager tvm = new TurtleViewManager(turtleManager, window);
     c = new Controller("English", turtleManager);
     stage.setScene(window.getMyScene());
     stage.show();
@@ -42,7 +42,7 @@ class TurtleWindowViewTest extends DukeApplicationTest {
 
   @Test
   void addTurtleView() {
-    TurtleView tv = new TurtleView();
+    TurtleView tv = new TurtleView(window);
     Platform.runLater(() -> window.addTurtleView(tv));
     assertTrue(true);
   }

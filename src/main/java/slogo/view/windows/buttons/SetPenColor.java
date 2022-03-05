@@ -13,21 +13,25 @@ import slogo.view.util.ColorPickerGenerator;
  *
  * @author Zack Schrage
  */
-public class SetPenColor implements IDEButton{
+public class SetPenColor implements IDEButton {
 
-  @Override
-  public void doAction(ButtonUtil info) {
+    private static final double PEN_BUTTON_PALETTE_INDEX = -1;
+
+    @Override
+    public void doAction(ButtonUtil info) {
       ColorPickerGenerator cpg = new ColorPickerGenerator();
       Stage s = cpg.cpStage();
 
       EventHandler<ActionEvent> colorChangeEvent = e -> {
           Color c = cpg.getCp().getValue();
-          for (TurtleView tv : info.tvm().getMyTurtleViewList()) {
-              tv.setTrailColor(c);
-          }
+          int r = (int)(c.getRed()*255);
+          int g = (int)(c.getGreen()*255);
+          int b = (int)(c.getBlue()*255);
+          String program = String.format("setpalette %f %d %d %d setpc %f", PEN_BUTTON_PALETTE_INDEX, r, g ,b, PEN_BUTTON_PALETTE_INDEX);
+          info.runner().runQuietly(program);
       };
       cpg.getCp().setOnAction(colorChangeEvent);
 
       s.show();
-  }
+    }
 }

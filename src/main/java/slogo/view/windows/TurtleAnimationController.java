@@ -58,7 +58,7 @@ public class TurtleAnimationController extends Display {
     }
 
     private void changeSpeed(ButtonUtil info, int speed) {
-        int speedMultiplier = (speed/50) + 1;
+        int speedMultiplier = (speed/10) + 1;
         for (TurtleView tv : info.tvm().getMyTurtleViewList()) {
             for (TurtleAnimation anim : tv.getAnimationQueue()) {
                 anim.getAnimation().setRate(speedMultiplier);

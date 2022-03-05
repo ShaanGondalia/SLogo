@@ -15,7 +15,7 @@ public abstract class Display {
 
   public static final String CSS_RESOURCES_PATH = "/view/css/";
   public static final String CSS_FILE_ENDING = ".css";
-
+  public static final String TITLES_RESOURCES_PATH = "view.titles.";
   private Scene myScene;
   /**
    * Used to standardize creation of stages so no duplicate code. Can initialize without a previous
