@@ -11,6 +11,11 @@ public class Coordinate {
     private double x;
     private double y;
 
+    /**
+     * Bundles together two integers representing a coordinate for convenience.
+     * @param x coordinate
+     * @param y coordinate
+     */
     public Coordinate(double x, double y) {
         this.x = x;
         this.y = y;

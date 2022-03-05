@@ -14,6 +14,13 @@ public class TurtleAnimation {
     private Animation animation;
     private boolean visibility;
 
+    /**
+     * Turtle Animation Bundle that holds both a JavaFX animation and the visibility property
+     * When visibility is true, the turtle will be viewed as a turtle image
+     * When visibility is false, the turtle will be set to an invisible image
+     * @param animation JavaFX animation
+     * @param visibility visibility
+     */
     public TurtleAnimation(Animation animation, boolean visibility) {
         this.animation = animation;
         this.visibility = visibility;

@@ -197,9 +197,7 @@ public class TurtleManager extends Observable<Turtle> {
   private void executeCommandsOnTurtle(Deque<Command> commands, Turtle turtle)
       throws MissingArgumentException {
     for (Command command : commands) {
-      //System.out.println(command);
       command.execute(turtle);
-      //System.out.println(t.getPose());
     }
   }
 

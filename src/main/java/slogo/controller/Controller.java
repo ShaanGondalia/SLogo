@@ -27,14 +27,12 @@ public class Controller {
   private Compiler myCompiler;
   private TurtleManager myTurtleManager;
   private ColorPalette myColorPalette;
-  private List<Turtle> myTurtles;
   private Map<String, MapGetter<String, String>> myMapGetters;
 
   public Controller(String language, TurtleManager turtleManager) {
     myTurtleManager = turtleManager;
     myColorPalette = new ColorPalette();
     myCompiler = new Compiler(language, myTurtleManager, myColorPalette);
-    myTurtles = new ArrayList<>();
     myMapGetters = new HashMap<>();
     myMapGetters.put(VARIABLE_GETTER, () -> myCompiler.getVariables());
     myMapGetters.put(USER_COMMAND_GETTER, () -> myCompiler.getUserCommandStrings());
@@ -43,7 +41,12 @@ public class Controller {
     myMapGetters.put(DEFAULT_GETTER, () -> new HashMap<>());
   }
 
-
+  /**
+   * Function used to run a program
+   *
+   * @param program string containing slogo program to run
+   * @throws Exception
+   */
   public void runText(String program) throws Exception {
     Deque<Deque<Command>> commands = myCompiler.compile(program);
     while (!commands.isEmpty()) {
@@ -52,23 +55,13 @@ public class Controller {
     }
   }
 
-  public void addTurtle(PropertyChangeListener turtleView) {
-    Turtle turtle = new Turtle();
-    myTurtles.add(turtle);
-    turtle.addListener(turtleView);
-  }
-
-  public List<Turtle> getTurtles() {
-    return myTurtles;
-  }
-
   /**
    *
    * @param dataName "variables" for variable map and "userCommands" for user defined commands
    * @return
    */
   public Map<String, String> getMapData(String dataName) {
-    return myMapGetters.getOrDefault(dataName, myMapGetters.get("default")).getMap();
+    return myMapGetters.getOrDefault(dataName, myMapGetters.get(DEFAULT_GETTER)).getMap();
   }
 
 }

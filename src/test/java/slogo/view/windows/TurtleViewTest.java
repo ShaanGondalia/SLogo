@@ -26,7 +26,6 @@ class TurtleViewTest {
     window = new TurtleWindowView("light");
     tv = new TurtleView(window);
     window.addTurtleView(tv);
-    c.addTurtle(tv);
   }
 
 //  @Test
