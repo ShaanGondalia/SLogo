@@ -27,12 +27,13 @@ public class HelpView extends Display {
   private static final String CONTENT_ID = "content";
 
   private String myContent;
-  private Text myContentTextBox;
-  private VBox myButtons;
-  private File[] myFiles;
+  private final Text myContentTextBox;
+  private final VBox myButtons;
+  private final File[] myFiles;
 
   /**
    * Constructor that will display everything - is called on press of the help button
+   *
    * @see slogo.view.windows.buttons.Help
    */
   public HelpView() {
@@ -59,6 +60,7 @@ public class HelpView extends Display {
     stage.show();
   }
 
+  //used to make a button from the list of files
   private void makeHelperButtons() {
     for (File file : myFiles) {
       Button b = new Button();
@@ -74,6 +76,7 @@ public class HelpView extends Display {
     }
   }
 
+  //used to set the content to what is in each of the files given a file name
   private void setDescContent(String name) throws FileNotFoundException {
     myContent = "";
 
