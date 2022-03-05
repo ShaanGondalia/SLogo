@@ -4,7 +4,9 @@ SLogo
 This project implements a development environment that helps users write programs to draw using a
 turtle.
 
-Names: Jake Heller (jeh113), Andy He (ash98), Zack Schrage (zjs5), Shaan Gondalia (sg491)
+Names:
+
+Shaan Gondalia
 
 ### Timeline
 
@@ -12,17 +14,14 @@ Start Date: 2/10/2022
 
 Finish Date: 3/4/2022
 
-Hours Spent: 120
+Hours Spent:
+
+
+Shaan: 40 hours
 
 ### Primary Roles
 
-Andy -
-
-Zack -
-
-Jake - Responsible for the back-end. Worked on the compiler/parser and many of the commands.
-
-Shaan - Responsible for the back-end. Worked on the compiler/parser and many of the commands.
+Shaan : Back-end: Compiler, Parser, Reflection for creating commands and invoking methods, Turtle Manager, Many commands, Testing.
 
 ### Resources Used
 
