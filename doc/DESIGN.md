@@ -57,3 +57,18 @@ Jake: Turtle, Controller, Color Commands, Color Palette, Compiler, Value,
 ## Changes from the Plan
 
 ## How to Add New Features
+
+* To Add New Commands:
+  * Define the syntax of the command in the ```Syntax.properties``` and ```<language>.properties``` files
+    accordingly
+  * Create a class in the model/command package that represents the new command (extending the proper
+    abstract class or implementing the proper interface).
+  * Add the correct reflexive method name to the Constructor.properties file to identify the
+    constructor format of the new command
+  * Add the correct number of parameter and list counts for the command in Parameter.properties and
+    ListParameter.properties
+  * Add the reflexive class path for the new command in Reflection.properties
+* To Implement Shape and Background Color:
+  * Follow the same steps as adding a new command. 
+  * Create class in model to keep track of the background/shape
+  * Change TurtleView to also consider Shape when drawing Turtles
