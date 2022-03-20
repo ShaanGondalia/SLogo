@@ -43,6 +43,17 @@ Jake: Turtle, Controller, Color Commands, Color Palette, Compiler, Value,
 
 ## Assumptions or Simplifications
 
+- Model
+  - If the compiler has an issue with parsing the text input, it generally will not identify
+    exactly where that issue is in the program. This only happens in certain cases.
+  - All commands run once for every turtle that is told or asked to follow a command
+  - Commands that follow the extended syntax (i.e. indefinite number of parameters using
+    parenthesis) return the sum of the independent execution of each command.
+- CSS only changed at the beginning of creation of workspace
+- Languages other than English / Spanish can be implemented in the future
+- Help Screen only requires English - no translations
+- Appropriately sized image is used for the turtle (17x22 pixels)
+
 ## Changes from the Plan
 
 ## How to Add New Features
