@@ -56,6 +56,18 @@ Jake: Turtle, Controller, Color Commands, Color Palette, Compiler, Value,
 
 ## Changes from the Plan
 
+There are two major changes from the plan. First is that
+the parser ended up having a smaller role than intended, while the compiler
+is what kept track of variables and other aspects of the program state. The Parser was simply
+used to determine what symbol the token was and getting the string property.
+
+The second is that we implemented a listener/observer model for the turtles. So instead of an 
+arrow connecting the controller and TurtleView, the arrow should go directly from Turtle. This 
+solved a point of disagreement we had originally, which was how should the turtle view be updated.
+Should the command or controller control the update rate for the back-end turtle, or should the front-end
+turtle control the full animation and just receive two endpoints. In the end, the TurtleView receives
+update messages whenever changes occur, and the string flag tells it how to animate.
+
 ## How to Add New Features
 
 * To Add New Commands:
